@@ -62,6 +62,7 @@ class _MyHomePageState extends State<MyHomePage>
           SliverAppBar(),
           Row(
               //video and all that jazz
+              //adding
               ),
         ],
       ),
