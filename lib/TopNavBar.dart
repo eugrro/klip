@@ -28,116 +28,123 @@ class _TopNavBarState extends State<TopNavBar> {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    return Column(
       children: [
-        Text(" "),
-        Text(" "),
-        GestureDetector(
-          child: AnimatedDefaultTextStyle(
-            style: _homeOn
-                ? TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: _color,
-                  )
-                : TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.0,
-                    color: Colors.black,
-                  ),
-            duration: const Duration(milliseconds: 200),
-            child: Text("Home"),
-          ),
-          onTap: () {
-            setState(() {
-              _homeOn = true;
-              _gameOn = false;
-              _topOn = false;
-              _newOn = false;
-            });
-          },
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            Text(" "),
+            Text(" "),
+            GestureDetector(
+              child: AnimatedDefaultTextStyle(
+                style: _homeOn
+                    ? TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                        color: _color,
+                      )
+                    : TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                duration: const Duration(milliseconds: 200),
+                child: Text("Home"),
+              ),
+              onTap: () {
+                setState(() {
+                  _homeOn = true;
+                  _gameOn = false;
+                  _topOn = false;
+                  _newOn = false;
+                });
+              },
+            ),
+            VerticalDivider(),
+            GestureDetector(
+              child: AnimatedDefaultTextStyle(
+                style: _gameOn
+                    ? TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                        color: _color,
+                      )
+                    : TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                duration: const Duration(milliseconds: 200),
+                child: Text("Games"),
+              ),
+              onTap: () {
+                setState(() {
+                  _homeOn = false;
+                  _gameOn = true;
+                  _topOn = false;
+                  _newOn = false;
+                });
+              },
+            ),
+            VerticalDivider(),
+            GestureDetector(
+              child: AnimatedDefaultTextStyle(
+                style: _topOn
+                    ? TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                        color: _color,
+                      )
+                    : TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                duration: const Duration(milliseconds: 200),
+                child: Text("Top"),
+              ),
+              onTap: () {
+                setState(() {
+                  _homeOn = false;
+                  _gameOn = false;
+                  _topOn = true;
+                  _newOn = false;
+                });
+              },
+            ),
+            VerticalDivider(),
+            GestureDetector(
+              child: AnimatedDefaultTextStyle(
+                style: _newOn
+                    ? TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 25.0,
+                        color: _color,
+                      )
+                    : TextStyle(
+                        fontWeight: FontWeight.normal,
+                        fontSize: 15.0,
+                        color: Colors.black,
+                      ),
+                duration: const Duration(milliseconds: 200),
+                child: Text("New"),
+              ),
+              onTap: () {
+                setState(() {
+                  _homeOn = false;
+                  _gameOn = false;
+                  _topOn = false;
+                  _newOn = true;
+                });
+              },
+            ),
+            Text(" "),
+            Text(" "),
+          ],
         ),
-        VerticalDivider(),
-        GestureDetector(
-          child: AnimatedDefaultTextStyle(
-            style: _gameOn
-                ? TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: _color,
-                  )
-                : TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.0,
-                    color: Colors.black,
-                  ),
-            duration: const Duration(milliseconds: 200),
-            child: Text("Games"),
-          ),
-          onTap: () {
-            setState(() {
-              _homeOn = false;
-              _gameOn = true;
-              _topOn = false;
-              _newOn = false;
-            });
-          },
-        ),
-        VerticalDivider(),
-        GestureDetector(
-          child: AnimatedDefaultTextStyle(
-            style: _topOn
-                ? TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: _color,
-                  )
-                : TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.0,
-                    color: Colors.black,
-                  ),
-            duration: const Duration(milliseconds: 200),
-            child: Text("Top"),
-          ),
-          onTap: () {
-            setState(() {
-              _homeOn = false;
-              _gameOn = false;
-              _topOn = true;
-              _newOn = false;
-            });
-          },
-        ),
-        VerticalDivider(),
-        GestureDetector(
-          child: AnimatedDefaultTextStyle(
-            style: _newOn
-                ? TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25.0,
-                    color: _color,
-                  )
-                : TextStyle(
-                    fontWeight: FontWeight.normal,
-                    fontSize: 15.0,
-                    color: Colors.black,
-                  ),
-            duration: const Duration(milliseconds: 200),
-            child: Text("New"),
-          ),
-          onTap: () {
-            setState(() {
-              _homeOn = false;
-              _gameOn = false;
-              _topOn = false;
-              _newOn = true;
-            });
-          },
-        ),
-        Text(" "),
-        Text(" "),
+        Container(
+          height: 15,
+        )
       ],
     );
   }

@@ -36,15 +36,18 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
+  PageController _pageController;
 
   @override
   void initState() {
+    _pageController = new PageController();
     super.initState();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
+    _pageController.dispose();
     super.dispose();
   }
 
@@ -63,12 +66,26 @@ class _MyHomePageState extends State<MyHomePage>
             TopNavBar(),
             SizedBox(
               height: 300.0,
-              child: ListView(
+              child: PageView(
                 scrollDirection: Axis.horizontal,
+                controller: _pageController,
                 children: [
-                  Text("HI"),
-                  Text("HI"),
-                  Text("HI"),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.red,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.blue,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.green,
+                  ),
+                  Container(
+                    width: MediaQuery.of(context).size.width,
+                    color: Colors.orange,
+                  ),
                 ],
               ),
             ),
