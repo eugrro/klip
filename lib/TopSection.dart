@@ -28,7 +28,7 @@ class TopSection extends StatelessWidget {
         ),
         //user's avatar
         Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 10),
+          padding: const EdgeInsets.symmetric(vertical: 20),
           child: CircleAvatar(
             radius: 28,
             backgroundColor: Colors.black,
@@ -44,7 +44,7 @@ class TopSection extends StatelessWidget {
           ),
         ),
         //search bar
-        SafeArea(
+        /*SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SearchBar<Post>(
@@ -57,7 +57,7 @@ class TopSection extends StatelessWidget {
               onItemFound: null,
             ),
           ),
-        ),
+        ),*/
       ],
     );
   }

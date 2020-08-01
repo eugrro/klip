@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:klip/TopNavBar.dart';
 import 'TopSection.dart';
 
 void main() {
@@ -16,8 +17,9 @@ class MyApp extends StatelessWidget {
       title: 'Klips',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        backgroundColor: Colors.white,
       ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+      home: MyHomePage(),
     );
   }
 }
@@ -34,40 +36,56 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   TabController _tabController;
-  ScrollController _scrollController;
 
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-    _scrollController = ScrollController();
   }
 
   @override
   void dispose() {
     _tabController.dispose();
-    _scrollController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            height: 30,
-          ),
-          TopSection(),
-          SliverAppBar(),
-          Row(
-              //video and all that jazz
-              //adding
-              ),
-        ],
+    return Material(
+      type: MaterialType.transparency,
+      child: Container(
+        color: Colors.white,
+        child: Column(
+          children: [
+            Container(
+              height: 30,
+            ),
+            TopSection(),
+            TopNavBar(),
+          ],
+        ),
       ),
     );
   }
 }
-
-mixin _tabController {}
+/*      children: [
+        Container(
+          height: 30,
+        ),
+        Container(
+          color: Colors.white,
+          child: Text("HI"),
+        ),
+        TopSection(),
+        TopNavBar(),
+        SizedBox(
+          height: 300.0,
+          child: ListView(
+            scrollDirection: Axis.horizontal,
+            children: [
+              Text("HI"),
+              Text("HI"),
+              Text("HI"),
+            ],
+          ),
+        ),
+        */
