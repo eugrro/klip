@@ -57,7 +57,7 @@ class _MyHomePageState extends State<MyHomePage>
         child: Column(
           children: [
             Container(
-              height: 20,
+              height: 15,
             ),
             TopSection(),
             pagePosition == 0
