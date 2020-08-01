@@ -61,6 +61,17 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             TopSection(),
             TopNavBar(),
+            SizedBox(
+              height: 300.0,
+              child: ListView(
+                scrollDirection: Axis.horizontal,
+                children: [
+                  Text("HI"),
+                  Text("HI"),
+                  Text("HI"),
+                ],
+              ),
+            ),
           ],
         ),
       ),
