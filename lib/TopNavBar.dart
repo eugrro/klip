@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
 
+ValueNotifier pageValueNotifier = ValueNotifier(0);
+
 class TopNavBar extends StatefulWidget {
+  int pagePosition;
+  TopNavBar(this.pagePosition, this.callback);
+  Function(int) callback; //callback to change the pagview
   @override
   _TopNavBarState createState() => _TopNavBarState();
 }
@@ -17,13 +22,6 @@ class VerticalDivider extends StatelessWidget {
 }
 
 class _TopNavBarState extends State<TopNavBar> {
-  double _height = 30.0;
-  bool _homeOn = true;
-  bool _gameOn = false;
-  bool _topOn = false;
-  bool _newOn = false;
-
-  double _width = 30.0;
   Color _color = Colors.indigo[700];
 
   @override
@@ -37,7 +35,7 @@ class _TopNavBarState extends State<TopNavBar> {
             Text(" "),
             GestureDetector(
               child: AnimatedDefaultTextStyle(
-                style: _homeOn
+                style: widget.pagePosition == 0
                     ? TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
@@ -53,17 +51,15 @@ class _TopNavBarState extends State<TopNavBar> {
               ),
               onTap: () {
                 setState(() {
-                  _homeOn = true;
-                  _gameOn = false;
-                  _topOn = false;
-                  _newOn = false;
+                  widget.pagePosition = 0;
+                  widget.callback(0);
                 });
               },
             ),
             VerticalDivider(),
             GestureDetector(
               child: AnimatedDefaultTextStyle(
-                style: _gameOn
+                style: widget.pagePosition == 1
                     ? TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
@@ -79,17 +75,15 @@ class _TopNavBarState extends State<TopNavBar> {
               ),
               onTap: () {
                 setState(() {
-                  _homeOn = false;
-                  _gameOn = true;
-                  _topOn = false;
-                  _newOn = false;
+                  widget.pagePosition = 1;
+                  widget.callback(1);
                 });
               },
             ),
             VerticalDivider(),
             GestureDetector(
               child: AnimatedDefaultTextStyle(
-                style: _topOn
+                style: widget.pagePosition == 2
                     ? TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
@@ -105,17 +99,15 @@ class _TopNavBarState extends State<TopNavBar> {
               ),
               onTap: () {
                 setState(() {
-                  _homeOn = false;
-                  _gameOn = false;
-                  _topOn = true;
-                  _newOn = false;
+                  widget.pagePosition = 2;
+                  widget.callback(2);
                 });
               },
             ),
             VerticalDivider(),
             GestureDetector(
               child: AnimatedDefaultTextStyle(
-                style: _newOn
+                style: widget.pagePosition == 3
                     ? TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 25.0,
@@ -131,10 +123,8 @@ class _TopNavBarState extends State<TopNavBar> {
               ),
               onTap: () {
                 setState(() {
-                  _homeOn = false;
-                  _gameOn = false;
-                  _topOn = false;
-                  _newOn = true;
+                  widget.pagePosition = 3;
+                  widget.callback(3);
                 });
               },
             ),

@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klip/TopNavBar.dart';
+import 'package:toast/toast.dart';
 import 'TopSection.dart';
+import 'package:klip/Pages.dart';
 
 void main() {
   runApp(MyApp());
@@ -35,20 +37,15 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
-  TabController _tabController;
-  PageController _pageController;
+  int pagePosition = 0;
+  ValueNotifier pageValueNotifier = ValueNotifier(0);
+  PageController pageController = new PageController(initialPage: 0);
 
-  @override
-  void initState() {
-    _pageController = new PageController();
-    super.initState();
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    _pageController.dispose();
-    super.dispose();
+  callback(newPagePosition) {
+    setState(() {
+      pagePosition = newPagePosition;
+      pageController.jumpToPage(pagePosition);
+    });
   }
 
   @override
@@ -60,35 +57,17 @@ class _MyHomePageState extends State<MyHomePage>
         child: Column(
           children: [
             Container(
-              height: 30,
+              height: 20,
             ),
             TopSection(),
-            TopNavBar(),
-            SizedBox(
-              height: 300.0,
-              child: PageView(
-                scrollDirection: Axis.horizontal,
-                controller: _pageController,
-                children: [
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.red,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.blue,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.green,
-                  ),
-                  Container(
-                    width: MediaQuery.of(context).size.width,
-                    color: Colors.orange,
-                  ),
-                ],
-              ),
-            ),
+            pagePosition == 0
+                ? TopNavBar(0, callback)
+                : pagePosition == 1
+                    ? TopNavBar(1, callback)
+                    : pagePosition == 2
+                        ? TopNavBar(2, callback)
+                        : TopNavBar(3, callback),
+            Pages(pagePosition, callback, pageController),
           ],
         ),
       ),
