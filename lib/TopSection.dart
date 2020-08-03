@@ -20,6 +20,7 @@ class TopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextEditingController searchController = new TextEditingController();
     return Row(
       children: [
         //margin to the left of user pic
@@ -28,7 +29,7 @@ class TopSection extends StatelessWidget {
         ),
         //user's avatar
         Padding(
-          padding: const EdgeInsets.symmetric(vertical: 20),
+          padding: const EdgeInsets.symmetric(vertical: 0),
           child: CircleAvatar(
             radius: 28,
             backgroundColor: Colors.black,
@@ -40,6 +41,24 @@ class TopSection extends StatelessWidget {
                 style: TextStyle(color: Colors.white),
               ),
               radius: 25,
+            ),
+          ),
+        ),
+        SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: SizedBox(
+              width: MediaQuery.of(context).size.width / 4 * 3,
+              height: MediaQuery.of(context).size.height / 8 * 1,
+              child: TextField(
+                controller: searchController,
+                decoration: InputDecoration(
+                    labelText: "Search",
+                    hintText: "Search",
+                    prefixIcon: Icon(Icons.search),
+                    border: OutlineInputBorder(
+                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+              ),
             ),
           ),
         ),
