@@ -28,6 +28,9 @@ class _TopNavBarState extends State<TopNavBar> {
   Widget build(BuildContext context) {
     return Column(
       children: [
+        Container(
+          height: 1.4, //lmao just to look nice
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

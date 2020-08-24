@@ -39,7 +39,7 @@ class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
   int pagePosition = 0;
   ValueNotifier pageValueNotifier = ValueNotifier(0);
-  PageController pageController = new PageController(initialPage: 0);
+  PageController pageController;
 
   callback(newPagePosition) {
     setState(() {
@@ -49,27 +49,43 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   @override
+  void initState() {
+    pageController = new PageController(initialPage: 0);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: Container(
-        color: Colors.white,
-        child: Column(
-          children: [
-            Container(
-              height: 15,
-            ),
-            TopSection(),
-            pagePosition == 0
-                ? TopNavBar(0, callback)
-                : pagePosition == 1
-                    ? TopNavBar(1, callback)
-                    : pagePosition == 2
-                        ? TopNavBar(2, callback)
-                        : TopNavBar(3, callback),
-            Pages(pagePosition, callback, pageController),
-          ],
-        ),
+      child: OrientationBuilder(
+        builder: (context, orientation) {
+          return Container(
+            color: orientation == Orientation.portrait
+                ? Colors.white
+                : Colors.green,
+            child: orientation == Orientation.portrait
+                ? Column(
+                    children: [
+                      Container(
+                        height: 15,
+                      ),
+                      TopSection(),
+                      pagePosition == 0
+                          ? TopNavBar(0, callback)
+                          : pagePosition == 1
+                              ? TopNavBar(1, callback)
+                              : pagePosition == 2
+                                  ? TopNavBar(2, callback)
+                                  : TopNavBar(3, callback),
+                      Pages(pagePosition, callback, pageController),
+                    ],
+                  )
+                : Container(
+                    color: Colors.green,
+                  ),
+          );
+        },
       ),
     );
   }

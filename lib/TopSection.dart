@@ -53,7 +53,7 @@ class TopSection extends StatelessWidget {
               child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                    labelText: "Search",
+                    labelText: "Search Klip",
                     hintText: "Search",
                     prefixIcon: Icon(Icons.search),
                     border: OutlineInputBorder(
