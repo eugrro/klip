@@ -149,7 +149,7 @@ public final class R {
     public static final class integer {
         private integer() {}
 
-        public static final int status_bar_notification_info_maxnum = 0x7f060000;
+        public static final int status_bar_notification_info_maxnum = 0x7f060001;
     }
     public static final class layout {
         private layout() {}
@@ -165,7 +165,7 @@ public final class R {
     public static final class string {
         private string() {}
 
-        public static final int status_bar_notification_info_overflow = 0x7f090000;
+        public static final int status_bar_notification_info_overflow = 0x7f090009;
     }
     public static final class style {
         private style() {}
