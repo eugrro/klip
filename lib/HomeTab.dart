@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'Vid.dart';
+
 class HomeTab extends StatefulWidget {
   _HomeTabState createState() => _HomeTabState();
 }
@@ -35,7 +37,7 @@ class _HomeTabState extends State<HomeTab> {
               ),
             ),
           ),
-          Container(),
+          Vid(),
         ],
       ),
     );
