@@ -28,8 +28,7 @@ class _PagesState extends State<Pages> {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: MediaQuery.of(context).size.height / 4 * 3,
+    return Expanded(
       child: PageView(
         scrollDirection: Axis.horizontal,
         controller: _pageController,
@@ -39,7 +38,7 @@ class _PagesState extends State<Pages> {
             widget.callback(pageNumber);
           });
         },
-        children: [
+        children: <Widget>[
           HomeTab(),
           Container(
             color: Colors.blue,

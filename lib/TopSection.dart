@@ -1,7 +1,6 @@
-import 'package:flappy_search_bar/flappy_search_bar.dart';
-import 'package:flappy_search_bar/search_bar_style.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import './Constants.dart' as Constants;
 
 class Post {
   final String title;
@@ -21,49 +20,59 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = new TextEditingController();
-    return Row(
-      children: [
-        //margin to the left of user pic
-        Container(
-          width: 10,
-        ),
-        //user's avatar
-        Padding(
-          padding: const EdgeInsets.symmetric(vertical: 0),
-          child: CircleAvatar(
-            radius: 28,
-            backgroundColor: Colors.black,
+    return Container(
+      decoration: BoxDecoration(
+        //border: Border.all(width: 2, color: Constants.backgroundBlack),
+        color: Constants.backgroundBlack,
+      ),
+      child: Row(
+        children: [
+          Padding(
+            padding: const EdgeInsets.only(
+              top: 0,
+              bottom: 0,
+              left: 10,
+            ),
             child: CircleAvatar(
               //border around the avatar
-              backgroundColor: Colors.grey,
-              child: Text(
-                'ER',
-                style: TextStyle(color: Colors.white),
-              ),
+              backgroundColor: Constants.purpleColor,
+              child: Image.asset("lib/assets/images/profile_pic.png"),
               radius: 25,
             ),
           ),
-        ),
-        SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 10,
+              vertical: 15,
+            ),
             child: SizedBox(
               width: MediaQuery.of(context).size.width / 4 * 3,
-              height: MediaQuery.of(context).size.height / 8 * 1,
+              height: MediaQuery.of(context).size.height / 20 * 1,
               child: TextField(
                 controller: searchController,
                 decoration: InputDecoration(
-                    labelText: "Search Klip",
-                    hintText: "Search",
-                    prefixIcon: Icon(Icons.search),
-                    border: OutlineInputBorder(
-                        borderRadius: BorderRadius.all(Radius.circular(25.0)))),
+                  labelText: "Search Klip",
+                  labelStyle: TextStyle(color: Constants.backgroundWhite),
+                  hintText: "Search",
+                  hintStyle: TextStyle(color: Constants.backgroundWhite),
+                  prefixIcon: Icon(
+                    Icons.search,
+                    color: Constants.backgroundWhite,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(15.0),
+                    ),
+                    borderSide: BorderSide(
+                      color: Constants.purpleColor,
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
-        ),
-        //search bar
-        /*SafeArea(
+          //search bar
+          /*SafeArea(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: SearchBar<Post>(
@@ -77,7 +86,8 @@ class TopSection extends StatelessWidget {
             ),
           ),
         ),*/
-      ],
+        ],
+      ),
     );
   }
 }

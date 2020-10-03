@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klip/TopNavBar.dart';
-import 'package:toast/toast.dart';
 import 'TopSection.dart';
+import './Constants.dart' as Constants;
 import 'package:klip/Pages.dart';
 
 void main() {
@@ -14,13 +14,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-
-    return MaterialApp(
-      title: 'Klips',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        backgroundColor: Colors.white,
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.light,
+        statusBarBrightness: Brightness.dark,
       ),
+    );
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'Klips',
       home: MyHomePage(),
     );
   }
@@ -40,6 +43,9 @@ class _MyHomePageState extends State<MyHomePage>
   int pagePosition = 0;
   ValueNotifier pageValueNotifier = ValueNotifier(0);
   PageController pageController;
+  double _leftPadding;
+  double _rightPadding;
+  int navBarIndex;
 
   callback(newPagePosition) {
     setState(() {
@@ -51,39 +57,150 @@ class _MyHomePageState extends State<MyHomePage>
   @override
   void initState() {
     pageController = new PageController(initialPage: 0);
+    navBarIndex = 0;
+    _leftPadding = 49;
+    _rightPadding = 245;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    print("LEFT " + _leftPadding.toString());
+    print("Right " + _rightPadding.toString());
     return Material(
       type: MaterialType.transparency,
       child: OrientationBuilder(
         builder: (context, orientation) {
-          return Container(
-            color: orientation == Orientation.portrait
-                ? Colors.white
-                : Colors.green,
-            child: orientation == Orientation.portrait
-                ? Column(
-                    children: [
-                      Container(
-                        height: 15,
+          return SafeArea(
+            child: Scaffold(
+              body: Container(
+                color: orientation == Orientation.portrait
+                    ? Constants.backgroundBlack
+                    : Colors.green,
+                child: orientation == Orientation.portrait
+                    ? Column(
+                        children: [
+                          TopSection(),
+                          pagePosition == 0
+                              ? TopNavBar(0, callback)
+                              : pagePosition == 1
+                                  ? TopNavBar(1, callback)
+                                  : pagePosition == 2
+                                      ? TopNavBar(2, callback)
+                                      : TopNavBar(3, callback),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              bottom: 10,
+                            ),
+                            child: Container(
+                              height: 2,
+                              width: MediaQuery.of(context).size.width / 8 * 7,
+                              color: Constants.purpleColor,
+                            ),
+                          ),
+                          // The main pages of the applicaiton
+                          Pages(pagePosition, callback, pageController),
+                          //bottom nav bar and animated line
+                          AnimatedPadding(
+                            duration: const Duration(
+                              milliseconds: 200,
+                            ),
+                            curve: Curves.linear,
+                            padding: EdgeInsets.only(
+                                left: _leftPadding, right: _rightPadding),
+                            child: Container(
+                              height: 2,
+                              width: MediaQuery.of(context).size.width / 4,
+                              color: Constants.purpleColor,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(
+                              top: 10,
+                              bottom: 15,
+                              left: 20,
+                              right: 20,
+                            ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceAround,
+                              children: [
+                                GestureDetector(
+                                  child: Icon(
+                                    Icons.home,
+                                    color: navBarIndex == 0
+                                        ? Constants.purpleColor
+                                        : Constants.backgroundWhite,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      navBarIndex = 0;
+                                      _leftPadding =
+                                          MediaQuery.of(context).size.width / 8;
+                                      _rightPadding =
+                                          MediaQuery.of(context).size.width /
+                                              8 *
+                                              5;
+                                    });
+                                  },
+                                ),
+                                GestureDetector(
+                                  child: Icon(
+                                    Icons.person_outline,
+                                    color: navBarIndex == 1
+                                        ? Constants.purpleColor
+                                        : Constants.backgroundWhite,
+                                  ),
+                                  onTap: () {
+                                    setState(() {
+                                      navBarIndex = 1;
+                                      _leftPadding =
+                                          MediaQuery.of(context).size.width /
+                                              8 *
+                                              5;
+                                      _rightPadding =
+                                          MediaQuery.of(context).size.width / 8;
+                                    });
+                                  },
+                                ),
+                              ],
+                            ),
+                          )
+                        ],
+                      )
+                    : Container(
+                        color: Colors.green,
                       ),
-                      TopSection(),
-                      pagePosition == 0
-                          ? TopNavBar(0, callback)
-                          : pagePosition == 1
-                              ? TopNavBar(1, callback)
-                              : pagePosition == 2
-                                  ? TopNavBar(2, callback)
-                                  : TopNavBar(3, callback),
-                      Pages(pagePosition, callback, pageController),
-                    ],
-                  )
-                : Container(
-                    color: Colors.green,
-                  ),
+              ),
+              /*bottomNavigationBar: BottomNavigationBar(
+                  backgroundColor: Constants.backgroundBlack,
+                  items: <BottomNavigationBarItem>[
+                    BottomNavigationBarItem(
+                      title: Container(),
+                      icon: Icon(
+                        Icons.home,
+                        color: navBarIndex == 0
+                            ? Constants.purpleColor
+                            : Constants.backgroundWhite,
+                      ),
+                    ),
+                    BottomNavigationBarItem(
+                      title: Container(),
+                      icon: Icon(
+                        Icons.settings,
+                        color: navBarIndex == 1
+                            ? Constants.purpleColor
+                            : Constants.backgroundWhite,
+                      ),
+                    ),
+                  ],
+                  currentIndex: navBarIndex,
+                  selectedItemColor: Constants.purpleColor,
+                  onTap: (index) {
+                    setState(() {
+                      navBarIndex = index;
+                    });
+                  }),*/
+            ),
           );
         },
       ),
