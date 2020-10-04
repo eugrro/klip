@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:klip/TopNavBar.dart';
@@ -58,15 +60,13 @@ class _MyHomePageState extends State<MyHomePage>
   void initState() {
     pageController = new PageController(initialPage: 0);
     navBarIndex = 0;
-    _leftPadding = 49;
-    _rightPadding = 245;
+    _leftPadding = window.physicalSize.width / window.devicePixelRatio / 8;
+    _rightPadding = window.physicalSize.width / window.devicePixelRatio / 8 * 5;
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
-    print("LEFT " + _leftPadding.toString());
-    print("Right " + _rightPadding.toString());
     return Material(
       type: MaterialType.transparency,
       child: OrientationBuilder(
@@ -92,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage>
                             padding: EdgeInsets.only(
                               bottom: 10,
                             ),
+                            //line of top part
                             child: Container(
                               height: 2,
                               width: MediaQuery.of(context).size.width / 8 * 7,
@@ -103,11 +104,13 @@ class _MyHomePageState extends State<MyHomePage>
                           //bottom nav bar and animated line
                           AnimatedPadding(
                             duration: const Duration(
-                              milliseconds: 200,
+                              milliseconds: 180,
                             ),
-                            curve: Curves.linear,
+                            //curve: Curves.linear,
                             padding: EdgeInsets.only(
-                                left: _leftPadding, right: _rightPadding),
+                                left: _leftPadding,
+                                right: _rightPadding   ,
+                                top: 15),
                             child: Container(
                               height: 2,
                               width: MediaQuery.of(context).size.width / 4,
@@ -118,18 +121,27 @@ class _MyHomePageState extends State<MyHomePage>
                             padding: EdgeInsets.only(
                               top: 10,
                               bottom: 15,
-                              left: 20,
-                              right: 20,
                             ),
                             child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceAround,
                               children: [
                                 GestureDetector(
-                                  child: Icon(
-                                    Icons.home,
-                                    color: navBarIndex == 0
-                                        ? Constants.purpleColor
-                                        : Constants.backgroundWhite,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      left:
+                                          MediaQuery.of(context).size.width / 8,
+                                      right:
+                                          MediaQuery.of(context).size.width / 8,
+                                    ),
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      child: Icon(
+                                        Icons.home,
+                                        color: navBarIndex == 0
+                                            ? Constants.purpleColor
+                                            : Constants.backgroundWhite,
+                                      ),
+                                    ),
                                   ),
                                   onTap: () {
                                     setState(() {
@@ -144,11 +156,23 @@ class _MyHomePageState extends State<MyHomePage>
                                   },
                                 ),
                                 GestureDetector(
-                                  child: Icon(
-                                    Icons.person_outline,
-                                    color: navBarIndex == 1
-                                        ? Constants.purpleColor
-                                        : Constants.backgroundWhite,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(
+                                      left:
+                                          MediaQuery.of(context).size.width / 8,
+                                      right:
+                                          MediaQuery.of(context).size.width / 8,
+                                    ),
+                                    child: Container(
+                                      width:
+                                          MediaQuery.of(context).size.width / 4,
+                                      child: Icon(
+                                        Icons.person_outline,
+                                        color: navBarIndex == 1
+                                            ? Constants.purpleColor
+                                            : Constants.backgroundWhite,
+                                      ),
+                                    ),
                                   ),
                                   onTap: () {
                                     setState(() {
