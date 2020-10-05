@@ -22,7 +22,7 @@ class TopSection extends StatelessWidget {
     TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
-        //border: Border.all(width: 2, color: Constants.backgroundBlack),
+        //x`border: Border.all(width: 2, color: Constants.backgroundBlack),
         color: Constants.backgroundBlack,
       ),
       child: Row(
@@ -33,12 +33,12 @@ class TopSection extends StatelessWidget {
               bottom: 0,
               left: 10,
             ),
-            child: CircleAvatar(
-              //border around the avatar
-              backgroundColor: Constants.purpleColor,
-              child: Image.asset("lib/assets/images/profile_pic.png"),
-              radius: 25,
-            ),
+            //child: CircleAvatar(
+            //border around the avatar
+            //backgroundColor: Constants.purpleColor,
+            child: Image.asset("lib/assets/images/logo.png"),
+            //radius: 25,
+            //),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
