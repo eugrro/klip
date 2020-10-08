@@ -32,11 +32,12 @@ class TopSection extends StatelessWidget {
               top: 0,
               bottom: 0,
               left: 10,
+              right: 5,
             ),
             //child: CircleAvatar(
             //border around the avatar
             //backgroundColor: Constants.purpleColor,
-            child: Image.asset("lib/assets/images/logo.png"),
+            child: Image.asset("lib/assets/images/logo6White.png"),
             //radius: 25,
             //),
           ),
@@ -46,7 +47,7 @@ class TopSection extends StatelessWidget {
               vertical: 15,
             ),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 4 * 3,
+              width: MediaQuery.of(context).size.width / 5 * 3,
               height: MediaQuery.of(context).size.height / 20 * 1,
               child: TextField(
                 controller: searchController,
