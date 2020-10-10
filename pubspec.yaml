@@ -48,6 +48,7 @@ flutter:
      - lib/assets/vids/char_fire.mp4
      - lib/assets/images/profile_pic.png
      - lib/assets/images/logo6White.png
+     - lib/assets/images/logo6WhiteV2.png
      - lib/assets/images/logo6Black.png
      - lib/assets/images/logo6Purple.png
      - lib/assets/images/logo8.png

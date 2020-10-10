@@ -37,7 +37,7 @@ class TopSection extends StatelessWidget {
             //child: CircleAvatar(
             //border around the avatar
             //backgroundColor: Constants.purpleColor,
-            child: Image.asset("lib/assets/images/logo6White.png"),
+            child: Image.asset("lib/assets/images/logo6WhiteV2.png"),
             //radius: 25,
             //),
           ),
@@ -72,21 +72,6 @@ class TopSection extends StatelessWidget {
               ),
             ),
           ),
-          //search bar
-          /*SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SearchBar<Post>(
-              searchBarStyle: SearchBarStyle(
-                backgroundColor: Colors.lightBlue,
-                padding: EdgeInsets.all(10),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              onSearch: null,
-              onItemFound: null,
-            ),
-          ),
-        ),*/
         ],
       ),
     );
