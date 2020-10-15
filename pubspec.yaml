@@ -22,6 +22,7 @@ dependencies:
   flappy_search_bar: 1.4.1
   video_player: '>=0.10.0 <2.0.0'
   toast: ^0.1.5
+  flutter_signin_button: ^1.1.0
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -54,7 +55,7 @@ flutter:
      - lib/assets/images/logo8.png
      - lib/assets/images/logo10.png
      - lib/assets/images/logo15.png
-     - lib/assets/images/logo100.png
+     - lib/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

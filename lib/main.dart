@@ -2,6 +2,7 @@ import 'dart:ui';
 import './Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'Login.dart';
 
 void main() {
   runApp(MyApp());
@@ -22,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Klips',
-      home: Navigation(),
+      home: Login(),
     );
   }
 }
