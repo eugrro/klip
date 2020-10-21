@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "987475513014-lrt58fss8r76i15iqcsrv2herg6l5l1u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.klip",
+            "certificate_hash": "50bb0ee5f1f653b2be5ae35b083c04613757e407"
+          }
+        },
+        {
           "client_id": "987475513014-3u7gouc45t0017o4ahq6vno86gdqm54e.apps.googleusercontent.com",
           "client_type": 3
         }
