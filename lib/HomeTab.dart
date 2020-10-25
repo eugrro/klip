@@ -24,13 +24,15 @@ class _HomeTabState extends State<HomeTab> {
                       Border.all(width: 0, color: Constants.backgroundBlack),
                   color: Constants.backgroundBlack,
                 ),
-                child: Text(
-                  snapshot.data,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 24,
-                  ),
-                ),
+                child: snapshot.data == null
+                    ? CircularProgressIndicator()
+                    : Text(
+                        snapshot.data,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 24,
+                        ),
+                      ),
                 /*child: Column(
           children: [
             Container(
@@ -50,14 +52,21 @@ class _HomeTabState extends State<HomeTab> {
 
   Future<String> fetchVideoUrl() async {
     var url = Constants.nodeURL;
-    final response = await http.get(url);
-    if (response.statusCode == 200) {
-      print("Returned 200");
-      print(response.body);
-      return "Hello";
-    } else {
-      print("Returned error " + response.statusCode.toString());
-      return "Error";
+    var response;
+    try {
+      response = await http.get(url);
+      if (response.statusCode == 200) {
+        print("Returned 200");
+        print(response.body);
+        if(response.body is String)
+        return "Hello";
+      } else {
+        print("Returned error " + response.statusCode.toString());
+        return "Error";
+      }
+    } catch (err) {
+      print("Ran Into Error!" + err.toString());
     }
+    return "";
   }
 }

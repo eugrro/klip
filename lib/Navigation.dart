@@ -6,6 +6,7 @@ import './Constants.dart' as Constants;
 import 'Pages.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
+import 'UserPage.dart';
 
 class Navigation extends StatefulWidget {
   Navigation({Key key, this.title}) : super(key: key);
@@ -46,11 +47,7 @@ class _NavigationState extends State<Navigation>
             physics: NeverScrollableScrollPhysics(),
             children: [
               HomePage(),
-
-              //UserPage(),
-              Container(
-                color: Constants.backgroundBlack,
-              ),
+              UserPage(),
             ],
           ),
           bottomNavigationBar: Container(

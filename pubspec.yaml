@@ -49,15 +49,7 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - lib/assets/vids/char_fire.mp4
-     - lib/assets/images/profile_pic.png
-     - lib/assets/images/logo6White.png
-     - lib/assets/images/logo6WhiteV2.png
-     - lib/assets/images/logo6Black.png
-     - lib/assets/images/logo6Purple.png
-     - lib/assets/images/logo8.png
-     - lib/assets/images/logo10.png
-     - lib/assets/images/logo15.png
+     - lib/assets/vids/
      - lib/assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
