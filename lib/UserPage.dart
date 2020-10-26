@@ -59,7 +59,7 @@ class _UserPageState extends State<UserPage> {
               ),
               CircleAvatar(
                 radius: 65,
-                child: Image.asset("assets/images/personOutline.png"),
+                child: Image.asset("lib/assets/images/personOutline.png"),
               ),
               Column(
                 children: [
@@ -81,15 +81,33 @@ class _UserPageState extends State<UserPage> {
               ),
             ],
           ),
-          Text(
-            "Sample bio text for the current user",
-            style: TextStyle(
-              fontSize: 16 + Constants.textChange,
-              color: Constants.backgroundWhite,
+          Padding(
+            padding: const EdgeInsets.symmetric(
+              vertical: 15,
+            ),
+            child: Text(
+              "Sample bio text for the current user",
+              style: TextStyle(
+                fontSize: 16 + Constants.textChange,
+                color: Constants.backgroundWhite,
+              ),
             ),
           ),
           Row(
-            children: [],
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Container(
+                height: 35,
+                width: MediaQuery.of(context).size.width / 3,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: kElevationToShadow[3],
+                  color: Constants.purpleColor,
+                ),
+                child: Center(child: Text("Follow", style: ,)),
+              ),
+              Container(),
+            ],
           ),
         ],
       ),

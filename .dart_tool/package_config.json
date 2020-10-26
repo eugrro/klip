@@ -119,7 +119,7 @@
       "name": "flutter_test",
       "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/packages/flutter_test",
       "packageUri": "lib/",
-      "languageVersion": "2.2"
+      "languageVersion": "2.10"
     },
     {
       "name": "flutter_web_plugins",
@@ -171,9 +171,9 @@
     },
     {
       "name": "js",
-      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.2",
+      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/js-0.6.3-nullsafety.1",
       "packageUri": "lib/",
-      "languageVersion": "2.0"
+      "languageVersion": "2.10"
     },
     {
       "name": "matcher",
@@ -183,7 +183,7 @@
     },
     {
       "name": "meta",
-      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.3",
+      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/meta-1.3.0-nullsafety.4",
       "packageUri": "lib/",
       "languageVersion": "2.10"
     },
@@ -225,7 +225,7 @@
     },
     {
       "name": "stack_trace",
-      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.1",
+      "rootUri": "file:///C:/Users/eugen/Documents/Flutt/flutter/.pub-cache/hosted/pub.dartlang.org/stack_trace-1.10.0-nullsafety.4",
       "packageUri": "lib/",
       "languageVersion": "2.10"
     },
@@ -296,7 +296,7 @@
       "languageVersion": "2.1"
     }
   ],
-  "generated": "2020-10-25T21:37:00.125551Z",
+  "generated": "2020-10-25T21:47:28.863672Z",
   "generator": "pub",
-  "generatorVersion": "2.11.0-161.0.dev"
+  "generatorVersion": "2.11.0-242.0.dev"
 }
