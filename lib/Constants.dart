@@ -8,3 +8,6 @@ Color backgroundBlack = Color(0xff242424);
 Color backgroundWhite = Color(0xfff8f8f8);
 double textChange = 0;
 const nodeURL = 'http://localhost:3000/';
+TextStyle tStyle({double fontSize = 16}) {
+  return TextStyle(color: backgroundWhite, fontSize: fontSize);
+}

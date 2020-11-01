@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:klip/HomePage.dart';
 import './Constants.dart' as Constants;
-import 'Pages.dart';
+import 'HomeTabs.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
 import 'UserPage.dart';

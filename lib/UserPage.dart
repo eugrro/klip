@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
-import 'Pages.dart';
+import 'package:klip/currentUser.dart' as currentUser;
+import 'package:auto_size_text/auto_size_text.dart';
+import 'HomeTabs.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
 
@@ -29,7 +31,7 @@ class _UserPageState extends State<UserPage> {
               bottom: 10,
             ),
             child: Text(
-              "UserName",
+              currentUser.uName,
               style: TextStyle(
                 fontSize: 24 + Constants.textChange,
                 color: Constants.backgroundWhite,
@@ -42,7 +44,7 @@ class _UserPageState extends State<UserPage> {
               Column(
                 children: [
                   Text(
-                    "1805",
+                    currentUser.numViews.toString(),
                     style: TextStyle(
                       fontSize: 28 + Constants.textChange,
                       color: Constants.backgroundWhite,
@@ -64,7 +66,7 @@ class _UserPageState extends State<UserPage> {
               Column(
                 children: [
                   Text(
-                    "8,705",
+                    currentUser.numKredits.toString(),
                     style: TextStyle(
                       fontSize: 28 + Constants.textChange,
                       color: Constants.backgroundWhite,
@@ -86,7 +88,7 @@ class _UserPageState extends State<UserPage> {
               vertical: 15,
             ),
             child: Text(
-              "Sample bio text for the current user",
+              currentUser.bio,
               style: TextStyle(
                 fontSize: 16 + Constants.textChange,
                 color: Constants.backgroundWhite,
@@ -104,9 +106,87 @@ class _UserPageState extends State<UserPage> {
                   boxShadow: kElevationToShadow[3],
                   color: Constants.purpleColor,
                 ),
-                child: Center(child: Text("Follow", style: ,)),
+                child: Center(child: Text("Follow", style: Constants.tStyle())),
               ),
-              Container(),
+              Container(
+                height: 35,
+                width: MediaQuery.of(context).size.width / 3,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10),
+                  boxShadow: kElevationToShadow[3],
+                  color: Constants.purpleColor,
+                ),
+                child:
+                    Center(child: Text("Subscribe", style: Constants.tStyle())),
+              ),
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.symmetric(
+              vertical: 10,
+            ),
+            child: Container(
+              height: 2,
+              width: MediaQuery.of(context).size.width / 15 * 14,
+              color: Constants.purpleColor,
+            ),
+          ),
+          ListView(
+            shrinkWrap: true,
+            children: [
+              vidListItem(),
+              vidListItem(),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget vidListItem() {
+    return Padding(
+      padding: EdgeInsets.symmetric(
+        horizontal: MediaQuery.of(context).size.width / 30,
+        vertical: 7,
+      ),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.baseline,
+        children: [
+          Padding(
+            padding: EdgeInsets.only(
+              right: 10,
+            ),
+            child: Container(
+              height: 120,
+              width: 220,
+              color: Colors.indigo,
+            ),
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: 15,
+                ),
+                child: Container(
+                  width: 135,
+                  child: AutoSizeText(
+                    'Woah what an epic video Title!',
+                    style: Constants.tStyle(),
+                    maxLines: 3,
+                  ),
+                ),
+              ),
+              Text(
+                "104 Views",
+                style: Constants.tStyle(fontSize: 13),
+              ),
+              Text(
+                "13 Comments",
+                style: Constants.tStyle(fontSize: 13),
+              ),
             ],
           ),
         ],

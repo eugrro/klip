@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
-import 'Pages.dart';
+import 'HomeTabs.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
 
@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage>
             ),
           ),
           // The tabs under the main page
-          Pages(tabPosition, callback, tabController),
+          HomeTabs(tabPosition, callback, tabController),
         ],
       ),
     );

@@ -53,7 +53,7 @@ class _HomeTabState extends State<HomeTab> {
   Future<String> fetchVideoUrl() async {
     var url = Constants.nodeURL;
     var response;
-    try {
+    /*try {
       response = await http.get(url);
       if (response.statusCode == 200) {
         print("Returned 200");
@@ -66,7 +66,7 @@ class _HomeTabState extends State<HomeTab> {
       }
     } catch (err) {
       print("Ran Into Error!" + err.toString());
-    }
+    }*/
     return "";
   }
 }
