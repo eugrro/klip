@@ -30,12 +30,17 @@ class _UserPageState extends State<UserPage> {
               top: 10,
               bottom: 10,
             ),
-            child: Text(
-              currentUser.uName,
-              style: TextStyle(
-                fontSize: 24 + Constants.textChange,
-                color: Constants.backgroundWhite,
-              ),
+            child: Stack(
+              children: [
+                Text(
+                  currentUser.uName,
+                  style: TextStyle(
+                    fontSize: 24 + Constants.textChange,
+                    color: Constants.backgroundWhite,
+                  ),
+                ),
+                Icon(Icons.three)
+              ],
             ),
           ),
           Row(
