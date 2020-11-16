@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
+import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'loginLogic.dart';
@@ -26,7 +27,7 @@ class _LoginState extends State<Login> {
   @override
   void initState() {
     _loginFlowController = PageController(
-      initialPage: currentPage,
+      initialPage: 0,
     );
     passwordController = TextEditingController();
     userNameController = TextEditingController();
@@ -73,7 +74,7 @@ class _LoginState extends State<Login> {
             ),*/
               Padding(
                 padding: const EdgeInsets.only(
-                  bottom: 50,
+                  bottom: 15,
                 ),
                 child: Container(
                   height: 4,
@@ -85,7 +86,7 @@ class _LoginState extends State<Login> {
                 ),
               ),
               Container(
-                height: 225,
+                height: 250,
                 child: PageView(
                   //physics: NeverScrollableScrollPhysics(),
                   controller: _loginFlowController,
@@ -96,160 +97,43 @@ class _LoginState extends State<Login> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
+                          padding: EdgeInsets.only(
+                            top: 10,
+                            bottom: 30,
+                            left: MediaQuery.of(context).size.width * .15,
                           ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .7,
-                            child: TextFormField(
-                              cursorColor: Constants.purpleColor,
-                              decoration: new InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 1,
-                                  ),
-                                ),
-                                //errorBorder: InputBorder.none,
-                                //disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                  left: 15,
-                                  bottom: 0,
-                                  top: 0,
-                                  right: 15,
-                                ),
-
-                                labelText: "Username",
-                                labelStyle: TextStyle(
-                                  color: Constants.backgroundWhite,
-                                  fontSize: 16 + Constants.textChange,
-                                  height: 1.5,
-                                ),
-                              ),
-                              controller: userNameController,
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 20 + Constants.textChange,
-                              ),
-                            ),
+                          child: klipTextField(
+                            50,
+                            MediaQuery.of(context).size.width * .7,
+                            userNameController,
+                            labelText: "Username",
                           ),
                         ),
                         //=============================================================================
                         Row(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 10,
-                              ),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .35 -
-                                    10,
-                                child: TextFormField(
-                                  cursorColor: Constants.purpleColor,
-                                  decoration: new InputDecoration(
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                      ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                        width: 2,
-                                      ),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    //errorBorder: InputBorder.none,
-                                    //disabledBorder: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(
-                                      left: 15,
-                                      bottom: 0,
-                                      top: 0,
-                                      right: 15,
-                                    ),
-
-                                    labelText: "Password",
-                                    labelStyle: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 16 + Constants.textChange,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                  controller: passwordController,
-                                  style: TextStyle(
-                                    color: Constants.backgroundWhite,
-                                    fontSize: 20 + Constants.textChange,
-                                  ),
-                                ),
+                            Container(
+                              width:
+                                  MediaQuery.of(context).size.width * .35 - 10,
+                              child: klipTextField(
+                                50,
+                                MediaQuery.of(context).size.width * .35 - 10,
+                                userNameController,
+                                labelText: "Password",
+                                labelTextFontSize: 10,
                               ),
                             ),
                             Container(width: 20),
-                            Padding(
-                              padding: const EdgeInsets.only(
-                                bottom: 10,
-                              ),
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .35 -
-                                    10,
-                                child: TextFormField(
-                                  cursorColor: Constants.purpleColor,
-                                  decoration: new InputDecoration(
-                                    border: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                      ),
-                                    ),
-                                    focusedBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                        width: 2,
-                                      ),
-                                    ),
-                                    enabledBorder: UnderlineInputBorder(
-                                      borderSide: BorderSide(
-                                        color: Constants.purpleColor,
-                                        width: 1,
-                                      ),
-                                    ),
-                                    //errorBorder: InputBorder.none,
-                                    //disabledBorder: InputBorder.none,
-                                    contentPadding: EdgeInsets.only(
-                                      left: 15,
-                                      bottom: 0,
-                                      top: 0,
-                                      right: 15,
-                                    ),
-
-                                    labelText: "Confirm",
-                                    labelStyle: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 16 + Constants.textChange,
-                                      height: 1.5,
-                                    ),
-                                  ),
-                                  controller: passwordController,
-                                  style: TextStyle(
-                                    color: Constants.backgroundWhite,
-                                    fontSize: 20 + Constants.textChange,
-                                  ),
-                                ),
+                            Container(
+                              width:
+                                  MediaQuery.of(context).size.width * .35 - 10,
+                              child: klipTextField(
+                                50,
+                                MediaQuery.of(context).size.width * .35 - 10,
+                                userNameController,
+                                labelText: "Confirm",
+                                labelTextFontSize: 10,
                               ),
                             ),
                           ],
@@ -354,104 +238,32 @@ class _LoginState extends State<Login> {
                     Column(
                       children: [
                         Padding(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 10,
+                          padding: EdgeInsets.only(
+                            top: 15,
+                            bottom: 30,
+                            left: MediaQuery.of(context).size.width * .15,
                           ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .7,
-                            child: TextFormField(
-                              cursorColor: Constants.purpleColor,
-                              decoration: new InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 1,
-                                  ),
-                                ),
-                                //errorBorder: InputBorder.none,
-                                //disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                  left: 15,
-                                  bottom: 0,
-                                  top: 0,
-                                  right: 15,
-                                ),
-
-                                labelText: "Username",
-                                labelStyle: TextStyle(
-                                  color: Constants.backgroundWhite,
-                                  fontSize: 16 + Constants.textChange,
-                                  height: 1.5,
-                                ),
-                              ),
-                              controller: userNameController,
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 20 + Constants.textChange,
-                              ),
-                            ),
+                          child: klipTextField(
+                            50,
+                            MediaQuery.of(context).size.width * .7,
+                            userNameController,
+                            thickness: 2,
+                            labelText: "Username",
                           ),
                         ),
+
                         //=============================================================================
                         Padding(
-                          padding: const EdgeInsets.only(
+                          padding: EdgeInsets.only(
                             bottom: 10,
+                            left: MediaQuery.of(context).size.width * .15,
                           ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .7,
-                            child: TextFormField(
-                              cursorColor: Constants.purpleColor,
-                              decoration: new InputDecoration(
-                                border: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                  ),
-                                ),
-                                focusedBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 2,
-                                  ),
-                                ),
-                                enabledBorder: UnderlineInputBorder(
-                                  borderSide: BorderSide(
-                                    color: Constants.purpleColor,
-                                    width: 1,
-                                  ),
-                                ),
-                                //errorBorder: InputBorder.none,
-                                //disabledBorder: InputBorder.none,
-                                contentPadding: EdgeInsets.only(
-                                  left: 15,
-                                  bottom: 0,
-                                  top: 0,
-                                  right: 15,
-                                ),
-
-                                labelText: "Password",
-                                labelStyle: TextStyle(
-                                  color: Constants.backgroundWhite,
-                                  fontSize: 16 + Constants.textChange,
-                                  height: 1.5,
-                                ),
-                              ),
-                              controller: passwordController,
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 20 + Constants.textChange,
-                              ),
-                            ),
+                          child: klipTextField(
+                            50,
+                            MediaQuery.of(context).size.width * .7,
+                            passwordController,
+                            thickness: 2,
+                            labelText: "Password",
                           ),
                         ),
                         Padding(

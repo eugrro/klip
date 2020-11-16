@@ -2,7 +2,9 @@ import 'dart:ui';
 import './Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'UserPage.dart';
 import 'login/Login.dart';
+import './Constants.dart' as Constants;
 
 void main() {
   runApp(MyApp());
@@ -23,7 +25,15 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Klips',
-      home: Login(),
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          selectionHandleColor: Constants.purpleColor,
+          selectionColor: Constants.purpleColor.withOpacity(.5),
+          cursorColor: Constants.purpleColor,
+        ),
+        scaffoldBackgroundColor: Constants.backgroundBlack,
+      ),
+      home: Navigation(),
     );
   }
 }
