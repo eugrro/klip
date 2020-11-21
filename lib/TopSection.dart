@@ -22,7 +22,7 @@ class TopSection extends StatelessWidget {
     TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
-        //border: Border.all(width: 2, color: Constants.backgroundBlack),
+        //x`border: Border.all(width: 2, color: Constants.backgroundBlack),
         color: Constants.backgroundBlack,
       ),
       child: Row(
@@ -32,13 +32,14 @@ class TopSection extends StatelessWidget {
               top: 0,
               bottom: 0,
               left: 10,
+              right: 5,
             ),
-            child: CircleAvatar(
-              //border around the avatar
-              backgroundColor: Constants.purpleColor,
-              child: Image.asset("lib/assets/images/profile_pic.png"),
-              radius: 25,
-            ),
+            //child: CircleAvatar(
+            //border around the avatar
+            //backgroundColor: Constants.purpleColor,
+            child: Image.asset("lib/assets/images/logo6WhiteV2.png"),
+            //radius: 25,
+            //),
           ),
           Padding(
             padding: const EdgeInsets.symmetric(
@@ -46,7 +47,7 @@ class TopSection extends StatelessWidget {
               vertical: 15,
             ),
             child: SizedBox(
-              width: MediaQuery.of(context).size.width / 4 * 3,
+              width: MediaQuery.of(context).size.width / 5 * 3,
               height: MediaQuery.of(context).size.height / 20 * 1,
               child: TextField(
                 controller: searchController,
@@ -71,21 +72,6 @@ class TopSection extends StatelessWidget {
               ),
             ),
           ),
-          //search bar
-          /*SafeArea(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10),
-            child: SearchBar<Post>(
-              searchBarStyle: SearchBarStyle(
-                backgroundColor: Colors.lightBlue,
-                padding: EdgeInsets.all(10),
-                borderRadius: BorderRadius.circular(10),
-              ),
-              onSearch: null,
-              onItemFound: null,
-            ),
-          ),
-        ),*/
         ],
       ),
     );

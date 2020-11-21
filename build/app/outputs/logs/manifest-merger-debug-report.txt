@@ -6,18 +6,28 @@ INJECTED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest
 INJECTED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:1:1-49:12
 MERGED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:1:1-49:12
 MERGED from [:video_player] C:\Users\eugen\Documents\klip\build\video_player\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-7:12
+MERGED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [:google_sign_in] C:\Users\eugen\Documents\klip\build\google_sign_in\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-9:12
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:2:1-15:12
+MERGED from [com.google.firebase:firebase-core:17.4.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\92dd52664b831db89383af73302cc9e0\firebase-core-17.4.1\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c87746a07fa5fd5a1b279da03a8f0cc1\firebase-analytics-17.5.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:17:1-46:12
 MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:17:1-36:12
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0c7e6099e6d311ef61fe220ca76a893f\play-services-measurement-sdk-17.5.0\AndroidManifest.xml:17:1-25:12
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:17:1-39:12
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5b4e94ccd5debacf60c171bc229819e3\play-services-measurement-impl-17.5.0\AndroidManifest.xml:17:1-31:12
 MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c7894140b5607a090c84ce9276cb5617\play-services-ads-identifier-17.0.0\AndroidManifest.xml:17:1-24:12
 MERGED from [com.google.android.gms:play-services-measurement-sdk-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5a8b388d994cb3042ca18fde4a740a90\play-services-measurement-sdk-api-17.5.0\AndroidManifest.xml:17:1-27:12
 MERGED from [com.google.android.gms:play-services-measurement-base:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8d57dbe8d31e4dc637701fd2264f4471\play-services-measurement-base-17.5.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\35f5cc6cd1e7015b8f289378986b0401\play-services-stats-17.0.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:2:1-23:12
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:17:1-42:12
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbadc8a2c92e2840dbb3413d92766263\firebase-auth-interop-19.0.0\AndroidManifest.xml:2:1-10:12
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:15:1-39:12
 MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8930d1fc374c5661201c9e7ddbc830c7\firebase-installations-interop-16.0.0\AndroidManifest.xml:15:1-23:12
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c282d70d8cd066dc04833856ab79484e\jetified-play-services-auth-api-phone-16.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\ca687de8a0031232057c348749355282\jetified-play-services-auth-base-16.0.0\AndroidManifest.xml:2:1-7:12
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:17:1-29:12
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\1f70eb00893c863ee8f340a4ed55086f\play-services-tasks-17.0.0\AndroidManifest.xml:2:1-9:12
 MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\baee640588bb8a3b9b8f7b36671a5bd1\firebase-measurement-connector-18.0.0\AndroidManifest.xml:17:1-25:12
 MERGED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:17:1-28:12
@@ -64,6 +74,8 @@ uses-permission#android.permission.INTERNET
 ADDED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:9:5-66
 MERGED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:9:5-66
 MERGED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:9:5-66
+MERGED from [:google_sign_in] C:\Users\eugen\Documents\klip\build\google_sign_in\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-67
+MERGED from [:google_sign_in] C:\Users\eugen\Documents\klip\build\google_sign_in\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-67
 MERGED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:23:5-67
 MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:22:5-67
@@ -78,6 +90,12 @@ MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.
 		ADDED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:9:22-64
 application
 ADDED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml:10:5-48:19
+MERGED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:7:5-13:19
+MERGED from [com.google.firebase:firebase-core:17.4.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\92dd52664b831db89383af73302cc9e0\firebase-core-17.4.1\AndroidManifest.xml:7:5-20
+MERGED from [com.google.firebase:firebase-core:17.4.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\92dd52664b831db89383af73302cc9e0\firebase-core-17.4.1\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c87746a07fa5fd5a1b279da03a8f0cc1\firebase-analytics-17.5.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c87746a07fa5fd5a1b279da03a8f0cc1\firebase-analytics-17.5.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:28:5-44:19
@@ -86,6 +104,8 @@ MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Use
 MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:26:5-34:19
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0c7e6099e6d311ef61fe220ca76a893f\play-services-measurement-sdk-17.5.0\AndroidManifest.xml:22:5-23:19
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0c7e6099e6d311ef61fe220ca76a893f\play-services-measurement-sdk-17.5.0\AndroidManifest.xml:22:5-23:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:22:5-37:19
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:22:5-37:19
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5b4e94ccd5debacf60c171bc229819e3\play-services-measurement-impl-17.5.0\AndroidManifest.xml:28:5-29:19
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5b4e94ccd5debacf60c171bc229819e3\play-services-measurement-impl-17.5.0\AndroidManifest.xml:28:5-29:19
 MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c7894140b5607a090c84ce9276cb5617\play-services-ads-identifier-17.0.0\AndroidManifest.xml:22:5-20
@@ -96,8 +116,14 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\eugen\.
 MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\35f5cc6cd1e7015b8f289378986b0401\play-services-stats-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:13:5-21:19
 MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:13:5-21:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:23:5-40:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbadc8a2c92e2840dbb3413d92766263\firebase-auth-interop-19.0.0\AndroidManifest.xml:7:5-8:19
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbadc8a2c92e2840dbb3413d92766263\firebase-auth-interop-19.0.0\AndroidManifest.xml:7:5-8:19
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:25:5-37:19
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:25:5-37:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:22:5-27:19
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:22:5-27:19
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\1f70eb00893c863ee8f340a4ed55086f\play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\1f70eb00893c863ee8f340a4ed55086f\play-services-tasks-17.0.0\AndroidManifest.xml:7:5-20
 MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\baee640588bb8a3b9b8f7b36671a5bd1\firebase-measurement-connector-18.0.0\AndroidManifest.xml:22:5-23:19
@@ -164,6 +190,14 @@ INJECTED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest
 INJECTED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml
 MERGED from [:video_player] C:\Users\eugen\Documents\klip\build\video_player\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
 MERGED from [:video_player] C:\Users\eugen\Documents\klip\build\video_player\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:google_sign_in] C:\Users\eugen\Documents\klip\build\google_sign_in\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:google_sign_in] C:\Users\eugen\Documents\klip\build\google_sign_in\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-core:17.4.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\92dd52664b831db89383af73302cc9e0\firebase-core-17.4.1\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-core:17.4.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\92dd52664b831db89383af73302cc9e0\firebase-core-17.4.1\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c87746a07fa5fd5a1b279da03a8f0cc1\firebase-analytics-17.5.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-analytics:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c87746a07fa5fd5a1b279da03a8f0cc1\firebase-analytics-17.5.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:20:5-44
@@ -172,6 +206,8 @@ MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Use
 MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0c7e6099e6d311ef61fe220ca76a893f\play-services-measurement-sdk-17.5.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-sdk:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0c7e6099e6d311ef61fe220ca76a893f\play-services-measurement-sdk-17.5.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5b4e94ccd5debacf60c171bc229819e3\play-services-measurement-impl-17.5.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-measurement-impl:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\5b4e94ccd5debacf60c171bc229819e3\play-services-measurement-impl-17.5.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-ads-identifier:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c7894140b5607a090c84ce9276cb5617\play-services-ads-identifier-17.0.0\AndroidManifest.xml:20:5-44
@@ -184,10 +220,20 @@ MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\eugen\.
 MERGED from [com.google.android.gms:play-services-stats:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\35f5cc6cd1e7015b8f289378986b0401\play-services-stats-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:6:5-8:41
 MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:6:5-8:41
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:21:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbadc8a2c92e2840dbb3413d92766263\firebase-auth-interop-19.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.firebase:firebase-auth-interop:19.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbadc8a2c92e2840dbb3413d92766263\firebase-auth-interop-19.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:20:5-22:41
 MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8930d1fc374c5661201c9e7ddbc830c7\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
 MERGED from [com.google.firebase:firebase-installations-interop:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8930d1fc374c5661201c9e7ddbc830c7\firebase-installations-interop-16.0.0\AndroidManifest.xml:19:5-21:41
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c282d70d8cd066dc04833856ab79484e\jetified-play-services-auth-api-phone-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-api-phone:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\c282d70d8cd066dc04833856ab79484e\jetified-play-services-auth-api-phone-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\ca687de8a0031232057c348749355282\jetified-play-services-auth-base-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-auth-base:16.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\ca687de8a0031232057c348749355282\jetified-play-services-auth-base-16.0.0\AndroidManifest.xml:5:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:20:5-44
+MERGED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:20:5-44
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\1f70eb00893c863ee8f340a4ed55086f\play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.android.gms:play-services-tasks:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\1f70eb00893c863ee8f340a4ed55086f\play-services-tasks-17.0.0\AndroidManifest.xml:5:5-44
 MERGED from [com.google.firebase:firebase-measurement-connector:18.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\baee640588bb8a3b9b8f7b36671a5bd1\firebase-measurement-connector-18.0.0\AndroidManifest.xml:20:5-44
@@ -246,6 +292,38 @@ INJECTED from C:\Users\eugen\Documents\klip\android\app\src\debug\AndroidManifes
 	android:minSdkVersion
 		INJECTED from C:\Users\eugen\Documents\klip\android\app\src\main\AndroidManifest.xml
 		INJECTED from C:\Users\eugen\Documents\klip\android\app\src\debug\AndroidManifest.xml
+service#com.google.firebase.components.ComponentDiscoveryService
+ADDED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:27:9-33:19
+MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:14:9-20:19
+MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:14:9-20:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:33:9-39:19
+MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:32:9-36:35
+MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:32:9-36:35
+	android:exported
+		ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:29:13-37
+	tools:targetApi
+		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:36:13-32
+	android:directBootAware
+		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
+	android:name
+		ADDED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:18-89
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar
+ADDED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_auth] C:\Users\eugen\Documents\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
+meta-data#com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar
+ADDED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+	android:value
+		ADDED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+	android:name
+		ADDED from [:firebase_core] C:\Users\eugen\Documents\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
 uses-permission#android.permission.ACCESS_NETWORK_STATE
 ADDED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:24:5-79
 MERGED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:23:5-79
@@ -302,32 +380,58 @@ ADDED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eu
 		ADDED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:43:13-69
 	android:name
 		ADDED from [com.google.android.gms:play-services-measurement:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\f0b80ed59cd7489be7bda66c80bc7323\play-services-measurement-17.5.0\AndroidManifest.xml:40:13-87
-service#com.google.firebase.components.ComponentDiscoveryService
-ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:27:9-33:19
-MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:14:9-20:19
-MERGED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:14:9-20:19
-MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:32:9-36:35
-MERGED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:32:9-36:35
-	android:exported
-		ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:29:13-37
-	tools:targetApi
-		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:36:13-32
-	android:directBootAware
-		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
-	android:name
-		ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:28:13-84
 meta-data#com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar
 ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:30:13-32:85
 	android:value
 		ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:32:17-82
 	android:name
 		ADDED from [com.google.android.gms:play-services-measurement-api:17.5.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e912ff5a9784ce7ab70f92a51985847a\play-services-measurement-api-17.5.0\AndroidManifest.xml:31:17-139
+activity#com.google.android.gms.auth.api.signin.internal.SignInHubActivity
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:23:9-27:75
+	android:excludeFromRecents
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:25:13-46
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:26:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:27:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:24:13-93
+service#com.google.android.gms.auth.api.signin.RevocationBoundService
+ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:33:9-36:110
+	android:exported
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:35:13-36
+	android:permission
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:36:13-107
+	android:name
+		ADDED from [com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:34:13-89
 meta-data#com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar
 ADDED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:17:13-19:85
 	android:value
 		ADDED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:19:17-82
 	android:name
 		ADDED from [com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:18:17-127
+activity#com.google.firebase.auth.internal.FederatedSignInActivity
+ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:24:9-31:50
+	android:excludeFromRecents
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:26:13-46
+	android:launchMode
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:28:13-44
+	android:exported
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:27:13-36
+	android:permission
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:29:13-102
+	android:theme
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:30:13-72
+	tools:replace
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:31:13-47
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:25:13-85
+meta-data#com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar
+ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:36:13-38:85
+	android:value
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:38:17-82
+	android:name
+		ADDED from [com.google.firebase:firebase-auth:19.3.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\0de00b98838b9c10fa7390387679ef1a\firebase-auth-19.3.1\AndroidManifest.xml:37:17-109
 provider#com.google.firebase.provider.FirebaseInitProvider
 ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:26:9-30:39
 	android:authorities
@@ -338,6 +442,14 @@ ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\c
 		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:30:13-36
 	android:name
 		ADDED from [com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
+activity#com.google.android.gms.common.api.GoogleApiActivity
+ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
+	android:exported
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
+	android:theme
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
+	android:name
+		ADDED from [com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
 meta-data#com.google.android.gms.version
 ADDED from [com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
 	android:value
