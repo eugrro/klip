@@ -10,6 +10,8 @@ void main() {
   runApp(MyApp());
 }
 
+//LOOK INTO THIS https://pub.dev/packages/animated_text_kit
+
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override

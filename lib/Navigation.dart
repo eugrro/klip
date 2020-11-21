@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:klip/HomePage.dart';
 import './Constants.dart' as Constants;
+import 'AddNewContent.dart';
 import 'HomeTabs.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
@@ -31,8 +32,9 @@ class _NavigationState extends State<Navigation>
     pageController = new PageController(
       initialPage: pagePosition,
     );
-    _leftPadding = window.physicalSize.width / window.devicePixelRatio / 8;
-    _rightPadding = window.physicalSize.width / window.devicePixelRatio / 8 * 5;
+    _leftPadding = window.physicalSize.width / window.devicePixelRatio / 12;
+    _rightPadding =
+        window.physicalSize.width / window.devicePixelRatio / 12 * 9;
     super.initState();
   }
 
@@ -51,7 +53,7 @@ class _NavigationState extends State<Navigation>
             ],
           ),
           bottomNavigationBar: Container(
-            height: 60,
+            height: Constants.bottomNavBarHeight,
             color: Constants.backgroundBlack,
             child: Column(
               children: [
@@ -61,10 +63,10 @@ class _NavigationState extends State<Navigation>
                   ),
                   //curve: Curves.linear,
                   padding: EdgeInsets.only(
-                      left: _leftPadding, right: _rightPadding, top: 15),
+                      left: _leftPadding, right: _rightPadding, top: 8),
                   child: Container(
                     height: 2,
-                    width: MediaQuery.of(context).size.width / 4,
+                    width: MediaQuery.of(context).size.width / 6,
                     color: Constants.purpleColor,
                   ),
                 ),
@@ -72,16 +74,15 @@ class _NavigationState extends State<Navigation>
                   padding: EdgeInsets.only(
                     top: 10,
                   ),
-                  child: Row(
+                  child: Stack(
                     children: [
                       GestureDetector(
                         child: Padding(
                           padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 8,
-                            right: MediaQuery.of(context).size.width / 8,
+                            left: 0,
                           ),
                           child: Container(
-                            width: MediaQuery.of(context).size.width / 4,
+                            width: MediaQuery.of(context).size.width / 3,
                             child: Icon(
                               Icons.home,
                               color: pagePosition == 0
@@ -97,20 +98,49 @@ class _NavigationState extends State<Navigation>
                                 duration: Duration(milliseconds: 500),
                                 curve: Curves.ease);
                             _leftPadding =
-                                MediaQuery.of(context).size.width / 8;
+                                MediaQuery.of(context).size.width / 12;
                             _rightPadding =
-                                MediaQuery.of(context).size.width / 8 * 5;
+                                MediaQuery.of(context).size.width / 12 * 9;
                           });
                         },
                       ),
                       GestureDetector(
                         child: Padding(
                           padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 8,
-                            right: MediaQuery.of(context).size.width / 8,
+                            left: MediaQuery.of(context).size.width / 3,
                           ),
                           child: Container(
-                            width: MediaQuery.of(context).size.width / 4,
+                            width: MediaQuery.of(context).size.width / 3,
+                            child: Icon(
+                              Icons.add,
+                              color: pagePosition == -1
+                                  ? Constants.purpleColor
+                                  : Constants.backgroundWhite,
+                            ),
+                          ),
+                        ),
+                        onTap: () {
+                          setState(() {
+                            pagePosition = -1;
+                            _leftPadding =
+                                MediaQuery.of(context).size.width / 12 * 5;
+                            _rightPadding =
+                                MediaQuery.of(context).size.width / 12 * 5;
+                          });
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => AddNewContent()),
+                          );
+                        },
+                      ),
+                      GestureDetector(
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 3 * 2,
+                          ),
+                          child: Container(
+                            width: MediaQuery.of(context).size.width / 3,
                             child: Icon(
                               Icons.person_outline,
                               color: pagePosition == 1
@@ -126,9 +156,9 @@ class _NavigationState extends State<Navigation>
                                 duration: Duration(milliseconds: 500),
                                 curve: Curves.ease);
                             _leftPadding =
-                                MediaQuery.of(context).size.width / 8 * 5;
+                                MediaQuery.of(context).size.width / 12 * 9;
                             _rightPadding =
-                                MediaQuery.of(context).size.width / 8;
+                                MediaQuery.of(context).size.width / 12;
                           });
                         },
                       ),

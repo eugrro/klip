@@ -12,3 +12,6 @@ const nodeURL = 'http://localhost:3000/';
 TextStyle tStyle({double fontSize = 16}) {
   return TextStyle(color: backgroundWhite, fontSize: fontSize);
 }
+
+const double bottomNavBarHeight = 60;
+const double animatedBottomSliderHeight = 10;
