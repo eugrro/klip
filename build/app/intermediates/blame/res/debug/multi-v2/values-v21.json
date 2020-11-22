@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\eugen\\Documents\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
+            "outputFile": "C:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-v21\\values-v21.xml",
             "map": [
                 {
                     "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\e6856c7cff7219f18cbbcc5d8d7cecec\\core-1.1.0\\res\\values-v21\\values-v21.xml",

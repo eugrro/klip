@@ -1,4 +1,7 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:klip/widgets.dart';
 
 import './Constants.dart' as Constants;
@@ -23,6 +26,8 @@ class _AddNewContentState extends State<AddNewContent> {
 
   int contentTypeSelected = 2;
   double circleThickness = 2;
+
+  File contentImage;
 
   TextEditingController titleController;
 
@@ -57,13 +62,18 @@ class _AddNewContentState extends State<AddNewContent> {
                   child: Stack(
                     alignment: Alignment.centerLeft,
                     children: [
-                      Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text(
-                          "X",
-                          style: TextStyle(
-                            color: Colors.red[200],
-                            fontSize: 20,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text(
+                            "X",
+                            style: TextStyle(
+                              color: Colors.red[200],
+                              fontSize: 20,
+                            ),
                           ),
                         ),
                       ),
@@ -430,7 +440,7 @@ class _AddNewContentState extends State<AddNewContent> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        print("TAPPED GALLERY");
+                        _showPicker(context);
                       },
                       child: Column(
                         children: [
@@ -508,5 +518,74 @@ class _AddNewContentState extends State<AddNewContent> {
         ),
       ),
     );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+        context: context,
+        builder: (BuildContext bc) {
+          return SafeArea(
+            child: Container(
+              child: new Wrap(
+                children: <Widget>[
+                  new ListTile(
+                      leading: new Icon(Icons.photo_library),
+                      title: new Text('Photo Library'),
+                      onTap: () async {
+                        await getImageCamera();
+                        Navigator.of(context).pop();
+                      }),
+                  new ListTile(
+                    leading: new Icon(Icons.photo_camera),
+                    title: new Text('Camera'),
+                    onTap: () async {
+                      await getImageGallery();
+                      Navigator.of(context).pop();
+                    },
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
+  final picker = ImagePicker();
+
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        contentImage = File(pickedFile.path);
+        //final bytes = await pickedFile.readAsBytes();
+        //TODO look into bytes instead of paths
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageGallery() async {
+    var pickedFile;
+    pickedFile = await picker
+        .getImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    )
+        .then((value) {
+      setState(() {
+        if (pickedFile != null) {
+          contentImage = File(pickedFile.path);
+          //final bytes = await pickedFile.readAsBytes();
+          //TODO look into bytes instead of paths
+        } else {
+          print('No image selected.');
+        }
+      });
+    });
   }
 }

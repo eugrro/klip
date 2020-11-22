@@ -87,9 +87,11 @@ class _UserPageState extends State<UserPage> {
                     ),
                   ],
                 ),
-                CircleAvatar(
-                  radius: 65,
-                  child: Image.asset("lib/assets/images/personOutline.png"),
+                Container(
+                  width: 130,
+                  child: ClipOval(
+                    child: currentUser.userProfileImg,
+                  ),
                 ),
                 Column(
                   children: [

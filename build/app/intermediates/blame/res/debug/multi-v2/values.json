@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "C:\\Users\\eugen\\Documents\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
+            "outputFile": "C:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values\\values.xml",
             "map": [
                 {
                     "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\133207727ddd41dceffcd53a5637a16c\\jetified-play-services-basement-17.0.0\\res\\values\\values.xml",
@@ -21,7 +21,7 @@
                     }
                 },
                 {
-                    "source": "C:\\Users\\eugen\\Documents\\klip\\android\\app\\src\\main\\res\\values\\styles.xml",
+                    "source": "C:\\Users\\eugen\\Documents\\klip_\\klip\\android\\app\\src\\main\\res\\values\\styles.xml",
                     "from": {
                         "startLines": "3,14",
                         "startColumns": "4,4",
@@ -59,6 +59,23 @@
                     }
                 },
                 {
+                    "source": "C:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
+                    "from": {
+                        "startLines": "2,3,4,5,6,7,8,9",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "55,199,302,384,488,597,717,809",
+                        "endColumns": "143,102,81,103,108,119,91,68",
+                        "endOffsets": "194,297,379,483,592,712,804,873"
+                    },
+                    "to": {
+                        "startLines": "104,105,106,107,108,109,110,111",
+                        "startColumns": "4,4,4,4,4,4,4,4",
+                        "startOffsets": "7730,7874,7977,8059,8163,8272,8392,8484",
+                        "endColumns": "143,102,81,103,108,119,91,68",
+                        "endOffsets": "7869,7972,8054,8158,8267,8387,8479,8548"
+                    }
+                },
+                {
                     "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\81afe58a448e3ee778bc0f2a4c0fa85d\\play-services-base-17.1.0\\res\\values\\values.xml",
                     "from": {
                         "startLines": "4,5,6,7,8,9,10,11,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,33,46",
@@ -75,23 +92,6 @@
                         "endLines": "2,3,4,5,6,7,8,9,86,87,88,89,90,91,92,93,95,96,97,98,99,100,101,102,103,272,291",
                         "endColumns": "89,79,89,89,79,80,79,79,104,180,124,106,179,122,115,102,187,104,180,124,174,147,62,61,78,20,20",
                         "endOffsets": "190,270,360,450,530,611,691,771,5497,5678,5803,5910,6090,6213,6329,6432,6787,6892,7073,7198,7373,7521,7584,7646,7725,17699,18116"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\eugen\\Documents\\klip\\build\\app\\generated\\res\\google-services\\debug\\values\\values.xml",
-                    "from": {
-                        "startLines": "2,3,4,5,6,7,8,9",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "55,199,302,384,488,597,717,809",
-                        "endColumns": "143,102,81,103,108,119,91,68",
-                        "endOffsets": "194,297,379,483,592,712,804,873"
-                    },
-                    "to": {
-                        "startLines": "104,105,106,107,108,109,110,111",
-                        "startColumns": "4,4,4,4,4,4,4,4",
-                        "startOffsets": "7730,7874,7977,8059,8163,8272,8392,8484",
-                        "endColumns": "143,102,81,103,108,119,91,68",
-                        "endOffsets": "7869,7972,8054,8158,8267,8387,8479,8548"
                     }
                 }
             ]

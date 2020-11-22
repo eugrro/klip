@@ -1,11 +1,13 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
+import 'package:simple_image_crop/simple_image_crop.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:auto_size_text/auto_size_text.dart';
-import 'HomeTabs.dart';
-import 'TopNavBar.dart';
-import 'TopSection.dart';
+
+import 'CropProfilePic.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -20,6 +22,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   var newInfoFocus = new FocusNode();
   var biofcs = new FocusNode();
   bool editingBio = false;
+  File contentImage;
+  final imgCropKey = GlobalKey<ImgCropState>();
   @override
   void initState() {
     newInfoContr = TextEditingController();
@@ -79,21 +83,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 children: [
                   Opacity(
                     opacity: .4,
-                    child: CircleAvatar(
-                      radius: 65,
-                      child: Image.asset("lib/assets/images/personOutline.png"),
+                    child: Container(
+                      width: 130,
+                      child: ClipOval(
+                        child: currentUser.userProfileImg,
+                      ),
                     ),
                   ),
                   GestureDetector(
                     onTap: () {
-                      print("LOAD NEW PROFILE PIC");
+                      _showPicker(context);
                     },
                     child: CircleAvatar(
                       radius: 65,
                       backgroundColor: Colors.transparent,
                       child: Center(
                         child: Padding(
-                          padding: EdgeInsets.only(top: 30),
+                          padding: EdgeInsets.only(top: 60),
                           child: Text(
                             "Click to change\nprofile picture",
                             textAlign: TextAlign.center,
@@ -282,6 +288,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
+  /*Widget _buildCropImage() {
+    return Container(
+      color: Colors.black,
+      child: ImgCrop(
+        key: imgCropKey,
+        chipRadius: 150, // crop area radius
+        chipShape: ChipShape.circle, // crop type "circle" or "rect"
+        image: FileImage(imageFile), // you selected image file
+      ),
+    );
+  }*/
+
   inputNewInfo(
     BuildContext ctx,
     TextEditingController contr,
@@ -295,141 +313,242 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       isScrollControlled: true,
       context: ctx,
       builder: (BuildContext context) {
-        return Padding(
-          padding: MediaQuery.of(context).viewInsets,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(bottom: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        //TODO
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * .25,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: kElevationToShadow[3],
-                          color: Constants.purpleColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "X",
-                            style: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 30 + Constants.textChange,
+        return SafeArea(
+          child: Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: 20),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width * .25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: kElevationToShadow[3],
+                            color: Constants.purpleColor,
+                          ),
+                          child: Center(
+                            child: Text(
+                              "X",
+                              style: TextStyle(
+                                color: Constants.backgroundWhite,
+                                fontSize: 30 + Constants.textChange,
+                              ),
                             ),
                           ),
                         ),
                       ),
-                    ),
-                    GestureDetector(
-                      onTap: () {
-                        setState(() {
-                          //TODO
-                        });
-                      },
-                      child: Container(
-                        height: 60,
-                        width: MediaQuery.of(context).size.width * .25,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          boxShadow: kElevationToShadow[3],
-                          color: Constants.purpleColor,
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            //TODO
+                          });
+                        },
+                        child: Container(
+                          height: 60,
+                          width: MediaQuery.of(context).size.width * .25,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            boxShadow: kElevationToShadow[3],
+                            color: Constants.purpleColor,
+                          ),
+                          child: Center(
+                              child: Icon(
+                            Icons.check,
+                            color: Colors.white,
+                            size: 35,
+                          )),
                         ),
-                        child: Center(
-                            child: Icon(
-                          Icons.check,
-                          color: Colors.white,
-                          size: 35,
-                        )),
                       ),
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                //height: 200,
-                decoration: BoxDecoration(
-                  color: Constants.backgroundBlack,
-                  borderRadius: BorderRadius.only(
-                    topRight: Radius.circular(10),
-                    topLeft: Radius.circular(10),
+                    ],
                   ),
                 ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.symmetric(
-                          vertical: 20,
-                          horizontal: MediaQuery.of(context).size.width / 6),
-                      child: TextFormField(
-                        autofocus: true,
-                        focusNode: fcs,
-                        cursorColor: Constants.purpleColor,
-                        decoration: new InputDecoration(
-                          border: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Constants.purpleColor,
+                Container(
+                  //height: 200,
+                  decoration: BoxDecoration(
+                    color: Constants.backgroundBlack,
+                    borderRadius: BorderRadius.only(
+                      topRight: Radius.circular(10),
+                      topLeft: Radius.circular(10),
+                    ),
+                  ),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 20,
+                            horizontal: MediaQuery.of(context).size.width / 6),
+                        child: TextFormField(
+                          autofocus: true,
+                          focusNode: fcs,
+                          cursorColor: Constants.purpleColor,
+                          decoration: new InputDecoration(
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Constants.purpleColor,
+                              ),
                             ),
-                          ),
-                          focusedBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Constants.purpleColor,
-                              width: 2,
+                            focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Constants.purpleColor,
+                                width: 2,
+                              ),
                             ),
-                          ),
-                          enabledBorder: UnderlineInputBorder(
-                            borderSide: BorderSide(
-                              color: Constants.purpleColor,
-                              width: 1,
+                            enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                color: Constants.purpleColor,
+                                width: 1,
+                              ),
                             ),
-                          ),
-                          //errorBorder: InputBorder.none,
-                          //disabledBorder: InputBorder.none,
-                          contentPadding: EdgeInsets.only(
-                            left: 15,
-                            bottom: 0,
-                            top: 0,
-                            right: 15,
-                          ),
+                            //errorBorder: InputBorder.none,
+                            //disabledBorder: InputBorder.none,
+                            contentPadding: EdgeInsets.only(
+                              left: 15,
+                              bottom: 0,
+                              top: 0,
+                              right: 15,
+                            ),
 
-                          labelText: hint,
-                          labelStyle: TextStyle(
+                            labelText: hint,
+                            labelStyle: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 16 + Constants.textChange,
+                              height: 1.5,
+                            ),
+                          ),
+                          controller: contr,
+                          style: TextStyle(
                             color: Constants.backgroundWhite,
-                            fontSize: 16 + Constants.textChange,
-                            height: 1.5,
+                            fontSize: 20 + Constants.textChange,
                           ),
                         ),
-                        controller: contr,
-                        style: TextStyle(
-                          color: Constants.backgroundWhite,
-                          fontSize: 20 + Constants.textChange,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(bottom: 30),
+                        child: Text(
+                          suppText,
+                          style: Constants.tStyle(),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: EdgeInsets.only(bottom: 30),
-                      child: Text(
-                        suppText,
-                        style: Constants.tStyle(),
-                      ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
           //color: Colors.redAccent,
         );
       },
     );
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                  leading: new Icon(Icons.photo_library),
+                  title: new Text('Photo Library'),
+                  onTap: () {
+                    print("ENTERING NEW PAGE");
+                    getImageGallery().then((value) async {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              CropProfilePic(contentImage, imgCropKey),
+                        ),
+                      ).then(
+                        (value) async {
+                          if (value) {
+                            final crop = imgCropKey.currentState;
+                            File newFile = await crop.cropCompleted(
+                                contentImage,
+                                preferredSize: 900);
+                            Image newImg = Image.file(newFile);
+                            setState(() {
+                              currentUser.userProfileImg = newImg;
+                            });
+                            Navigator.of(context).pop();
+                          }
+                        },
+                      );
+
+                      // show you croppedFile ……
+                      //showImage(context, croppedFile);
+                    });
+                  },
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.photo_camera),
+                  title: new Text('Camera'),
+                  onTap: () {
+                    getImageGallery().then((value) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CropProfilePic(contentImage, imgCropKey)),
+                      );
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  final picker = ImagePicker();
+
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        contentImage = File(pickedFile.path);
+        //final bytes = await pickedFile.readAsBytes();
+        //TODO look into bytes instead of paths
+      } else {
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageGallery() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        contentImage = File(pickedFile.path);
+        //final bytes = await pickedFile.readAsBytes();
+        //TODO look into bytes instead of paths
+      } else {
+        print('No image selected.');
+      }
+    });
   }
 
   Widget settingsCard(BuildContext context, String txt1, String txt2,
