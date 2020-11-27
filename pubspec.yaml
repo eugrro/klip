@@ -28,6 +28,7 @@ dependencies:
   google_sign_in: ^4.5.3
   auto_size_text: ^2.1.0
   image_picker: ^0.6.6+5
+  dio: ^3.0.10
 
   
   simple_image_crop:

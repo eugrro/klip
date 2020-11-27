@@ -31,229 +31,231 @@
 19-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:26:22-107
 20
 21    <application
-21-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:10:5-48:19
+21-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:10:5-49:19
 22        android:name="io.flutter.app.FlutterApplication"
-22-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:11:9-57
+22-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:12:9-57
 23        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
 23-->[androidx.core:core:1.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\e6856c7cff7219f18cbbcc5d8d7cecec\core-1.1.0\AndroidManifest.xml:24:18-86
 24        android:debuggable="true"
 25        android:icon="@mipmap/ic_launcher"
-25-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:13:9-43
-26        android:label="klip" >
-26-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:12:9-29
-27        <activity
-27-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:14:9-42:20
-28            android:name="com.example.klip.MainActivity"
-28-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:15:13-41
-29            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
-29-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:18:13-163
-30            android:hardwareAccelerated="true"
-30-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:19:13-47
-31            android:launchMode="singleTop"
-31-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:16:13-43
-32            android:theme="@style/LaunchTheme"
-32-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:17:13-47
-33            android:windowSoftInputMode="adjustResize" >
-33-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:20:13-55
-34
-35            <!--
-36                 Specifies an Android theme to apply to this Activity as soon as
-37                 the Android process has started. This theme is visible to the user
-38                 while the Flutter UI initializes. After that, this theme continues
-39                 to determine the Window background behind the Flutter UI.
-40            -->
-41            <meta-data
-41-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:25:13-28:17
-42                android:name="io.flutter.embedding.android.NormalTheme"
-42-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:26:15-70
-43                android:resource="@style/NormalTheme" />
-43-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:27:15-52
-44            <!--
-45                 Displays an Android View that continues showing the launch screen
-46                 Drawable until Flutter paints its first frame, then this splash
-47                 screen fades out. A splash screen is useful to avoid any visual
-48                 gap between the end of Android's launch screen and the painting of
-49                 Flutter's first frame.
-50            -->
-51            <meta-data
-51-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:34:13-37:17
-52                android:name="io.flutter.embedding.android.SplashScreenDrawable"
-52-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:35:15-79
-53                android:resource="@drawable/launch_background" />
-53-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:36:15-61
-54
-55            <intent-filter>
-55-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:38:13-41:29
-56                <action android:name="android.intent.action.MAIN" />
-56-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:39:17-68
-56-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:39:25-66
-57
-58                <category android:name="android.intent.category.LAUNCHER" />
-58-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:40:17-76
-58-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:40:27-74
-59            </intent-filter>
-60        </activity>
-61        <!--
-62             Don't delete the meta-data below.
-63             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
-64        -->
-65        <meta-data
-65-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:45:9-47:33
-66            android:name="flutterEmbedding"
-66-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:46:13-44
-67            android:value="2" />
-67-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:47:13-30
-68
-69        <service
-69-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
-70            android:name="com.google.firebase.components.ComponentDiscoveryService"
-70-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:18-89
-71            android:directBootAware="true"
-71-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
-72            android:exported="false" >
-72-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:35:13-37
-73            <meta-data
-73-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
-74                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
-74-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
-75                android:value="com.google.firebase.components.ComponentRegistrar" />
-75-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
-76            <meta-data
-76-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
-77                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
-77-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
-78                android:value="com.google.firebase.components.ComponentRegistrar" />
-78-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
-79            <meta-data
-79-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:36:13-38:85
-80                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
-80-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:37:17-109
-81                android:value="com.google.firebase.components.ComponentRegistrar" />
-81-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:38:17-82
-82            <meta-data
-82-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:30:13-32:85
-83                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
-83-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:31:17-139
-84                android:value="com.google.firebase.components.ComponentRegistrar" />
-84-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:32:17-82
-85            <meta-data
-85-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:17:13-19:85
-86                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
-86-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:18:17-127
-87                android:value="com.google.firebase.components.ComponentRegistrar" />
-87-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:19:17-82
-88        </service>
-89
-90        <provider
-90-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-19:20
-91            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
-91-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-82
-92            android:authorities="com.example.klip.flutter.image_provider"
-92-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-74
-93            android:exported="false"
-93-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-37
-94            android:grantUriPermissions="true" >
-94-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-47
-95            <meta-data
-95-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-18:75
-96                android:name="android.support.FILE_PROVIDER_PATHS"
-96-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:17:17-67
-97                android:resource="@xml/flutter_image_picker_file_paths" />
-97-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-72
-98        </provider>
-99
-100        <activity
-100-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:24:9-31:50
-101            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
-101-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:25:13-85
-102            android:excludeFromRecents="true"
-102-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:26:13-46
-103            android:exported="true"
-103-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:27:13-36
-104            android:launchMode="singleTask"
-104-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:28:13-44
-105            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
-105-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:29:13-102
-106            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-106-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:30:13-72
-107        <activity
-107-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:23:9-27:75
-108            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
-108-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:24:13-93
-109            android:excludeFromRecents="true"
-109-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:25:13-46
-110            android:exported="false"
-110-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:26:13-37
-111            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-111-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:27:13-72
-112        <!--
-113            Service handling Google Sign-In user revocation. For apps that do not integrate with
-114            Google Sign-In, this service will never be started.
-115        -->
-116        <service
-116-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:33:9-36:110
-117            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
-117-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:34:13-89
-118            android:exported="true"
-118-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:35:13-36
-119            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
-119-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:36:13-107
-120
-121        <activity
-121-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
-122            android:name="com.google.android.gms.common.api.GoogleApiActivity"
-122-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
-123            android:exported="false"
-123-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
-124            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-124-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
-125
-126        <receiver
-126-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:29:9-33:20
-127            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
-127-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:30:13-85
-128            android:enabled="true"
-128-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:31:13-35
-129            android:exported="false" >
-129-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:32:13-37
-130        </receiver>
-131
-132        <service
-132-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:35:9-38:40
-133            android:name="com.google.android.gms.measurement.AppMeasurementService"
-133-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:36:13-84
-134            android:enabled="true"
-134-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:37:13-35
-135            android:exported="false" />
-135-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:38:13-37
-136        <service
-136-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:39:9-43:72
-137            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
-137-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:40:13-87
-138            android:enabled="true"
-138-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:41:13-35
-139            android:exported="false"
-139-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:42:13-37
-140            android:permission="android.permission.BIND_JOB_SERVICE" />
-140-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:43:13-69
-141
-142        <provider
-142-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:26:9-30:39
-143            android:name="com.google.firebase.provider.FirebaseInitProvider"
-143-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
-144            android:authorities="com.example.klip.firebaseinitprovider"
-144-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:28:13-72
-145            android:exported="false"
-145-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:29:13-37
-146            android:initOrder="100" />
-146-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:30:13-36
-147
-148        <meta-data
-148-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
-149            android:name="com.google.android.gms.version"
-149-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
-150            android:value="@integer/google_play_services_version" />
-150-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
-151    </application>
-152
-153</manifest>
+25-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:14:9-43
+26        android:label="klip"
+26-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:13:9-29
+27        android:usesCleartextTraffic="true" >
+27-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:11:9-44
+28        <activity
+28-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:15:9-43:20
+29            android:name="com.example.klip.MainActivity"
+29-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:16:13-41
+30            android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
+30-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:19:13-163
+31            android:hardwareAccelerated="true"
+31-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:20:13-47
+32            android:launchMode="singleTop"
+32-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:17:13-43
+33            android:theme="@style/LaunchTheme"
+33-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:18:13-47
+34            android:windowSoftInputMode="adjustResize" >
+34-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:21:13-55
+35
+36            <!--
+37                 Specifies an Android theme to apply to this Activity as soon as
+38                 the Android process has started. This theme is visible to the user
+39                 while the Flutter UI initializes. After that, this theme continues
+40                 to determine the Window background behind the Flutter UI.
+41            -->
+42            <meta-data
+42-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:26:13-29:17
+43                android:name="io.flutter.embedding.android.NormalTheme"
+43-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:27:15-70
+44                android:resource="@style/NormalTheme" />
+44-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:28:15-52
+45            <!--
+46                 Displays an Android View that continues showing the launch screen
+47                 Drawable until Flutter paints its first frame, then this splash
+48                 screen fades out. A splash screen is useful to avoid any visual
+49                 gap between the end of Android's launch screen and the painting of
+50                 Flutter's first frame.
+51            -->
+52            <meta-data
+52-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:35:13-38:17
+53                android:name="io.flutter.embedding.android.SplashScreenDrawable"
+53-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:36:15-79
+54                android:resource="@drawable/launch_background" />
+54-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:37:15-61
+55
+56            <intent-filter>
+56-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:39:13-42:29
+57                <action android:name="android.intent.action.MAIN" />
+57-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:40:17-68
+57-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:40:25-66
+58
+59                <category android:name="android.intent.category.LAUNCHER" />
+59-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:41:17-76
+59-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:41:27-74
+60            </intent-filter>
+61        </activity>
+62        <!--
+63 Don't delete the meta-data below.
+64             This is used by the Flutter tool to generate GeneratedPluginRegistrant.java
+65        -->
+66        <meta-data
+66-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:46:9-48:33
+67            android:name="flutterEmbedding"
+67-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:47:13-44
+68            android:value="2" />
+68-->C:\Users\eugen\Documents\klip_\klip\android\app\src\main\AndroidManifest.xml:48:13-30
+69
+70        <service
+70-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:9-12:19
+71            android:name="com.google.firebase.components.ComponentDiscoveryService"
+71-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:8:18-89
+72            android:directBootAware="true"
+72-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:34:13-43
+73            android:exported="false" >
+73-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:35:13-37
+74            <meta-data
+74-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+75                android:name="com.google.firebase.components:io.flutter.plugins.firebase.auth.FlutterFirebaseAuthRegistrar"
+75-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
+76                android:value="com.google.firebase.components.ComponentRegistrar" />
+76-->[:firebase_auth] C:\Users\eugen\Documents\klip_\klip\build\firebase_auth\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+77            <meta-data
+77-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:9:13-11:85
+78                android:name="com.google.firebase.components:io.flutter.plugins.firebase.core.FlutterFirebaseCoreRegistrar"
+78-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:10:17-124
+79                android:value="com.google.firebase.components.ComponentRegistrar" />
+79-->[:firebase_core] C:\Users\eugen\Documents\klip_\klip\build\firebase_core\intermediates\library_manifest\debug\AndroidManifest.xml:11:17-82
+80            <meta-data
+80-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:36:13-38:85
+81                android:name="com.google.firebase.components:com.google.firebase.auth.FirebaseAuthRegistrar"
+81-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:37:17-109
+82                android:value="com.google.firebase.components.ComponentRegistrar" />
+82-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:38:17-82
+83            <meta-data
+83-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:30:13-32:85
+84                android:name="com.google.firebase.components:com.google.firebase.analytics.connector.internal.AnalyticsConnectorRegistrar"
+84-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:31:17-139
+85                android:value="com.google.firebase.components.ComponentRegistrar" />
+85-->[com.google.android.gms:play-services-measurement-api:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\05b67e324539043b4c5b5bb2aa6a00fa\play-services-measurement-api-17.6.0\AndroidManifest.xml:32:17-82
+86            <meta-data
+86-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:17:13-19:85
+87                android:name="com.google.firebase.components:com.google.firebase.installations.FirebaseInstallationsRegistrar"
+87-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:18:17-127
+88                android:value="com.google.firebase.components.ComponentRegistrar" />
+88-->[com.google.firebase:firebase-installations:16.3.2] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\dbe5f7413cf7a11c2731efc7707327d8\firebase-installations-16.3.2\AndroidManifest.xml:19:17-82
+89        </service>
+90
+91        <provider
+91-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:11:9-19:20
+92            android:name="io.flutter.plugins.imagepicker.ImagePickerFileProvider"
+92-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:12:13-82
+93            android:authorities="com.example.klip.flutter.image_provider"
+93-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:13:13-74
+94            android:exported="false"
+94-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:14:13-37
+95            android:grantUriPermissions="true" >
+95-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:15:13-47
+96            <meta-data
+96-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:16:13-18:75
+97                android:name="android.support.FILE_PROVIDER_PATHS"
+97-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:17:17-67
+98                android:resource="@xml/flutter_image_picker_file_paths" />
+98-->[:image_picker] C:\Users\eugen\Documents\klip_\klip\build\image_picker\intermediates\library_manifest\debug\AndroidManifest.xml:18:17-72
+99        </provider>
+100
+101        <activity
+101-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:24:9-31:50
+102            android:name="com.google.firebase.auth.internal.FederatedSignInActivity"
+102-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:25:13-85
+103            android:excludeFromRecents="true"
+103-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:26:13-46
+104            android:exported="true"
+104-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:27:13-36
+105            android:launchMode="singleTask"
+105-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:28:13-44
+106            android:permission="com.google.firebase.auth.api.gms.permission.LAUNCH_FEDERATED_SIGN_IN"
+106-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:29:13-102
+107            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+107-->[com.google.firebase:firebase-auth:19.4.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\8c6089a0de7f9851f85bc03c083d64c7\firebase-auth-19.4.0\AndroidManifest.xml:30:13-72
+108        <activity
+108-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:23:9-27:75
+109            android:name="com.google.android.gms.auth.api.signin.internal.SignInHubActivity"
+109-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:24:13-93
+110            android:excludeFromRecents="true"
+110-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:25:13-46
+111            android:exported="false"
+111-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:26:13-37
+112            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+112-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:27:13-72
+113        <!--
+114            Service handling Google Sign-In user revocation. For apps that do not integrate with
+115            Google Sign-In, this service will never be started.
+116        -->
+117        <service
+117-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:33:9-36:110
+118            android:name="com.google.android.gms.auth.api.signin.RevocationBoundService"
+118-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:34:13-89
+119            android:exported="true"
+119-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:35:13-36
+120            android:permission="com.google.android.gms.auth.api.signin.permission.REVOCATION_NOTIFICATION" />
+120-->[com.google.android.gms:play-services-auth:16.0.1] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\67a68c44fa0e8356bde9cb24fa567841\jetified-play-services-auth-16.0.1\AndroidManifest.xml:36:13-107
+121
+122        <activity
+122-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:23:9-26:75
+123            android:name="com.google.android.gms.common.api.GoogleApiActivity"
+123-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:24:13-79
+124            android:exported="false"
+124-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:25:13-37
+125            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+125-->[com.google.android.gms:play-services-base:17.1.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\81afe58a448e3ee778bc0f2a4c0fa85d\play-services-base-17.1.0\AndroidManifest.xml:26:13-72
+126
+127        <receiver
+127-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:29:9-33:20
+128            android:name="com.google.android.gms.measurement.AppMeasurementReceiver"
+128-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:30:13-85
+129            android:enabled="true"
+129-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:31:13-35
+130            android:exported="false" >
+130-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:32:13-37
+131        </receiver>
+132
+133        <service
+133-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:35:9-38:40
+134            android:name="com.google.android.gms.measurement.AppMeasurementService"
+134-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:36:13-84
+135            android:enabled="true"
+135-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:37:13-35
+136            android:exported="false" />
+136-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:38:13-37
+137        <service
+137-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:39:9-43:72
+138            android:name="com.google.android.gms.measurement.AppMeasurementJobService"
+138-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:40:13-87
+139            android:enabled="true"
+139-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:41:13-35
+140            android:exported="false"
+140-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:42:13-37
+141            android:permission="android.permission.BIND_JOB_SERVICE" />
+141-->[com.google.android.gms:play-services-measurement:17.6.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\553521fbf0c3ff09e96af34538f94893\play-services-measurement-17.6.0\AndroidManifest.xml:43:13-69
+142
+143        <provider
+143-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:26:9-30:39
+144            android:name="com.google.firebase.provider.FirebaseInitProvider"
+144-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:27:13-77
+145            android:authorities="com.example.klip.firebaseinitprovider"
+145-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:28:13-72
+146            android:exported="false"
+146-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:29:13-37
+147            android:initOrder="100" />
+147-->[com.google.firebase:firebase-common:19.3.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\d076778cdc8c4c6e9c57cf58929cf740\jetified-firebase-common-19.3.0\AndroidManifest.xml:30:13-36
+148
+149        <meta-data
+149-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:23:9-25:69
+150            android:name="com.google.android.gms.version"
+150-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:24:13-58
+151            android:value="@integer/google_play_services_version" />
+151-->[com.google.android.gms:play-services-basement:17.0.0] C:\Users\eugen\.gradle\caches\transforms-2\files-2.1\133207727ddd41dceffcd53a5637a16c\jetified-play-services-basement-17.0.0\AndroidManifest.xml:25:13-66
+152    </application>
+153
+154</manifest>

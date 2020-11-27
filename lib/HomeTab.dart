@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:klip/Requests.dart';
@@ -24,12 +26,24 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
         ),
-        RaisedButton(
-          onPressed: () {
-            print("TRYING TO UPDATE VALUE");
-            updateOne(currentUser.uid, "age", "99");
-          },
-          child: Text("Update Val"),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            RaisedButton(
+              onPressed: () {
+                print("TRYING TO TEST NODE CONNECTION");
+                testConnection();
+              },
+              child: Text("Test Connection"),
+            ),
+            RaisedButton(
+              onPressed: () async {
+                print("TRYING TO UPLOAD PHOTO");
+                uploadImage(await getImageFromGallery());
+              },
+              child: Text("Upload Image"),
+            ),
+          ],
         ),
       ],
     );

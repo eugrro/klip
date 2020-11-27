@@ -3,6 +3,8 @@
 *.log
 *.pyc
 *.swp
+*.apk
+*.bin
 .DS_Store
 .atom/
 .buildlog/
@@ -33,6 +35,8 @@
 
 # Web related
 lib/generated_plugin_registrant.dart
+lib/server/node_modules
+android
 
 # Symbolication related
 app.*.symbols
