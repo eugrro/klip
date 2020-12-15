@@ -8,6 +8,7 @@ import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
 import 'CropProfilePic.dart';
+import 'Requests.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -36,10 +37,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.backgroundBlack,
-      body: Padding(
-        padding: EdgeInsets.only(
-          top: MediaQuery.of(context).padding.top,
-        ),
+      body: SafeArea(
         child: SingleChildScrollView(
           child: Column(
             children: [
@@ -478,8 +476,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             final crop = imgCropKey.currentState;
                             File newFile = await crop.cropCompleted(
                                 contentImage,
-                                preferredSize: 900);
+                                preferredSize: 600);
                             Image newImg = Image.file(newFile);
+                            updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
                               currentUser.userProfileImg = newImg;
                             });

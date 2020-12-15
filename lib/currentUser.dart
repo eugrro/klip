@@ -8,7 +8,9 @@ String email = "testEmail@gmail.com";
 int numViews = 0;
 int numKredits = 0;
 String bio = "Sample bio text for the current user";
-Image userProfileImg = Image.asset("lib/assets/images/personOutline.png");
+String avatarLink =
+    "https://klip-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
+Image userProfileImg = Image.network(avatarLink);
 
 String getFullName() {
   return fName + " " + lName;

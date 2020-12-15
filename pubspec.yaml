@@ -29,6 +29,7 @@ dependencies:
   auto_size_text: ^2.1.0
   image_picker: ^0.6.6+5
   dio: ^3.0.10
+  linked_scroll_controller: ^0.1.2
 
   
   simple_image_crop:

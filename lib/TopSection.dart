@@ -22,57 +22,58 @@ class TopSection extends StatelessWidget {
     TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
-        //x`border: Border.all(width: 2, color: Constants.backgroundBlack),
         color: Constants.backgroundBlack,
       ),
-      child: Row(
-        children: [
-          Padding(
-            padding: const EdgeInsets.only(
-              top: 0,
-              bottom: 0,
-              left: 10,
-              right: 5,
-            ),
-            //child: CircleAvatar(
-            //border around the avatar
-            //backgroundColor: Constants.purpleColor,
-            child: Image.asset("lib/assets/images/logo6WhiteV2.png"),
-            //radius: 25,
-            //),
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 10,
-              vertical: 15,
-            ),
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width / 5 * 3,
-              height: MediaQuery.of(context).size.height / 20 * 1,
-              child: TextField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  labelText: "Search Klip",
-                  labelStyle: TextStyle(color: Constants.backgroundWhite),
-                  hintText: "Search",
-                  hintStyle: TextStyle(color: Constants.backgroundWhite),
-                  prefixIcon: Icon(
-                    Icons.search,
+      child: Padding(
+        padding: const EdgeInsets.only(
+          top: 10,
+          left: 15,
+          right: 15,
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              children: [
+                Icon(
+                  Icons.search,
+                  color: Constants.backgroundWhite,
+                  size: 30,
+                ),
+                Container(
+                  height: 3,
+                ),
+                Text(
+                  "Search",
+                  style: TextStyle(
                     color: Constants.backgroundWhite,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(15.0),
-                    ),
-                    borderSide: BorderSide(
-                      color: Constants.purpleColor,
-                    ),
+                    fontSize: 12 + Constants.textChange,
                   ),
                 ),
+              ],
+            ),
+            Column(
+              children: [
+                Image.asset("lib/assets/images/logo6WhiteV2.png"),
+                Padding(
+                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width / 3,
+                    height: 2,
+                    color: Constants.purpleColor,
+                  ),
+                )
+              ],
+            ),
+            Text(
+              "103 K",
+              style: TextStyle(
+                color: Constants.backgroundWhite,
+                fontSize: 18 + Constants.textChange,
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

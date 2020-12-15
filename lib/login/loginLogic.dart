@@ -114,7 +114,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName,
     if (response.statusCode == 200) {
       print("Returned 200");
       print(response.body);
-      if (response.body is String) return "Hello";
+      if (response.body is String) return response.body;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
