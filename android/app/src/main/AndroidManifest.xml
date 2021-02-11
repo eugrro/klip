@@ -8,6 +8,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
+        android:hardwareAccelerated="true"
         android:usesCleartextTraffic="true"
         android:name="io.flutter.app.FlutterApplication"
         android:label="klip"

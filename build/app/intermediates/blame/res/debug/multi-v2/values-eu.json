@@ -4,37 +4,20 @@
             "outputFile": "C:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-eu\\values-eu.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\fa6f4e21abebe2d79db3175d07d54142\\core-1.2.0\\res\\values-eu\\values-eu.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "2895",
-                        "endColumns": "100",
-                        "endOffsets": "2991"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\6ea57beb25df4dd8366b6ae170e4c797\\jetified-play-services-basement-17.5.0\\res\\values-eu\\values.xml",
+                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\133207727ddd41dceffcd53a5637a16c\\jetified-play-services-basement-17.0.0\\res\\values-eu\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
                         "startOffsets": "247",
-                        "endColumns": "204",
-                        "endOffsets": "451"
+                        "endColumns": "200",
+                        "endOffsets": "447"
                     },
                     "to": {
                         "startLines": "10",
                         "startColumns": "4",
                         "startOffsets": "1282",
-                        "endColumns": "204",
-                        "endOffsets": "1482"
+                        "endColumns": "200",
+                        "endOffsets": "1478"
                     }
                 },
                 {
@@ -49,9 +32,26 @@
                     "to": {
                         "startLines": "2,3,4,5,6,7,8,9,11,12,13,14,15,16,17,18,19",
                         "startColumns": "4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4,4",
-                        "startOffsets": "105,211,419,547,658,864,993,1146,1487,1730,1840,2038,2170,2397,2586,2682,2777",
+                        "startOffsets": "105,211,419,547,658,864,993,1146,1483,1726,1836,2034,2166,2393,2582,2678,2773",
                         "endColumns": "105,207,127,110,205,128,152,135,242,109,197,131,226,188,95,94,117",
-                        "endOffsets": "206,414,542,653,859,988,1141,1277,1725,1835,2033,2165,2392,2581,2677,2772,2890"
+                        "endOffsets": "206,414,542,653,859,988,1141,1277,1721,1831,2029,2161,2388,2577,2673,2768,2886"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\e6856c7cff7219f18cbbcc5d8d7cecec\\core-1.1.0\\res\\values-eu\\values-eu.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "2891",
+                        "endColumns": "100",
+                        "endOffsets": "2987"
                     }
                 }
             ]

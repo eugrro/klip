@@ -1,12 +1,21 @@
 # This is a generated file; do not edit or check into version control.
 simple_image_crop=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\git\\flutter_simple_image_crop-24373e341d0f46b136b0df63a49cfb8b726a6109\\
+better_player=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\better_player-0.0.37\\
 firebase_auth=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth-0.18.3\\
 firebase_auth_web=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_auth_web-0.3.2\\
 firebase_core=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core-0.5.2\\
 firebase_core_web=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\firebase_core_web-0.2.1\\
+flutter_hls_parser=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_hls_parser-1.0.0\\
 flutter_plugin_android_lifecycle=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\flutter_plugin_android_lifecycle-1.0.11\\
 google_sign_in=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in-4.5.6\\
 google_sign_in_web=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\google_sign_in_web-0.9.2\\
-image_picker=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker-0.6.7+14\\
+image_picker=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\image_picker-0.6.7+17\\
+import_js_library=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\import_js_library-1.0.2\\
+path_provider=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider-1.6.24\\
+path_provider_linux=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_linux-0.0.1+2\\
+path_provider_macos=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_macos-0.0.4+6\\
+path_provider_windows=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\path_provider_windows-0.0.4+3\\
 video_player=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\video_player-1.0.1\\
 video_player_web=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\video_player_web-0.1.4+1\\
+wakelock=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\wakelock-0.2.1+1\\
+wakelock_web=C:\\Users\\eugen\\Documents\\Flutt\\flutter\\.pub-cache\\hosted\\pub.dartlang.org\\wakelock_web-0.1.0+3\\

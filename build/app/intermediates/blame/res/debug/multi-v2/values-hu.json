@@ -4,7 +4,7 @@
             "outputFile": "C:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\incremental\\mergeDebugResources\\merged.dir\\values-hu\\values-hu.xml",
             "map": [
                 {
-                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\6ea57beb25df4dd8366b6ae170e4c797\\jetified-play-services-basement-17.5.0\\res\\values-hu\\values.xml",
+                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\133207727ddd41dceffcd53a5637a16c\\jetified-play-services-basement-17.0.0\\res\\values-hu\\values.xml",
                     "from": {
                         "startLines": "4",
                         "startColumns": "0",
@@ -18,6 +18,23 @@
                         "startOffsets": "1343",
                         "endColumns": "235",
                         "endOffsets": "1574"
+                    }
+                },
+                {
+                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\e6856c7cff7219f18cbbcc5d8d7cecec\\core-1.1.0\\res\\values-hu\\values-hu.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "100",
+                        "endOffsets": "151"
+                    },
+                    "to": {
+                        "startLines": "20",
+                        "startColumns": "4",
+                        "startOffsets": "3022",
+                        "endColumns": "100",
+                        "endOffsets": "3118"
                     }
                 },
                 {
@@ -35,23 +52,6 @@
                         "startOffsets": "105,218,434,574,685,912,1052,1204,1579,1808,1918,2134,2273,2504,2706,2807,2905",
                         "endColumns": "112,215,139,110,226,139,151,138,228,109,215,138,230,201,100,97,116",
                         "endOffsets": "213,429,569,680,907,1047,1199,1338,1803,1913,2129,2268,2499,2701,2802,2900,3017"
-                    }
-                },
-                {
-                    "source": "C:\\Users\\eugen\\.gradle\\caches\\transforms-2\\files-2.1\\fa6f4e21abebe2d79db3175d07d54142\\core-1.2.0\\res\\values-hu\\values-hu.xml",
-                    "from": {
-                        "startLines": "2",
-                        "startColumns": "4",
-                        "startOffsets": "55",
-                        "endColumns": "100",
-                        "endOffsets": "151"
-                    },
-                    "to": {
-                        "startLines": "20",
-                        "startColumns": "4",
-                        "startOffsets": "3022",
-                        "endColumns": "100",
-                        "endOffsets": "3118"
                     }
                 }
             ]
