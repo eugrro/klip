@@ -1,10 +1,12 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
+import 'package:klip/currentUser.dart' as currentUser;
 import 'AddNewContent.dart';
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
@@ -51,7 +53,7 @@ class _NavigationState extends State<Navigation>
             physics: NeverScrollableScrollPhysics(),
             children: [
               HomePage(),
-              UserPage(),
+              UserPage(currentUser.uid),
             ],
           ),
           bottomNavigationBar: Container(
@@ -367,6 +369,8 @@ class _NavigationState extends State<Navigation>
                         setState(() {
                           contentTypeSelected = 3;
                         });
+                        Navigator.push(context,
+                            SlideInRoute(page: AddNewText(), direction: 0));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,

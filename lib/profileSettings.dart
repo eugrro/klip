@@ -62,7 +62,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: GestureDetector(
                           onTap: () {
                             Navigator.pop(
-                                context, SlideDownRoute(page: UserPage()));
+                                context,
+                                SlideDownRoute(
+                                    page: UserPage(currentUser.uid)));
                           },
                           child: Padding(
                             padding: EdgeInsets.only(

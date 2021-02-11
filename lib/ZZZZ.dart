@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klip/currentUser.dart' as currentUser;
 import './Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 

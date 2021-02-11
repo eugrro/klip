@@ -96,6 +96,10 @@ Future<String> signIn(String user, String pass) async {
   return "";
 }
 
+Future<void> resetPassword(String email) async {
+  await _auth.sendPasswordResetEmail(email: email);
+}
+
 Future<String> postUser(String uid, String fName, String lName, String uName,
     {int numViews = 0, int numKredits = 0}) async {
   var response;

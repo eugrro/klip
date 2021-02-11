@@ -3,7 +3,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import './Constants.dart' as Constants;
+import 'package:klip/currentUser.dart' as currentUser;
 import 'package:klip/widgets.dart';
+import 'Requests.dart';
 
 class AddNewImage extends StatefulWidget {
   @override
@@ -139,8 +141,11 @@ class _AddNewImageState extends State<AddNewImage> {
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          _showPicker(context);
+                        onTap: () async {
+                          //_showPicker(context);
+                          //temporary to remove
+                          uploadImage(
+                              await getImageFromGallery(), currentUser.uid);
                         },
                         child: Column(
                           children: [

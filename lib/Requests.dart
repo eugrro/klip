@@ -39,6 +39,32 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
   return "";
 }
 
+Future<String> addComment(String uid, String pid, String comm) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+      "uid": uid,
+      "comm": comm,
+    };
+    String reqString = Constants.nodeURL + "addComment";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.body);
+      if (response.body is String) return response.body;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}
+
 // ignore: missing_return
 Future<String> testConnection() async {
   var response;
@@ -83,6 +109,38 @@ Future<String> uploadImage(String filePath, String uid) async {
         'record': null
       });
       String uri = Constants.nodeURL + "uploadContent";
+      print("Sending post request to: " + uri);
+      response = await dio.post(uri, data: formData);
+      print(response);
+      return "";
+    }
+  } catch (e) {
+    print("ERROR on Uploading Image: " + e.toString());
+  }
+}
+
+// ignore: missing_return
+Future<String> uploadKlip(String filePath, String uid) async {
+  try {
+    if (filePath != "") {
+      print("FILEPATH: " + filePath);
+      String fileName = uid +
+          "_" +
+          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      FormData formData = new FormData.fromMap({
+        'path': '/uploads',
+        'uid': uid,
+        "avatar": currentUser.avatarLink,
+        "uname": currentUser.uName,
+        "file": await MultipartFile.fromFile(
+          filePath,
+          filename: fileName,
+          //TODO figure out the actual type of the files
+          contentType: MediaType('video', 'mp4'),
+        ),
+        'record': null
+      });
+      String uri = Constants.nodeURL + "uploadKlip";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
       print(response);
@@ -166,4 +224,38 @@ Future<String> getListOfContent() async {
     print("Ran Into Error!" + err.toString());
     return "";
   }
+}
+
+Future<String> addTextContent(String uid, String title, String body) async {
+  var response;
+
+  String fileName = uid +
+      "_" +
+      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+
+  try {
+    Map<String, String> params = {
+      "pid": fileName,
+      "uid": uid,
+      "avatar": currentUser.avatarLink,
+      "uname": currentUser.uName,
+      "title": title,
+      "body": body,
+    };
+    String reqString = Constants.nodeURL + "addTextContent";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.body);
+      if (response.body is String) return response.body;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
 }
