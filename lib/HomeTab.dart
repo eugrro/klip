@@ -46,14 +46,14 @@ class _HomeTabState extends State<HomeTab> {
       children: <Widget>[
         Expanded(
           child: FutureBuilder(
-            future: memoizer.runOnce(() => getListOfContent()),
+            future: memoizer.runOnce(() => getXboxClips("eugro")),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 // Build the widget with data.
                 print("Home Page Displayed");
                 return Center(
-                  child: buildContent(snapshot.data),
-                );
+                    //child: buildContent(snapshot.data),
+                    );
               } else {
                 return SizedBox.shrink(
                   child: CircularProgressIndicator(),

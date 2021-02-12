@@ -259,3 +259,27 @@ Future<String> addTextContent(String uid, String title, String body) async {
   }
   return "";
 }
+
+Future<String> getXboxClips(String gamertag) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "gamertag": gamertag,
+    };
+    String reqString = Constants.nodeURL + "getXboxClips";
+    print("Sending Request To: " + reqString);
+
+    response = await http.get(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.body);
+      if (response.body is String) return response.body;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}
