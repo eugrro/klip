@@ -1,4 +1,4 @@
-#Thu Feb 11 14:12:29 EST 2021
+#Fri Feb 19 15:52:03 EST 2021
 base.0=C\:\\Users\\eugen\\Documents\\klip\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.1=classes2.dex
 renamed.1=classes2.dex
