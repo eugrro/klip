@@ -5,6 +5,8 @@
 *.swp
 *.apk
 *.bin
+*.xml
+*.flat
 .DS_Store
 .atom/
 .buildlog/
@@ -44,3 +46,9 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
     enter code here
+lib/HomeTab.dart
+build/app/outputs/flutter-apk/app-debug.apk
+build/app/intermediates/flutter/debug/libs.jar
+build/app/intermediates/flutter/debug/.last_build_id
+build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/IIdct2ITJeS_ZUM0EIVGsHx2dFE=
+build/app/intermediates/stripped_native_libs/debug/out/lib/x86_64/libflutter.so

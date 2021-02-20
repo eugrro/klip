@@ -18,6 +18,7 @@ class _LoginState extends State<Login> {
   TextEditingController userNameController;
   TextEditingController passwordController;
   TextEditingController passwordConfirmController;
+  TextEditingController passwordResetController;
 
   double heightOfButtons = 45;
 
@@ -31,6 +32,7 @@ class _LoginState extends State<Login> {
     passwordController = TextEditingController();
     userNameController = TextEditingController();
     passwordConfirmController = TextEditingController();
+    passwordResetController = TextEditingController();
     super.initState();
   }
 
@@ -390,9 +392,50 @@ class _LoginState extends State<Login> {
                       //==========================================================
                       //==========================================================
                       //==========================================================
-                      Container(
-                        color: Colors.green,
-                      )
+                      Column(
+                        children: [
+                          Text(
+                            "Enter your email to reset your password",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 16 + Constants.textChange,
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.all(
+                                MediaQuery.of(context).size.width * .1),
+                            child: klipTextField(
+                              80,
+                              MediaQuery.of(context).size.width * .8,
+                              passwordResetController,
+                            ),
+                          ),
+                          GestureDetector(
+                            onTap: () {
+                              if (passwordResetController.text.isNotEmpty) {
+                                resetPassword(passwordResetController.text);
+                              }
+                            },
+                            child: Container(
+                              height: heightOfButtons,
+                              width: MediaQuery.of(context).size.width * .5,
+                              decoration: BoxDecoration(
+                                color: Constants.purpleColor,
+                                borderRadius: BorderRadius.circular(8),
+                              ),
+                              child: Center(
+                                child: Text(
+                                  "Reset",
+                                  style: TextStyle(
+                                    color: Constants.backgroundWhite,
+                                    fontSize: 18 + Constants.textChange,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ],
                   ),
                 ),

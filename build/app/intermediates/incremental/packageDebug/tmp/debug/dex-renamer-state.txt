@@ -1,7 +1,7 @@
-#Tue Dec 15 15:00:39 EST 2020
-base.0=C\:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
+#Fri Feb 19 15:52:03 EST 2021
+base.0=C\:\\Users\\eugen\\Documents\\klip\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes.dex
 path.1=classes2.dex
 renamed.1=classes2.dex
 path.0=classes.dex
 renamed.0=classes.dex
-base.1=C\:\\Users\\eugen\\Documents\\klip_\\klip\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes2.dex
+base.1=C\:\\Users\\eugen\\Documents\\klip\\build\\app\\intermediates\\dex\\debug\\mergeDexDebug\\out\\classes2.dex

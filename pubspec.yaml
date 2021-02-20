@@ -14,33 +14,32 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
     sdk: flutter
   flappy_search_bar: ^1.4.1
-  video_player: '>=0.10.0 <2.0.0'
   toast: ^0.1.5
   flutter_signin_button: ^1.1.0
   firebase_core: ^0.5.0+1
   firebase_auth: ^0.18.1+2
   google_sign_in: ^4.5.3
   auto_size_text: ^2.1.0
-  image_picker: ^0.6.6+5
+  image_picker: ^0.6.2+17
   dio: ^3.0.10
   linked_scroll_controller: ^0.1.2
+  mime: ^0.9.7
+  video_player: ^1.0.1
+  better_player: ^0.0.37
+  cupertino_icons: ^1.0.0
+  chewie: ^0.12.0
 
   
   simple_image_crop:
     git:
       url: git://github.com/eugrro/flutter_simple_image_crop.git
       
-
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.3
 
 dev_dependencies:
   flutter_test:

@@ -9,13 +9,17 @@ import 'TopNavBar.dart';
 import 'TopSection.dart';
 
 class UserPage extends StatefulWidget {
-  UserPage();
+  String uid;
+  UserPage(this.uid);
 
   @override
-  _UserPageState createState() => _UserPageState();
+  _UserPageState createState() => _UserPageState(uid);
 }
 
 class _UserPageState extends State<UserPage> {
+  String uid;
+  _UserPageState(this.uid);
+
   @override
   void initState() {
     super.initState();
@@ -43,31 +47,34 @@ class _UserPageState extends State<UserPage> {
                     ),
                   ),
                 ),
-                Align(
-                    alignment: Alignment.centerRight,
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          SlideInRoute(
-                            page: ProfileSettings(),
-                            direction: 0,
+                currentUser.uid == uid
+                    ? Align(
+                        alignment: Alignment.centerRight,
+                        child: GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              SlideInRoute(
+                                page: ProfileSettings(),
+                                direction: 0,
+                              ),
+                            ).then((value) {
+                              print("RETURNED TO USER PAGE");
+                              setState(() {});
+                            });
+                          },
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              right: MediaQuery.of(context).size.width / 30,
+                            ),
+                            child: Icon(
+                              Icons.settings,
+                              color: Constants.backgroundWhite,
+                            ),
                           ),
-                        ).then((value) {
-                          print("RETURNED TO USER PAGE");
-                          setState(() {});
-                        });
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          right: MediaQuery.of(context).size.width / 30,
                         ),
-                        child: Icon(
-                          Icons.settings,
-                          color: Constants.backgroundWhite,
-                        ),
-                      ),
-                    )),
+                      )
+                    : Container(),
               ],
             ),
           ),

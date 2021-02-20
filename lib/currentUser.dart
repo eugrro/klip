@@ -9,7 +9,7 @@ int numViews = 0;
 int numKredits = 0;
 String bio = "Sample bio text for the current user";
 String avatarLink =
-    "https://klip-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
+    "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
 Image userProfileImg = Image.network(avatarLink);
 
 String getFullName() {

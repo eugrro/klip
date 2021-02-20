@@ -1,28 +1,33 @@
 import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
+import 'package:klip/currentUser.dart' as currentUser;
 import 'package:klip/widgets.dart';
+import 'Requests.dart';
 
+// ignore: must_be_immutable
 class CommentsPage extends StatefulWidget {
+  String pid;
+  List<dynamic> comments;
+  CommentsPage(this.pid, this.comments);
+
   @override
-  _CommentsPageState createState() => _CommentsPageState();
+  _CommentsPageState createState() => _CommentsPageState(pid, comments);
 }
 
 class _CommentsPageState extends State<CommentsPage> {
+  String pid;
+  List<dynamic> comments;
+  _CommentsPageState(this.pid, this.comments);
+
   TextEditingController commentController = TextEditingController();
   double heightOfCommentBox;
   double heightOfTopPart;
-  List<String> comments;
 
   @override
   void initState() {
     super.initState();
     heightOfCommentBox = 90;
     heightOfTopPart = 50;
-    comments = [
-      "Woah what an Epic Pic",
-      "Photo Creds?",
-      "i wish i wuz dis k00l"
-    ];
   }
 
   @override
@@ -144,13 +149,18 @@ class _CommentsPageState extends State<CommentsPage> {
                           ),
                           GestureDetector(
                             onTap: () {
+                              print("Post ID: ");
+                              print(pid);
                               if (commentController.text.isNotEmpty) {
                                 setState(() {
                                   comments.add(commentController.text);
-                                  commentController.text = "";
+
                                   FocusScope.of(context)
                                       .requestFocus(new FocusNode());
                                 });
+                                addComment(currentUser.uid, pid,
+                                    commentController.text);
+                                commentController.text = "";
                               }
                             },
                             child: Text(
