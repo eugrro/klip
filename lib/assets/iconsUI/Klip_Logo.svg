@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="219" height="129" viewBox="0 0 219 129">
+  <defs>
+    <linearGradient id="linear-gradient" x1="1" y1="0.337" x2="0.5" y2="1.507" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#6a5daa"/>
+      <stop offset="1" stop-color="#e36aa6"/>
+    </linearGradient>
+    <linearGradient id="linear-gradient-3" x1="0.5" x2="0.5" y2="1" gradientUnits="objectBoundingBox">
+      <stop offset="0" stop-color="#e36aa6"/>
+      <stop offset="1" stop-color="#6a5daa"/>
+    </linearGradient>
+  </defs>
+  <g id="Group_2" data-name="Group 2" transform="translate(-107.921 -171.501)">
+    <rect id="Rectangle_2" data-name="Rectangle 2" width="15" height="82" transform="translate(205.921 195.501)" fill="#fff"/>
+    <rect id="Rectangle_3" data-name="Rectangle 3" width="16" height="57" transform="translate(236.921 220.501)" fill="#fff"/>
+    <g id="Group_1" data-name="Group 1" transform="translate(108 172)">
+      <rect id="Rectangle_1" data-name="Rectangle 1" width="17" height="106" transform="translate(-0.079 -0.499)" fill="url(#linear-gradient)"/>
+      <path id="Path_2" data-name="Path 2" d="M1096.9,91.972c-8.131-6.343-50.285-38.68-50.285-38.68V35.386s39.816-38.305,44.537-43.14,9.718-3.6,12.363-.822,3.455,6.433-1.781,11.929-41.268,41.256-41.268,41.256l46.663,36.179s6.655,5.32,2.111,10.65C1109.243,91.438,1105.033,98.315,1096.9,91.972Z" transform="translate(-1023.746 11.021)" fill="url(#linear-gradient)"/>
+    </g>
+    <path id="Polygon_1" data-name="Polygon 1" d="M11.678,5.979a4,4,0,0,1,6.923,0l8.2,14.168a4,4,0,0,1-3.462,6H6.938a4,4,0,0,1-3.462-6Z" transform="translate(261.465 189.205) rotate(90)" fill="url(#linear-gradient-3)"/>
+    <path id="Union_1" data-name="Union 1" d="M0,83V2.766H15.19V5.118A25.266,25.266,0,0,1,30.381,0,25.975,25.975,0,0,1,49.911,9.116,33.019,33.019,0,0,1,58,31.125a33.019,33.019,0,0,1-8.089,22.009A25.975,25.975,0,0,1,30.381,62.25a25.266,25.266,0,0,1-15.19-5.118V83ZM27.619,49.8c9.138,0,16.571-8.378,16.571-18.675S36.757,12.45,27.619,12.45A15.81,15.81,0,0,0,15.19,18.786V43.464A15.81,15.81,0,0,0,27.619,49.8Z" transform="translate(268.921 217.501)" fill="#fff"/>
+  </g>
+</svg>

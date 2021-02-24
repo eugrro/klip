@@ -33,6 +33,7 @@ dependencies:
   video_player: ^1.0.1
   better_player: ^0.0.37
   cupertino_icons: ^1.0.0
+  flutter_svg: ^0.18.0
   chewie: ^0.12.0
 
   
@@ -62,6 +63,7 @@ flutter:
   assets:
      - lib/assets/vids/
      - lib/assets/images/
+     - lib/assets/iconsUI/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

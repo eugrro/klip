@@ -37,252 +37,250 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Constants.backgroundBlack,
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: 10,
-                ),
-                child: Stack(
-                  children: [
-                    Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        currentUser.uName,
-                        style: TextStyle(
-                          fontSize: 24 + Constants.textChange,
-                          color: Constants.backgroundWhite,
-                        ),
-                      ),
-                    ),
-                    Align(
-                        alignment: Alignment.centerLeft,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.pop(
-                                context,
-                                SlideDownRoute(
-                                    page: UserPage(currentUser.uid)));
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: MediaQuery.of(context).size.width / 30,
-                            ),
-                            child: Icon(
-                              Icons.arrow_back,
-                              color: Constants.backgroundWhite,
-                            ),
-                          ),
-                        )),
-                  ],
-                ),
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(
+                bottom: 10,
               ),
-              Stack(
+              child: Stack(
                 children: [
-                  Opacity(
-                    opacity: .4,
-                    child: Container(
-                      width: 130,
-                      child: ClipOval(
-                        child: currentUser.userProfileImg,
+                  Align(
+                    alignment: Alignment.center,
+                    child: Text(
+                      currentUser.uName,
+                      style: TextStyle(
+                        fontSize: 24 + Constants.textChange,
+                        color: Constants.backgroundWhite,
                       ),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: CircleAvatar(
-                      radius: 65,
-                      backgroundColor: Colors.transparent,
-                      child: Center(
+                  Align(
+                      alignment: Alignment.centerLeft,
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.pop(
+                              context,
+                              SlideDownRoute(
+                                  page: UserPage(currentUser.uid)));
+                        },
                         child: Padding(
-                          padding: EdgeInsets.only(top: 60),
-                          child: Text(
-                            "Click to change\nprofile picture",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Constants.hintColor,
-                              fontSize: 13 + Constants.textChange,
-                            ),
+                          padding: EdgeInsets.only(
+                            left: MediaQuery.of(context).size.width / 30,
+                          ),
+                          child: Icon(
+                            Icons.arrow_back,
+                            color: Constants.backgroundWhite,
+                          ),
+                        ),
+                      )),
+                ],
+              ),
+            ),
+            Stack(
+              children: [
+                Opacity(
+                  opacity: .4,
+                  child: Container(
+                    width: 130,
+                    child: ClipOval(
+                      child: currentUser.userProfileImg,
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    _showPicker(context);
+                  },
+                  child: CircleAvatar(
+                    radius: 65,
+                    backgroundColor: Colors.transparent,
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 60),
+                        child: Text(
+                          "Click to change\nprofile picture",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: Constants.hintColor,
+                            fontSize: 13 + Constants.textChange,
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 15,
-                  horizontal: 20,
                 ),
-                child: AbsorbPointer(
-                  absorbing: !editingBio,
-                  child: TextFormField(
-                    textAlign: TextAlign.center,
-                    //enabled: editingBio,
-                    onTap: () {
-                      if (!editingBio) {
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(
+                vertical: 15,
+                horizontal: 20,
+              ),
+              child: AbsorbPointer(
+                absorbing: !editingBio,
+                child: TextFormField(
+                  textAlign: TextAlign.center,
+                  //enabled: editingBio,
+                  onTap: () {
+                    if (!editingBio) {
+                      biofcs.unfocus();
+                    }
+                  },
+                  focusNode: biofcs,
+                  cursorColor: Constants.purpleColor,
+                  decoration: new InputDecoration(
+                    border: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    //errorBorder: InputBorder.none,
+                    //disabledBorder: InputBorder.none,
+                    contentPadding: EdgeInsets.only(
+                      left: 15,
+                      bottom: 0,
+                      top: 0,
+                      right: 15,
+                    ),
+                  ),
+                  controller: bioContr,
+                  style: TextStyle(
+                    color: Constants.backgroundWhite,
+                    fontSize: 16 + Constants.textChange,
+                  ),
+                ),
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (editingBio) {
+                      setState(() {
+                        editingBio = false;
                         biofcs.unfocus();
-                      }
-                    },
-                    focusNode: biofcs,
-                    cursorColor: Constants.purpleColor,
-                    decoration: new InputDecoration(
-                      border: InputBorder.none,
-                      focusedBorder: InputBorder.none,
-                      enabledBorder: InputBorder.none,
-                      //errorBorder: InputBorder.none,
-                      //disabledBorder: InputBorder.none,
-                      contentPadding: EdgeInsets.only(
-                        left: 15,
-                        bottom: 0,
-                        top: 0,
-                        right: 15,
-                      ),
+                      });
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .4,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Constants.purpleColor,
                     ),
-                    controller: bioContr,
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 16 + Constants.textChange,
-                    ),
+                    child: Center(
+                        child: editingBio
+                            ? Text("Cancel", style: Constants.tStyle())
+                            : Text("Edit Background",
+                                style: Constants.tStyle())),
                   ),
                 ),
-              ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (editingBio) {
-                        setState(() {
-                          editingBio = false;
-                          biofcs.unfocus();
-                        });
-                      }
-                    },
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * .4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: kElevationToShadow[3],
-                        color: Constants.purpleColor,
-                      ),
-                      child: Center(
-                          child: editingBio
-                              ? Text("Cancel", style: Constants.tStyle())
-                              : Text("Edit Background",
-                                  style: Constants.tStyle())),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      if (!editingBio) {
-                        setState(() {
-                          editingBio = true;
+                GestureDetector(
+                  onTap: () {
+                    if (!editingBio) {
+                      setState(() {
+                        editingBio = true;
 
-                          biofcs.requestFocus();
-                        });
-                      } else if (editingBio) {
-                        setState(() {
-                          editingBio = false;
-                          currentUser.bio = bioContr.text;
-                          biofcs.unfocus();
-                        });
-                      }
-                    },
-                    child: Container(
-                      height: 40,
-                      width: MediaQuery.of(context).size.width * .4,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        boxShadow: kElevationToShadow[3],
-                        color: Constants.purpleColor,
+                        biofcs.requestFocus();
+                      });
+                    } else if (editingBio) {
+                      setState(() {
+                        editingBio = false;
+                        currentUser.bio = bioContr.text;
+                        biofcs.unfocus();
+                      });
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .4,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Constants.purpleColor,
+                    ),
+                    child: Center(
+                        child: editingBio
+                            ? Text("Save", style: Constants.tStyle())
+                            : Text("Edit Bio", style: Constants.tStyle())),
+                  ),
+                ),
+              ],
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(
+                vertical: 10,
+              ),
+              child: Container(
+                height: 2,
+                width: MediaQuery.of(context).size.width,
+                color: Constants.purpleColor,
+              ),
+            ),
+            Center(
+              child: ListView(
+                padding: EdgeInsets.zero,
+                shrinkWrap: true,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(top: 5, bottom: 10),
+                    child: Center(
+                      child: Text(
+                        "Your Information",
+                        style: TextStyle(
+                          color: Constants.backgroundWhite,
+                          fontSize: 17 + Constants.textChange,
+                        ),
                       ),
-                      child: Center(
-                          child: editingBio
-                              ? Text("Save", style: Constants.tStyle())
-                              : Text("Edit Bio", style: Constants.tStyle())),
                     ),
                   ),
+                  /*Container(
+                    height: 2,
+                    color: Constants.purpleColor,
+                    margin: EdgeInsets.symmetric(
+                        horizontal: MediaQuery.of(context).size.width / 4),
+                  ),*/
+
+                  settingsCard(context, "First Name", currentUser.fName,
+                      "Change your first name", false, true),
+                  settingsCard(context, "Last Name", currentUser.lName,
+                      "Change your last name", false, true),
+                  settingsCard(context, "Email", currentUser.email,
+                      "Change your email", false, true),
+                  settingsCard(context, "Username", currentUser.uName,
+                      "Change your first name", false, true),
+                  settingsCard(context, "Password", "* * * * * * * *",
+                      "Request to update your password", false, false),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Center(
+                      child: Text(
+                        "Preferences",
+                        style: TextStyle(
+                          color: Constants.backgroundWhite,
+                          fontSize: 17 + Constants.textChange,
+                        ),
+                      ),
+                    ),
+                  ),
+                  settingsCard(context, "Theme", "Dark",
+                      "Update your theme preference", false, true),
+                  settingsCard(
+                      context,
+                      "Show Username",
+                      "Show First + Fast Name",
+                      "Change how you will be displayed on the app",
+                      false,
+                      true),
+                  settingsCard(context, "Comment Color", "Purple",
+                      "Change your prefered comment color", false, true),
                 ],
               ),
-              Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 10,
-                ),
-                child: Container(
-                  height: 2,
-                  width: MediaQuery.of(context).size.width,
-                  color: Constants.purpleColor,
-                ),
-              ),
-              Center(
-                child: ListView(
-                  padding: EdgeInsets.zero,
-                  shrinkWrap: true,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(top: 5, bottom: 10),
-                      child: Center(
-                        child: Text(
-                          "Your Information",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 17 + Constants.textChange,
-                          ),
-                        ),
-                      ),
-                    ),
-                    /*Container(
-                      height: 2,
-                      color: Constants.purpleColor,
-                      margin: EdgeInsets.symmetric(
-                          horizontal: MediaQuery.of(context).size.width / 4),
-                    ),*/
-
-                    settingsCard(context, "First Name", currentUser.fName,
-                        "Change your first name", false, true),
-                    settingsCard(context, "Last Name", currentUser.lName,
-                        "Change your last name", false, true),
-                    settingsCard(context, "Email", currentUser.email,
-                        "Change your email", false, true),
-                    settingsCard(context, "Username", currentUser.uName,
-                        "Change your first name", false, true),
-                    settingsCard(context, "Password", "* * * * * * * *",
-                        "Request to update your password", false, false),
-                    Padding(
-                      padding: EdgeInsets.only(top: 10, bottom: 10),
-                      child: Center(
-                        child: Text(
-                          "Preferences",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 17 + Constants.textChange,
-                          ),
-                        ),
-                      ),
-                    ),
-                    settingsCard(context, "Theme", "Dark",
-                        "Update your theme preference", false, true),
-                    settingsCard(
-                        context,
-                        "Show Username",
-                        "Show First + Fast Name",
-                        "Change how you will be displayed on the app",
-                        false,
-                        true),
-                    settingsCard(context, "Comment Color", "Purple",
-                        "Change your prefered comment color", false, true),
-                  ],
-                ),
-              ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

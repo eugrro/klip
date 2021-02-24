@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:klip/Requests.dart';
 import 'package:klip/commentsPage.dart';
 import 'package:klip/currentUser.dart' as currentUser;
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/widgets.dart';
 import 'package:video_player/video_player.dart';
 import 'dart:convert' as convert;
@@ -149,29 +150,11 @@ class _HomeTabState extends State<HomeTab> {
                     color: Constants.backgroundWhite,
                   ),
                 ),
+                Icon(
+                  Icons.circle,
+                  color: Constants.backgroundWhite,
+                ),
               ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                right: 10,
-              ),
-              child: Container(
-                width: 65,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Constants.purpleColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Text(
-                    "Follow +",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 10 + Constants.textChange,
-                    ),
-                  ),
-                ),
-              ),
             ),
           ],
         ),
@@ -283,138 +266,164 @@ class _HomeTabState extends State<HomeTab> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: NetworkImage(obj[position]["avatar"]),
-                  ),
-                ),
-                Text(
-                  obj[position]["uname"],
-                  style: TextStyle(
-                    color: Constants.backgroundWhite,
-                  ),
-                ),
-              ],
+            Padding(
+              padding: EdgeInsets.only(
+                left: 10,
+                right: 10,
+              ),
+              child: CircleAvatar(
+                radius: 13,
+                backgroundImage: NetworkImage(obj[position]["avatar"]),
+              ),
+            ),
+            Text(
+              obj[position]["uname"],
+              style: TextStyle(
+                color: Constants.backgroundWhite.withOpacity(.7),
+                fontSize: 12 + Constants.textChange,
+              ),
             ),
             Padding(
               padding: EdgeInsets.only(
-                right: 10,
+                left: 6,
+                right: 6,
+                top: 2,
               ),
-              child: Container(
-                width: 65,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Constants.purpleColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Text(
-                    "Follow +",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 10 + Constants.textChange,
-                    ),
-                  ),
-                ),
+              child: Icon(
+                Icons.circle,
+                color: Constants.backgroundWhite,
+                size: 5,
               ),
             ),
+            Text(
+              "Follow",
+              style: TextStyle(
+                color: Constants.purpleColor,
+              ),
+            )
           ],
         ),
-        Container(
-          height: 5,
-        ),
-        /*Container(
-                      height: 1,
-                      color: Constants.purpleColor,
-                    ),*/
-        Image.network(obj[position]["link"]),
-        /*Container(
-                      height: 1,
-                      color: Constants.purpleColor,
-                    ),*/
         Container(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "+1",
+        Align(
+          alignment: Alignment.centerLeft,
+          child: Padding(
+            padding: EdgeInsets.only(left: 15),
+            child: Text(
+              obj[position]["title"],
               style: TextStyle(
-                fontSize: 22 + Constants.textChange,
                 color: Constants.backgroundWhite,
+                fontSize: 16 + Constants.textChange,
               ),
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(
-                        context,
-                        SlideInRoute(
-                            page: CommentsPage(
-                                obj[position]["pid"], obj[position]["comm"]),
-                            direction: 2))
-                    .then((value) {
-                  print("RETURNED TO USER PAGE");
-                  setState(() {});
-                });
-              },
-              child: Image.asset(
-                "lib/assets/images/commentsIcon.png",
-                color: Constants.backgroundWhite,
-                height: 35,
-                width: 35,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.network(obj[position]["link"]),
+        ),
+        Container(
+          height: 10,
+        ),
+        Container(
+          height: .8,
+          width: MediaQuery.of(context).size.width * .90,
+          color: Constants.purpleColor,
+        ),
+        Padding(
+          padding: EdgeInsets.only(
+            top: 10,
+            bottom: 10,
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    "lib/assets/iconsUI/+1Icon.svg",
+                    semanticsLabel: '+1 Icon',
+                    width: 20,
+                    height: 20,
+                  ),
+                  Container(
+                    width: 5,
+                  ),
+                  Text(
+                    "1, 345",
+                    style: TextStyle(
+                      color: Constants.backgroundWhite,
+                      fontSize: 14 + Constants.textChange,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            Image.asset(
-              "lib/assets/images/shareIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-            Image.asset(
-              "lib/assets/images/downarrowIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-          ],
+              GestureDetector(
+                onTap: () {
+                  Navigator.push(
+                          context,
+                          SlideInRoute(
+                              page: CommentsPage(
+                                  obj[position]["pid"], obj[position]["comm"]),
+                              direction: 2))
+                      .then((value) {
+                    print("RETURNED TO USER PAGE");
+                    setState(() {});
+                  });
+                },
+                child: Row(
+                  children: [
+                    SvgPicture.asset(
+                      "lib/assets/iconsUI/commentIcon.svg",
+                      semanticsLabel: 'commentIcon',
+                      width: 20,
+                      height: 20,
+                    ),
+                    Container(
+                      width: 5,
+                    ),
+                    Text(
+                      "2",
+                      style: TextStyle(
+                        color: Constants.backgroundWhite,
+                        fontSize: 14 + Constants.textChange,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    "lib/assets/iconsUI/kreditIcon.svg",
+                    semanticsLabel: '+1 Icon',
+                    width: 20,
+                    height: 20,
+                  ),
+                  Container(
+                    width: 5,
+                  ),
+                  Text(
+                    "120",
+                    style: TextStyle(
+                      color: Constants.backgroundWhite,
+                      fontSize: 14 + Constants.textChange,
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
         Container(
-          height: 5,
-        ),
-        Container(
-          height: 2,
+          height: .8,
           width: MediaQuery.of(context).size.width * .9,
           color: Constants.purpleColor,
         ),
         Container(
           height: 5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "1,171 Klout",
-              style: ts,
-            ),
-            Text(
-              "73 Comments",
-              style: ts,
-            ),
-            Text(
-              "1,200 K",
-              style: ts,
-            ),
-          ],
         ),
         showComments ? commentsWidget() : Container(),
       ],

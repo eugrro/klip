@@ -39,13 +39,17 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
   return "";
 }
 
-Future<String> addComment(String uid, String pid, String comm) async {
+Future<String> addComment(String pid, String uid, String uname,
+    String avatarLink, String comm, String time) async {
   var response;
   try {
     Map<String, String> params = {
       "pid": pid,
       "uid": uid,
+      "uname": uname,
+      "avatarLink": avatarLink,
       "comm": comm,
+      "time": time,
     };
     String reqString = Constants.nodeURL + "addComment";
     print("Sending Request To: " + reqString);

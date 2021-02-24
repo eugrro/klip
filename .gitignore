@@ -38,6 +38,7 @@
 # Web related
 lib/generated_plugin_registrant.dart
 lib/server/node_modules
+lib/server/rootkey.csv
 android
 
 # Symbolication related
@@ -46,7 +47,6 @@ app.*.symbols
 # Obfuscation related
 app.*.map.json
     enter code here
-lib/HomeTab.dart
 build/app/outputs/flutter-apk/app-debug.apk
 build/app/intermediates/flutter/debug/libs.jar
 build/app/intermediates/flutter/debug/.last_build_id
