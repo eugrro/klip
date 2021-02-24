@@ -30,15 +30,9 @@ class _NavigationState extends State<Navigation>
 
   PageController pageController;
 
-  double _leftPadding;
-  double _rightPadding;
-
   @override
   void initState() {
     pageController = PageController(initialPage: pagePosition);
-    _leftPadding = window.physicalSize.width / window.devicePixelRatio / 12;
-    _rightPadding =
-        window.physicalSize.width / window.devicePixelRatio / 12 * 9;
     super.initState();
   }
 
@@ -46,9 +40,9 @@ class _NavigationState extends State<Navigation>
   Widget build(BuildContext context) {
     return Material(
       type: MaterialType.transparency,
-      child: SafeArea(
-        child: Scaffold(
-          body: PageView(
+      child: Scaffold(
+        body: Stack(children: [
+          PageView(
             controller: pageController,
             physics: NeverScrollableScrollPhysics(),
             children: [
@@ -56,124 +50,83 @@ class _NavigationState extends State<Navigation>
               UserPage(currentUser.uid),
             ],
           ),
-          bottomNavigationBar: Container(
-            height: Constants.bottomNavBarHeight,
-            color: Constants.backgroundBlack,
-            child: Column(
-              children: [
-                AnimatedPadding(
-                  duration: const Duration(
-                    milliseconds: 180,
-                  ),
-                  //curve: Curves.linear,
-                  padding: EdgeInsets.only(
-                      left: _leftPadding, right: _rightPadding, top: 8),
-                  child: Container(
-                    height: 2,
-                    width: MediaQuery.of(context).size.width / 6,
-                    color: Constants.purpleColor,
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 10,
-                  ),
-                  child: Stack(
-                    children: [
-                      GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: 0,
-                          ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Icon(
-                              Icons.home,
-                              color: pagePosition == 0
-                                  ? Constants.purpleColor
-                                  : Constants.backgroundWhite,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            pagePosition = 0;
-                            pageController.animateToPage(pagePosition,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                            _leftPadding =
-                                MediaQuery.of(context).size.width / 12;
-                            _rightPadding =
-                                MediaQuery.of(context).size.width / 12 * 9;
-                          });
-                        },
-                      ),
-                      GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 3,
-                          ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Icon(
-                              Icons.add,
-                              color: pagePosition == -1
-                                  ? Constants.purpleColor
-                                  : Constants.backgroundWhite,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            pagePosition = -1;
-                            _leftPadding =
-                                MediaQuery.of(context).size.width / 12 * 5;
-                            _rightPadding =
-                                MediaQuery.of(context).size.width / 12 * 5;
-                          });
-                          /*Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => AddNewContent()),
-                          );*/
-                          _showTypePicker(context);
-                        },
-                      ),
-                      GestureDetector(
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                            left: MediaQuery.of(context).size.width / 3 * 2,
-                          ),
-                          child: Container(
-                            width: MediaQuery.of(context).size.width / 3,
-                            child: Icon(
-                              Icons.person_outline,
-                              color: pagePosition == 1
-                                  ? Constants.purpleColor
-                                  : Constants.backgroundWhite,
-                            ),
-                          ),
-                        ),
-                        onTap: () {
-                          setState(() {
-                            pagePosition = 1;
-                            pageController.animateToPage(pagePosition,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                            _leftPadding =
-                                MediaQuery.of(context).size.width / 12 * 9;
-                            _rightPadding =
-                                MediaQuery.of(context).size.width / 12;
-                          });
-                        },
+          Align(
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              height: Constants.bottomNavBarHeight + 20,
+              color: Colors.transparent,
+              child: Center(
+                child: Container(
+                  height: 45,
+                  width: MediaQuery.of(context).size.width / 10 * 8,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(20),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.3),
+                        spreadRadius: 2,
+                        blurRadius: 3,
+                        offset: Offset(0, 3.1), // changes position of shadow
                       ),
                     ],
+                    color: Constants.purpleColor.withOpacity(.3),
+                  ),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      left: 25,
+                      right: 25,
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              pagePosition = 0;
+                            });
+                            pageController.animateToPage(pagePosition,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease);
+                          },
+                          child: Icon(
+                            Icons.home_outlined,
+                            color: Constants.backgroundWhite.withOpacity(.6),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            _showTypePicker(context);
+                          },
+                          child: Icon(
+                            Icons.add_box_outlined,
+                            color: Constants.backgroundWhite.withOpacity(.6),
+                          ),
+                        ),
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              pagePosition = 1;
+                            });
+
+                            pageController.animateToPage(pagePosition,
+                                duration: Duration(milliseconds: 500),
+                                curve: Curves.ease);
+                          },
+                          child: Icon(
+                            Icons.person_outline_outlined,
+                            color: Constants.backgroundWhite.withOpacity(.6),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
-              ],
+              ),
             ),
           ),
-        ),
+        ]),
       ),
     );
   }

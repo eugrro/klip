@@ -27,7 +27,7 @@ class _CommentsPageState extends State<CommentsPage> {
   void initState() {
     super.initState();
     heightOfCommentBox = 90;
-    heightOfTopPart = 50;
+    heightOfTopPart = 60;
   }
 
   @override
@@ -50,34 +50,38 @@ class _CommentsPageState extends State<CommentsPage> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
+                      Stack(
                         children: [
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.of(context).pop();
-                            },
-                            child: Padding(
-                              padding: EdgeInsets.only(left: 10, right: 30),
-                              child: Icon(
-                                Icons.arrow_back,
-                                color: Constants.backgroundWhite,
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Padding(
+                                padding: EdgeInsets.only(left: 10, right: 30),
+                                child: Icon(
+                                  Icons.arrow_back,
+                                  color: Constants.backgroundWhite,
+                                ),
                               ),
                             ),
                           ),
-                          Text(
-                            "Comments",
-                            style: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 20 + Constants.textChange,
+                          Align(
+                            alignment: Alignment.center,
+                            child: Text(
+                              "Comments",
+                              style: TextStyle(
+                                color: Constants.backgroundWhite,
+                                fontSize: 20 + Constants.textChange,
+                              ),
                             ),
                           ),
                         ],
                       ),
                       Container(
-                        height: 1,
-                        width: MediaQuery.of(context).size.width * .5,
-                        color: Constants.backgroundWhite,
-                      ),
+                        height: 15,
+                      )
                     ],
                   ),
                 ),
@@ -96,19 +100,68 @@ class _CommentsPageState extends State<CommentsPage> {
                       return Padding(
                         padding: EdgeInsets.only(
                           top: 5,
-                          bottom: 15,
+                          bottom: 5,
                         ),
                         child: Container(
                           child: Padding(
                             padding: const EdgeInsets.only(
-                              left: 25,
+                              left: 20,
                             ),
-                            child: Text(
-                              '${comments[index]}',
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 16 + Constants.textChange,
-                              ),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                    right: 10,
+                                  ),
+                                  child: CircleAvatar(
+                                    radius: 15,
+                                    backgroundImage: NetworkImage(
+                                        comments[index][2]), //Profile Pic
+                                  ),
+                                ),
+                                //COMMENT GENERATION NEEDS TO BE A FUNCTION
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Text(
+                                          '${comments[index][1]}', //Uname
+                                          style: TextStyle(
+                                            color: Constants.backgroundWhite,
+                                            fontSize: 14 + Constants.textChange,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding:
+                                              EdgeInsets.only(left: 3, top: 2),
+                                          child: Text(
+                                            '${comments[index][3]}', // comment
+                                            style: TextStyle(
+                                              color: Constants.backgroundWhite,
+                                              fontSize:
+                                                  12 + Constants.textChange,
+                                              fontWeight: FontWeight.w300,
+                                            ),
+                                          ),
+                                        ),
+                                      ],
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(left: 0),
+                                      child: Text(
+                                        '${comments[index][4]}', //time posted
+                                        style: TextStyle(
+                                          color: Constants.backgroundWhite
+                                              .withOpacity(.3),
+                                          fontSize: 14 + Constants.textChange,
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
                         ),
@@ -124,11 +177,6 @@ class _CommentsPageState extends State<CommentsPage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      height: 1,
-                      width: MediaQuery.of(context).size.width * .5,
-                      color: Constants.backgroundWhite,
-                    ),
                     Padding(
                       padding: EdgeInsets.only(
                         top: 5,
@@ -153,13 +201,24 @@ class _CommentsPageState extends State<CommentsPage> {
                               print(pid);
                               if (commentController.text.isNotEmpty) {
                                 setState(() {
-                                  comments.add(commentController.text);
+                                  comments.add([
+                                    currentUser.uid,
+                                    currentUser.uName,
+                                    currentUser.avatarLink,
+                                    commentController.text,
+                                    "2h"
+                                  ]);
 
                                   FocusScope.of(context)
                                       .requestFocus(new FocusNode());
                                 });
-                                addComment(currentUser.uid, pid,
-                                    commentController.text);
+                                addComment(
+                                    pid,
+                                    currentUser.uid,
+                                    currentUser.uName,
+                                    currentUser.avatarLink,
+                                    commentController.text,
+                                    "2h");
                                 commentController.text = "";
                               }
                             },

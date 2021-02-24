@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import './Constants.dart' as Constants;
 
 class Post {
@@ -20,57 +22,33 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = new TextEditingController();
+    Constants.statusBarHeight = MediaQuery.of(context).padding.top;
     return Container(
       decoration: BoxDecoration(
-        color: Constants.backgroundBlack,
+        color: Constants.purpleColor.withOpacity(.3),
+        boxShadow: kElevationToShadow[2],
       ),
+      width: MediaQuery.of(context).size.width,
       child: Padding(
-        padding: const EdgeInsets.only(
-          top: 10,
+        padding: EdgeInsets.only(
+          top: Constants.statusBarHeight + 5,
           left: 15,
           right: 15,
+          bottom: 10,
         ),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Column(
-              children: [
-                Icon(
-                  Icons.search,
-                  color: Constants.backgroundWhite,
-                  size: 30,
-                ),
-                Container(
-                  height: 3,
-                ),
-                Text(
-                  "Search",
-                  style: TextStyle(
-                    color: Constants.backgroundWhite,
-                    fontSize: 12 + Constants.textChange,
-                  ),
-                ),
-              ],
+            SvgPicture.asset(
+              "lib/assets/iconsUI/Klip_Logo.svg",
+              semanticsLabel: 'Klip Logo',
+              width: 40,
+              height: 35,
             ),
-            Column(
-              children: [
-                Image.asset("lib/assets/images/logo6WhiteV2.png"),
-                Padding(
-                  padding: EdgeInsets.only(top: 5, bottom: 5),
-                  child: Container(
-                    width: MediaQuery.of(context).size.width / 3,
-                    height: 2,
-                    color: Constants.purpleColor,
-                  ),
-                )
-              ],
-            ),
-            Text(
-              "103 K",
-              style: TextStyle(
-                color: Constants.backgroundWhite,
-                fontSize: 18 + Constants.textChange,
-              ),
+            Icon(
+              Icons.search,
+              color: Constants.backgroundWhite,
+              size: 25,
             ),
           ],
         ),

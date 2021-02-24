@@ -16,13 +16,13 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
+    //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.dark,
-      ),
+          //statusBarColor: Constants.purpleColor.withOpacity(.00000),
+          //statusBarIconBrightness: Brightness.light,
+          //statusBarBrightness: Brightness.dark,
+          ),
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
