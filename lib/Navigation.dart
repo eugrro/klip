@@ -53,7 +53,7 @@ class _NavigationState extends State<Navigation>
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: Constants.bottomNavBarHeight + 20,
+              height: Constants.bottomNavBarHeight,
               color: Colors.transparent,
               child: Center(
                 child: Container(

@@ -31,7 +31,10 @@ class _AddNewContentState extends State<AddNewContent> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,
@@ -66,9 +69,7 @@ class _AddNewContentState extends State<AddNewContent> {
                   ),
                   child: Text(
                     "Upload Your Klip",
-                    style: TextStyle(
-                        fontSize: 14 + Constants.textChange,
-                        color: Constants.backgroundWhite),
+                    style: TextStyle(fontSize: 14 + Constants.textChange, color: Constants.backgroundWhite),
                   ),
                 ),
 
@@ -98,9 +99,7 @@ class _AddNewContentState extends State<AddNewContent> {
                   ),
                   child: Text(
                     "Title",
-                    style: TextStyle(
-                        fontSize: 14 + Constants.textChange,
-                        color: Constants.backgroundWhite),
+                    style: TextStyle(fontSize: 14 + Constants.textChange, color: Constants.backgroundWhite),
                   ),
                 ),
                 Padding(

@@ -40,7 +40,10 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     return new GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,
@@ -60,8 +63,7 @@ class _LoginState extends State<Login> {
                       width: 172,
                       decoration: new BoxDecoration(
                         image: DecorationImage(
-                          image:
-                              AssetImage('lib/assets/images/logo100White.png'),
+                          image: AssetImage('lib/assets/images/logo100White.png'),
                           fit: BoxFit.fill,
                         ),
                       ),
@@ -117,8 +119,7 @@ class _LoginState extends State<Login> {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width * .4 - 10,
+                                width: MediaQuery.of(context).size.width * .4 - 10,
                                 child: klipTextField(
                                   50,
                                   MediaQuery.of(context).size.width * .4 - 10,
@@ -129,8 +130,7 @@ class _LoginState extends State<Login> {
                               ),
                               Container(width: 20),
                               Container(
-                                width:
-                                    MediaQuery.of(context).size.width * .4 - 10,
+                                width: MediaQuery.of(context).size.width * .4 - 10,
                                 child: klipTextField(
                                   50,
                                   MediaQuery.of(context).size.width * .4 - 10,
@@ -150,15 +150,10 @@ class _LoginState extends State<Login> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    print("Signing Up with: " +
-                                        userNameController.text);
-                                    print("Signing Up with: " +
-                                        passwordController.text);
-                                    if (userNameController.text != null &&
-                                        passwordController != null) {
-                                      String uid = await signUp(
-                                          userNameController.text,
-                                          passwordController.text);
+                                    print("Signing Up with: " + userNameController.text);
+                                    print("Signing Up with: " + passwordController.text);
+                                    if (userNameController.text != null && passwordController != null) {
+                                      String uid = await signUp(userNameController.text, passwordController.text);
                                       if (uid != null) {
                                         currentUser.uid = uid;
                                         currentUser.fName = "Jon";
@@ -166,16 +161,12 @@ class _LoginState extends State<Login> {
                                         currentUser.uName = "jSnow123";
                                         currentUser.numKredits = 87;
                                         currentUser.numViews = 123;
-                                        String ret = await postUser(
-                                            uid, "Jon", "snow", "jSnow123",
-                                            numViews: 123, numKredits: 87);
+                                        String ret = await postUser(uid, "Jon", "snow", "jSnow123", numViews: 123, numKredits: 87);
                                         print(ret);
 
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Navigation()),
+                                          MaterialPageRoute(builder: (context) => Navigation()),
                                         );
                                       } else {
                                         throw "ERROR UID IS NULL";
@@ -184,8 +175,7 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Container(
                                     height: heightOfButtons,
-                                    width:
-                                        MediaQuery.of(context).size.width * .35,
+                                    width: MediaQuery.of(context).size.width * .35,
                                     decoration: BoxDecoration(
                                       color: Constants.purpleColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -214,8 +204,7 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Container(
                                     height: heightOfButtons,
-                                    width:
-                                        MediaQuery.of(context).size.width * .35,
+                                    width: MediaQuery.of(context).size.width * .35,
                                     decoration: BoxDecoration(
                                       color: Constants.purpleColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -271,8 +260,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                right: MediaQuery.of(context).size.width * .15),
+                            padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * .15),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
@@ -316,8 +304,7 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Container(
                                     height: heightOfButtons,
-                                    width:
-                                        MediaQuery.of(context).size.width * .35,
+                                    width: MediaQuery.of(context).size.width * .35,
                                     decoration: BoxDecoration(
                                       color: Constants.purpleColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -335,30 +322,21 @@ class _LoginState extends State<Login> {
                                 ),
                                 GestureDetector(
                                   onTap: () async {
-                                    print("Signing In with: " +
-                                        userNameController.text);
-                                    print("Signing In with: " +
-                                        passwordController.text);
-                                    if (userNameController.text != null &&
-                                        passwordController != null) {
-                                      String uid = await signIn(
-                                          userNameController.text,
-                                          passwordController.text);
+                                    print("Signing In with: " + userNameController.text);
+                                    print("Signing In with: " + passwordController.text);
+                                    if (userNameController.text != null && passwordController != null) {
+                                      String uid = await signIn(userNameController.text, passwordController.text);
                                       if (uid != null) {
                                         currentUser.uid = uid;
                                         var ret = await getUser(uid);
                                         currentUser.fName = ret["fname"];
                                         currentUser.lName = ret["lname"];
                                         currentUser.uName = ret["uname"];
-                                        currentUser.numKredits =
-                                            int.parse(ret["numkredits"]);
-                                        currentUser.numViews =
-                                            int.parse(ret["numviews"]);
+                                        currentUser.numKredits = int.parse(ret["numkredits"]);
+                                        currentUser.numViews = int.parse(ret["numviews"]);
                                         Navigator.push(
                                           context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  Navigation()),
+                                          MaterialPageRoute(builder: (context) => Navigation()),
                                         );
                                       } else {
                                         throw "ERROR UID IS NULL";
@@ -367,8 +345,7 @@ class _LoginState extends State<Login> {
                                   },
                                   child: Container(
                                     height: heightOfButtons,
-                                    width:
-                                        MediaQuery.of(context).size.width * .35,
+                                    width: MediaQuery.of(context).size.width * .35,
                                     decoration: BoxDecoration(
                                       color: Constants.purpleColor,
                                       borderRadius: BorderRadius.circular(8),
@@ -402,8 +379,7 @@ class _LoginState extends State<Login> {
                             ),
                           ),
                           Padding(
-                            padding: EdgeInsets.all(
-                                MediaQuery.of(context).size.width * .1),
+                            padding: EdgeInsets.all(MediaQuery.of(context).size.width * .1),
                             child: klipTextField(
                               80,
                               MediaQuery.of(context).size.width * .8,

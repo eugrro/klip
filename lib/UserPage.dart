@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
+import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
+import 'package:stripe_payment/stripe_payment.dart';
 import 'HomeTabs.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
@@ -23,6 +25,10 @@ class _UserPageState extends State<UserPage> {
   @override
   void initState() {
     super.initState();
+    StripePayment.setOptions(StripeOptions(
+      publishableKey: Constants.StripePKey,
+      androidPayMode: 'test',
+    ));
   }
 
   @override
@@ -33,155 +39,199 @@ class _UserPageState extends State<UserPage> {
         children: [
           Padding(
             padding: EdgeInsets.only(
-              bottom: 10,
+              top: Constants.statusBarHeight + 10,
             ),
             child: Stack(
               children: [
-                Align(
-                  alignment: Alignment.center,
-                  child: Text(
-                    currentUser.uName,
-                    style: TextStyle(
-                      fontSize: 24 + Constants.textChange,
-                      color: Constants.backgroundWhite,
-                    ),
-                  ),
-                ),
-                currentUser.uid == uid
-                    ? Align(
-                        alignment: Alignment.centerRight,
-                        child: GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              SlideInRoute(
-                                page: ProfileSettings(),
-                                direction: 0,
-                              ),
-                            ).then((value) {
-                              print("RETURNED TO USER PAGE");
-                              setState(() {});
-                            });
-                          },
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              right: MediaQuery.of(context).size.width / 30,
-                            ),
-                            child: Icon(
-                              Icons.settings,
+                Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            currentUser.numViews.toString(),
+                            style: TextStyle(
+                              fontSize: 28 + Constants.textChange,
                               color: Constants.backgroundWhite,
                             ),
                           ),
+                          Text(
+                            "Views",
+                            style: TextStyle(
+                              fontSize: 14 + Constants.textChange,
+                              color: Constants.backgroundWhite.withOpacity(.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            currentUser.numKredits.toString(),
+                            style: TextStyle(
+                              fontSize: 28 + Constants.textChange,
+                              color: Constants.backgroundWhite,
+                            ),
+                          ),
+                          Text(
+                            "Kredits",
+                            style: TextStyle(
+                              fontSize: 14 + Constants.textChange,
+                              color: Constants.backgroundWhite.withOpacity(.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 100),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .95,
+                      height: 135,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Constants.purpleColor.withOpacity(.02), Constants.purpleColor.withOpacity(.1)],
                         ),
-                      )
-                    : Container(),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 25, left: 15, right: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Container(
+                                  height: 35,
+                                  width: MediaQuery.of(context).size.width / 50 * 12,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(3),
+                                    boxShadow: kElevationToShadow[4],
+                                    gradient: LinearGradient(
+                                      begin: Alignment.centerLeft,
+                                      end: Alignment.centerRight,
+                                      colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
+                                    ),
+                                  ),
+                                  child: Center(
+                                    child: Text(
+                                      "Follow",
+                                      style: TextStyle(
+                                        color: Constants.backgroundWhite.withOpacity(.9),
+                                        fontSize: 15 + Constants.textChange,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    checkIfNativePayReady();
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      boxShadow: kElevationToShadow[4],
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Constants.purpleColor.withOpacity(.4), Colors.purple],
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Subscribe",
+                                        style: TextStyle(
+                                          color: Constants.backgroundWhite.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                currentUser.uName,
+                                style: TextStyle(
+                                  fontSize: 20 + Constants.textChange,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                ),
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 10),
+                            child: Text(
+                              currentUser.bio,
+                              style: TextStyle(
+                                fontSize: 13 + Constants.textChange,
+                                color: Constants.backgroundWhite.withOpacity(.6),
+                              ),
+                            ),
+                          ),
+
+                          // Padding(
+                          //   padding: EdgeInsets.symmetric(
+                          //     vertical: 10,
+                          //   ),
+                          //   child: Container(
+                          //     height: 2,
+                          //     width: MediaQuery.of(context).size.width / 15 * 14,
+                          //     color: Constants.purpleColor,
+                          //   ),
+                          // ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Container(
+                      width: 150,
+                      child: CircleAvatar(
+                        radius: 75,
+                        backgroundImage: NetworkImage(
+                          currentUser.avatarLink,
+                        ),
+                        onBackgroundImageError: (exception, stackTrace) {
+                          print(exception);
+                          print(stackTrace);
+                          return Image.asset("lib/assets/images/personOutline.png");
+                        },
+                      ),
+                    ),
+                  ),
+                ),
               ],
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Column(
-                children: [
-                  Text(
-                    currentUser.numViews.toString(),
-                    style: TextStyle(
-                      fontSize: 28 + Constants.textChange,
-                      color: Constants.backgroundWhite,
-                    ),
-                  ),
-                  Text(
-                    "views",
-                    style: TextStyle(
-                      fontSize: 14 + Constants.textChange,
-                      color: Constants.backgroundWhite.withOpacity(.5),
-                    ),
-                  ),
-                ],
-              ),
-              Container(
-                width: 130,
-                child: ClipOval(
-                  child: currentUser.userProfileImg == null
-                      ? CircleAvatar(
-                          radius: 65,
-                          backgroundColor: Constants.backgroundBlack,
-                        )
-                      : currentUser.userProfileImg,
-                ),
-              ),
-              Column(
-                children: [
-                  Text(
-                    currentUser.numKredits.toString(),
-                    style: TextStyle(
-                      fontSize: 28 + Constants.textChange,
-                      color: Constants.backgroundWhite,
-                    ),
-                  ),
-                  Text(
-                    "Kredits",
-                    style: TextStyle(
-                      fontSize: 14 + Constants.textChange,
-                      color: Constants.backgroundWhite.withOpacity(.5),
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(
-              vertical: 15,
-            ),
-            child: Text(
-              currentUser.bio,
-              style: TextStyle(
-                fontSize: 16 + Constants.textChange,
-                color: Constants.backgroundWhite,
-              ),
-            ),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Container(
-                height: 35,
-                width: MediaQuery.of(context).size.width / 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: kElevationToShadow[3],
-                  color: Constants.purpleColor,
-                ),
-                child: Center(child: Text("Follow", style: Constants.tStyle())),
-              ),
-              Container(
-                height: 35,
-                width: MediaQuery.of(context).size.width / 3,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: kElevationToShadow[3],
-                  color: Constants.purpleColor,
-                ),
-                child:
-                    Center(child: Text("Subscribe", style: Constants.tStyle())),
-              ),
-            ],
-          ),
-          Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-            ),
-            child: Container(
-              height: 2,
-              width: MediaQuery.of(context).size.width / 15 * 14,
-              color: Constants.purpleColor,
             ),
           ),
           ListView(
             shrinkWrap: true,
+            padding: EdgeInsets.only(top: 10, bottom: 0),
             children: [
-              vidListItem(),
+              //vidListItem(),
               vidListItem(),
             ],
           ),

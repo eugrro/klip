@@ -25,7 +25,10 @@ class _AddNewImageState extends State<AddNewImage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,

@@ -19,10 +19,10 @@ class MyApp extends StatelessWidget {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-          //statusBarColor: Constants.purpleColor.withOpacity(.00000),
-          //statusBarIconBrightness: Brightness.light,
-          //statusBarBrightness: Brightness.dark,
-          ),
+        statusBarColor: Constants.purpleColor.withOpacity(0),
+        //statusBarIconBrightness: Brightness.light,
+        //statusBarBrightness: Brightness.dark,
+      ),
     );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
-      home: Navigation(),
+      home: Login(),
     );
   }
 }

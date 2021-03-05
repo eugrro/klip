@@ -36,9 +36,9 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     super.dispose();
-    chewieController.dispose();
-    videoPlayerController.dispose();
-    _betterPlayerController.dispose();
+    //chewieController.dispose();
+    //videoPlayerController.dispose();
+    //_betterPlayerController.dispose();
   }
 
   @override
@@ -53,7 +53,12 @@ class _HomeTabState extends State<HomeTab> {
                 // Build the widget with data.
                 print("Home Page Displayed");
                 return Center(
-                  child: buildContent(snapshot.data),
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      bottom: Constants.bottomNavBarHeight,
+                    ),
+                    child: buildContent(snapshot.data),
+                  ),
                 );
               } else {
                 return SizedBox.shrink(
@@ -124,8 +129,7 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget buildTextHomeWidget(dynamic obj, int position) {
-    TextStyle ts = TextStyle(
-        color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
+    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -165,18 +169,14 @@ class _HomeTabState extends State<HomeTab> {
           padding: EdgeInsets.only(top: 40, bottom: 10),
           child: Text(
             obj[position]["title"],
-            style: TextStyle(
-                color: Constants.backgroundWhite,
-                fontSize: 30 + Constants.textChange),
+            style: TextStyle(color: Constants.backgroundWhite, fontSize: 30 + Constants.textChange),
           ),
         ),
         Padding(
           padding: EdgeInsets.only(top: 0, bottom: 40),
           child: Text(
             obj[position]["body"],
-            style: TextStyle(
-                color: Constants.backgroundWhite,
-                fontSize: 16 + Constants.textChange),
+            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
           ),
         ),
         Container(
@@ -194,13 +194,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                        context,
-                        SlideInRoute(
-                            page: CommentsPage(
-                                obj[position]["pid"], obj[position]["comm"]),
-                            direction: 2))
-                    .then((value) {
+                Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
                   print("RETURNED TO USER PAGE");
                   setState(() {});
                 });
@@ -260,48 +254,60 @@ class _HomeTabState extends State<HomeTab> {
   }
 
   Widget buildImgHomeWidget(dynamic obj, int position) {
-    TextStyle ts = TextStyle(
-        color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
+    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                left: 10,
-                right: 10,
-              ),
-              child: CircleAvatar(
-                radius: 13,
-                backgroundImage: NetworkImage(obj[position]["avatar"]),
-              ),
+            Row(
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 10,
+                    right: 10,
+                  ),
+                  child: CircleAvatar(
+                    radius: 13,
+                    backgroundImage: NetworkImage(obj[position]["avatar"]),
+                  ),
+                ),
+                Text(
+                  obj[position]["uname"],
+                  style: TextStyle(
+                    color: Constants.backgroundWhite.withOpacity(.7),
+                    fontSize: 12 + Constants.textChange,
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    left: 6,
+                    right: 6,
+                    top: 2,
+                  ),
+                  child: Icon(
+                    Icons.circle,
+                    color: Constants.backgroundWhite,
+                    size: 5,
+                  ),
+                ),
+                Text(
+                  "Follow",
+                  style: TextStyle(
+                    color: Constants.purpleColor,
+                  ),
+                )
+              ],
             ),
-            Text(
-              obj[position]["uname"],
-              style: TextStyle(
-                color: Constants.backgroundWhite.withOpacity(.7),
-                fontSize: 12 + Constants.textChange,
-              ),
-            ),
             Padding(
-              padding: EdgeInsets.only(
-                left: 6,
-                right: 6,
-                top: 2,
-              ),
+              padding: EdgeInsets.only(right: 10),
               child: Icon(
-                Icons.circle,
+                Icons.more_vert,
                 color: Constants.backgroundWhite,
-                size: 5,
+                size: 25,
               ),
             ),
-            Text(
-              "Follow",
-              style: TextStyle(
-                color: Constants.purpleColor,
-              ),
-            )
           ],
         ),
         Container(
@@ -330,12 +336,12 @@ class _HomeTabState extends State<HomeTab> {
         Container(
           height: .8,
           width: MediaQuery.of(context).size.width * .90,
-          color: Constants.purpleColor,
+          color: Constants.purpleColor.withOpacity(.4),
         ),
         Padding(
           padding: EdgeInsets.only(
-            top: 10,
-            bottom: 10,
+            top: 13,
+            bottom: 13,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -362,13 +368,7 @@ class _HomeTabState extends State<HomeTab> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(
-                          context,
-                          SlideInRoute(
-                              page: CommentsPage(
-                                  obj[position]["pid"], obj[position]["comm"]),
-                              direction: 2))
-                      .then((value) {
+                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
                     print("RETURNED TO USER PAGE");
                     setState(() {});
                   });
@@ -419,8 +419,8 @@ class _HomeTabState extends State<HomeTab> {
         ),
         Container(
           height: .8,
-          width: MediaQuery.of(context).size.width * .9,
-          color: Constants.purpleColor,
+          width: MediaQuery.of(context).size.width * .90,
+          color: Constants.purpleColor.withOpacity(.4),
         ),
         Container(
           height: 5,
@@ -448,8 +448,7 @@ class _HomeTabState extends State<HomeTab> {
   Widget buildKlipHomeWidget(dynamic obj, int position) {
     print("VIDEO LINK: " + obj[position]["link"]);
 
-    TextStyle ts = TextStyle(
-        color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
+    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -535,13 +534,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
             GestureDetector(
               onTap: () {
-                Navigator.push(
-                        context,
-                        SlideInRoute(
-                            page: CommentsPage(
-                                obj[position]["pid"], obj[position]["comm"]),
-                            direction: 2))
-                    .then((value) {
+                Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
                   print("RETURNED TO USER PAGE");
                   setState(() {});
                 });

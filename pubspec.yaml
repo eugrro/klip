@@ -35,6 +35,7 @@ dependencies:
   cupertino_icons: ^1.0.0
   flutter_svg: ^0.18.0
   chewie: ^0.12.0
+  stripe_payment: ^1.0.10
 
   
   simple_image_crop:

@@ -26,7 +26,7 @@ class _CommentsPageState extends State<CommentsPage> {
   @override
   void initState() {
     super.initState();
-    heightOfCommentBox = 90;
+    heightOfCommentBox = 75;
     heightOfTopPart = 60;
   }
 
@@ -34,7 +34,10 @@ class _CommentsPageState extends State<CommentsPage> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        FocusScope.of(context).requestFocus(new FocusNode());
+        FocusScopeNode currentFocus = FocusScope.of(context);
+        if (!currentFocus.hasPrimaryFocus) {
+          currentFocus.unfocus();
+        }
       },
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,
@@ -123,7 +126,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Row(
+                                    Wrap(
                                       children: [
                                         Text(
                                           '${comments[index][1]}', //Uname
@@ -172,71 +175,109 @@ class _CommentsPageState extends State<CommentsPage> {
               ),
               Container(
                 height: heightOfCommentBox,
-                //color: Colors.lightBlue[50],
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(
-                        top: 5,
-                        bottom: 10,
-                      ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Container(
-                            height: 55,
-                            width: MediaQuery.of(context).size.width * 3 / 4,
-                            child: klipTextField(
-                              45,
-                              MediaQuery.of(context).size.width * 3 / 4,
-                              commentController,
-                              labelText: "Add A Comment",
-                            ),
+                width: MediaQuery.of(context).size.width,
+                color: Constants.purpleColor.withOpacity(.1),
+                child: Center(
+                  child: Stack(
+                    children: [
+                      Container(
+                        height: heightOfCommentBox * .7,
+                        width: MediaQuery.of(context).size.width * 9 / 10,
+                        decoration: BoxDecoration(
+                          color: Constants.backgroundBlack,
+                          borderRadius:
+                              new BorderRadius.all(Radius.circular(100)),
+                        ),
+                        child: Padding(
+                          padding: EdgeInsets.only(
+                            top: 5,
+                            bottom: 5,
+                            left: 52, //16 * 2 + 20
+                            right: 15,
                           ),
-                          GestureDetector(
-                            onTap: () {
-                              print("Post ID: ");
-                              print(pid);
-                              if (commentController.text.isNotEmpty) {
-                                setState(() {
-                                  comments.add([
-                                    currentUser.uid,
-                                    currentUser.uName,
-                                    currentUser.avatarLink,
-                                    commentController.text,
-                                    "2h"
-                                  ]);
-
-                                  FocusScope.of(context)
-                                      .requestFocus(new FocusNode());
-                                });
-                                addComment(
-                                    pid,
-                                    currentUser.uid,
-                                    currentUser.uName,
-                                    currentUser.avatarLink,
-                                    commentController.text,
-                                    "2h");
-                                commentController.text = "";
-                              }
-                            },
-                            child: Text(
-                              "Post",
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 17 + Constants.textChange,
+                          child: TextField(
+                            controller: commentController,
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            textAlignVertical: TextAlignVertical.center,
+                            cursorColor: Constants.backgroundWhite,
+                            cursorWidth: 1.5,
+                            decoration: InputDecoration(
+                              isDense: true,
+                              border: InputBorder.none,
+                              hintText: "Add a Comment...",
+                              hintStyle: TextStyle(
+                                color:
+                                    Constants.backgroundWhite.withOpacity(.6),
+                                fontSize: 13 + Constants.textChange,
                               ),
+                              suffixIcon: postText(),
+                            ),
+                            style: TextStyle(
+                              color: Constants.backgroundWhite.withOpacity(.9),
+                              fontSize: 13 + Constants.textChange,
                             ),
                           ),
-                        ],
+                        ),
                       ),
-                    ),
-                  ],
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          top: heightOfCommentBox * .35 - 16,
+                        ),
+                        child: CircleAvatar(
+                          radius: 16,
+                          backgroundImage: NetworkImage(
+                            currentUser.avatarLink,
+                          ), //Profile Pic
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget postText() {
+    return GestureDetector(
+      onTap: () {
+        print("Post ID: ");
+        print(pid);
+        if (commentController.text.isNotEmpty) {
+          setState(() {
+            comments.add([
+              currentUser.uid,
+              currentUser.uName,
+              currentUser.avatarLink,
+              commentController.text,
+              "2h"
+            ]);
+
+            FocusScope.of(context).requestFocus(new FocusNode());
+          });
+          addComment(pid, currentUser.uid, currentUser.uName,
+              currentUser.avatarLink, commentController.text, "2h");
+          commentController.text = "";
+        } else {
+          print("No Text Gathered");
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: heightOfCommentBox * .35 - 13 - Constants.textChange,
+          left: 15,
+        ), //perfectly even is -14
+        child: Text(
+          "Post",
+          style: TextStyle(
+            color: Constants.backgroundWhite,
+            fontSize: 14 + Constants.textChange,
+            fontWeight: FontWeight.w700,
           ),
         ),
       ),
