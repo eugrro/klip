@@ -22,7 +22,6 @@ class TopSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     TextEditingController searchController = new TextEditingController();
-    Constants.statusBarHeight = MediaQuery.of(context).padding.top;
     return Container(
       decoration: BoxDecoration(
         color: Constants.purpleColor.withOpacity(.3),

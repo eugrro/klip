@@ -1,4 +1,6 @@
 import 'dart:ui';
+import 'package:klip/login/StartPage.dart';
+
 import './Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -35,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
-      home: Login(),
+      home: StartPage(),
     );
   }
 }

@@ -39,6 +39,7 @@
 lib/generated_plugin_registrant.dart
 lib/server/node_modules
 lib/server/rootkey.csv
+lib/server/keys.js
 android
 
 # Symbolication related
@@ -52,3 +53,5 @@ build/app/intermediates/flutter/debug/libs.jar
 build/app/intermediates/flutter/debug/.last_build_id
 build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/IIdct2ITJeS_ZUM0EIVGsHx2dFE=
 build/app/intermediates/stripped_native_libs/debug/out/lib/x86_64/libflutter.so
+lib/server/keys.js
+lib/server/keys.js
