@@ -1,10 +1,15 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:klip/Navigation.dart';
 import 'package:klip/currentUser.dart' as currentUser;
+import 'package:klip/login/loginLogic.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+
+import 'SignIn.dart';
+import 'SignUp.dart';
 
 class StartPage extends StatefulWidget {
   @override
@@ -27,63 +32,6 @@ class _StartPageState extends State<StartPage> {
       child: Scaffold(
         body: Stack(
           children: <Widget>[
-            Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Center(
-                  child: SvgPicture.asset(
-                    "lib/assets/iconsUI/Klip_Logo.svg",
-                    semanticsLabel: 'commentIcon',
-                    width: MediaQuery.of(context).size.width * .75,
-                    height: 150,
-                  ),
-                ),
-                Container(
-                  height: 50,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * .8,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    gradient: LinearGradient(
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                      colors: [Constants.purpleColor, Color(0xffab57a8)],
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Sign Up",
-                      style: TextStyle(color: Constants.backgroundWhite, fontSize: 24 + Constants.textChange),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 25,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * .8,
-                  height: 50,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(Radius.circular(100)),
-                    border: Border.all(
-                      width: 3,
-                      color: Constants.purpleColor.withOpacity(.3),
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Sign In",
-                      style: TextStyle(color: Constants.purpleColor, fontSize: 24 + Constants.textChange),
-                    ),
-                  ),
-                ),
-                Container(
-                  height: 60,
-                )
-              ],
-            ),
             Align(
               alignment: Alignment.bottomLeft,
               child: ShaderMask(
@@ -104,6 +52,81 @@ class _StartPageState extends State<StartPage> {
                   //color: Colors.grey,
                 ),
               ),
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: SvgPicture.asset(
+                    "lib/assets/iconsUI/Klip_Logo.svg",
+                    semanticsLabel: 'commentIcon',
+                    width: MediaQuery.of(context).size.width * .75,
+                    height: 150,
+                  ),
+                ),
+                Container(
+                  height: 50,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignUp()),
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .8,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [Constants.purpleColor, Color(0xffab57a8)],
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Sign Up",
+                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 24 + Constants.textChange),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 25,
+                ),
+                GestureDetector(
+                  behavior: HitTestBehavior.translucent,
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => SignIn()),
+                    );
+                  },
+                  child: Container(
+                    width: MediaQuery.of(context).size.width * .8,
+                    height: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(100)),
+                      border: Border.all(
+                        width: 3,
+                        color: Constants.purpleColor.withOpacity(.3),
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Sign In",
+                        style: TextStyle(color: Constants.purpleColor, fontSize: 24 + Constants.textChange),
+                      ),
+                    ),
+                  ),
+                ),
+                Container(
+                  height: 60,
+                )
+              ],
             ),
           ],
         ),

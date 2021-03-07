@@ -2,29 +2,102 @@ import 'dart:convert';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import '../Constants.dart' as Constants;
 import 'package:http/http.dart' as http;
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
+// ignore: non_constant_identifier_names
+Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
+    TextEditingController contrl, Widget prefixIcon,
+    {isObscured = false}) {
+  return GestureDetector(
+    behavior: HitTestBehavior.translucent,
+    onTap: () {},
+    child: Container(
+      width: MediaQuery.of(context).size.width * .8,
+      height: heightOfContainer,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.all(Radius.circular(100)),
+        border: Border.all(
+          width: borderThickness,
+          color: Constants.purpleColor.withOpacity(.8),
+        ),
+      ),
+      child: Stack(
+        children: [
+          Container(
+            height: heightOfContainer,
+            alignment: Alignment.center,
+            width: MediaQuery.of(context).size.width * 9 / 10,
+            decoration: BoxDecoration(
+              color: Constants.backgroundBlack,
+              borderRadius: new BorderRadius.all(Radius.circular(100)),
+            ),
+            child: Padding(
+              padding: EdgeInsets.only(
+                left: 10 + imgThickness,
+                right: 20, //+ imgThickness,
+              ),
+              child: TextField(
+                controller: contrl,
+                keyboardType: TextInputType.multiline,
+                obscureText: isObscured,
+                //textAlign: TextAlign.center,
+                cursorColor: Constants.backgroundWhite,
+                cursorWidth: 1.5,
+                decoration: InputDecoration(
+                  isDense: true,
+                  contentPadding: EdgeInsets.only(bottom: 0),
+                  border: InputBorder.none,
+                  hintText: hintText,
+                  hintStyle: TextStyle(
+                    color: Constants.backgroundWhite.withOpacity(.6),
+                    fontSize: 20 + Constants.textChange,
+                  ),
+                  //suffixIcon: postText(),
+                ),
+                style: TextStyle(
+                  color: Constants.backgroundWhite.withOpacity(.9),
+                  fontSize: 20 + Constants.textChange,
+                ),
+              ),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: 5,
+              top: heightOfContainer * .5 - imgThickness / 2 - borderThickness,
+            ),
+            child: Container(
+              width: imgThickness,
+              height: imgThickness,
+              child: Center(child: prefixIcon),
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
 
 Future<String> signInWithGoogle() async {
   try {
     await Firebase.initializeApp();
 
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication =
-        await googleSignInAccount.authentication;
+    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential authResult =
-        await _auth.signInWithCredential(credential);
+    final UserCredential authResult = await _auth.signInWithCredential(credential);
     final User user = authResult.user;
 
     if (user != null) {
@@ -56,8 +129,7 @@ Future<void> signOutGoogle() async {
 Future<String> signUp(String user, String pass) async {
   try {
     await Firebase.initializeApp();
-    UserCredential userCredential = await FirebaseAuth.instance
-        .createUserWithEmailAndPassword(email: user, password: pass);
+    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user, password: pass);
     print("SIGN IN UID: " + userCredential.user.uid);
     print("Data Returned " + userCredential.user.toString());
     return userCredential.user.uid;
@@ -78,8 +150,7 @@ Future<String> signUp(String user, String pass) async {
 Future<String> signIn(String user, String pass) async {
   try {
     await Firebase.initializeApp();
-    UserCredential userCredential = await FirebaseAuth.instance
-        .signInWithEmailAndPassword(email: user, password: pass);
+    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass);
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
   } on FirebaseAuthException catch (e) {
@@ -100,8 +171,7 @@ Future<void> resetPassword(String email) async {
   await _auth.sendPasswordResetEmail(email: email);
 }
 
-Future<String> postUser(String uid, String fName, String lName, String uName,
-    {int numViews = 0, int numKredits = 0}) async {
+Future<String> postUser(String uid, String fName, String lName, String uName, {int numViews = 0, int numKredits = 0}) async {
   var response;
   try {
     Map<String, String> params = {
