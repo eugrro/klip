@@ -24,12 +24,12 @@ class Navigation extends StatefulWidget {
   _NavigationState createState() => _NavigationState();
 }
 
-class _NavigationState extends State<Navigation>
-    with SingleTickerProviderStateMixin {
+class _NavigationState extends State<Navigation> with SingleTickerProviderStateMixin {
   int pagePosition = 0;
 
   PageController pageController;
-
+  bool addingNewContent = false;
+  bool showNavigationIcons = true;
   @override
   void initState() {
     pageController = PageController(initialPage: pagePosition);
@@ -38,6 +38,7 @@ class _NavigationState extends State<Navigation>
 
   @override
   Widget build(BuildContext context) {
+    Constants.statusBarHeight = MediaQuery.of(context).padding.top;
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
@@ -56,9 +57,10 @@ class _NavigationState extends State<Navigation>
               height: Constants.bottomNavBarHeight,
               color: Colors.transparent,
               child: Center(
-                child: Container(
+                child: AnimatedContainer(
+                  duration: Duration(milliseconds: 300),
                   height: 45,
-                  width: MediaQuery.of(context).size.width / 10 * 8,
+                  width: !addingNewContent ? MediaQuery.of(context).size.width / 10 * 8 : MediaQuery.of(context).size.width / 10 * 2,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.all(
                       Radius.circular(20),
@@ -81,44 +83,47 @@ class _NavigationState extends State<Navigation>
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              pagePosition = 0;
-                            });
-                            pageController.animateToPage(pagePosition,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                          },
-                          child: Icon(
-                            Icons.home_outlined,
-                            color: Constants.backgroundWhite.withOpacity(.6),
-                          ),
-                        ),
+                        showNavigationIcons
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    pagePosition = 0;
+                                  });
+                                  pageController.animateToPage(pagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                },
+                                child: Icon(
+                                  Icons.home_outlined,
+                                  color: Constants.backgroundWhite.withOpacity(.6),
+                                ),
+                              )
+                            : Container(),
                         GestureDetector(
                           onTap: () {
                             _showTypePicker(context);
+                            setState(() {
+                              addingNewContent = !addingNewContent;
+                              showNavigationIcons = !showNavigationIcons;
+                            });
                           },
                           child: Icon(
                             Icons.add_box_outlined,
                             color: Constants.backgroundWhite.withOpacity(.6),
                           ),
                         ),
-                        GestureDetector(
-                          onTap: () {
-                            setState(() {
-                              pagePosition = 1;
-                            });
-
-                            pageController.animateToPage(pagePosition,
-                                duration: Duration(milliseconds: 500),
-                                curve: Curves.ease);
-                          },
-                          child: Icon(
-                            Icons.person_outline_outlined,
-                            color: Constants.backgroundWhite.withOpacity(.6),
-                          ),
-                        ),
+                        showNavigationIcons
+                            ? GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    pagePosition = 1;
+                                  });
+                                  pageController.animateToPage(pagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                },
+                                child: Icon(
+                                  Icons.person_outline_outlined,
+                                  color: Constants.backgroundWhite.withOpacity(.6),
+                                ),
+                              )
+                            : Container(),
                       ],
                     ),
                   ),
@@ -134,75 +139,49 @@ class _NavigationState extends State<Navigation>
   void _showTypePicker(context) {
     double contentTypeHeight = 90;
 
-    double smallText = 13 + Constants.textChange;
-    double largeText = 18 + Constants.textChange;
-    double smallIcon = 20;
-    double largeIcon = 40;
-    double smallCircle = 15;
-    double largeCircle = 25;
-
-    int contentTypeSelected = 2;
-    double circleThickness = 2;
+    double largeText = 16 + Constants.textChange;
+    double largeIcon = 35;
 
     showModalBottomSheet(
-        backgroundColor: Constants.backgroundBlack,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(15),
-            topRight: Radius.circular(15),
-          ),
+      backgroundColor: Colors.transparent,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(15),
+          topRight: Radius.circular(15),
         ),
-        context: context,
-        builder: (BuildContext bc) {
-          return StatefulBuilder(builder: (BuildContext context,
-              StateSetter setState /*You can rename this!*/) {
-            return SafeArea(
-              child: Padding(
-                padding: EdgeInsets.only(left: 10, right: 10),
-                child: Row(
+      ),
+      //isDismissible: true,
+      context: context,
+      builder: (BuildContext bc) {
+        return Container(
+          //height: MediaQuery.of(context).size.height / 3,
+          child: Padding(
+            padding: EdgeInsets.only(left: 10, right: 10),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                Row(
                   children: [
                     //0000000000000000000000000000000000000000000000000000000000
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        setState(() {
-                          contentTypeSelected = 0;
-                        });
-                      },
+                      onTap: () {},
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
                         height: contentTypeHeight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: CircleAvatar(
-                                backgroundColor: Constants.hintColor,
-                                radius: contentTypeSelected == 0
-                                    ? largeCircle
-                                    : smallCircle,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.backgroundBlack,
-                                  radius: contentTypeSelected == 0
-                                      ? largeCircle - circleThickness
-                                      : smallCircle - circleThickness,
-                                  child: Icon(
-                                    Icons.all_inclusive,
-                                    color: Constants.purpleColor,
-                                    size: contentTypeSelected == 0
-                                        ? largeIcon
-                                        : smallIcon,
-                                  ),
-                                ),
-                              ),
+                            Icon(
+                              Icons.all_inclusive,
+                              color: Constants.purpleColor,
+                              size: largeIcon,
                             ),
                             Container(
                               child: Text(
                                 "Audio",
                                 style: TextStyle(
-                                  fontSize: contentTypeSelected == 0
-                                      ? largeText
-                                      : smallText,
+                                  fontSize: largeText,
                                   color: Constants.backgroundWhite,
                                 ),
                               ),
@@ -215,11 +194,7 @@ class _NavigationState extends State<Navigation>
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        setState(() {
-                          contentTypeSelected = 1;
-                        });
-                        Navigator.push(context,
-                            SlideInRoute(page: AddNewImage(), direction: 0));
+                        Navigator.push(context, SlideInRoute(page: AddNewImage(), direction: 0));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
@@ -227,34 +202,16 @@ class _NavigationState extends State<Navigation>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: CircleAvatar(
-                                backgroundColor: Constants.hintColor,
-                                radius: contentTypeSelected == 1
-                                    ? largeCircle
-                                    : smallCircle,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.backgroundBlack,
-                                  radius: contentTypeSelected == 1
-                                      ? largeCircle - circleThickness
-                                      : smallCircle - circleThickness,
-                                  child: Icon(
-                                    Icons.public,
-                                    color: Constants.purpleColor,
-                                    size: contentTypeSelected == 1
-                                        ? largeIcon
-                                        : smallIcon,
-                                  ),
-                                ),
-                              ),
+                            Icon(
+                              Icons.public,
+                              color: Constants.purpleColor,
+                              size: largeIcon,
                             ),
                             Container(
                               child: Text(
                                 "Image",
                                 style: TextStyle(
-                                  fontSize: contentTypeSelected == 1
-                                      ? largeText
-                                      : smallText,
+                                  fontSize: largeText,
                                   color: Constants.backgroundWhite,
                                 ),
                               ),
@@ -267,11 +224,13 @@ class _NavigationState extends State<Navigation>
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        setState(() {
-                          contentTypeSelected = 2;
+                        Navigator.push(context, SlideInRoute(page: AddNewKlip(), direction: 0)).then((value) {
+                          Navigator.pop(context);
+                          setState(() {
+                            addingNewContent = !addingNewContent;
+                            showNavigationIcons = !showNavigationIcons;
+                          });
                         });
-                        Navigator.push(context,
-                            SlideInRoute(page: AddNewKlip(), direction: 0));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
@@ -279,34 +238,16 @@ class _NavigationState extends State<Navigation>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: CircleAvatar(
-                                backgroundColor: Constants.hintColor,
-                                radius: contentTypeSelected == 2
-                                    ? largeCircle
-                                    : smallCircle,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.backgroundBlack,
-                                  radius: contentTypeSelected == 2
-                                      ? largeCircle - circleThickness
-                                      : smallCircle - circleThickness,
-                                  child: Icon(
-                                    Icons.videogame_asset,
-                                    color: Constants.purpleColor,
-                                    size: contentTypeSelected == 2
-                                        ? largeIcon
-                                        : smallIcon,
-                                  ),
-                                ),
-                              ),
+                            Icon(
+                              Icons.videogame_asset,
+                              color: Constants.purpleColor,
+                              size: largeIcon,
                             ),
                             Container(
                               child: Text(
-                                "klip",
+                                "Klip",
                                 style: TextStyle(
-                                  fontSize: contentTypeSelected == 2
-                                      ? largeText
-                                      : smallText,
+                                  fontSize: largeText,
                                   color: Constants.backgroundWhite,
                                 ),
                               ),
@@ -319,11 +260,7 @@ class _NavigationState extends State<Navigation>
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
-                        setState(() {
-                          contentTypeSelected = 3;
-                        });
-                        Navigator.push(context,
-                            SlideInRoute(page: AddNewText(), direction: 0));
+                        Navigator.push(context, SlideInRoute(page: AddNewText(), direction: 0));
                       },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
@@ -331,34 +268,16 @@ class _NavigationState extends State<Navigation>
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: CircleAvatar(
-                                backgroundColor: Constants.hintColor,
-                                radius: contentTypeSelected == 3
-                                    ? largeCircle
-                                    : smallCircle,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.backgroundBlack,
-                                  radius: contentTypeSelected == 3
-                                      ? largeCircle - circleThickness
-                                      : smallCircle - circleThickness,
-                                  child: Icon(
-                                    Icons.short_text,
-                                    color: Constants.purpleColor,
-                                    size: contentTypeSelected == 3
-                                        ? largeIcon
-                                        : smallIcon,
-                                  ),
-                                ),
-                              ),
+                            Icon(
+                              Icons.short_text,
+                              color: Constants.purpleColor,
+                              size: largeIcon,
                             ),
                             Container(
                               child: Text(
                                 "Text",
                                 style: TextStyle(
-                                  fontSize: contentTypeSelected == 3
-                                      ? largeText
-                                      : smallText,
+                                  fontSize: largeText,
                                   color: Constants.backgroundWhite,
                                 ),
                               ),
@@ -370,45 +289,23 @@ class _NavigationState extends State<Navigation>
                     //4444444444444444444444444444444444444444444444444444444444
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        setState(() {
-                          contentTypeSelected = 5;
-                        });
-                      },
+                      onTap: () {},
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
                         height: contentTypeHeight,
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Container(
-                              child: CircleAvatar(
-                                backgroundColor: Constants.hintColor,
-                                radius: contentTypeSelected == 5
-                                    ? largeCircle
-                                    : smallCircle,
-                                child: CircleAvatar(
-                                  backgroundColor: Constants.backgroundBlack,
-                                  radius: contentTypeSelected == 5
-                                      ? largeCircle - circleThickness
-                                      : smallCircle - circleThickness,
-                                  child: Icon(
-                                    Icons.poll,
-                                    color: Constants.purpleColor,
-                                    size: contentTypeSelected == 5
-                                        ? largeIcon
-                                        : smallIcon,
-                                  ),
-                                ),
-                              ),
+                            Icon(
+                              Icons.poll,
+                              color: Constants.purpleColor,
+                              size: largeIcon,
                             ),
                             Container(
                               child: Text(
                                 "Poll",
                                 style: TextStyle(
-                                  fontSize: contentTypeSelected == 5
-                                      ? largeText
-                                      : smallText,
+                                  fontSize: largeText,
                                   color: Constants.backgroundWhite,
                                 ),
                               ),
@@ -419,9 +316,61 @@ class _NavigationState extends State<Navigation>
                     ),
                   ],
                 ),
-              ),
-            );
-          });
-        });
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        addingNewContent = !addingNewContent;
+                      });
+                      Navigator.of(context).pop();
+                      Future.delayed(Duration(milliseconds: 150), () {
+                        setState(() {
+                          showNavigationIcons = !showNavigationIcons;
+                        });
+                      });
+                    },
+                    child: Container(
+                      height: Constants.bottomNavBarHeight,
+                      color: Colors.transparent,
+                      child: Center(
+                        child: Container(
+                          height: 45,
+                          width: MediaQuery.of(context).size.width / 10 * 2,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(20),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                color: Colors.black.withOpacity(0.3),
+                                spreadRadius: 2,
+                                blurRadius: 3,
+                                offset: Offset(0, 3.1), // changes position of shadow
+                              ),
+                            ],
+                            color: Constants.purpleColor.withOpacity(.9),
+                          ),
+                          child: Padding(
+                            padding: EdgeInsets.only(
+                              left: 25,
+                              right: 25,
+                            ),
+                            child: Icon(
+                              Icons.close,
+                              color: Constants.backgroundWhite,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 }

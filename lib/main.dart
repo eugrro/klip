@@ -37,7 +37,7 @@ class MyApp extends StatelessWidget {
         ),
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
-      home: StartPage(),
+      home: Navigation(),
     );
   }
 }

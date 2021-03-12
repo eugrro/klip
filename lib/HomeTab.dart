@@ -36,7 +36,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     super.dispose();
-    //chewieController.dispose();
+    chewieController.dispose();
     //videoPlayerController.dispose();
     //_betterPlayerController.dispose();
   }
@@ -72,6 +72,49 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
+  Widget imgWidget(String link) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image.network(link),
+    );
+  }
+
+  Widget txtWidget(String title, String body) {
+    return Row(
+      children: [
+        Container(
+          height: 5,
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 40, bottom: 10),
+          child: Text(
+            title,
+            style: TextStyle(color: Constants.backgroundWhite, fontSize: 30 + Constants.textChange),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.only(top: 0, bottom: 40),
+          child: Text(
+            body,
+            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
+          ),
+        ),
+        Container(
+          height: 10,
+        ),
+      ],
+    );
+  }
+
+  Widget vidWidget() {
+    return AspectRatio(
+      aspectRatio: 16 / 9,
+      child: Chewie(
+        controller: chewieController,
+      ),
+    );
+  }
+
   Widget buildContent(String jsonInput) {
     try {
       var obj = json.decode(jsonInput);
@@ -83,16 +126,16 @@ class _HomeTabState extends State<HomeTab> {
           itemBuilder: (context, position) {
             if (position < obj.length) {
               if (obj[position]["type"] == "txt") {
-                return buildTextHomeWidget(obj, position);
+                return buildHomeWidget(obj, position, txtWidget(obj[position]["title"], obj[position]["body"]));
               } else if (obj[position]["type"] == "img") {
-                return buildImgHomeWidget(obj, position);
+                return buildHomeWidget(obj, position, imgWidget(obj[position]["link"]));
               } else if (obj[position]["type"] == "vid") {
                 return FutureBuilder(
                   future: setUpVideoController(obj[position]["link"]),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Center(
-                        child: buildKlipHomeWidget(obj, position),
+                        child: buildHomeWidget(obj, position, obj[position]["type"]),
                       );
                     } else {
                       return SizedBox.shrink(
@@ -128,133 +171,7 @@ class _HomeTabState extends State<HomeTab> {
     }
   }
 
-  Widget buildTextHomeWidget(dynamic obj, int position) {
-    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: NetworkImage(obj[position]["avatar"]),
-                  ),
-                ),
-                Text(
-                  obj[position]["uname"],
-                  style: TextStyle(
-                    color: Constants.backgroundWhite,
-                  ),
-                ),
-                Icon(
-                  Icons.circle,
-                  color: Constants.backgroundWhite,
-                ),
-              ],
-            ),
-          ],
-        ),
-        Container(
-          height: 5,
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 40, bottom: 10),
-          child: Text(
-            obj[position]["title"],
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 30 + Constants.textChange),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 0, bottom: 40),
-          child: Text(
-            obj[position]["body"],
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
-          ),
-        ),
-        Container(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "+1",
-              style: TextStyle(
-                fontSize: 22 + Constants.textChange,
-                color: Constants.backgroundWhite,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
-                  print("RETURNED TO USER PAGE");
-                  setState(() {});
-                });
-              },
-              child: Image.asset(
-                "lib/assets/images/commentsIcon.png",
-                color: Constants.backgroundWhite,
-                height: 35,
-                width: 35,
-              ),
-            ),
-            Image.asset(
-              "lib/assets/images/shareIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-            Image.asset(
-              "lib/assets/images/downarrowIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-          ],
-        ),
-        Container(
-          height: 5,
-        ),
-        Container(
-          height: 2,
-          width: MediaQuery.of(context).size.width * .9,
-          color: Constants.purpleColor,
-        ),
-        Container(
-          height: 5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "1,171 Klout",
-              style: ts,
-            ),
-            Text(
-              "73 Comments",
-              style: ts,
-            ),
-            Text(
-              "1,200 K",
-              style: ts,
-            ),
-          ],
-        ),
-        showComments ? commentsWidget() : Container(),
-      ],
-    );
-  }
-
-  Widget buildImgHomeWidget(dynamic obj, int position) {
-    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
+  Widget buildHomeWidget(dynamic obj, int position, Widget content) {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
@@ -326,10 +243,7 @@ class _HomeTabState extends State<HomeTab> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Image.network(obj[position]["link"]),
-        ),
+        content,
         Container(
           height: 10,
         ),
@@ -440,157 +354,9 @@ class _HomeTabState extends State<HomeTab> {
       autoPlay: true,
       looping: true,
     );
-    if (videoPlayerController.value.initialized) {
+    if (videoPlayerController.value.isInitialized) {
       return "DONE";
     }
-  }
-
-  Widget buildKlipHomeWidget(dynamic obj, int position) {
-    print("VIDEO LINK: " + obj[position]["link"]);
-
-    TextStyle ts = TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange);
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: CircleAvatar(
-                    radius: 15,
-                    backgroundImage: NetworkImage(obj[position]["avatar"]),
-                  ),
-                ),
-                Text(
-                  obj[position]["uname"],
-                  style: TextStyle(
-                    color: Constants.backgroundWhite,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(
-                right: 10,
-              ),
-              child: Container(
-                width: 65,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Constants.purpleColor,
-                  borderRadius: BorderRadius.circular(5),
-                ),
-                child: Center(
-                  child: Text(
-                    "Follow +",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 10 + Constants.textChange,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-        Container(
-          height: 5,
-        ),
-        /*Container(
-                      height: 1,
-                      color: Constants.purpleColor,
-                    ),*/
-        // Use a FutureBuilder to display a loading spinner while waiting for the
-// VideoPlayerController to finish initializing.
-        AspectRatio(
-          aspectRatio: 16 / 9,
-          child: Chewie(
-            controller: chewieController,
-          ),
-        ),
-
-        /*Container(
-                      height: 1,
-                      color: Constants.purpleColor,
-                    ),*/
-        Container(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "+1",
-              style: TextStyle(
-                fontSize: 22 + Constants.textChange,
-                color: Constants.backgroundWhite,
-              ),
-            ),
-            GestureDetector(
-              onTap: () {
-                Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
-                  print("RETURNED TO USER PAGE");
-                  setState(() {});
-                });
-              },
-              child: Image.asset(
-                "lib/assets/images/commentsIcon.png",
-                color: Constants.backgroundWhite,
-                height: 35,
-                width: 35,
-              ),
-            ),
-            Image.asset(
-              "lib/assets/images/shareIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-            Image.asset(
-              "lib/assets/images/downarrowIcon.png",
-              color: Constants.backgroundWhite,
-              height: 25,
-              width: 25,
-            ),
-          ],
-        ),
-        Container(
-          height: 5,
-        ),
-        Container(
-          height: 2,
-          width: MediaQuery.of(context).size.width * .9,
-          color: Constants.purpleColor,
-        ),
-        Container(
-          height: 5,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
-          children: [
-            Text(
-              "1,171 Klout",
-              style: ts,
-            ),
-            Text(
-              "73 Comments",
-              style: ts,
-            ),
-            Text(
-              "1,200 K",
-              style: ts,
-            ),
-          ],
-        ),
-        showComments ? commentsWidget() : Container(),
-      ],
-    );
   }
 
   Widget commentsWidget() {

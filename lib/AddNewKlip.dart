@@ -1,7 +1,9 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
@@ -15,203 +17,98 @@ class AddNewKlip extends StatefulWidget {
   _AddNewKlipState createState() => _AddNewKlipState();
 }
 
+//https://github.com/Lightsnap/flutter_better_camera
 class _AddNewKlipState extends State<AddNewKlip> {
   File contentFile;
   String filePath;
   VideoPlayerController videoController;
+  PageController pageController;
+  int currentPage;
 
   @override
   void initState() {
     super.initState();
+    pageController = PageController(initialPage: 0);
+    currentPage = 0;
   }
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus) {
-          currentFocus.unfocus();
-        }
-      },
-      child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
-        body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Container(
-                  decoration: BoxDecoration(
-                    // border:
-                    //borderRadius: BorderRadius.circular(8.0),
-                    color: Constants.backgroundBlack,
-                    boxShadow: [
-                      BoxShadow(
-                        //color: Constants.backgroundBlack,
-                        blurRadius: 1.0,
-                        spreadRadius: 0.0,
-                        offset:
-                            Offset(2.0, 2.0), // shadow direction: bottom right
-                      )
-                    ],
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 15,
-                      left: MediaQuery.of(context).size.width / 30,
-                      right: MediaQuery.of(context).size.width / 30,
-                      bottom: 15,
-                    ),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                color: Constants.backgroundWhite,
-                                size: 20,
-                              ),
-                              Container(
-                                width: 20,
-                              ),
-                              Text(
-                                "Add New Klip",
-                                style: TextStyle(
-                                    color: Constants.backgroundWhite,
-                                    fontSize: 18 + Constants.textChange),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: GestureDetector(
-                            onTap: () {
-                              uploadKlip(filePath, currentUser.uid);
-                            },
-                            child: Icon(
-                              Icons.check,
-                              color: Constants.backgroundWhite,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20, bottom: 10),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          print("TAPPED RECORD");
-                        },
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.phone_iphone,
-                              color: Constants.backgroundWhite,
-                              size: 50,
-                            ),
-                            Text(
-                              "Record",
-                              style: TextStyle(
-                                fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          print("TAPPED CONSOLE");
-                        },
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.tv,
-                              color: Constants.backgroundWhite,
-                              size: 50,
-                            ),
-                            Text(
-                              "Console",
-                              style: TextStyle(
-                                fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () async {
-                          //_showPicker(context);
-                          //temporary to remove
-                          //uploadImage(
-                          //    await getImageFromGallery(), currentUser.uid);
-                          getKlipGallery();
-                        },
-                        child: Column(
-                          children: [
-                            Icon(
-                              Icons.collections,
-                              color: Constants.backgroundWhite,
-                              size: 50,
-                            ),
-                            Text(
-                              "Gallery",
-                              style: TextStyle(
-                                fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    top: 0,
-                    bottom: 10,
-                  ),
-                  child: Center(
-                    child: Container(
-                      color: Constants.purpleColor,
-                      height: 2,
-                      width: MediaQuery.of(context).size.width * .9,
-                    ),
-                  ),
-                ),
-                if (contentFile != null)
-                  videoController.value.initialized
-                      ? AspectRatio(
-                          aspectRatio: videoController.value.aspectRatio,
-                          child: VideoPlayer(videoController),
-                        )
-                      : Container()
-                else
-                  RaisedButton(
-                    onPressed: () {
-                      getKlipGallery();
-                    },
-                    child: Text("Pick Video From Gallery"),
-                  ),
-              ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Add New Klip"),
+        centerTitle: true,
+        shadowColor: Colors.transparent,
+        backgroundColor: Colors.transparent,
+      ),
+      body: PageView(
+        controller: pageController,
+        children: <Widget>[
+          selectFromGallery(),
+          //Camera(),
+          //Console(),
+        ],
+        onPageChanged: (page) {
+          setState(() {
+            currentPage = page;
+          });
+        },
+      ),
+      bottomNavigationBar: Container(
+        height: 50,
+        color: Constants.purpleColor.withOpacity(.1),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            Icon(
+              Icons.photo_size_select_actual_outlined,
+              color: currentPage == 0 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+              size: 25,
             ),
-          ),
+            Icon(
+              Icons.circle,
+              color: currentPage == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+              size: 25,
+            ),
+            SvgPicture.asset(
+              "lib/assets/iconsUI/consoleIcon.svg",
+              semanticsLabel: 'Console Icon',
+              width: 25,
+              height: 25,
+              color: currentPage == 2 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+            ),
+          ],
         ),
       ),
+    );
+  }
+
+  Widget selectFromGallery() {
+    return FutureBuilder<Directory>(
+      future: getApplicationDocumentsDirectory(), // a previously-obtained Future<String> or null
+      builder: (BuildContext context, AsyncSnapshot<Directory> snapshot) {
+        List<Widget> children;
+        if (snapshot.hasData) {
+          final myDir = new Directory(snapshot.data.toString());
+          print(myDir);
+          List<FileSystemEntity> _images;
+          _images = myDir.listSync(recursive: true, followLinks: false);
+          print(_images);
+        } else if (snapshot.hasError) {
+          print("RAN INTO ERROR ON GETTING FILE DIRECTORY");
+        } else {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: children,
+          ),
+        );
+      },
     );
   }
 

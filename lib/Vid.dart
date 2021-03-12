@@ -34,13 +34,11 @@ class _VidState extends State<Vid> {
       child: GestureDetector(
         onTap: () {
           setState(() {
-            _controller.value.isPlaying
-                ? _controller.pause()
-                : _controller.play();
+            _controller.value.isPlaying ? _controller.pause() : _controller.play();
           });
         },
         child: Center(
-          child: _controller.value.initialized
+          child: _controller.value.isInitialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
