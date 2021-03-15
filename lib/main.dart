@@ -35,6 +35,7 @@ class MyApp extends StatelessWidget {
           selectionColor: Constants.purpleColor.withOpacity(.5),
           cursorColor: Constants.purpleColor,
         ),
+        brightness: Brightness.dark,
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
       home: Navigation(),

@@ -37,6 +37,7 @@ dependencies:
   stripe_payment: ^1.0.10
   path_provider: ^2.0.0
   chewie: ^1.0.0
+  photo_manager: ^1.0.1
 
   
   simple_image_crop:

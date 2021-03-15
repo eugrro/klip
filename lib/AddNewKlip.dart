@@ -1,14 +1,15 @@
+import 'dart:collection';
+import 'dart:ffi';
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:image_picker/image_picker.dart';
-import 'package:path_provider/path_provider.dart';
+import 'package:async/async.dart';
+import 'package:photo_manager/photo_manager.dart';
 import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
-import 'package:klip/widgets.dart';
-import 'package:klip/currentUser.dart' as currentUser;
-import 'package:video_player/video_player.dart';
+import 'package:intl/intl.dart';
 
 import 'Requests.dart';
 
@@ -24,12 +25,141 @@ class _AddNewKlipState extends State<AddNewKlip> {
   VideoPlayerController videoController;
   PageController pageController;
   int currentPage;
+  List<AssetEntity> assetList = [];
+
+  int gridLength = 0;
+  int numSelected;
+  final AsyncMemoizer memoizer = AsyncMemoizer();
+  List<bool> tapped = List.filled(999, false, growable: false);
+  List<AsyncMemoizer> memList = List.generate(999, (index) => AsyncMemoizer());
+  //TODO figure out how to set these lists dynamically
 
   @override
   void initState() {
     super.initState();
     pageController = PageController(initialPage: 0);
     currentPage = 0;
+    numSelected = 0;
+    loadImageList();
+  }
+
+  Future<void> loadImageList() async {
+    //allImageTemp = await FlutterGallaryPlugin.getAllImages;
+    List<AssetPathEntity> assetPathlist = await PhotoManager.getAssetPathList(type: RequestType.video);
+
+    for (AssetPathEntity path in assetPathlist) {
+      for (AssetEntity item in await path.getAssetListRange(start: 0, end: 999)) {
+        assetList.add(item);
+      }
+    }
+    print("FOUND " + assetList.length.toString() + " videos!");
+    setState(() {
+      gridLength = assetList.length;
+    });
+  }
+
+  Widget _buildGrid() {
+    return GridView.count(
+      crossAxisCount: 3,
+      mainAxisSpacing: 2,
+      addAutomaticKeepAlives: true,
+      crossAxisSpacing: 2,
+      shrinkWrap: true,
+      children: List.generate(
+        gridLength,
+        (int index) => GestureDetector(
+          onTap: () {
+            setState(() {
+              if (tapped[index]) {
+                numSelected--;
+                tapped[index] = false;
+              } else {
+                numSelected++;
+                tapped[index] = true;
+              }
+            });
+            print("Number selected: $numSelected");
+          },
+          child: Container(
+            decoration: BoxDecoration(
+              border:
+                  Border.all(color: tapped[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6), width: tapped[index] ? 2 : 1),
+            ),
+            child: FutureBuilder(
+              future: Future.wait([
+                memoizer.runOnce(() => getImageAsFile(index)),
+                memList[index].runOnce(() => getThumbImage(index)),
+              ]),
+              builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
+                if (snapshot.hasData) {
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      Image.memory(
+                        snapshot.data[1],
+                        fit: BoxFit.cover,
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3 - 20,
+                      ),
+                      /*Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.width / 3 - 20,
+                        color: Colors.lightBlue,
+                      ),*/
+                      Padding(
+                        padding: EdgeInsets.only(left: 10, right: 10, top: 2),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              DateFormat('MMM d').format(
+                                assetList[index].modifiedDateTime,
+                              ),
+                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                            ),
+                            Text(
+                              sizeOfFile(snapshot.data[0]),
+                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                            ),
+                            Text(
+                              vidTime(assetList[index]),
+                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  );
+                } else {
+                  return Container(
+                    color: Colors.transparent,
+                  );
+                }
+              },
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+
+  Future<File> getImageAsFile(int index) async {
+    return await assetList[index].file;
+  }
+
+  Future<Uint8List> getThumbImage(int index) async {
+    return await assetList[index].thumbDataWithSize(
+      MediaQuery.of(context).size.width ~/ 3,
+      MediaQuery.of(context).size.width ~/ 3 - 20,
+    );
+  }
+
+  String sizeOfFile(File f) {
+    return (f.lengthSync() / 1000).round().toString() + " kB";
+  }
+
+  String vidTime(AssetEntity entity) {
+    return entity.videoDuration.inMinutes.toString() + ":" + entity.videoDuration.inSeconds.toString();
   }
 
   @override
@@ -37,14 +167,35 @@ class _AddNewKlipState extends State<AddNewKlip> {
     return Scaffold(
       appBar: AppBar(
         title: Text("Add New Klip"),
+        actions: [
+          numSelected >= 1
+              ? IconButton(
+                  onPressed: () {
+                    if (numSelected == 1) {
+                      Navigator.pop(context);
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                        content: const Text('Multiple selection posting feature not yet implemented '),
+                        duration: const Duration(seconds: 2),
+                      ));
+                    }
+                  },
+                  icon: Icon(Icons.check),
+                  color: Constants.purpleColor,
+                )
+              : Container(),
+        ],
         centerTitle: true,
-        shadowColor: Colors.transparent,
+        brightness: Brightness.dark,
+        //shadowColor: Colors.transparent,
         backgroundColor: Colors.transparent,
       ),
       body: PageView(
         controller: pageController,
         children: <Widget>[
-          selectFromGallery(),
+          _buildGrid(),
+
+          //selectFromGallery(),
           //Camera(),
           //Console(),
         ],
@@ -81,86 +232,5 @@ class _AddNewKlipState extends State<AddNewKlip> {
         ),
       ),
     );
-  }
-
-  Widget selectFromGallery() {
-    return FutureBuilder<Directory>(
-      future: getApplicationDocumentsDirectory(), // a previously-obtained Future<String> or null
-      builder: (BuildContext context, AsyncSnapshot<Directory> snapshot) {
-        List<Widget> children;
-        if (snapshot.hasData) {
-          final myDir = new Directory(snapshot.data.toString());
-          print(myDir);
-          List<FileSystemEntity> _images;
-          _images = myDir.listSync(recursive: true, followLinks: false);
-          print(_images);
-        } else if (snapshot.hasError) {
-          print("RAN INTO ERROR ON GETTING FILE DIRECTORY");
-        } else {
-          return Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-        return Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: children,
-          ),
-        );
-      },
-    );
-  }
-
-  final picker = ImagePicker();
-
-  Future getKlipCamera() async {
-    final pickedFile = await picker.getVideo(
-      source: ImageSource.gallery,
-      preferredCameraDevice: CameraDevice.rear,
-    );
-
-    setState(() {
-      if (pickedFile != null) {
-        contentFile = File(pickedFile.path);
-        //final bytes = await pickedFile.readAsBytes();
-        //TODO look into bytes instead of paths
-      } else {
-        print('No image selected.');
-      }
-    });
-  }
-
-  Future getKlipGallery() async {
-    picker
-        .getVideo(
-      source: ImageSource.gallery,
-      //preferredCameraDevice: CameraDevice.rear,
-    )
-        .then((pickedFile) async {
-      if (pickedFile != null) {
-        print("PATH: " + pickedFile.path);
-        print("FILENAME: " + pickedFile.path.split('/').last);
-
-        print('Type of File: ' + (pickedFile.path.split('.').last));
-
-        setState(() {
-          filePath = pickedFile.path;
-          contentFile = File(pickedFile.path);
-          videoController = VideoPlayerController.file(contentFile)
-            ..initialize().then((_) {
-              setState(() {});
-              videoController.play();
-            });
-          print('Klip selected.');
-
-          //final bytes = await pickedFile.readAsBytes();
-          //TODO look into bytes instead of paths
-        });
-        print("Klip File Size: " + (await contentFile.length()).toString());
-      } else {
-        print('No Klip selected.');
-      }
-    });
   }
 }
