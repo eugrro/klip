@@ -58,7 +58,7 @@ class _AddNewKlipState extends State<AddNewKlip> {
     });
   }
 
-  Widget _buildGrid() {
+  Widget selectFromGallery() {
     return GridView.count(
       crossAxisCount: 3,
       mainAxisSpacing: 2,
@@ -162,6 +162,192 @@ class _AddNewKlipState extends State<AddNewKlip> {
     return entity.videoDuration.inMinutes.toString() + ":" + entity.videoDuration.inSeconds.toString();
   }
 
+  Widget selectFromConsole() {
+    return Column(
+      children: [
+        Container(
+          height: 50,
+        ),
+        GestureDetector(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+              content: const Text('Xbox feature not yet implemented'),
+              duration: const Duration(seconds: 2),
+            ));
+          },
+          child: Container(
+            height: 80,
+            width: MediaQuery.of(context).size.width * .9,
+            decoration: BoxDecoration(
+              border: Border.all(color: Constants.backgroundWhite),
+              boxShadow: kElevationToShadow[4],
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black,
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          "lib/assets/iconsUI/xboxIcon.png",
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.fill,
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Text(
+                          "Xbox",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 18 + Constants.textChange,
+                          ),
+                        )
+                      ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Constants.backgroundWhite,
+                      size: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 25,
+        ),
+        GestureDetector(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+              content: const Text('Playstation feature not yet implemented'),
+              duration: const Duration(seconds: 2),
+            ));
+          },
+          child: Container(
+            height: 80,
+            width: MediaQuery.of(context).size.width * .9,
+            decoration: BoxDecoration(
+              border: Border.all(color: Constants.backgroundWhite),
+              boxShadow: kElevationToShadow[4],
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black,
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          "lib/assets/iconsUI/psnIcon.png",
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.fill,
+                          color: Color(0xff003087),
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Text(
+                          "PlayStation",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 18 + Constants.textChange,
+                          ),
+                        )
+                      ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Constants.backgroundWhite,
+                      size: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Container(
+          height: 25,
+        ),
+        GestureDetector(
+          onTap: () {
+            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+              behavior: SnackBarBehavior.floating,
+              backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+              content: const Text('Nintendo feature not yet implemented'),
+              duration: const Duration(seconds: 2),
+            ));
+          },
+          child: Container(
+            height: 80,
+            width: MediaQuery.of(context).size.width * .9,
+            decoration: BoxDecoration(
+              border: Border.all(color: Constants.backgroundWhite),
+              boxShadow: kElevationToShadow[4],
+              borderRadius: BorderRadius.circular(12),
+              color: Colors.black,
+            ),
+            child: Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Image.asset(
+                          "lib/assets/iconsUI/nintendoIcon.png",
+                          width: 40,
+                          height: 40,
+                          fit: BoxFit.fill,
+                          color: Color(0xffC00012),
+                        ),
+                        Container(
+                          width: 10,
+                        ),
+                        Text(
+                          "Switch",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 18 + Constants.textChange,
+                          ),
+                        )
+                      ],
+                    ),
+                    Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Constants.backgroundWhite,
+                      size: 30,
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -175,7 +361,10 @@ class _AddNewKlipState extends State<AddNewKlip> {
                       Navigator.pop(context);
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        content: const Text('Multiple selection posting feature not yet implemented '),
+                        margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+                        behavior: SnackBarBehavior.floating,
+                        backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+                        content: const Text('Multiple selection posting feature not yet implemented'),
                         duration: const Duration(seconds: 2),
                       ));
                     }
@@ -193,11 +382,9 @@ class _AddNewKlipState extends State<AddNewKlip> {
       body: PageView(
         controller: pageController,
         children: <Widget>[
-          _buildGrid(),
-
-          //selectFromGallery(),
+          selectFromGallery(),
           //Camera(),
-          //Console(),
+          selectFromConsole(),
         ],
         onPageChanged: (page) {
           setState(() {
@@ -211,22 +398,42 @@ class _AddNewKlipState extends State<AddNewKlip> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            Icon(
-              Icons.photo_size_select_actual_outlined,
-              color: currentPage == 0 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
-              size: 25,
+            GestureDetector(
+              onTap: () {
+                pageController.animateToPage(0, duration: Duration(milliseconds: 250), curve: Curves.linear);
+              },
+              child: Icon(
+                Icons.photo_size_select_actual_outlined,
+                color: currentPage == 0 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                size: 25,
+              ),
             ),
-            Icon(
-              Icons.circle,
-              color: currentPage == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
-              size: 25,
+            GestureDetector(
+              onTap: () {
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                  content: const Text('Camera feature not yet implemented'),
+                  duration: const Duration(seconds: 2),
+                ));
+                //pageController.animateToPage(0, duration: Duration(milliseconds: 250), curve: Curves.linear);
+                //TODO implement camera feature
+              },
+              child: Icon(
+                Icons.circle,
+                color: currentPage == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                size: 25,
+              ),
             ),
-            SvgPicture.asset(
-              "lib/assets/iconsUI/consoleIcon.svg",
-              semanticsLabel: 'Console Icon',
-              width: 25,
-              height: 25,
-              color: currentPage == 2 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+            GestureDetector(
+              onTap: () {
+                pageController.animateToPage(1, duration: Duration(milliseconds: 250), curve: Curves.linear);
+              },
+              child: SvgPicture.asset(
+                "lib/assets/iconsUI/consoleIcon.svg",
+                semanticsLabel: 'Console Icon',
+                width: 25,
+                height: 25,
+                color: currentPage == 2 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+              ),
             ),
           ],
         ),
