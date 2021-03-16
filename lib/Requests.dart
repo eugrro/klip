@@ -39,8 +39,7 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
   return "";
 }
 
-Future<String> addComment(String pid, String uid, String uname,
-    String avatarLink, String comm, String time) async {
+Future<String> addComment(String pid, String uid, String uname, String avatarLink, String comm, String time) async {
   var response;
   try {
     Map<String, String> params = {
@@ -96,9 +95,7 @@ Future<String> uploadImage(String filePath, String uid) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
-      String fileName = uid +
-          "_" +
-          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -128,9 +125,7 @@ Future<String> uploadKlip(String filePath, String uid) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
-      String fileName = uid +
-          "_" +
-          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -233,9 +228,7 @@ Future<String> getListOfContent() async {
 Future<String> addTextContent(String uid, String title, String body) async {
   var response;
 
-  String fileName = uid +
-      "_" +
-      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
     Map<String, String> params = {
@@ -276,7 +269,6 @@ Future<String> getXboxClips(String gamertag) async {
     response = await http.get(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
       if (response.body is String) return response.body;
     } else {
       print("Returned error " + response.statusCode.toString());

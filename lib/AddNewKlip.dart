@@ -1,4 +1,5 @@
 import 'dart:collection';
+import 'dart:convert';
 import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
@@ -10,6 +11,7 @@ import 'package:photo_manager/photo_manager.dart';
 import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
 import 'package:intl/intl.dart';
+import 'package:klip/currentUser.dart' as currentUser;
 
 import 'Requests.dart';
 
@@ -26,6 +28,7 @@ class _AddNewKlipState extends State<AddNewKlip> {
   PageController pageController;
   int currentPage;
   List<AssetEntity> assetList = [];
+  var xboxData;
 
   int gridLength = 0;
   int numSelected;
@@ -162,6 +165,16 @@ class _AddNewKlipState extends State<AddNewKlip> {
     return entity.videoDuration.inMinutes.toString() + ":" + entity.videoDuration.inSeconds.toString();
   }
 
+  Future<void> loadXboxClips(String gamertag) async {
+    String getVids = await getXboxClips(gamertag);
+    xboxData = jsonDecode(getVids);
+    //print(servRet);
+    for (var clip in xboxData) {
+      print(clip["thumbnails"]);
+      print(clip["gameClipUris"]);
+    }
+  }
+
   Widget selectFromConsole() {
     return Column(
       children: [
@@ -170,13 +183,14 @@ class _AddNewKlipState extends State<AddNewKlip> {
         ),
         GestureDetector(
           onTap: () {
-            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+            /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
               behavior: SnackBarBehavior.floating,
               backgroundColor: Constants.backgroundWhite.withOpacity(.9),
               content: const Text('Xbox feature not yet implemented'),
               duration: const Duration(seconds: 2),
-            ));
+            ));*/
+            loadXboxClips(currentUser.gamertag);
           },
           child: Container(
             height: 80,

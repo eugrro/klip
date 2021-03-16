@@ -7,9 +7,9 @@ String lName = "testLastName";
 String email = "testEmail@gmail.com";
 int numViews = 0;
 int numKredits = 0;
+String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
-String avatarLink =
-    "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+String avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
 Image userProfileImg = Image.network(avatarLink);
 
 String getFullName() {

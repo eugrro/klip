@@ -36,7 +36,7 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     super.dispose();
-    chewieController.dispose();
+    //chewieController.dispose();
     //videoPlayerController.dispose();
     //_betterPlayerController.dispose();
   }
