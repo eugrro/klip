@@ -32,7 +32,9 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
   int currentPage;
   List<AssetEntity> assetList = [];
   var xboxData;
-  List<String> xboxThumbs;
+  List<String> xboxThumbs = [];
+  List<String> xboxVids = [];
+  List<dynamic> currentlySelectedVideos = [];
 
   bool selectedXbox = false;
   bool selectedPs = false;
@@ -49,7 +51,8 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
   int gridLength = 0;
   int numSelected;
   final AsyncMemoizer memoizer = AsyncMemoizer();
-  List<bool> tapped = List.filled(999, false, growable: false);
+  List<bool> tappedGallery = List.filled(999, false, growable: false);
+  List<bool> tappedXbox = [];
   List<AsyncMemoizer> memList = List.generate(999, (index) => AsyncMemoizer());
   //TODO figure out how to set these lists dynamically
 
@@ -108,19 +111,22 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
         (int index) => GestureDetector(
           onTap: () {
             setState(() {
-              if (tapped[index]) {
+              if (tappedGallery[index]) {
                 numSelected--;
-                tapped[index] = false;
+                tappedGallery[index] = false;
+                currentlySelectedVideos.remove(assetList[index]);
               } else {
                 numSelected++;
-                tapped[index] = true;
+                tappedGallery[index] = true;
+                currentlySelectedVideos.add(assetList[index]);
               }
             });
           },
           child: Container(
             decoration: BoxDecoration(
-              border:
-                  Border.all(color: tapped[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6), width: tapped[index] ? 2 : 1),
+              border: Border.all(
+                  color: tappedGallery[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                  width: tappedGallery[index] ? 3 : 1),
             ),
             child: FutureBuilder(
               future: Future.wait([
@@ -148,11 +154,13 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                                 borderRadius: BorderRadius.circular(2.5),
                               ),
                               padding: EdgeInsets.only(top: 1, bottom: 1, right: 4, left: 4),
-                              child: Text(vidTime(assetList[index]),
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                  )),
+                              child: Text(
+                                vidTime(assetList[index]),
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                ),
+                              ),
                             ),
                           ),
                         ],
@@ -219,9 +227,11 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
     xboxData = jsonDecode(getVids);
     //print(servRet);
     for (var clip in xboxData) {
-      print(clip["thumbnails"]);
-      //print(clip["gameClipUris"]);
-      xboxThumbs.add(clip["thumbnails"][0]["uri"]);
+      print(clip["thumbnails"][0]["uri"]);
+      print(clip["gameClipUris"]);
+      xboxThumbs.add(clip["thumbnails"][0]["uri"].toString());
+      xboxVids.add(clip["gameClipUris"][0]["uri"].toString());
+      tappedXbox.add(false);
       // clip["thumbnails"][1]["uri"] for high quality
     }
   }
@@ -242,24 +252,24 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
               color: Colors.black,
             ),
             duration: animationDuration,
-            child: GestureDetector(
-              onTap: () {
-                //Navigator.push(context, SlideInRoute(page: ShowVidPreview(), direction: 3));
+            child: Column(
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                    child: GestureDetector(
+                      onTap: () {
+                        //Navigator.push(context, SlideInRoute(page: ShowVidPreview(), direction: 3));
 
-                setState(() {
-                  selectedXbox = !selectedXbox;
-                  if (xboxAnimation.value == 0) {
-                    xboxExpandController.animateTo(1);
-                  } else {
-                    xboxExpandController.animateTo(0);
-                  }
-                });
-              },
-              child: Column(
-                children: [
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                        setState(() {
+                          selectedXbox = !selectedXbox;
+                          if (xboxAnimation.value == 0) {
+                            xboxExpandController.animateTo(1);
+                          } else {
+                            xboxExpandController.animateTo(0);
+                          }
+                        });
+                      },
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -292,28 +302,48 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(bottom: selectedXbox ? 5 : 0, left: 5, right: 5),
-                    child: SizeTransition(
-                      sizeFactor: xboxAnimation,
-                      child: GridView.count(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        crossAxisCount: 3,
-                        mainAxisSpacing: 2,
-                        crossAxisSpacing: 2,
-                        children: List.generate(
-                          15,
-                          (int index) => Container(
-                            height: 10,
-                            color: Colors.blue,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(bottom: selectedXbox ? 5 : 0, left: 5, right: 5),
+                  child: SizeTransition(
+                    sizeFactor: xboxAnimation,
+                    child: GridView.count(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      crossAxisCount: 3,
+                      children: List.generate(
+                        xboxThumbs.length,
+                        (int index) => GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              if (tappedXbox[index]) {
+                                numSelected--;
+                                tappedXbox[index] = false;
+                                currentlySelectedVideos.remove(xboxVids[index]);
+                              } else {
+                                numSelected++;
+                                tappedXbox[index] = true;
+                                currentlySelectedVideos.add(xboxVids[index]);
+                              }
+                            });
+                          },
+                          child: Container(
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                  color: tappedXbox[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                                  width: tappedXbox[index] ? 3 : 1),
+                            ),
+                            child: Image.network(
+                              xboxThumbs[index],
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
           ),
           Container(
@@ -334,13 +364,6 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
               children: [
                 GestureDetector(
                   onTap: () {
-                    /*ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-                content: const Text('Playstation feature not yet implemented'),
-                duration: const Duration(seconds: 2),
-              ));*/
                     setState(() {
                       selectedPs = !selectedPs;
                       if (psAnimation.value == 0) {
@@ -485,7 +508,10 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
               ? IconButton(
                   onPressed: () {
                     if (numSelected == 1) {
-                      Navigator.push(context, SlideInRoute(page: ShowVidPreview(), direction: 3));
+                      Navigator.push(
+                        context,
+                        SlideInRoute(page: ShowVidPreview(currentlySelectedVideos), direction: 3),
+                      );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                         margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
