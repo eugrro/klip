@@ -7,9 +7,17 @@ import 'package:klip/currentUser.dart' as currentUser;
 ChewieController klipChewieController(VideoPlayerController vp) {
   return ChewieController(
     videoPlayerController: vp,
-    autoPlay: false,
+    autoPlay: true,
     looping: false,
     autoInitialize: true,
+    allowMuting: false,
+    showControls: false,
+    playbackSpeeds: [0.5, 1, 1.5, 2],
+    customControls: Container(
+      height: 10,
+      width: 10,
+      color: Colors.green,
+    ),
     materialProgressColors: ChewieProgressColors(
       playedColor: Constants.purpleColor,
       handleColor: Constants.purpleColor,
@@ -17,6 +25,16 @@ ChewieController klipChewieController(VideoPlayerController vp) {
       bufferedColor: Colors.grey,
     ),
   );
+}
+
+void showSnackbar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    content: Text(text),
+    duration: const Duration(seconds: 2),
+  ));
 }
 
 Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {

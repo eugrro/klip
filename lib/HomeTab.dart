@@ -354,7 +354,7 @@ class _HomeTabState extends State<HomeTab> {
       autoPlay: true,
       looping: true,
     );
-    if (videoPlayerController.value.isInitialized) {
+    if (videoPlayerController.value.initialized) {
       return "DONE";
     }
   }

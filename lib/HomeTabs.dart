@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klip/HomeTab.dart';
 import 'package:toast/toast.dart';
-
+import './Constants.dart' as Constants;
 import 'Notifiers.dart';
 
 // ignore: must_be_immutable
@@ -52,9 +52,9 @@ class _HomeTabsState extends State<HomeTabs> {
           });
         },*/
         children: <Widget>[
-          HomeTab(),
+          //HomeTab(),
           Container(
-            color: Colors.blue,
+            color: Constants.backgroundBlack,
           ),
           Container(
             width: MediaQuery.of(context).size.width,

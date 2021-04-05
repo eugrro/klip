@@ -223,8 +223,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
 
   Future<void> loadXboxClips(String gamertag) async {
     String getVids = await getXboxClips(gamertag);
-    if (getVids == null) {}
-    xboxData = jsonDecode(getVids);
+    if (getVids != null) xboxData = jsonDecode(getVids);
     //print(servRet);
     for (var clip in xboxData) {
       print(clip["thumbnails"][0]["uri"]);
@@ -259,8 +258,6 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 15),
                     child: GestureDetector(
                       onTap: () {
-                        //Navigator.push(context, SlideInRoute(page: ShowVidPreview(), direction: 3));
-
                         setState(() {
                           selectedXbox = !selectedXbox;
                           if (xboxAnimation.value == 0) {
@@ -438,13 +435,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
           ),
           GestureDetector(
             onTap: () {
-              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                behavior: SnackBarBehavior.floating,
-                backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-                content: const Text('Nintendo feature not yet implemented'),
-                duration: const Duration(seconds: 2),
-              ));
+              showSnackbar(context, 'Nintendo feature not yet implemented');
             },
             child: Container(
               height: 80,
@@ -511,15 +502,18 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                       Navigator.push(
                         context,
                         SlideInRoute(page: ShowVidPreview(currentlySelectedVideos), direction: 3),
-                      );
+                      ).then((value) {
+                        for (int i = 0; i < tappedGallery.length; i++) {
+                          tappedGallery[i] = false;
+                        }
+                        for (int i = 0; i < tappedXbox.length; i++) {
+                          tappedXbox[i] = false;
+                        }
+                        currentlySelectedVideos = [];
+                        numSelected = 0;
+                      });
                     } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                        behavior: SnackBarBehavior.floating,
-                        backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-                        content: const Text('Multiple selection posting feature not yet implemented'),
-                        duration: const Duration(seconds: 2),
-                      ));
+                      showSnackbar(context, 'Multiple selection posting feature not yet implemented');
                     }
                   },
                   icon: Icon(Icons.check),
@@ -569,13 +563,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
             ),
             GestureDetector(
               onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-                  content: const Text('Camera feature not yet implemented'),
-                  duration: const Duration(seconds: 2),
-                ));
+                showSnackbar(context, 'Camera feature not yet implemented');
                 //pageController.animateToPage(0, duration: Duration(milliseconds: 250), curve: Curves.linear);
                 //TODO implement camera feature
               },
