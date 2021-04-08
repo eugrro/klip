@@ -6,9 +6,6 @@ import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-import 'HomeTabs.dart';
-import 'TopNavBar.dart';
-import 'TopSection.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;

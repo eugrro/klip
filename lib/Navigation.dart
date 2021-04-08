@@ -150,7 +150,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
           topRight: Radius.circular(15),
         ),
       ),
-      //isDismissible: true,
+      isDismissible: false,
       context: context,
       builder: (BuildContext bc) {
         return Container(
