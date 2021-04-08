@@ -1,9 +1,62 @@
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
-Widget klipTextField(double height, double width, TextEditingController contr,
-    {String labelText, double thickness, double labelTextFontSize}) {
+ChewieController klipChewieController(VideoPlayerController vp) {
+  return ChewieController(
+    videoPlayerController: vp,
+    autoPlay: true,
+    looping: false,
+    autoInitialize: true,
+    allowMuting: false,
+    showControls: false,
+    playbackSpeeds: [0.5, 1, 1.5, 2],
+    customControls: Container(
+      height: 10,
+      width: 10,
+      color: Colors.green,
+    ),
+    materialProgressColors: ChewieProgressColors(
+      playedColor: Constants.purpleColor,
+      handleColor: Constants.purpleColor,
+      backgroundColor: Colors.grey[100],
+      bufferedColor: Colors.grey,
+    ),
+  );
+}
+
+void showError(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(text),
+        Text(
+          "X",
+          style: TextStyle(color: Colors.red, fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+    duration: const Duration(seconds: 2),
+  ));
+}
+
+void showSnackbar(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    content: Text(text),
+    duration: const Duration(seconds: 2),
+  ));
+}
+
+Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {
   if (thickness == null) thickness = 2.0;
   return Stack(
     children: [
@@ -56,9 +109,7 @@ Widget klipTextField(double height, double width, TextEditingController contr,
                   child: Text(
                     labelText,
                     style: TextStyle(
-                      fontSize: labelTextFontSize == null
-                          ? 14 + Constants.textChange
-                          : labelTextFontSize + Constants.textChange,
+                      fontSize: labelTextFontSize == null ? 14 + Constants.textChange : labelTextFontSize + Constants.textChange,
                       color: Constants.backgroundWhite,
                     ),
                   ),
@@ -75,17 +126,14 @@ Widget klipTextField(double height, double width, TextEditingController contr,
           bottom: 0,
         ),
         child: ClipRRect(
-          borderRadius:
-              BorderRadius.only(bottomRight: Radius.circular(thickness)),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(thickness)),
           child: Container(
             height: height / 2,
             width: height / 2,
             decoration: BoxDecoration(
               border: Border(
-                bottom:
-                    BorderSide(width: thickness, color: Constants.purpleColor),
-                right:
-                    BorderSide(width: thickness, color: Constants.purpleColor),
+                bottom: BorderSide(width: thickness, color: Constants.purpleColor),
+                right: BorderSide(width: thickness, color: Constants.purpleColor),
               ),
             ),
           ),

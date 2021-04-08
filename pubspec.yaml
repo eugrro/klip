@@ -28,15 +28,17 @@ dependencies:
   auto_size_text: ^2.1.0
   image_picker: ^0.6.2+17
   dio: ^3.0.10
-  linked_scroll_controller: ^0.1.2
   mime: ^0.9.7
-  video_player: ^2.0.0
   better_player: ^0.0.37
   cupertino_icons: ^1.0.0
-  flutter_svg: ^0.20.0-nullsafety.3
+  flutter_svg: ^0.21.0-nullsafety.0
   stripe_payment: ^1.0.10
-  path_provider: ^2.0.0
-  chewie: ^1.0.0
+  photo_manager: ^1.0.1
+  chewie: ^0.12.2
+  #chewie: ^1.0.0
+  video_editor: ^1.0.3+1
+  gallery_saver: ^2.0.3
+  vibration: ^1.7.3
 
   
   simple_image_crop:

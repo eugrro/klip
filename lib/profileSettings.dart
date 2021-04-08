@@ -43,6 +43,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Padding(
               padding: EdgeInsets.only(
                 bottom: 10,
+                top: Constants.statusBarHeight + 10,
               ),
               child: Stack(
                 children: [
@@ -60,10 +61,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pop(
-                              context,
-                              SlideDownRoute(
-                                  page: UserPage(currentUser.uid)));
+                          Navigator.pop(context, SlideDownRoute(page: UserPage(currentUser.uid)));
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -171,11 +169,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       boxShadow: kElevationToShadow[3],
                       color: Constants.purpleColor,
                     ),
-                    child: Center(
-                        child: editingBio
-                            ? Text("Cancel", style: Constants.tStyle())
-                            : Text("Edit Background",
-                                style: Constants.tStyle())),
+                    child: Center(child: editingBio ? Text("Cancel", style: Constants.tStyle()) : Text("Edit Background", style: Constants.tStyle())),
                   ),
                 ),
                 GestureDetector(
@@ -202,10 +196,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       boxShadow: kElevationToShadow[3],
                       color: Constants.purpleColor,
                     ),
-                    child: Center(
-                        child: editingBio
-                            ? Text("Save", style: Constants.tStyle())
-                            : Text("Edit Bio", style: Constants.tStyle())),
+                    child: Center(child: editingBio ? Text("Save", style: Constants.tStyle()) : Text("Edit Bio", style: Constants.tStyle())),
                   ),
                 ),
               ],
@@ -244,16 +235,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName,
-                      "Change your first name", false, true),
-                  settingsCard(context, "Last Name", currentUser.lName,
-                      "Change your last name", false, true),
-                  settingsCard(context, "Email", currentUser.email,
-                      "Change your email", false, true),
-                  settingsCard(context, "Username", currentUser.uName,
-                      "Change your first name", false, true),
-                  settingsCard(context, "Password", "* * * * * * * *",
-                      "Request to update your password", false, false),
+                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true),
+                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true),
+                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true),
+                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true),
+                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -266,17 +252,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", "Dark",
-                      "Update your theme preference", false, true),
-                  settingsCard(
-                      context,
-                      "Show Username",
-                      "Show First + Fast Name",
-                      "Change how you will be displayed on the app",
-                      false,
-                      true),
-                  settingsCard(context, "Comment Color", "Purple",
-                      "Change your prefered comment color", false, true),
+                  settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true),
+                  settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true),
+                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, true),
                 ],
               ),
             ),
@@ -383,9 +361,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Padding(
-                        padding: EdgeInsets.symmetric(
-                            vertical: 20,
-                            horizontal: MediaQuery.of(context).size.width / 6),
+                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: MediaQuery.of(context).size.width / 6),
                         child: TextFormField(
                           autofocus: true,
                           focusNode: fcs,
@@ -467,16 +443,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              CropProfilePic(contentImage, imgCropKey),
+                          builder: (context) => CropProfilePic(contentImage, imgCropKey),
                         ),
                       ).then(
                         (value) async {
                           if (value) {
                             final crop = imgCropKey.currentState;
-                            File newFile = await crop.cropCompleted(
-                                contentImage,
-                                preferredSize: 600);
+                            File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
@@ -499,9 +472,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     getImageGallery().then((value) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CropProfilePic(contentImage, imgCropKey)),
+                        MaterialPageRoute(builder: (context) => CropProfilePic(contentImage, imgCropKey)),
                       );
                     });
                   },
@@ -550,8 +521,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  Widget settingsCard(BuildContext context, String txt1, String txt2,
-      String description, bool showTopLine, bool showBottomLine) {
+  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine) {
     return Column(
       children: [
         showTopLine
@@ -570,8 +540,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               extentOffset: newInfoContr.text.length,
             );
             newInfoContr.text = txt2;
-            inputNewInfo(
-                context, newInfoContr, description, txt1, newInfoFocus);
+            inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus);
           },
           child: Padding(
             padding: EdgeInsets.symmetric(
