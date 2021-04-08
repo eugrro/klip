@@ -27,6 +27,25 @@ ChewieController klipChewieController(VideoPlayerController vp) {
   );
 }
 
+void showError(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(text),
+        Text(
+          "X",
+          style: TextStyle(color: Colors.red, fontSize: 28, fontWeight: FontWeight.bold),
+        ),
+      ],
+    ),
+    duration: const Duration(seconds: 2),
+  ));
+}
+
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),

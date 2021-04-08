@@ -38,7 +38,7 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
-      home: Navigation(),
+      home: StartPage(),
     );
   }
 }

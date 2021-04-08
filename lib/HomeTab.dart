@@ -14,6 +14,7 @@ import './Constants.dart' as Constants;
 import 'package:async/async.dart';
 import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
+import 'package:vibration/vibration.dart';
 
 //import 'Vid.dart';
 
@@ -125,6 +126,7 @@ class _HomeTabState extends State<HomeTab> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             if (position < obj.length) {
+              
               if (obj[position]["type"] == "txt") {
                 return buildHomeWidget(obj, position, txtWidget(obj[position]["title"], obj[position]["body"]));
               } else if (obj[position]["type"] == "img") {

@@ -10,8 +10,8 @@ Color hintColor = Color(0xffc0c0c0);
 double textChange = 0;
 
 //const nodeURL = 'http://10.0.2.2:3000/';            //emulator
-//const nodeURL = 'http://192.168.1.124:3000/';       //troy
-const nodeURL = 'http://192.168.86.28:3000/'; //roseland
+const nodeURL = 'http://192.168.1.124:3000/'; //troy
+//const nodeURL = 'http://192.168.86.28:3000/';  //roseland
 
 TextStyle tStyle({double fontSize = 16}) {
   return TextStyle(color: backgroundWhite, fontSize: fontSize);

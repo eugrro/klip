@@ -11,7 +11,7 @@ import 'TopNavBar.dart';
 import 'TopSection.dart';
 
 class UserPage extends StatefulWidget {
-  String uid;
+  final String uid;
   UserPage(this.uid);
 
   @override
@@ -21,6 +21,7 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   String uid;
   _UserPageState(this.uid);
+  bool isFollowing;
 
   @override
   void initState() {
@@ -29,6 +30,12 @@ class _UserPageState extends State<UserPage> {
       publishableKey: Constants.StripePKey,
       androidPayMode: 'test',
     ));
+    currentUser.displayCurrentUser();
+    if (currentUser.currentUserFollowing.contains(uid)) {
+      isFollowing = true;
+    } else {
+      isFollowing = false;
+    }
   }
 
   @override
@@ -114,24 +121,39 @@ class _UserPageState extends State<UserPage> {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Container(
-                                  height: 35,
-                                  width: MediaQuery.of(context).size.width / 50 * 12,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(3),
-                                    boxShadow: kElevationToShadow[4],
-                                    gradient: LinearGradient(
-                                      begin: Alignment.centerLeft,
-                                      end: Alignment.centerRight,
-                                      colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
+                                GestureDetector(
+                                  onTap: () {
+                                    if (currentUser.uid == uid) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
+                                        setState(() {});
+                                      });
+                                    } else {
+                                      currentUser.currentUserFollowing.add(uid);
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      boxShadow: kElevationToShadow[4],
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
+                                      ),
                                     ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      "Follow",
-                                      style: TextStyle(
-                                        color: Constants.backgroundWhite.withOpacity(.9),
-                                        fontSize: 15 + Constants.textChange,
+                                    child: Center(
+                                      child: Text(
+                                        uid == currentUser.uid
+                                            ? "Settings"
+                                            : isFollowing
+                                                ? "Following"
+                                                : "Follow",
+                                        style: TextStyle(
+                                          color: Constants.backgroundWhite.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
+                                        ),
                                       ),
                                     ),
                                   ),
@@ -210,17 +232,7 @@ class _UserPageState extends State<UserPage> {
                     padding: EdgeInsets.only(top: 10),
                     child: Container(
                       width: 150,
-                      child: CircleAvatar(
-                        radius: 75,
-                        backgroundImage: NetworkImage(
-                          currentUser.avatarLink,
-                        ),
-                        onBackgroundImageError: (exception, stackTrace) {
-                          print(exception);
-                          print(stackTrace);
-                          return Image.asset("lib/assets/images/personOutline.png");
-                        },
-                      ),
+                      child: CircleAvatar(radius: 75, child: ClipOval(child: currentUser.userProfileImg)),
                     ),
                   ),
                 ),
@@ -268,7 +280,7 @@ class _UserPageState extends State<UserPage> {
                   bottom: 15,
                 ),
                 child: Container(
-                  width: 135,
+                  width: 125,
                   child: AutoSizeText(
                     'Woah what an epic video Title!',
                     style: Constants.tStyle(),

@@ -144,7 +144,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                             snapshot.data[1],
                             fit: BoxFit.cover,
                             width: MediaQuery.of(context).size.width / 3,
-                            height: MediaQuery.of(context).size.width / 3 - 20,
+                            height: MediaQuery.of(context).size.width / 3 - 22,
                           ),
                           Padding(
                             padding: EdgeInsets.only(left: 7, top: 7),

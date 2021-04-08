@@ -52,7 +52,7 @@ class _HomeTabsState extends State<HomeTabs> {
           });
         },*/
         children: <Widget>[
-          //HomeTab(),
+          HomeTab(),
           Container(
             color: Constants.backgroundBlack,
           ),
