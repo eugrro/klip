@@ -11,6 +11,8 @@ import '../Constants.dart' as Constants;
 import 'package:http/http.dart' as http;
 import 'package:klip/currentUser.dart' as currentUser;
 
+import '../currentUser.dart';
+
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
 // ignore: non_constant_identifier_names
@@ -265,6 +267,8 @@ void setUpCurrentUser(String uid) async {
     currentUser.lName = user["lname"];
     currentUser.numViews = int.parse(user["numviews"]);
     currentUser.numKredits = int.parse(user["numkredits"]);
+    currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+    currentUser.userProfileImg = setProfileImage();
   } else {
     print("USER IS NULL did not set currentUser paramaters correctly");
   }

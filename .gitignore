@@ -40,7 +40,7 @@ lib/generated_plugin_registrant.dart
 lib/server/node_modules
 lib/server/rootkey.csv
 lib/server/keys.js
-android
+
 
 # Symbolication related
 app.*.symbols
