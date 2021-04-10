@@ -16,6 +16,8 @@ import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibration/vibration.dart';
 
+import 'currentUser.dart';
+
 //import 'Vid.dart';
 
 class HomeTab extends StatefulWidget {
@@ -37,9 +39,8 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     super.dispose();
-    //chewieController.dispose();
-    //videoPlayerController.dispose();
-    //_betterPlayerController.dispose();
+    chewieController.dispose();
+    videoPlayerController.dispose();
   }
 
   @override
@@ -126,18 +127,17 @@ class _HomeTabState extends State<HomeTab> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             if (position < obj.length) {
-              
               if (obj[position]["type"] == "txt") {
                 return buildHomeWidget(obj, position, txtWidget(obj[position]["title"], obj[position]["body"]));
               } else if (obj[position]["type"] == "img") {
                 return buildHomeWidget(obj, position, imgWidget(obj[position]["link"]));
               } else if (obj[position]["type"] == "vid") {
-                return FutureBuilder(
+                return FutureBuilder<String>(
                   future: setUpVideoController(obj[position]["link"]),
                   builder: (context, snapshot) {
                     if (snapshot.hasData) {
                       return Center(
-                        child: buildHomeWidget(obj, position, obj[position]["type"]),
+                        child: buildHomeWidget(obj, position, vidWidget()),
                       );
                     } else {
                       return SizedBox.shrink(
@@ -187,16 +187,33 @@ class _HomeTabState extends State<HomeTab> {
                     left: 10,
                     right: 10,
                   ),
-                  child: CircleAvatar(
-                    radius: 13,
-                    backgroundImage: NetworkImage(obj[position]["avatar"]),
+                  child: ClipOval(
+                    child: FutureBuilder<Widget>(
+                      future: getProfileImage(obj[position]["uid"] + "_avatar.jpg"), // a previously-obtained Future<String> or null
+                      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                        double sizeofImage = 25;
+                        if (snapshot.hasData) {
+                          return Container(
+                            height: sizeofImage,
+                            width: sizeofImage,
+                            child: snapshot.data,
+                          );
+                        } else {
+                          return Container(
+                            height: sizeofImage,
+                            width: sizeofImage,
+                            child: Constants.tempAvatar,
+                          );
+                        }
+                      },
+                    ),
                   ),
                 ),
                 Text(
-                  obj[position]["uname"],
+                  obj[position]["uname"] == null ? "usernameError" : obj[position]["uname"],
                   style: TextStyle(
                     color: Constants.backgroundWhite.withOpacity(.7),
-                    fontSize: 12 + Constants.textChange,
+                    fontSize: 14 + Constants.textChange,
                   ),
                 ),
                 Padding(
@@ -237,7 +254,7 @@ class _HomeTabState extends State<HomeTab> {
           child: Padding(
             padding: EdgeInsets.only(left: 15),
             child: Text(
-              obj[position]["title"],
+              obj[position]["title"] == null ? "" : obj[position]["title"],
               style: TextStyle(
                 color: Constants.backgroundWhite,
                 fontSize: 16 + Constants.textChange,
@@ -357,8 +374,9 @@ class _HomeTabState extends State<HomeTab> {
       looping: true,
     );
     if (videoPlayerController.value.initialized) {
-      return "DONE";
+      return "Done";
     }
+    return "Initializing";
   }
 
   Widget commentsWidget() {

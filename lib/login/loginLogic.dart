@@ -147,27 +147,26 @@ Future<String> signUp(String user, String pass) async {
 }
 
 Future<String> signIn(String user, String pass) async {
-  try {
-    await Firebase.initializeApp();
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass);
+  await Firebase.initializeApp();
+  bool ranIntoError = false;
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
+    ranIntoError = true;
+    if (e.code == 'weak-password') {
+      print('The password provided is too weak.');
+    } else if (e.code == "wrong-password") {
+      print('Wrong password');
+    } else if (e.code == 'email-already-in-use') {
+      print('The account already exists for that email.');
+    } else {
+      print("OTHER ERROR: " + e.toString());
+    }
+  });
+  if (!ranIntoError) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print('No user found for that email.');
-      return "EmailNotFound";
-    } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
-      return "WrongPassword";
-    }
-  } on PlatformException catch (e) {
-    print("PLATFORM ERROR: " + e.toString());
-    return "ERROR";
-  } catch (error) {
-    print("OTHER ERROR: " + error.toString());
-    return "ERROR";
+  } else {
+    return "";
   }
-  return "";
 }
 
 Future<void> resetPassword(String email) async {
@@ -264,7 +263,7 @@ void setUpCurrentUser(String uid) async {
     currentUser.numViews = int.parse(user["numviews"]);
     currentUser.numKredits = int.parse(user["numkredits"]);
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = setProfileImage();
+    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg");
   } else {
     print("USER IS NULL did not set currentUser paramaters correctly");
   }

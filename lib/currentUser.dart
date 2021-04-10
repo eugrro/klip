@@ -13,7 +13,7 @@ int numKredits = 0;
 String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
 String avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-Future<Widget> userProfileImg = setProfileImage();
+Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg");
 List<String> currentUserFollowing = [];
 List<String> currentUserSubscribing = [];
 
@@ -30,8 +30,8 @@ void displayCurrentUser() {
   }
 }
 
-Future<Widget> setProfileImage() async {
-  if (await doesObjectExistInS3(uid + "_avatar.jpg", "avatars-klip") == "ObjectFound") {
+Future<Widget> getProfileImage(String avatarLink) async {
+  if (await doesObjectExistInS3(avatarLink, "avatars-klip") == "ObjectFound") {
     return Image.network(avatarLink);
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
