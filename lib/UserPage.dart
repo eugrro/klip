@@ -229,7 +229,20 @@ class _UserPageState extends State<UserPage> {
                     padding: EdgeInsets.only(top: 10),
                     child: Container(
                       width: 150,
-                      child: CircleAvatar(radius: 75, child: ClipOval(child: currentUser.userProfileImg)),
+                      child: CircleAvatar(
+                          radius: 75,
+                          child: ClipOval(
+                            child: FutureBuilder<Widget>(
+                              future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
+                              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                                if (snapshot.hasData) {
+                                  return snapshot.data;
+                                } else {
+                                  return Constants.tempAvatar;
+                                }
+                              },
+                            ),
+                          )),
                     ),
                   ),
                 ),

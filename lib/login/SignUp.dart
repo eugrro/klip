@@ -155,11 +155,7 @@ class _SignUpState extends State<SignUp> {
                                 } else {
                                   String uid = await signUp(userNameController.text, passwordController.text);
                                   postUser(uid, "", "", userNameController.text, userNameController.text);
-                                  currentUser.uid = uid;
-                                  currentUser.uName = "testUserName";
-                                  currentUser.email = userNameController.text;
-                                  currentUser.fName = "John";
-                                  currentUser.lName = "Snow";
+                                  setUpCurrentUser(uid);
                                   Navigator.push(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),

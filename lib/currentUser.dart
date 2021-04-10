@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import 'Requests.dart';
+
 String uid = "testUID";
 String uName = "testUserName";
 String fName = "testFirstName";
@@ -11,7 +13,7 @@ int numKredits = 0;
 String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
 String avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-Widget userProfileImg = setProfileImage();
+Future<Widget> userProfileImg = setProfileImage();
 List<String> currentUserFollowing = [];
 List<String> currentUserSubscribing = [];
 
@@ -28,10 +30,10 @@ void displayCurrentUser() {
   }
 }
 
-Widget setProfileImage() {
-  try {
+Future<Widget> setProfileImage() async {
+  if (await doesObjectExistInS3(uid + "_avatar.jpg", "avatars-klip") == "ObjectFound") {
     return Image.network(avatarLink);
-  } catch (e) {
+  } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
   }
 }

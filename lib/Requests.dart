@@ -257,6 +257,32 @@ Future<String> addTextContent(String uid, String title, String body) async {
   return "";
 }
 
+Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "objectName": objectName,
+      "bucketName": bucketName,
+    };
+    String reqString = Constants.nodeURL + "doesObjectExistInS3";
+    print("Sending Request To: " + reqString);
+
+    response = await http.get(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.body);
+      if (response.body == "ObjectFound") return "ObjectFound";
+      if (response.body == "ObjectNotFound") return "ObjectNotFound";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "ERROR";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "ERROR";
+}
+
 Future<String> getXboxClips(String gamertag) async {
   var response;
   try {

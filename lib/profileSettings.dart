@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
+import 'package:klip/login/loginLogic.dart';
 import 'package:simple_image_crop/simple_image_crop.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
@@ -83,7 +84,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Container(
                     width: 130,
                     child: ClipOval(
-                      child: currentUser.userProfileImg,
+                      child: FutureBuilder<Widget>(
+                        future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
+                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                          if (snapshot.hasData) {
+                            return snapshot.data;
+                          } else {
+                            return Constants.tempAvatar;
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -289,138 +299,101 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       isScrollControlled: true,
       context: ctx,
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: kElevationToShadow[3],
-                            color: Constants.purpleColor,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "X",
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 30 + Constants.textChange,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              //height: 200,
+              decoration: BoxDecoration(
+                color: Constants.backgroundBlack,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20, right: 15, bottom: 15),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 100 * 55,
+                              child: LoginTextField(
+                                context,
+                                50,
+                                3,
+                                10,
+                                hint,
+                                contr,
+                                Container(),
+                                focusNode: fcs,
+                                isAutoFocus: true,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            //TODO
-                          });
-                        },
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: kElevationToShadow[3],
-                            color: Constants.purpleColor,
+                          Padding(
+                            padding: EdgeInsets.only(top: 6, right: 5),
+                            child: Center(
+                              child: Container(
+                                height: 40,
+                                width: 55,
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: Colors.white.withOpacity(.4),
+                                  ),
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  color: Constants.purpleColor.withOpacity(.5),
+                                  boxShadow: kElevationToShadow[12],
+                                ),
+                                child: Icon(
+                                  Icons.cancel_outlined,
+                                  size: 30,
+                                  color: Constants.backgroundWhite.withOpacity(.7),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Center(
-                              child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 35,
-                          )),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 6, left: 5),
+                            child: Center(
+                              child: Container(
+                                height: 40,
+                                width: 55,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.all(Radius.circular(8)),
+                                  color: Constants.purpleColor.withOpacity(.5),
+                                  boxShadow: kElevationToShadow[12],
+                                ),
+                                child: Icon(
+                                  Icons.check,
+                                  size: 30,
+                                  color: Constants.backgroundWhite.withOpacity(.7),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  //height: 200,
-                  decoration: BoxDecoration(
-                    color: Constants.backgroundBlack,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      topLeft: Radius.circular(10),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: MediaQuery.of(context).size.width / 6),
-                        child: TextFormField(
-                          autofocus: true,
-                          focusNode: fcs,
-                          cursorColor: Constants.purpleColor,
-                          decoration: new InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                                width: 2,
-                              ),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                                width: 1,
-                              ),
-                            ),
-                            //errorBorder: InputBorder.none,
-                            //disabledBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                              left: 15,
-                              bottom: 0,
-                              top: 0,
-                              right: 15,
-                            ),
-
-                            labelText: hint,
-                            labelStyle: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 16 + Constants.textChange,
-                              height: 1.5,
-                            ),
-                          ),
-                          controller: contr,
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 20 + Constants.textChange,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Text(
-                          suppText,
-                          style: Constants.tStyle(),
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      suppText,
+                      style: Constants.tStyle(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          //color: Colors.redAccent,
+          ],
         );
       },
     );
@@ -438,7 +411,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   leading: new Icon(Icons.photo_library),
                   title: new Text('Photo Library'),
                   onTap: () {
-                    print("ENTERING NEW PAGE");
                     getImageGallery().then((value) async {
                       Navigator.push(
                         context,
@@ -453,7 +425,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
-                              currentUser.userProfileImg = newImg;
+                              //little bit of a hacky way but this needs to return a future
+                              currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
+                                return newImg;
+                              });
+                              ;
                             });
                             Navigator.of(context).pop();
                           }
