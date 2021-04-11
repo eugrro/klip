@@ -68,6 +68,30 @@ Future<String> addComment(String pid, String uid, String uname, String avatarLin
   return "";
 }
 
+Future<String> reportBug(String uid, String bug) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "bug": bug,
+    };
+    String reqString = Constants.nodeURL + "reportBug";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return "BugReportedSucessfully";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "BugReportedUnsucessfully";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "BugReportedUnsucessfully";
+}
+
 // ignore: missing_return
 Future<String> testConnection() async {
   var response;
@@ -257,6 +281,32 @@ Future<String> addTextContent(String uid, String title, String body) async {
   return "";
 }
 
+Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "objectName": objectName,
+      "bucketName": bucketName,
+    };
+    String reqString = Constants.nodeURL + "doesObjectExistInS3";
+    print("Sending Request To: " + reqString);
+
+    response = await http.get(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.body);
+      if (response.body == "ObjectFound") return "ObjectFound";
+      if (response.body == "ObjectNotFound") return "ObjectNotFound";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "ERROR";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "ERROR";
+}
+
 Future<String> getXboxClips(String gamertag) async {
   var response;
   try {
@@ -270,6 +320,58 @@ Future<String> getXboxClips(String gamertag) async {
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.body is String) return response.body;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}
+
+Future<String> userFollowsUser(String uid1, String uid2) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid1": uid1,
+      "uid2": uid2,
+    };
+    String reqString = Constants.nodeURL + "userFollowsUser";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.body == "FollowSucessful")
+        return "FollowSucessful";
+      else if ((response.body == "FollowUnsucessful")) return "FollowUnsucessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}
+
+Future<String> userUnfollowsUser(String uid1, String uid2) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid1": uid1,
+      "uid2": uid2,
+    };
+    String reqString = Constants.nodeURL + "userUnfollowsUser";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.body == "UnfollowSucessful")
+        return "UnfollowSucessful";
+      else if ((response.body == "UnfollowUnsucessful")) return "UnfollowUnsucessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";

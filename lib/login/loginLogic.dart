@@ -18,7 +18,7 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 // ignore: non_constant_identifier_names
 Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
     TextEditingController contrl, Widget prefixIcon,
-    {isObscured = false}) {
+    {isObscured = false, isAutoFocus = false, FocusNode focusNode}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {},
@@ -48,6 +48,8 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
                 right: 20, //+ imgThickness,
               ),
               child: TextField(
+                autofocus: isAutoFocus,
+                focusNode: focusNode != null ? focusNode : new FocusNode(),
                 controller: contrl,
                 keyboardType: TextInputType.multiline,
                 obscureText: isObscured,
@@ -130,48 +132,41 @@ Future<void> signOutGoogle() async {
 }
 
 Future<String> signUp(String user, String pass) async {
-  try {
-    await Firebase.initializeApp();
-    UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user, password: pass);
-    print("SIGN IN UID: " + userCredential.user.uid);
-    print("Data Returned " + userCredential.user.toString());
-    return userCredential.user.uid;
-  } on FirebaseAuthException catch (e) {
+  await Firebase.initializeApp();
+  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user, password: pass).catchError((e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
     } else if (e.code == 'email-already-in-use') {
       print('The account already exists for that email.');
+    } else {
+      print("OTHER ERROR: " + e.toString());
     }
-  } on PlatformException catch (e) {
-    print("PLATFORM ERROR: " + e.toString());
-  } catch (error) {
-    print("OTHER ERROR: " + error.toString());
-  }
-  return "";
+  });
+  print("SIGN UP UID: " + userCredential.user.uid);
+  return userCredential.user.uid;
 }
 
 Future<String> signIn(String user, String pass) async {
-  try {
-    await Firebase.initializeApp();
-    UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass);
+  await Firebase.initializeApp();
+  bool ranIntoError = false;
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
+    ranIntoError = true;
+    if (e.code == 'weak-password') {
+      print('The password provided is too weak.');
+    } else if (e.code == "wrong-password") {
+      print('Wrong password');
+    } else if (e.code == 'email-already-in-use') {
+      print('The account already exists for that email.');
+    } else {
+      print("OTHER ERROR: " + e.toString());
+    }
+  });
+  if (!ranIntoError) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print('No user found for that email.');
-      return "EmailNotFound";
-    } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
-      return "WrongPassword";
-    }
-  } on PlatformException catch (e) {
-    print("PLATFORM ERROR: " + e.toString());
-    return "ERROR";
-  } catch (error) {
-    print("OTHER ERROR: " + error.toString());
-    return "ERROR";
+  } else {
+    return "";
   }
-  return "";
 }
 
 Future<void> resetPassword(String email) async {
@@ -208,16 +203,21 @@ Future<bool> doesUserExist(String email) async {
 Future<String> postUser(String uid, String fName, String lName, String uName, String email, {int numViews = 0, int numKredits = 0}) async {
   var response;
   try {
-    Map<String, String> params = {
+    Map<String, dynamic> params = {
       "uid": uid,
       "email": email,
       "fName": fName,
       "lName": lName,
       "uName": uName,
+      "bio": "",
+      "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
+      "following": [],
+      "followers": [],
+      "subscribers": [],
     };
-    String reqString = Constants.nodeURL + "users";
+    String reqString = Constants.nodeURL + "postUser";
     print("Sending Request To: " + reqString);
     response = await http.post(reqString, headers: params);
     if (response.statusCode == 200) {
@@ -240,12 +240,11 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     Map<String, String> params = {
       "uid": uid,
     };
-    String reqString = Constants.nodeURL + "users";
+    String reqString = Constants.nodeURL + "getUser";
     print("Sending Request To: " + reqString);
     response = await http.get(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
 
       return jsonDecode(response.body);
     } else {
@@ -262,13 +261,21 @@ void setUpCurrentUser(String uid) async {
   var user = await getUser(uid);
   currentUser.uid = uid;
   if (user != null) {
+    currentUser.bio = user["bio"];
+    currentUser.uName = user["uname"];
     currentUser.email = user["email"];
     currentUser.fName = user["fname"];
     currentUser.lName = user["lname"];
     currentUser.numViews = int.parse(user["numviews"]);
     currentUser.numKredits = int.parse(user["numkredits"]);
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = setProfileImage();
+    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    for (uid in user["following"]) {
+      currentUser.currentUserFollowing.add(uid);
+    }
+    for (uid in user["subscribing"]) {
+      currentUser.currentUserSubscribing.add(uid);
+    }
   } else {
     print("USER IS NULL did not set currentUser paramaters correctly");
   }

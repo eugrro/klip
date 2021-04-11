@@ -5,7 +5,7 @@
 *.swp
 *.apk
 *.bin
-*.xml
+#*.xml
 *.flat
 .DS_Store
 .atom/

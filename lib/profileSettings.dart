@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
+import 'package:klip/login/loginLogic.dart';
+import 'package:klip/widgets.dart';
 import 'package:simple_image_crop/simple_image_crop.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
@@ -83,7 +85,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Container(
                     width: 130,
                     child: ClipOval(
-                      child: currentUser.userProfileImg,
+                      child: FutureBuilder<Widget>(
+                        future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
+                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                          if (snapshot.hasData) {
+                            return snapshot.data;
+                          } else {
+                            return Constants.tempAvatar;
+                          }
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -186,6 +197,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         currentUser.bio = bioContr.text;
                         biofcs.unfocus();
                       });
+                      updateOne(currentUser.uid, "bio", bioContr.text);
                     }
                   },
                   child: Container(
@@ -214,6 +226,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Center(
               child: ListView(
                 padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   Padding(
@@ -235,11 +248,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true),
-                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true),
-                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true),
-                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true),
-                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false),
+                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fname"),
+                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lname"),
+                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true, mongoParamName: "email"),
+                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true, mongoParamName: "uname"),
+                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false, mongoParamName: "pass"),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -254,7 +267,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true),
                   settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true),
-                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, true),
+                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, false),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Center(
+                      child: Text(
+                        "Danger Zone",
+                        style: TextStyle(
+                          color: Colors.red.withOpacity(.8),
+                          fontSize: 17 + Constants.textChange,
+                        ),
+                      ),
+                    ),
+                  ),
+                  settingsCard(context, "Report A Bug", "", "Report a bug", false, true, txt1Color: Colors.blue[700], customfunction: reportABug),
+                  settingsCard(context, "Sign out", "", "Sign out", false, true),
+                  settingsCard(context, "Delete Your Account", "", "Delete your account", false, false, txt1Color: Colors.redAccent),
+                  //TODO implement delete account and sign out
+                  Container(
+                    height: 20,
+                  )
                 ],
               ),
             ),
@@ -276,151 +308,258 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }*/
 
-  inputNewInfo(
-    BuildContext ctx,
-    TextEditingController contr,
-    String suppText,
-    String hint,
-    FocusNode fcs,
-  ) {
+  reportABug(BuildContext ctx, FocusNode fcs) {
+    fcs.requestFocus();
+    TextEditingController bugController = TextEditingController();
+    showDialog<void>(
+      context: ctx,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * .8,
+            height: MediaQuery.of(context).size.height * .6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Constants.backgroundBlack,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 5),
+                    child: Text(
+                      "Report A Bug",
+                      style: TextStyle(
+                        color: Constants.backgroundWhite,
+                        fontSize: 18 + Constants.textChange,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  child: Material(
+                    child: TextField(
+                      maxLines: 12,
+                      controller: bugController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: .5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                        ),
+                        hintText: 'Report the bug here',
+                        fillColor: Colors.grey[850],
+                        focusColor: Colors.red,
+                        filled: true,
+                        isCollapsed: true,
+                      ),
+                      //expands: true,
+                      keyboardType: TextInputType.multiline,
+                      //maxLines: null,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 15, left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      color: Constants.backgroundWhite,
+                                      fontSize: 14 + Constants.textChange,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 20,
+                              width: 1,
+                              color: Constants.backgroundWhite,
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                if (bugController.text.length > 20) {
+                                  reportBug(currentUser.uid, bugController.text);
+                                  Navigator.of(context).pop();
+                                  showSnackbar(context, "Thank you for reporting and improving\nthe app experience");
+                                } else {
+                                  showError(context, "Bug Report must have at least 20 characters");
+                                }
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    "Submit",
+                                    style: TextStyle(
+                                      color: Constants.backgroundWhite,
+                                      fontSize: 14 + Constants.textChange,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText, String hint, FocusNode fcs, {String mongoParamName = ""}) {
     fcs.requestFocus();
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
       context: ctx,
       builder: (BuildContext context) {
-        return SafeArea(
-          child: Padding(
-            padding: MediaQuery.of(context).viewInsets,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.of(context).pop();
-                        },
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: kElevationToShadow[3],
-                            color: Constants.purpleColor,
-                          ),
-                          child: Center(
-                            child: Text(
-                              "X",
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 30 + Constants.textChange,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Container(
+              //height: 200,
+              decoration: BoxDecoration(
+                color: Constants.backgroundBlack,
+                borderRadius: BorderRadius.only(
+                  topRight: Radius.circular(10),
+                  topLeft: Radius.circular(10),
+                ),
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(left: 15, right: 15),
+                    child: Center(
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 20, right: 15, bottom: 15),
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 100 * 55,
+                              child: LoginTextField(
+                                context,
+                                45,
+                                3,
+                                10,
+                                hint,
+                                contr,
+                                Container(),
+                                focusNode: fcs,
+                                isAutoFocus: true,
                               ),
                             ),
                           ),
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () {
-                          setState(() {
-                            //TODO
-                          });
-                        },
-                        child: Container(
-                          height: 60,
-                          width: MediaQuery.of(context).size.width * .25,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            boxShadow: kElevationToShadow[3],
-                            color: Constants.purpleColor,
+                          Padding(
+                            padding: EdgeInsets.only(top: 6, right: 5),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    color: Constants.purpleColor.withOpacity(.5),
+                                    boxShadow: kElevationToShadow[12],
+                                  ),
+                                  child: Icon(
+                                    Icons.cancel_outlined,
+                                    size: 30,
+                                    color: Colors.red,
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          child: Center(
-                              child: Icon(
-                            Icons.check,
-                            color: Colors.white,
-                            size: 35,
-                          )),
-                        ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 6, left: 5),
+                            child: Center(
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (mongoParamName != "pass" && mongoParamName != "") {
+                                    updateOne(currentUser.uid, mongoParamName, contr.text);
+                                    if (mongoParamName == "fname") currentUser.fName = contr.text;
+                                    if (mongoParamName == "lname") currentUser.lName = contr.text;
+                                    if (mongoParamName == "bio") currentUser.bio = contr.text;
+                                    if (mongoParamName == "email") currentUser.email = contr.text;
+                                    if (mongoParamName == "uname") currentUser.uName = contr.text;
+
+                                    //TODO any other settings feature needs to be added to mongo if necessary
+                                    setState(() {});
+                                  } else if (mongoParamName == "") {
+                                    print("App preferance change no need to update mongo");
+                                  } else {
+                                    showError(context, "Update password feature not yet implemented");
+                                  }
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    color: Constants.purpleColor.withOpacity(.5),
+                                    boxShadow: kElevationToShadow[12],
+                                  ),
+                                  child: Icon(
+                                    Icons.check,
+                                    size: 30,
+                                    color: Colors.green,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
-                  ),
-                ),
-                Container(
-                  //height: 200,
-                  decoration: BoxDecoration(
-                    color: Constants.backgroundBlack,
-                    borderRadius: BorderRadius.only(
-                      topRight: Radius.circular(10),
-                      topLeft: Radius.circular(10),
                     ),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.symmetric(vertical: 20, horizontal: MediaQuery.of(context).size.width / 6),
-                        child: TextFormField(
-                          autofocus: true,
-                          focusNode: fcs,
-                          cursorColor: Constants.purpleColor,
-                          decoration: new InputDecoration(
-                            border: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                              ),
-                            ),
-                            focusedBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                                width: 2,
-                              ),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                              borderSide: BorderSide(
-                                color: Constants.purpleColor,
-                                width: 1,
-                              ),
-                            ),
-                            //errorBorder: InputBorder.none,
-                            //disabledBorder: InputBorder.none,
-                            contentPadding: EdgeInsets.only(
-                              left: 15,
-                              bottom: 0,
-                              top: 0,
-                              right: 15,
-                            ),
-
-                            labelText: hint,
-                            labelStyle: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 16 + Constants.textChange,
-                              height: 1.5,
-                            ),
-                          ),
-                          controller: contr,
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 20 + Constants.textChange,
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 30),
-                        child: Text(
-                          suppText,
-                          style: Constants.tStyle(),
-                        ),
-                      ),
-                    ],
+                  Padding(
+                    padding: EdgeInsets.only(bottom: 20),
+                    child: Text(
+                      suppText,
+                      style: Constants.tStyle(),
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          //color: Colors.redAccent,
+          ],
         );
       },
     );
@@ -438,7 +577,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   leading: new Icon(Icons.photo_library),
                   title: new Text('Photo Library'),
                   onTap: () {
-                    print("ENTERING NEW PAGE");
                     getImageGallery().then((value) async {
                       Navigator.push(
                         context,
@@ -453,7 +591,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
-                              currentUser.userProfileImg = newImg;
+                              //little bit of a hacky way but this needs to return a future
+                              currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
+                                return newImg;
+                              });
+                              ;
                             });
                             Navigator.of(context).pop();
                           }
@@ -521,28 +663,34 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine) {
-    return Column(
-      children: [
-        showTopLine
-            ? Container(
-                height: 1,
-                color: Constants.hintColor.withOpacity(.3),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-              )
-            : Container(),
-        GestureDetector(
-          onTap: () {
-            newInfoContr.selection = TextSelection(
-              baseOffset: 0,
-              extentOffset: newInfoContr.text.length,
-            );
-            newInfoContr.text = txt2;
-            inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus);
-          },
-          child: Padding(
+  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine,
+      {String mongoParamName = "", Function customfunction, Color txt1Color}) {
+    return GestureDetector(
+      behavior: HitTestBehavior.translucent,
+      onTap: () {
+        if (customfunction == null) {
+          newInfoContr.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: newInfoContr.text.length,
+          );
+          newInfoContr.text = txt2;
+          inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
+        } else {
+          customfunction(context, newInfoFocus);
+        }
+      },
+      child: Column(
+        children: [
+          showTopLine
+              ? Container(
+                  height: 1,
+                  color: Constants.hintColor.withOpacity(.3),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                )
+              : Container(),
+          Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 12,
@@ -553,7 +701,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: Constants.backgroundWhite,
+                    color: txt1Color == null ? Constants.backgroundWhite : txt1Color,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),
@@ -567,17 +715,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ],
             ),
           ),
-        ),
-        showBottomLine
-            ? Container(
-                height: 1,
-                color: Constants.hintColor.withOpacity(.3),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-              )
-            : Container(),
-      ],
+          showBottomLine
+              ? Container(
+                  height: 1,
+                  color: Constants.hintColor.withOpacity(.3),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 }

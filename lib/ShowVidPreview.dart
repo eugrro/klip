@@ -28,8 +28,9 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
   _ShowVidPreviewState(this.vid);
 
   var videoPlayerController;
-  var chewieController;
+  ChewieController chewieController;
   var currVid;
+  bool isVideoPlaying = true;
 
   @override
   void initState() {
@@ -83,6 +84,13 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
         print("Invalid parameter video");
         print("Video is: " + currVid.runtimeType.toString());
       }
+      videoPlayerController.addListener(() {
+        if (videoPlayerController.value.position == videoPlayerController.value.duration) {
+          setState(() {
+            isVideoPlaying = false;
+          });
+        }
+      });
       setState(() {});
     }
   }
@@ -101,7 +109,14 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
             color: Constants.purpleColor,
           ),
           IconButton(
-            onPressed: () {},
+            onPressed: () async {
+              if (currVid is File) {
+                uploadKlip(currVid.path, currentUser.uid).then((value) => null);
+              } else {
+                print(currVid.runtimeType);
+                showError(context, "Uploading Xbox Klips not yet supported\nneed to be downloaded first");
+              }
+            },
             icon: Icon(Icons.check),
             color: Constants.purpleColor,
           ),
@@ -117,14 +132,64 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
             height: 10,
           ),
           GestureDetector(
-            onTap: () {},
-            child: Container(
-              height: MediaQuery.of(context).size.height / 3,
-              child: chewieController != null
-                  ? Chewie(
-                      controller: chewieController,
-                    )
-                  : Center(child: CircularProgressIndicator()),
+            onTap: () {
+              if (chewieController.videoPlayerController.value.position != chewieController.videoPlayerController.value.duration) {
+                print("VIDEO NOT ENDED PAUSING");
+                if (chewieController.isPlaying) {
+                  print("PAUSING");
+                  chewieController.pause();
+                  setState(() {
+                    isVideoPlaying = false;
+                  });
+                } else {
+                  print("PLAYING");
+                  print("PAUSING");
+                  chewieController.play();
+                  setState(() {
+                    isVideoPlaying = true;
+                  });
+                }
+              } else {
+                print("VIDEO HAS ENDED RESTARTING");
+
+                chewieController.seekTo(Duration(seconds: 0));
+                chewieController.play();
+                Future.delayed(Duration(milliseconds: 100), () {
+                  setState(() {
+                    isVideoPlaying = true;
+                  });
+                });
+              }
+            },
+            child: Stack(
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height / 3,
+                  child: chewieController != null
+                      ? Chewie(
+                          controller: chewieController,
+                        )
+                      : Center(child: CircularProgressIndicator()),
+                ),
+                AnimatedOpacity(
+                  opacity: isVideoPlaying ? 0 : 1,
+                  duration: Duration(milliseconds: 300),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height / 3,
+                    child: Center(
+                      child: CircleAvatar(
+                        radius: 30,
+                        backgroundColor: Constants.backgroundWhite.withOpacity(.6),
+                        child: Icon(
+                          Icons.play_arrow_rounded,
+                          color: Constants.purpleColor,
+                          size: 60,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
           ),
         ],
