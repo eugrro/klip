@@ -157,6 +157,7 @@ class _UserPageState extends State<UserPage> {
                                   onTap: () {
                                     if (currentUser.uid == uid) {
                                       Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
+                                        setUserPageValues(currentUser.uid);
                                         setState(() {});
                                       });
                                     } else {

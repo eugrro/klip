@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
 import 'package:klip/login/loginLogic.dart';
+import 'package:klip/widgets.dart';
 import 'package:simple_image_crop/simple_image_crop.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
@@ -245,11 +246,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true),
-                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true),
-                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true),
-                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true),
-                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false),
+                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fname"),
+                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lname"),
+                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true, mongoParamName: "email"),
+                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true, mongoParamName: "uname"),
+                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false, mongoParamName: "pass"),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -286,13 +287,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }*/
 
-  inputNewInfo(
-    BuildContext ctx,
-    TextEditingController contr,
-    String suppText,
-    String hint,
-    FocusNode fcs,
-  ) {
+  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText, String hint, FocusNode fcs, {String mongoParamName = ""}) {
     fcs.requestFocus();
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -327,7 +322,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               width: MediaQuery.of(context).size.width / 100 * 55,
                               child: LoginTextField(
                                 context,
-                                50,
+                                45,
                                 3,
                                 10,
                                 hint,
@@ -341,21 +336,23 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           Padding(
                             padding: EdgeInsets.only(top: 6, right: 5),
                             child: Center(
-                              child: Container(
-                                height: 40,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                  border: Border.all(
-                                    color: Colors.white.withOpacity(.4),
+                              child: GestureDetector(
+                                onTap: () {
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    color: Constants.purpleColor.withOpacity(.5),
+                                    boxShadow: kElevationToShadow[12],
                                   ),
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  color: Constants.purpleColor.withOpacity(.5),
-                                  boxShadow: kElevationToShadow[12],
-                                ),
-                                child: Icon(
-                                  Icons.cancel_outlined,
-                                  size: 30,
-                                  color: Constants.backgroundWhite.withOpacity(.7),
+                                  child: Icon(
+                                    Icons.cancel_outlined,
+                                    size: 30,
+                                    color: Colors.red,
+                                  ),
                                 ),
                               ),
                             ),
@@ -363,18 +360,38 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           Padding(
                             padding: EdgeInsets.only(top: 6, left: 5),
                             child: Center(
-                              child: Container(
-                                height: 40,
-                                width: 55,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.all(Radius.circular(8)),
-                                  color: Constants.purpleColor.withOpacity(.5),
-                                  boxShadow: kElevationToShadow[12],
-                                ),
-                                child: Icon(
-                                  Icons.check,
-                                  size: 30,
-                                  color: Constants.backgroundWhite.withOpacity(.7),
+                              child: GestureDetector(
+                                onTap: () {
+                                  if (mongoParamName != "pass" && mongoParamName != "") {
+                                    updateOne(currentUser.uid, mongoParamName, contr.text);
+                                    if (mongoParamName == "fname") currentUser.fName = contr.text;
+                                    if (mongoParamName == "lname") currentUser.lName = contr.text;
+                                    if (mongoParamName == "bio") currentUser.bio = contr.text;
+                                    if (mongoParamName == "email") currentUser.email = contr.text;
+                                    if (mongoParamName == "uname") currentUser.uName = contr.text;
+
+                                    //TODO any other settings feature needs to be added to mongo if necessary
+                                    setState(() {});
+                                  } else if (mongoParamName == "") {
+                                    print("App preferance change no need to update mongo");
+                                  } else {
+                                    showError(context, "Update password feature not yet implemented");
+                                  }
+                                  Navigator.of(context).pop();
+                                },
+                                child: Container(
+                                  height: 40,
+                                  width: 55,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    color: Constants.purpleColor.withOpacity(.5),
+                                    boxShadow: kElevationToShadow[12],
+                                  ),
+                                  child: Icon(
+                                    Icons.check,
+                                    size: 30,
+                                    color: Colors.green,
+                                  ),
                                 ),
                               ),
                             ),
@@ -497,28 +514,29 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine) {
-    return Column(
-      children: [
-        showTopLine
-            ? Container(
-                height: 1,
-                color: Constants.hintColor.withOpacity(.3),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-              )
-            : Container(),
-        GestureDetector(
-          onTap: () {
-            newInfoContr.selection = TextSelection(
-              baseOffset: 0,
-              extentOffset: newInfoContr.text.length,
-            );
-            newInfoContr.text = txt2;
-            inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus);
-          },
-          child: Padding(
+  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine,
+      {String mongoParamName = ""}) {
+    return GestureDetector(
+      onTap: () {
+        newInfoContr.selection = TextSelection(
+          baseOffset: 0,
+          extentOffset: newInfoContr.text.length,
+        );
+        newInfoContr.text = txt2;
+        inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
+      },
+      child: Column(
+        children: [
+          showTopLine
+              ? Container(
+                  height: 1,
+                  color: Constants.hintColor.withOpacity(.3),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                )
+              : Container(),
+          Padding(
             padding: EdgeInsets.symmetric(
               horizontal: 20,
               vertical: 12,
@@ -543,17 +561,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ],
             ),
           ),
-        ),
-        showBottomLine
-            ? Container(
-                height: 1,
-                color: Constants.hintColor.withOpacity(.3),
-                margin: EdgeInsets.symmetric(
-                  horizontal: 10,
-                ),
-              )
-            : Container(),
-      ],
+          showBottomLine
+              ? Container(
+                  height: 1,
+                  color: Constants.hintColor.withOpacity(.3),
+                  margin: EdgeInsets.symmetric(
+                    horizontal: 10,
+                  ),
+                )
+              : Container(),
+        ],
+      ),
     );
   }
 }
