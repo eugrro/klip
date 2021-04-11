@@ -68,6 +68,30 @@ Future<String> addComment(String pid, String uid, String uname, String avatarLin
   return "";
 }
 
+Future<String> reportBug(String uid, String bug) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "bug": bug,
+    };
+    String reqString = Constants.nodeURL + "reportBug";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return "BugReportedSucessfully";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "BugReportedUnsucessfully";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "BugReportedUnsucessfully";
+}
+
 // ignore: missing_return
 Future<String> testConnection() async {
   var response;

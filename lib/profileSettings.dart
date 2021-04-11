@@ -197,6 +197,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         currentUser.bio = bioContr.text;
                         biofcs.unfocus();
                       });
+                      updateOne(currentUser.uid, "bio", bioContr.text);
                     }
                   },
                   child: Container(
@@ -225,6 +226,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Center(
               child: ListView(
                 padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
                 children: [
                   Padding(
@@ -265,7 +267,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true),
                   settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true),
-                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, true),
+                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, false),
+                  Padding(
+                    padding: EdgeInsets.only(top: 10, bottom: 10),
+                    child: Center(
+                      child: Text(
+                        "Danger Zone",
+                        style: TextStyle(
+                          color: Colors.red.withOpacity(.8),
+                          fontSize: 17 + Constants.textChange,
+                        ),
+                      ),
+                    ),
+                  ),
+                  settingsCard(context, "Report A Bug", "", "Report a bug", false, true, txt1Color: Colors.blue[700], customfunction: reportABug),
+                  settingsCard(context, "Sign out", "", "Sign out", false, true),
+                  settingsCard(context, "Delete Your Account", "", "Delete your account", false, false, txt1Color: Colors.redAccent),
+                  //TODO implement delete account and sign out
+                  Container(
+                    height: 20,
+                  )
                 ],
               ),
             ),
@@ -286,6 +307,134 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       ),
     );
   }*/
+
+  reportABug(BuildContext ctx, FocusNode fcs) {
+    fcs.requestFocus();
+    TextEditingController bugController = TextEditingController();
+    showDialog<void>(
+      context: ctx,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(context).size.width * .8,
+            height: MediaQuery.of(context).size.height * .6,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Constants.backgroundBlack,
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisSize: MainAxisSize.max,
+              children: [
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 20, bottom: 5),
+                    child: Text(
+                      "Report A Bug",
+                      style: TextStyle(
+                        color: Constants.backgroundWhite,
+                        fontSize: 18 + Constants.textChange,
+                        decoration: TextDecoration.none,
+                      ),
+                    ),
+                  ),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  child: Material(
+                    child: TextField(
+                      maxLines: 12,
+                      controller: bugController,
+                      decoration: InputDecoration(
+                        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                        enabledBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Colors.grey, width: .5),
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                        ),
+                        hintText: 'Report the bug here',
+                        fillColor: Colors.grey[850],
+                        focusColor: Colors.red,
+                        filled: true,
+                        isCollapsed: true,
+                      ),
+                      //expands: true,
+                      keyboardType: TextInputType.multiline,
+                      //maxLines: null,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Padding(
+                        padding: EdgeInsets.only(top: 10, bottom: 15, left: 10, right: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    "Cancel",
+                                    style: TextStyle(
+                                      color: Constants.backgroundWhite,
+                                      fontSize: 14 + Constants.textChange,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Container(
+                              height: 20,
+                              width: 1,
+                              color: Constants.backgroundWhite,
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                if (bugController.text.length > 20) {
+                                  reportBug(currentUser.uid, bugController.text);
+                                  Navigator.of(context).pop();
+                                  showSnackbar(context, "Thank you for reporting and improving\nthe app experience");
+                                } else {
+                                  showError(context, "Bug Report must have at least 20 characters");
+                                }
+                              },
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                height: 30,
+                                child: Center(
+                                  child: Text(
+                                    "Submit",
+                                    style: TextStyle(
+                                      color: Constants.backgroundWhite,
+                                      fontSize: 14 + Constants.textChange,
+                                      decoration: TextDecoration.none,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ],
+                        )),
+                  ),
+                )
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
 
   inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText, String hint, FocusNode fcs, {String mongoParamName = ""}) {
     fcs.requestFocus();
@@ -515,15 +664,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine,
-      {String mongoParamName = ""}) {
+      {String mongoParamName = "", Function customfunction, Color txt1Color}) {
     return GestureDetector(
+      behavior: HitTestBehavior.translucent,
       onTap: () {
-        newInfoContr.selection = TextSelection(
-          baseOffset: 0,
-          extentOffset: newInfoContr.text.length,
-        );
-        newInfoContr.text = txt2;
-        inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
+        if (customfunction == null) {
+          newInfoContr.selection = TextSelection(
+            baseOffset: 0,
+            extentOffset: newInfoContr.text.length,
+          );
+          newInfoContr.text = txt2;
+          inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
+        } else {
+          customfunction(context, newInfoFocus);
+        }
       },
       child: Column(
         children: [
@@ -547,7 +701,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: Constants.backgroundWhite,
+                    color: txt1Color == null ? Constants.backgroundWhite : txt1Color,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),

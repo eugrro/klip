@@ -11,12 +11,12 @@
   "dependencies": {
     "@xboxreplay/xboxlive-api": "^3.4.3",
     "@xboxreplay/xboxlive-auth": "^3.3.3",
-    "aws-sdk": "^2.843.0",
+    "aws-sdk": "^2.884.0",
     "axios": "^0.21.1",
     "express": "^4.17.1",
-    "mongodb": "^3.6.4",
+    "mongodb": "^3.6.6",
     "multer": "^1.4.2",
-    "stripe": "^8.137.0",
+    "stripe": "^8.142.0",
     "then": "0.0.1",
     "xbox-live-api": "0.0.4"
   }
