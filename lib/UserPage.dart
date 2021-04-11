@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:klip/login/loginLogic.dart';
 import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
@@ -6,6 +7,9 @@ import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
+
+import 'Requests.dart';
+import 'currentUser.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
@@ -18,7 +22,13 @@ class UserPage extends StatefulWidget {
 class _UserPageState extends State<UserPage> {
   String uid;
   _UserPageState(this.uid);
+
   bool isFollowing;
+  int numKredits;
+  int numViews;
+  String uName;
+  String bio;
+  Image avatar;
 
   @override
   void initState() {
@@ -28,10 +38,35 @@ class _UserPageState extends State<UserPage> {
       androidPayMode: 'test',
     ));
     currentUser.displayCurrentUser();
+
+    setUserPageValues(uid);
+  }
+
+  void setUserPageValues(String uid) async {
     if (currentUser.currentUserFollowing.contains(uid)) {
       isFollowing = true;
     } else {
       isFollowing = false;
+    }
+    if (currentUser.uid == uid) {
+      Image avatarImage = await currentUser.userProfileImg;
+      setState(() {
+        avatar = avatarImage;
+        numKredits = currentUser.numKredits;
+        numViews = currentUser.numViews;
+        uName = currentUser.uName;
+        bio = currentUser.bio;
+      });
+    } else {
+      var user = await getUser(uid);
+      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
+      setState(() {
+        numKredits = int.parse(user["numkredits"]);
+        numViews = int.parse(user["numviews"]);
+        uName = user["uname"];
+        bio = user["bio"];
+        avatar = avatarImage;
+      });
     }
   }
 
@@ -55,7 +90,7 @@ class _UserPageState extends State<UserPage> {
                       Column(
                         children: [
                           Text(
-                            currentUser.numViews.toString(),
+                            numViews == null ? "" : numViews.toString(),
                             style: TextStyle(
                               fontSize: 28 + Constants.textChange,
                               color: Constants.backgroundWhite,
@@ -79,7 +114,7 @@ class _UserPageState extends State<UserPage> {
                       Column(
                         children: [
                           Text(
-                            currentUser.numKredits.toString(),
+                            numKredits == null ? "" : numKredits.toString(),
                             style: TextStyle(
                               fontSize: 28 + Constants.textChange,
                               color: Constants.backgroundWhite,
@@ -125,7 +160,21 @@ class _UserPageState extends State<UserPage> {
                                         setState(() {});
                                       });
                                     } else {
-                                      currentUser.currentUserFollowing.add(uid);
+                                      if (!isFollowing) {
+                                        print("Following");
+                                        currentUser.currentUserFollowing.add(uid);
+                                        setState(() {
+                                          isFollowing = true;
+                                        });
+                                        userFollowsUser(currentUser.uid, uid);
+                                      } else {
+                                        print("Unfollowing");
+                                        currentUser.currentUserFollowing.remove(uid);
+                                        setState(() {
+                                          isFollowing = false;
+                                        });
+                                        userUnfollowsUser(currentUser.uid, uid);
+                                      }
                                     }
                                   },
                                   child: Container(
@@ -190,7 +239,7 @@ class _UserPageState extends State<UserPage> {
                             child: Align(
                               alignment: Alignment.center,
                               child: Text(
-                                currentUser.uName,
+                                uName == null ? "" : uName,
                                 style: TextStyle(
                                   fontSize: 20 + Constants.textChange,
                                   color: Constants.backgroundWhite.withOpacity(.9),
@@ -201,7 +250,7 @@ class _UserPageState extends State<UserPage> {
                           Padding(
                             padding: EdgeInsets.only(top: 10),
                             child: Text(
-                              currentUser.bio,
+                              bio == null ? "" : bio,
                               style: TextStyle(
                                 fontSize: 13 + Constants.textChange,
                                 color: Constants.backgroundWhite.withOpacity(.6),
@@ -230,19 +279,9 @@ class _UserPageState extends State<UserPage> {
                     child: Container(
                       width: 150,
                       child: CircleAvatar(
-                          radius: 75,
-                          child: ClipOval(
-                            child: FutureBuilder<Widget>(
-                              future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
-                              builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                                if (snapshot.hasData) {
-                                  return snapshot.data;
-                                } else {
-                                  return Constants.tempAvatar;
-                                }
-                              },
-                            ),
-                          )),
+                        radius: 75,
+                        child: ClipOval(child: avatar == null ? Container() : avatar),
+                      ),
                     ),
                   ),
                 ),

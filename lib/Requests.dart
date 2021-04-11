@@ -305,3 +305,55 @@ Future<String> getXboxClips(String gamertag) async {
   }
   return "";
 }
+
+Future<String> userFollowsUser(String uid1, String uid2) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid1": uid1,
+      "uid2": uid2,
+    };
+    String reqString = Constants.nodeURL + "userFollowsUser";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.body == "FollowSucessful")
+        return "FollowSucessful";
+      else if ((response.body == "FollowUnsucessful")) return "FollowUnsucessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}
+
+Future<String> userUnfollowsUser(String uid1, String uid2) async {
+  var response;
+  try {
+    Map<String, String> params = {
+      "uid1": uid1,
+      "uid2": uid2,
+    };
+    String reqString = Constants.nodeURL + "userUnfollowsUser";
+    print("Sending Request To: " + reqString);
+
+    response = await http.post(reqString, headers: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.body == "UnfollowSucessful")
+        return "UnfollowSucessful";
+      else if ((response.body == "UnfollowUnsucessful")) return "UnfollowUnsucessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error!" + err.toString());
+  }
+  return "";
+}

@@ -203,16 +203,21 @@ Future<bool> doesUserExist(String email) async {
 Future<String> postUser(String uid, String fName, String lName, String uName, String email, {int numViews = 0, int numKredits = 0}) async {
   var response;
   try {
-    Map<String, String> params = {
+    Map<String, dynamic> params = {
       "uid": uid,
       "email": email,
       "fName": fName,
       "lName": lName,
       "uName": uName,
+      "bio": "",
+      "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
+      "following": [],
+      "followers": [],
+      "subscribers": [],
     };
-    String reqString = Constants.nodeURL + "users";
+    String reqString = Constants.nodeURL + "postUser";
     print("Sending Request To: " + reqString);
     response = await http.post(reqString, headers: params);
     if (response.statusCode == 200) {
@@ -235,12 +240,11 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     Map<String, String> params = {
       "uid": uid,
     };
-    String reqString = Constants.nodeURL + "users";
+    String reqString = Constants.nodeURL + "getUser";
     print("Sending Request To: " + reqString);
     response = await http.get(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
 
       return jsonDecode(response.body);
     } else {
@@ -257,13 +261,21 @@ void setUpCurrentUser(String uid) async {
   var user = await getUser(uid);
   currentUser.uid = uid;
   if (user != null) {
+    currentUser.bio = user["bio"];
+    currentUser.uName = user["uname"];
     currentUser.email = user["email"];
     currentUser.fName = user["fname"];
     currentUser.lName = user["lname"];
     currentUser.numViews = int.parse(user["numviews"]);
     currentUser.numKredits = int.parse(user["numkredits"]);
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg");
+    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    for (uid in user["following"]) {
+      currentUser.currentUserFollowing.add(uid);
+    }
+    for (uid in user["subscribing"]) {
+      currentUser.currentUserSubscribing.add(uid);
+    }
   } else {
     print("USER IS NULL did not set currentUser paramaters correctly");
   }

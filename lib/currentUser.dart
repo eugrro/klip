@@ -12,10 +12,13 @@ int numViews = 0;
 int numKredits = 0;
 String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
-String avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
-Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg");
+String avatarLink = getAWSLink(uid);
+Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
 List<String> currentUserFollowing = [];
 List<String> currentUserSubscribing = [];
+String getAWSLink(uid) {
+  return "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+}
 
 void displayCurrentUser() {
   try {
@@ -30,8 +33,9 @@ void displayCurrentUser() {
   }
 }
 
-Future<Widget> getProfileImage(String avatarLink) async {
-  if (await doesObjectExistInS3(avatarLink, "avatars-klip") == "ObjectFound") {
+//avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
+Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
+  if (await doesObjectExistInS3(avatarURI, "avatars-klip") == "ObjectFound") {
     return Image.network(avatarLink);
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");

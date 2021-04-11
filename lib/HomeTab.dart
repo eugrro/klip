@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:klip/Requests.dart';
+import 'package:klip/UserPage.dart';
 import 'package:klip/commentsPage.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:flutter_svg/flutter_svg.dart';
@@ -39,8 +40,10 @@ class _HomeTabState extends State<HomeTab> {
   @override
   void dispose() {
     super.dispose();
-    chewieController.dispose();
-    videoPlayerController.dispose();
+    if (videoPlayerController != null && videoPlayerController.value.initialized) {
+      chewieController.dispose();
+      videoPlayerController.dispose();
+    }
   }
 
   @override
@@ -189,7 +192,9 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                   child: ClipOval(
                     child: FutureBuilder<Widget>(
-                      future: getProfileImage(obj[position]["uid"] + "_avatar.jpg"), // a previously-obtained Future<String> or null
+                      future: getProfileImage(
+                          obj[position]["uid"] + "_avatar.jpg", getAWSLink(obj[position]["uid"])), 
+                          // a previously-obtained Future<String> or null
                       builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                         double sizeofImage = 25;
                         if (snapshot.hasData) {
@@ -209,11 +214,16 @@ class _HomeTabState extends State<HomeTab> {
                     ),
                   ),
                 ),
-                Text(
-                  obj[position]["uname"] == null ? "usernameError" : obj[position]["uname"],
-                  style: TextStyle(
-                    color: Constants.backgroundWhite.withOpacity(.7),
-                    fontSize: 14 + Constants.textChange,
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj[position]["uid"])));
+                  },
+                  child: Text(
+                    obj[position]["uname"] == null ? "usernameError" : obj[position]["uname"],
+                    style: TextStyle(
+                      color: Constants.backgroundWhite.withOpacity(.7),
+                      fontSize: 14 + Constants.textChange,
+                    ),
                   ),
                 ),
                 Padding(
@@ -371,7 +381,7 @@ class _HomeTabState extends State<HomeTab> {
     chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
       autoPlay: true,
-      looping: true,
+      looping: false,
     );
     if (videoPlayerController.value.initialized) {
       return "Done";
