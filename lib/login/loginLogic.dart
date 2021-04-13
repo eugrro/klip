@@ -131,6 +131,17 @@ Future<void> signOutGoogle() async {
   print("User Signed Out");
 }
 
+Future<String> signOutUser() async {
+  await Firebase.initializeApp();
+  FirebaseAuth.instance.signOut().catchError((e) {
+    if (e) {
+      print("Ran into error signing out");
+      return "ERROR";
+    }
+  });
+  return "SignOutSucessful";
+}
+
 Future<String> signUp(String user, String pass) async {
   await Firebase.initializeApp();
   UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user, password: pass).catchError((e) {

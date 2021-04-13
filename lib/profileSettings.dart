@@ -280,8 +280,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Report A Bug", "", "Report a bug", false, true, txt1Color: Colors.blue[700], customfunction: reportABug),
-                  settingsCard(context, "Sign out", "", "Sign out", false, true),
+                  settingsCard(context, "Report A Bug", "", "Report a bug", false, true,
+                      txt1Color: Colors.blue[700], customfunction: reportABug, customFunctionParams: [newInfoFocus]),
+                  settingsCard(context, "Sign out", "", "Sign out", false, true, customfunction: signOutUserWidget),
                   settingsCard(context, "Delete Your Account", "", "Delete your account", false, false, txt1Color: Colors.redAccent),
                   //TODO implement delete account and sign out
                   Container(
@@ -296,19 +297,84 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
-  /*Widget _buildCropImage() {
-    return Container(
-      color: Colors.black,
-      child: ImgCrop(
-        key: imgCropKey,
-        chipRadius: 150, // crop area radius
-        chipShape: ChipShape.circle, // crop type "circle" or "rect"
-        image: FileImage(imageFile), // you selected image file
-      ),
+  signOutUserWidget(BuildContext ctx, List<dynamic> params) {
+    return showModalBottomSheet<void>(
+      backgroundColor: Colors.black,
+      isScrollControlled: true,
+      context: ctx,
+      builder: (BuildContext context) {
+        return Container(
+          height: 150,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Text(
+                "Are you sure you want to sign out?",
+                style: TextStyle(
+                  color: Constants.backgroundWhite,
+                  fontSize: 18 + Constants.textChange,
+                  decoration: TextDecoration.none,
+                ),
+              ),
+              Container(
+                height: 10,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * .3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: kElevationToShadow[3],
+                        color: Constants.purpleColor,
+                      ),
+                      child: Center(
+                        child: Text("No", style: Constants.tStyle()),
+                      ),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: () async {
+                      String ret = await signOutUser();
+                      if (ret == "SignOutSucessful") {
+                        while (Navigator.of(context).canPop()) {
+                          Navigator.of(context).pop();
+                        }
+                      } else {
+                        Navigator.of(context).pop();
+                        showError(context, "Sign out was unsucessful please report this bug");
+                      }
+                    },
+                    child: Container(
+                      height: 40,
+                      width: MediaQuery.of(context).size.width * .3,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(10),
+                        boxShadow: kElevationToShadow[3],
+                        color: Constants.purpleColor,
+                      ),
+                      child: Center(
+                        child: Text("Yes", style: Constants.tStyle()),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        );
+      },
     );
-  }*/
+  }
 
-  reportABug(BuildContext ctx, FocusNode fcs) {
+  reportABug(BuildContext ctx, List<dynamic> params) {
+    FocusNode fcs = params[0];
     fcs.requestFocus();
     TextEditingController bugController = TextEditingController();
     showDialog<void>(
@@ -664,7 +730,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine,
-      {String mongoParamName = "", Function customfunction, Color txt1Color}) {
+      {String mongoParamName = "", Function customfunction, Color txt1Color, List<dynamic> customFunctionParams}) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -676,7 +742,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           newInfoContr.text = txt2;
           inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
         } else {
-          customfunction(context, newInfoFocus);
+          customfunction(context, customFunctionParams);
         }
       },
       child: Column(

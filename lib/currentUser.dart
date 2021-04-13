@@ -20,6 +20,8 @@ String getAWSLink(uid) {
   return "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
 }
 
+bool signedInWithGoogle = false;
+
 void displayCurrentUser() {
   try {
     print("========================");
