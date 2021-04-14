@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klip/HomeTab.dart';
 import 'package:toast/toast.dart';
-import './Constants.dart' as Constants;
+import 'Constants.dart' as Constants;
 import 'Notifiers.dart';
 
 // ignore: must_be_immutable

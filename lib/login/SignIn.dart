@@ -7,7 +7,7 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'loginLogic.dart';
-import '../HomeTabs.dart';
+import '../HomeSideScrolling.dart';
 import '../TopNavBar.dart';
 import '../TopSection.dart';
 

@@ -10,7 +10,7 @@ import 'package:klip/currentUser.dart' as currentUser;
 import 'AddNewContent.dart';
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
-import 'HomeTabs.dart';
+import 'HomeSideScrolling.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
 import 'UserPage.dart';

@@ -3,7 +3,7 @@ import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:klip/Notifiers.dart';
 import './Constants.dart' as Constants;
-import 'HomeTabs.dart';
+import 'HomeSideScrolling.dart';
 import 'ScrollSnapList.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
