@@ -29,6 +29,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Klips',
+      initialRoute: '/',
+      routes: klipRoutes,
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
           selectionHandleColor: Constants.purpleColor,
@@ -38,7 +40,11 @@ class MyApp extends StatelessWidget {
         brightness: Brightness.dark,
         scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
-      home: StartPage(),
     );
   }
 }
+
+Map<String, Widget Function(BuildContext)> klipRoutes = {
+  '/': (context) => StartPage(),
+  //'/second': (context) => SecondScreen(),
+};

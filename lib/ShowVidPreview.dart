@@ -111,7 +111,7 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
           IconButton(
             onPressed: () async {
               if (currVid is File) {
-                uploadKlip(currVid.path, currentUser.uid).then((value) => null);
+                uploadKlip(currVid.path, currentUser.uid, "").then((value) => null);
               } else {
                 print(currVid.runtimeType);
                 showError(context, "Uploading Xbox Klips not yet supported\nneed to be downloaded first");

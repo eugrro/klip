@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => ForgotPassword()),
                                   );
@@ -162,7 +162,10 @@ class _SignInState extends State<SignIn> {
                                 } else if (ret.length == 28) {
                                   //correct username and password and uid provided
                                   setUpCurrentUser(ret);
-                                  Navigator.push(
+                                  while (Navigator.canPop(context)) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),
                                   );
@@ -239,7 +242,10 @@ class _SignInState extends State<SignIn> {
                                 if (userData != "") {
                                   print("Signing in " + userData[1] + " with google");
                                   setUpCurrentUser(userData[0]);
-                                  Navigator.push(
+                                  while (Navigator.canPop(context)) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),
                                   );
@@ -268,7 +274,7 @@ class _SignInState extends State<SignIn> {
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => SignUp()),
                           );

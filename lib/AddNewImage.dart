@@ -46,8 +46,7 @@ class _AddNewImageState extends State<AddNewImage> {
                         //color: Constants.backgroundBlack,
                         blurRadius: 1.0,
                         spreadRadius: 0.0,
-                        offset:
-                            Offset(2.0, 2.0), // shadow direction: bottom right
+                        offset: Offset(2.0, 2.0), // shadow direction: bottom right
                       )
                     ],
                   ),
@@ -74,9 +73,7 @@ class _AddNewImageState extends State<AddNewImage> {
                               ),
                               Text(
                                 "Add New Image",
-                                style: TextStyle(
-                                    color: Constants.backgroundWhite,
-                                    fontSize: 18 + Constants.textChange),
+                                style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
                               ),
                             ],
                           ),
@@ -147,8 +144,7 @@ class _AddNewImageState extends State<AddNewImage> {
                         onTap: () async {
                           //_showPicker(context);
                           //temporary to remove
-                          uploadImage(
-                              await getImageFromGallery(), currentUser.uid);
+                          uploadImage(await getImageFromGallery(), currentUser.uid, "");
                         },
                         child: Column(
                           children: [

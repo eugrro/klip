@@ -156,7 +156,10 @@ class _SignUpState extends State<SignUp> {
                                   String uid = await signUp(userNameController.text, passwordController.text);
                                   postUser(uid, "", "", userNameController.text, userNameController.text);
                                   setUpCurrentUser(uid);
-                                  Navigator.push(
+                                  while (Navigator.canPop(context)) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),
                                   );
@@ -237,7 +240,10 @@ class _SignUpState extends State<SignUp> {
                                     //User exists in the database signing in with given uid
                                     print("User " + userData[1] + " exists already signing in");
                                     setUpCurrentUser(userData[0]);
-                                    Navigator.push(
+                                    while (Navigator.canPop(context)) {
+                                      Navigator.of(context).pop();
+                                    }
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => Navigation()),
                                     );
@@ -259,7 +265,10 @@ class _SignUpState extends State<SignUp> {
                                     }
                                     postUser(userData[0], fName, lName, userData[1], userData[1]);
                                     setUpCurrentUser(userData[0]);
-                                    Navigator.push(
+                                    while (Navigator.canPop(context)) {
+                                      Navigator.of(context).pop();
+                                    }
+                                    Navigator.pushReplacement(
                                       context,
                                       MaterialPageRoute(builder: (context) => Navigation()),
                                     );
@@ -289,7 +298,7 @@ class _SignUpState extends State<SignUp> {
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => SignIn()),
                           );

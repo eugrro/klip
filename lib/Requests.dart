@@ -115,7 +115,7 @@ Future<String> testConnection() async {
 }
 
 // ignore: missing_return
-Future<String> uploadImage(String filePath, String uid) async {
+Future<String> uploadImage(String filePath, String uid, String title) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
@@ -125,6 +125,7 @@ Future<String> uploadImage(String filePath, String uid) async {
         'uid': uid,
         "avatar": currentUser.avatarLink,
         "uname": currentUser.uName,
+        "title": title,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -145,7 +146,7 @@ Future<String> uploadImage(String filePath, String uid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid) async {
+Future<String> uploadKlip(String filePath, String uid, String title) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
@@ -153,6 +154,7 @@ Future<String> uploadKlip(String filePath, String uid) async {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
+        "title": title,
         "avatar": currentUser.avatarLink,
         "uname": currentUser.uName,
         "file": await MultipartFile.fromFile(

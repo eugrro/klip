@@ -107,6 +107,18 @@ class _ContentWidgetState extends State<ContentWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
+        obj["title"] != null
+            ? Text(
+                obj["title"] == null ? "" : obj["title"],
+                style: TextStyle(
+                  color: Constants.backgroundWhite,
+                  fontSize: 17 + Constants.textChange,
+                ),
+              )
+            : Container(),
+        Container(
+          height: 10,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -142,6 +154,10 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
+                    //TODO
+                    //dont push to stack, have account slide in from the right
+                    //and be dismissable by swiping left
+                    //if you click on your own account change navigation
                     Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
                   },
                   child: Text(
@@ -184,19 +200,6 @@ class _ContentWidgetState extends State<ContentWidget> {
         ),
         Container(
           height: 10,
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Text(
-              obj["title"] == null ? "" : obj["title"],
-              style: TextStyle(
-                color: Constants.backgroundWhite,
-                fontSize: 16 + Constants.textChange,
-              ),
-            ),
-          ),
         ),
         content == null ? Container() : content,
         Container(
