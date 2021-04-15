@@ -54,10 +54,6 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
       print("RAN INTO DIO ERROR");
       print(e);
     }
-    print("AAAAAAAA: " + response.data.toString());
-    print("AAAAAAAA: " + response.headers.toString());
-    print("AAAAAAAA: " + response.request.toString());
-    print("AAAAAAAA: " + response.statusCode.toString());
   }
 
   Future<void> initializeVideoPlayer() async {
@@ -103,7 +99,8 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
         actions: [
           IconButton(
             onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => VideoEditor(currVid)));
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => VideoEditor(currVid)));
+              showError(context, "Video editor needs to be fixed");
             },
             icon: Icon(Icons.edit_outlined),
             color: Constants.purpleColor,

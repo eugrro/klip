@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
+import 'package:klip/login/StartPage.dart';
 import 'package:klip/login/loginLogic.dart';
 import 'package:klip/widgets.dart';
 import 'package:simple_image_crop/simple_image_crop.dart';
@@ -343,9 +344,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     onTap: () async {
                       String ret = await signOutUser();
                       if (ret == "SignOutSucessful") {
-                        while (Navigator.of(context).canPop()) {
+                        print(ret);
+                        while (Navigator.canPop(context)) {
                           Navigator.of(context).pop();
                         }
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(builder: (context) => StartPage()),
+                        );
                       } else {
                         Navigator.of(context).pop();
                         showError(context, "Sign out was unsucessful please report this bug");

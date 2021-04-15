@@ -39,7 +39,7 @@ class _HomeTabState extends State<HomeTab> {
       children: <Widget>[
         Expanded(
           child: FutureBuilder(
-            future: memoizer.runOnce(() => getListOfContent()),
+            future: memoizer.runOnce(() => listContentMongo()),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 // Build the widget with data.
@@ -68,17 +68,17 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget buildContent(String jsonInput) {
+  Widget buildContent(dynamic jsonInput) {
     try {
-      var obj = json.decode(jsonInput);
-      print(obj);
+      print("PRINTING HOME OBJECT");
+      print(jsonInput);
       return Container(
         width: MediaQuery.of(context).size.width,
         child: PageView.builder(
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
-            if (position < obj.length) {
-              return ContentWidget(obj[position]);
+            if (position < jsonInput.length) {
+              return ContentWidget(jsonInput[position]);
             } else {
               return Center(
                 child: Text(

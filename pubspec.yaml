@@ -22,23 +22,28 @@ dependencies:
   flappy_search_bar: ^1.4.1
   toast: ^0.1.5
   flutter_signin_button: ^1.1.0
-  firebase_core: ^0.5.0+1
-  firebase_auth: ^0.18.1+2
+  firebase_core: ^1.0.3
+  firebase_auth: ^1.1.0
+  #firebase_auth updated 4/15/21
   google_sign_in: ^4.5.3
   auto_size_text: ^2.1.0
-  image_picker: ^0.6.2+17
-  dio: ^3.0.10
+  image_picker: ^0.7.4
+  dio: ^4.0.0
+  #dio updated 4/15/21
   mime: ^0.9.7
   better_player: ^0.0.37
   cupertino_icons: ^1.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   stripe_payment: ^1.0.10
   photo_manager: ^1.0.1
-  chewie: ^0.12.2
-  #chewie: ^1.0.0
-  video_editor: ^1.0.3+1
-  gallery_saver: ^2.0.3
+  chewie: ^1.0.0
+  video_editor: ^1.1.0
+  #video_editor updated 4/15/21
+  #gallery_saver: ^2.1.0
+  #gallery_saver updated 4/15/21
   vibration: ^1.7.3
+  shared_preferences: ^2.0.5
+  #shared_preferences updated 4/15/21
 
   
   simple_image_crop:

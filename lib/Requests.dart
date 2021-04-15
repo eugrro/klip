@@ -6,7 +6,6 @@ import 'package:http_parser/http_parser.dart';
 
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:http/http.dart' as http;
 import 'package:flutter/services.dart';
 import 'dart:convert';
 
@@ -14,33 +13,34 @@ Response response;
 Dio dio = new Dio();
 
 Future<String> updateOne(String uid, String param, String paramVal) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "uid": uid,
       "param": param,
       "paramVal": paramVal,
     };
+
     String reqString = Constants.nodeURL + "updateOne";
     print("Sending Request To: " + reqString);
+    response = await dio.post(reqString, queryParameters: params);
 
-    response = await http.post(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      print(response.data);
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! UpdateOne => " + err.toString());
   }
   return "";
 }
 
 Future<String> addComment(String pid, String uid, String uname, String avatarLink, String comm, String time) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "pid": pid,
@@ -50,35 +50,37 @@ Future<String> addComment(String pid, String uid, String uname, String avatarLin
       "comm": comm,
       "time": time,
     };
+
     String reqString = Constants.nodeURL + "addComment";
     print("Sending Request To: " + reqString);
+    response = await dio.post(reqString, queryParameters: params);
 
-    response = await http.post(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      print(response.data);
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! addComment => " + err.toString());
   }
   return "";
 }
 
 Future<String> reportBug(String uid, String bug) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "uid": uid,
       "bug": bug,
     };
+
     String reqString = Constants.nodeURL + "reportBug";
     print("Sending Request To: " + reqString);
+    response = await dio.post(reqString, queryParameters: params);
 
-    response = await http.post(reqString, headers: params);
     if (response.statusCode == 200) {
       print("Returned 200");
       return "BugReportedSucessfully";
@@ -87,29 +89,29 @@ Future<String> reportBug(String uid, String bug) async {
       return "BugReportedUnsucessfully";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! reportBug => " + err.toString());
   }
   return "BugReportedUnsucessfully";
 }
 
 // ignore: missing_return
 Future<String> testConnection() async {
-  var response;
+  Response response;
   try {
     String reqString = Constants.nodeURL;
     print("Sending Request To: " + reqString);
+    response = await dio.get(reqString);
 
-    response = await http.get(reqString);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      print(response.data);
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! TestConnection => " + err.toString());
     return "";
   }
 }
@@ -134,14 +136,16 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         ),
         'record': null
       });
+
       String uri = Constants.nodeURL + "uploadContent";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
+
       print(response);
       return "";
     }
-  } catch (e) {
-    print("ERROR on Uploading Image: " + e.toString());
+  } catch (err) {
+    print("Ran Into Error! uploadImage => " + err.toString());
   }
 }
 
@@ -165,14 +169,16 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
         ),
         'record': null
       });
+
       String uri = Constants.nodeURL + "uploadKlip";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
+
       print(response);
       return "";
     }
-  } catch (e) {
-    print("ERROR on Uploading Image: " + e.toString());
+  } catch (err) {
+    print("Ran Into Error! UpdateOne => " + err.toString());
   }
 }
 
@@ -194,14 +200,16 @@ Future<String> updateAvatar(String filePath, String uid) async {
         ),
         'record': null
       });
+
       String uri = Constants.nodeURL + "uploadAvatar";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
+
       print(response);
       return "";
     }
-  } catch (e) {
-    print("ERROR on Uploading Image: " + e.toString());
+  } catch (err) {
+    print("Ran Into Error! updateAvatar => " + err.toString());
   }
 }
 
@@ -209,8 +217,8 @@ Future<String> updateAvatar(String filePath, String uid) async {
 Future<String> getImageFromGallery() async {
   try {
     File contentImage;
-    ImagePicker ip = ImagePicker();
-    final pickedFile = await ip.getImage(
+    ImagePicker imagePicker = ImagePicker();
+    final pickedFile = await imagePicker.getImage(
       source: ImageSource.gallery,
       preferredCameraDevice: CameraDevice.rear,
     );
@@ -224,35 +232,33 @@ Future<String> getImageFromGallery() async {
       print('No image selected.');
     }
     return "";
-  } catch (e) {
-    print("ERROR on Uploading Image: " + e.toString());
+  } catch (err) {
+    print("Ran Into Error! getImageFromGallery => " + err.toString());
   }
 }
 
 // ignore: missing_return
-Future<String> getListOfContent() async {
-  var response;
+Future<List<dynamic>> listContentMongo() async {
+  Response response;
   try {
-    String reqString = Constants.nodeURL + "listContentMongo";
-    print("Sending Request To: " + reqString);
-
-    response = await http.get(reqString);
+    String uri = Constants.nodeURL + "listContentMongo";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
-      return "Error";
+      return null;
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
-    return "";
+    print("Ran Into Error! listContentMongo => " + err.toString());
+    return null;
   }
 }
 
 Future<String> addTextContent(String uid, String title, String body) async {
-  var response;
+  Response response;
 
   String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
@@ -265,121 +271,120 @@ Future<String> addTextContent(String uid, String title, String body) async {
       "title": title,
       "body": body,
     };
-    String reqString = Constants.nodeURL + "addTextContent";
-    print("Sending Request To: " + reqString);
-
-    response = await http.post(reqString, headers: params);
+    String uri = Constants.nodeURL + "addTextContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! getListOfContent => " + err.toString());
   }
   return "";
 }
 
 Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "objectName": objectName,
       "bucketName": bucketName,
     };
-    String reqString = Constants.nodeURL + "doesObjectExistInS3";
-    print("Sending Request To: " + reqString);
 
-    response = await http.get(reqString, headers: params);
+    String uri = Constants.nodeURL + "doesObjectExistInS3";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body == "ObjectFound") return "ObjectFound";
-      if (response.body == "ObjectNotFound") return "ObjectNotFound";
+      print(response.data);
+      if (response.data["status"] == "ObjectFound") return "ObjectFound";
+      if (response.data["status"] == "ObjectNotFound") return "ObjectNotFound";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "ERROR";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! doesObjectExistInS3 => " + err.toString());
+    return "ERROR";
   }
   return "ERROR";
 }
 
 Future<String> getXboxClips(String gamertag) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "gamertag": gamertag,
     };
-    String reqString = Constants.nodeURL + "getXboxClips";
-    print("Sending Request To: " + reqString);
-
-    response = await http.get(reqString, headers: params);
+    String uri = Constants.nodeURL + "getXboxClips";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.body is String) return response.body;
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! getXboxClips => " + err.toString());
   }
   return "";
 }
 
 Future<String> userFollowsUser(String uid1, String uid2) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "uid1": uid1,
       "uid2": uid2,
     };
-    String reqString = Constants.nodeURL + "userFollowsUser";
-    print("Sending Request To: " + reqString);
-
-    response = await http.post(reqString, headers: params);
+    String uri = Constants.nodeURL + "userFollowsUser";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.body == "FollowSucessful")
+      if (response.data["status"] == "FollowSucessful")
         return "FollowSucessful";
-      else if ((response.body == "FollowUnsucessful")) return "FollowUnsucessful";
+      else if ((response.data["status"] == "FollowUnsucessful")) return "FollowUnsucessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! userFollowsUser => " + err.toString());
   }
   return "";
 }
 
 Future<String> userUnfollowsUser(String uid1, String uid2) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "uid1": uid1,
       "uid2": uid2,
     };
-    String reqString = Constants.nodeURL + "userUnfollowsUser";
-    print("Sending Request To: " + reqString);
 
-    response = await http.post(reqString, headers: params);
+    String uri = Constants.nodeURL + "userUnfollowsUser";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.body == "UnfollowSucessful")
+      if (response.data["status"] == "UnfollowSucessful")
         return "UnfollowSucessful";
-      else if ((response.body == "UnfollowUnsucessful")) return "UnfollowUnsucessful";
+      else if ((response.data["status"] == "UnfollowUnsucessful")) return "UnfollowUnsucessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! userUnfollowsUser => " + err.toString());
   }
   return "";
 }

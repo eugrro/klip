@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -7,14 +8,16 @@ import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:klip/widgets.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart' as Constants;
-import 'package:http/http.dart' as http;
 import 'package:klip/currentUser.dart' as currentUser;
 
 import '../currentUser.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
 final GoogleSignIn googleSignIn = GoogleSignIn();
+Dio dio = new Dio();
+
 // ignore: non_constant_identifier_names
 Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
     TextEditingController contrl, Widget prefixIcon,
@@ -133,9 +136,9 @@ Future<void> signOutGoogle() async {
 
 Future<String> signOutUser() async {
   await Firebase.initializeApp();
-  FirebaseAuth.instance.signOut().catchError((e) {
-    if (e) {
-      print("Ran into error signing out");
+  FirebaseAuth.instance.signOut().catchError((err) {
+    if (err) {
+      print("Ran Into Error! signOutUser => " + err.toString());
       return "ERROR";
     }
   });
@@ -185,19 +188,21 @@ Future<void> resetPassword(String email) async {
 }
 
 Future<bool> doesUserExist(String email) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "email": email,
     };
-    String reqString = Constants.nodeURL + "doesUserExist";
-    print("Sending Request To: " + reqString);
-    response = await http.get(reqString, headers: params);
+
+    String uri = Constants.nodeURL + "doesUserExist";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
+      print(response.data);
 
-      if (response.body == "UserDoesNotExist")
+      if (response.data == "UserDoesNotExist")
         return false;
       else
         return true;
@@ -206,13 +211,13 @@ Future<bool> doesUserExist(String email) async {
       return null;
     }
   } catch (err) {
-    print("Ran Into Error! => " + err.toString());
+    print("Ran Into Error! doesUserExist => " + err.toString());
   }
   return null;
 }
 
 Future<String> postUser(String uid, String fName, String lName, String uName, String email, {int numViews = 0, int numKredits = 0}) async {
-  var response;
+  Response response;
   try {
     Map<String, dynamic> params = {
       "uid": uid,
@@ -226,44 +231,46 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "numKredits": numKredits.toString(),
       "following": [],
       "followers": [],
+      "subscribing": [],
       "subscribers": [],
     };
-    String reqString = Constants.nodeURL + "postUser";
-    print("Sending Request To: " + reqString);
-    response = await http.post(reqString, headers: params);
+
+    String uri = Constants.nodeURL + "postUser";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+
     if (response.statusCode == 200) {
       print("Returned 200");
-      print(response.body);
-      if (response.body is String) return response.body;
+      print(response.data);
+      if (response.data is String) return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error!" + err.toString());
+    print("Ran Into Error! postUser => " + err.toString());
   }
   return "";
 }
 
 Future<Map<String, dynamic>> getUser(String uid) async {
-  var response;
+  Response response;
   try {
     Map<String, String> params = {
       "uid": uid,
     };
-    String reqString = Constants.nodeURL + "getUser";
-    print("Sending Request To: " + reqString);
-    response = await http.get(reqString, headers: params);
+    String uri = Constants.nodeURL + "getUser";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-
-      return jsonDecode(response.body);
+      return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
       return null;
     }
   } catch (err) {
-    print("Ran Into Error! => " + err.toString());
+    print("Ran Into Error! getUser => " + err.toString());
   }
   return null;
 }
@@ -288,7 +295,8 @@ void setUpCurrentUser(String uid) async {
       currentUser.currentUserSubscribing.add(uid);
     }
   } else {
-    print("USER IS NULL did not set currentUser paramaters correctly");
+    print("Ran Into Error! setUpCurrentUser => ");
+    print("USER IS NULL\nDid not set currentUser paramaters correctly");
   }
 }
 

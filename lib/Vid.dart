@@ -38,7 +38,7 @@ class _VidState extends State<Vid> {
           });
         },
         child: Center(
-          child: _controller.value.initialized
+          child: _controller.value.isInitialized
               ? AspectRatio(
                   aspectRatio: _controller.value.aspectRatio,
                   child: VideoPlayer(_controller),
