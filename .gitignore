@@ -40,6 +40,7 @@ lib/generated_plugin_registrant.dart
 lib/server/node_modules
 lib/server/rootkey.csv
 lib/server/keys.js
+lib/server/ip.json
 
 
 # Symbolication related
