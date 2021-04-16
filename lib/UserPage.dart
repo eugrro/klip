@@ -24,8 +24,8 @@ class _UserPageState extends State<UserPage> {
   _UserPageState(this.uid);
 
   bool isFollowing;
-  int numKredits;
-  int numViews;
+  String numKredits;
+  String numViews;
   String uName;
   String bio;
   Image avatar;
@@ -61,8 +61,8 @@ class _UserPageState extends State<UserPage> {
       var user = await getUser(uid);
       Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
       setState(() {
-        numKredits = int.parse(user["numkredits"]);
-        numViews = int.parse(user["numviews"]);
+        numKredits = user["numkredits"];
+        numViews = user["numviews"];
         uName = user["uname"];
         bio = user["bio"];
         avatar = avatarImage;

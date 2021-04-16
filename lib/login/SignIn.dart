@@ -5,7 +5,7 @@ import 'package:klip/login/ForgotPassword.dart';
 import 'package:klip/login/SignUp.dart';
 import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
-import 'package:klip/currentUser.dart' as currentUser;
+import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
 import '../HomeSideScrolling.dart';
 import '../TopNavBar.dart';
@@ -161,7 +161,10 @@ class _SignInState extends State<SignIn> {
                                   showError(context, "Incorrect Password. Try again?");
                                 } else if (ret.length == 28) {
                                   //correct username and password and uid provided
-                                  setUpCurrentUser(ret);
+                                  setUpCurrentUser(ret).then((val) {
+                                    storeUserToSharedPreferences();
+                                  });
+
                                   while (Navigator.canPop(context)) {
                                     Navigator.of(context).pop();
                                   }
@@ -241,7 +244,10 @@ class _SignInState extends State<SignIn> {
                                 var userData = await signInWithGoogle();
                                 if (userData != "") {
                                   print("Signing in " + userData[1] + " with google");
-                                  setUpCurrentUser(userData[0]);
+
+                                  setUpCurrentUser(userData[0]).then((val) {
+                                    storeUserToSharedPreferences();
+                                  });
                                   while (Navigator.canPop(context)) {
                                     Navigator.of(context).pop();
                                   }

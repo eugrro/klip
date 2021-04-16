@@ -94,6 +94,24 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
   );
 }
 
+Future<String> checkIfUserIsSignedIn() async {
+  try {
+    await Firebase.initializeApp();
+    User firebaseUser = FirebaseAuth.instance.currentUser;
+    if (firebaseUser == null) {
+      print('User is currently signed out!');
+      return "UserNotSignedIn";
+    } else {
+      print('User is signed in!');
+      return "UserSignedIn";
+    }
+  } catch (err) {
+    print("Ran Into Error! checkIfUserIsSignedIn => " + err.toString());
+    return "ErrorOccuredOnTryCatch";
+  }
+  //return "ErrorOccuredGeneric";
+}
+
 ///Returns a list [uid, email] if sucessful otherwise ""
 Future<dynamic> signInWithGoogle() async {
   try {
@@ -275,7 +293,7 @@ Future<Map<String, dynamic>> getUser(String uid) async {
   return null;
 }
 
-void setUpCurrentUser(String uid) async {
+Future<void> setUpCurrentUser(String uid) async {
   var user = await getUser(uid);
   currentUser.uid = uid;
   if (user != null) {
@@ -284,8 +302,8 @@ void setUpCurrentUser(String uid) async {
     currentUser.email = user["email"];
     currentUser.fName = user["fname"];
     currentUser.lName = user["lname"];
-    currentUser.numViews = int.parse(user["numviews"]);
-    currentUser.numKredits = int.parse(user["numkredits"]);
+    currentUser.numViews = user["numviews"];
+    currentUser.numKredits = user["numkredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     for (uid in user["following"]) {

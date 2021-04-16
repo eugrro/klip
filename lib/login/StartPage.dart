@@ -8,6 +8,7 @@ import '../Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
+import '../currentUser.dart';
 import 'SignIn.dart';
 import 'SignUp.dart';
 
@@ -24,6 +25,28 @@ class _StartPageState extends State<StartPage> {
 
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder<String>(
+        future: checkIfUserIsSignedIn(),
+        // a previously-obtained Future<String> or null
+        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+          if (snapshot.connectionState == ConnectionState.done) {
+            if (snapshot.data == "UserSignedIn") {
+              //setUpCurrentUser(uid);
+              pullUserFromSharedPreferences();
+              return Navigation();
+            } else {
+              print("DATA " + snapshot.data.toString());
+              return startScreen();
+            }
+          } else {
+            return Center(
+              child: Container(),
+            );
+          }
+        });
+  }
+
+  Widget startScreen() {
     Constants.statusBarHeight = MediaQuery.of(context).padding.top;
     return Padding(
       padding: EdgeInsets.only(

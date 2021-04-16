@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:klip/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Requests.dart';
@@ -9,8 +10,8 @@ String uName = "testUserName";
 String fName = "testFirstName";
 String lName = "testLastName";
 String email = "testEmail@gmail.com";
-int numViews = 0;
-int numKredits = 0;
+String numViews = "0";
+String numKredits = "0";
 String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
 String avatarLink = getAWSLink(uid);
@@ -48,12 +49,14 @@ Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
 }
 
 void storeUserToSharedPreferences() async {
+  print("Storing user to shared preferences");
   final prefs = await SharedPreferences.getInstance();
 
-  prefs.setInt('numViews', numViews);
-  prefs.setInt('numKredits', numKredits);
+  prefs.setString('numViews', numViews);
+  prefs.setString('numKredits', numKredits);
 
   prefs.setString("uid", uid);
+  print("SETTING UID TO: " + uid);
   prefs.setString("uName", uName);
   prefs.setString("fName", fName);
   prefs.setString("lName", lName);
@@ -61,33 +64,62 @@ void storeUserToSharedPreferences() async {
   prefs.setString("gamertag", gamertag);
   prefs.setString("bio", bio);
   prefs.setString("avatarLink", avatarLink);
-  prefs.setString("avatarLink", avatarLink);
   prefs.setStringList("currentUserFollowing", currentUserFollowing);
   prefs.setStringList("currentUserFollowers", currentUserFollowers);
   prefs.setStringList("currentUserSubscribing", currentUserSubscribing);
   prefs.setStringList("currentUserSubscribers", currentUserSubscribers);
 }
 
-void pullUserFromSharedPreferences() async {
+Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
   final prefs = await SharedPreferences.getInstance();
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numKredits = pullFieldFromSharedPreferences("numKredits", prefs);
-  uid = pullFieldFromSharedPreferences("uid", prefs);
-  uName = pullFieldFromSharedPreferences("uName", prefs);
-  fName = pullFieldFromSharedPreferences("fName", prefs);
-  lName = pullFieldFromSharedPreferences("lName", prefs);
-  email = pullFieldFromSharedPreferences("email", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
-  numViews = pullFieldFromSharedPreferences("numViews", prefs);
+  print("Setting " + key + " to " + value.toString() + " in shared preferences");
+  if (value is int) {
+    prefs.setInt(key, value);
+    return "SetSucessful";
+  } else if (value is String) {
+    prefs.setString(key, value);
+    return "SetSucessful";
+  } else if (value is List) {
+    prefs.setStringList(key, value);
+    return "SetSucessful";
+  } else {
+    return "InvalidValueType";
+  }
+}
 
+void pullUserFromSharedPreferences() async {
+  print("Pulling user from shared preferences");
+  final prefs = await SharedPreferences.getInstance();
+  numViews = await pullFieldFromSharedPreferences("numViews", prefs);
+  print(numViews);
+  numKredits = await pullFieldFromSharedPreferences("numKredits", prefs);
+  uid = await pullFieldFromSharedPreferences("uid", prefs);
+  print(uid);
+  uName = await pullFieldFromSharedPreferences("uName", prefs);
+  fName = await pullFieldFromSharedPreferences("fName", prefs);
+  lName = await pullFieldFromSharedPreferences("lName", prefs);
+  email = await pullFieldFromSharedPreferences("email", prefs);
+  print(email);
+  gamertag = await pullFieldFromSharedPreferences("gamertag", prefs);
+  bio = await pullFieldFromSharedPreferences("bio", prefs);
+  avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
+  currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs))?.cast<String>();
+  ;
+  currentUserFollowers = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs))?.cast<String>();
+  currentUserSubscribing = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs))?.cast<String>();
+  currentUserSubscribers = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs))?.cast<String>();
 }
 
 dynamic pullFieldFromSharedPreferences(String field, SharedPreferences prefs) async {
-  return prefs.get(field);
+  if (prefs.containsKey(field)) {
+    return prefs.get(field);
+  } else {
+    return "FieldNotFound";
+  }
+}
+
+void clearSharedPreferences() async {
+  print("Clearing Shared Preferences");
+  final prefs = await SharedPreferences.getInstance();
+  prefs.clear();
 }

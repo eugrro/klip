@@ -12,6 +12,7 @@ import 'package:klip/currentUser.dart' as currentUser;
 
 import 'CropProfilePic.dart';
 import 'Requests.dart';
+import 'currentUser.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -342,6 +343,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   GestureDetector(
                     onTap: () async {
+                      clearSharedPreferences();
                       String ret = await signOutUser();
                       if (ret == "SignOutSucessful") {
                         print(ret);
@@ -585,6 +587,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 onTap: () {
                                   if (mongoParamName != "pass" && mongoParamName != "") {
                                     updateOne(currentUser.uid, mongoParamName, contr.text);
+
+                                    String klipParamName = getKlipParamNameFromMongoParamName(context, mongoParamName);
+                                    setFieldInSharedPreferences(klipParamName, contr.text);
                                     if (mongoParamName == "fname") currentUser.fName = contr.text;
                                     if (mongoParamName == "lname") currentUser.lName = contr.text;
                                     if (mongoParamName == "bio") currentUser.bio = contr.text;
@@ -635,6 +640,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         );
       },
     );
+  }
+
+  String getKlipParamNameFromMongoParamName(BuildContext ctx, String mParam) {
+    if (mParam == "fname") {
+      return "fName";
+    } else if (mParam == "lname") {
+      return "lName";
+    } else if (mParam == "bio") {
+      return "bio";
+    } else if (mParam == "fname") {
+      return "fName";
+    } else if (mParam == "email") {
+      return "email";
+    } else if (mParam == "uname") {
+      return "uName";
+    } else {
+      showError(ctx, "mongoParamName was not set yet please update");
+      return "";
+    }
   }
 
   void _showPicker(context) {

@@ -5,7 +5,7 @@ import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/SignUp.dart';
 import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
-import 'package:klip/currentUser.dart' as currentUser;
+import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
 import '../HomeSideScrolling.dart';
 import '../TopNavBar.dart';
@@ -155,7 +155,9 @@ class _SignUpState extends State<SignUp> {
                                 } else {
                                   String uid = await signUp(userNameController.text, passwordController.text);
                                   postUser(uid, "", "", userNameController.text, userNameController.text);
-                                  setUpCurrentUser(uid);
+                                  setUpCurrentUser(uid).then((val) {
+                                    storeUserToSharedPreferences();
+                                  });
                                   while (Navigator.canPop(context)) {
                                     Navigator.of(context).pop();
                                   }
@@ -239,7 +241,9 @@ class _SignUpState extends State<SignUp> {
                                   if (await doesUserExist(userData[1])) {
                                     //User exists in the database signing in with given uid
                                     print("User " + userData[1] + " exists already signing in");
-                                    setUpCurrentUser(userData[0]);
+                                    setUpCurrentUser(userData[0]).then((val) {
+                                      storeUserToSharedPreferences();
+                                    });
                                     while (Navigator.canPop(context)) {
                                       Navigator.of(context).pop();
                                     }
@@ -264,7 +268,9 @@ class _SignUpState extends State<SignUp> {
                                       print("error on splitting: " + e.toString());
                                     }
                                     postUser(userData[0], fName, lName, userData[1], userData[1]);
-                                    setUpCurrentUser(userData[0]);
+                                    setUpCurrentUser(userData[0]).then((val) {
+                                      storeUserToSharedPreferences();
+                                    });
                                     while (Navigator.canPop(context)) {
                                       Navigator.of(context).pop();
                                     }
