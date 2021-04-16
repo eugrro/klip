@@ -44,11 +44,12 @@ dependencies:
   vibration: ^1.7.3
   shared_preferences: ^2.0.5
   #shared_preferences updated 4/15/21
-
+  fluttertoast: ^8.0.4
   
   simple_image_crop:
     git:
       url: git://github.com/eugrro/flutter_simple_image_crop.git
+  
       
 
 dev_dependencies:
@@ -73,6 +74,7 @@ flutter:
      - lib/assets/vids/
      - lib/assets/images/
      - lib/assets/iconsUI/
+     - lib/server/ip.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

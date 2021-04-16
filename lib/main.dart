@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:ui';
 import 'package:klip/login/StartPage.dart';
 
@@ -11,6 +12,14 @@ import './Constants.dart' as Constants;
 void main() {
   runApp(MyApp());
 }
+
+//////////////////////////////////////////////////////////
+///////////////////TO REMOVE IN PRODUCTION////////////////
+Future<String> loadIP() async {
+  return jsonDecode(await rootBundle.loadString('lib/server/ip.json'))["dartUrl"];
+}
+///////////////////TO REMOVE IN PRODUCTION////////////////
+//////////////////////////////////////////////////////////
 
 //LOOK INTO THIS https://pub.dev/packages/animated_text_kit
 
@@ -26,6 +35,7 @@ class MyApp extends StatelessWidget {
         //statusBarBrightness: Brightness.dark,
       ),
     );
+    setConstantsIp();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Klips',
@@ -42,6 +52,10 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+setConstantsIp() async {
+  Constants.nodeURL = await loadIP();
 }
 
 Map<String, Widget Function(BuildContext)> klipRoutes = {

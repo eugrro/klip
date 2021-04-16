@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show rootBundle;
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
@@ -10,10 +11,7 @@ Color hintColor = Color(0xffc0c0c0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
-//const nodeURL = 'http://10.0.2.2:3000/'; //emulator
-const nodeURL = 'http://192.168.1.124:3000/'; //troy
-//const nodeURL = 'http://192.168.86.28:3000/';  //roseland
-
+String nodeURL;
 TextStyle tStyle({double fontSize = 16}) {
   return TextStyle(color: backgroundWhite, fontSize: fontSize);
 }
