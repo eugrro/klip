@@ -129,8 +129,9 @@ Future<http.Response> getStripeIntent(PaymentMethod paymentMethod) async {
   try {
     String uri = Constants.nodeURL + "getStripeIntent";
     print("Sending post request to: " + uri);
-
-    http.Response response = await http.post('$uri?amount=$amount&currency=USD&paym=${paymentMethod.id}');
+    String reqString = '$uri?amount=$amount&currency=USD&paym=${paymentMethod.id}';
+    Uri reqUri = Uri.http(reqString, "");
+    http.Response response = await http.post(reqUri);
     return response;
   } catch (e) {
     print("ERROR on getting Stripe INTENT");

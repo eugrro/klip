@@ -10,10 +10,13 @@ import 'package:klip/currentUser.dart' as currentUser;
 import 'AddNewContent.dart';
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
-import 'HomeTabs.dart';
+import 'HomeSideScrolling.dart';
 import 'TopNavBar.dart';
 import 'TopSection.dart';
 import 'UserPage.dart';
+
+int homePagePosition = 0;
+PageController homePageController;
 
 class Navigation extends StatefulWidget {
   Navigation({Key key, this.title}) : super(key: key);
@@ -25,14 +28,11 @@ class Navigation extends StatefulWidget {
 }
 
 class _NavigationState extends State<Navigation> with SingleTickerProviderStateMixin {
-  int pagePosition = 0;
-
-  PageController pageController;
   bool addingNewContent = false;
   bool showNavigationIcons = true;
   @override
   void initState() {
-    pageController = PageController(initialPage: pagePosition);
+    homePageController = PageController(initialPage: homePagePosition);
     super.initState();
   }
 
@@ -44,7 +44,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
       child: Scaffold(
         body: Stack(children: [
           PageView(
-            controller: pageController,
+            controller: homePageController,
             physics: NeverScrollableScrollPhysics(),
             children: [
               HomePage(),
@@ -87,9 +87,9 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             ? GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    pagePosition = 0;
+                                    homePagePosition = 0;
                                   });
-                                  pageController.animateToPage(pagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                  homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                 },
                                 child: Icon(
                                   Icons.home_outlined,
@@ -114,9 +114,9 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             ? GestureDetector(
                                 onTap: () {
                                   setState(() {
-                                    pagePosition = 1;
+                                    homePagePosition = 1;
                                   });
-                                  pageController.animateToPage(pagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                  homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
                                 },
                                 child: Icon(
                                   Icons.person_outline_outlined,

@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:klip/ContentWidget.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/UserPage.dart';
 import 'package:klip/commentsPage.dart';
@@ -13,7 +14,6 @@ import 'package:video_player/video_player.dart';
 import 'dart:convert' as convert;
 import './Constants.dart' as Constants;
 import 'package:async/async.dart';
-import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:vibration/vibration.dart';
 
@@ -28,22 +28,9 @@ class HomeTab extends StatefulWidget {
 class _HomeTabState extends State<HomeTab> {
   final AsyncMemoizer memoizer = AsyncMemoizer();
 
-  bool showComments = false;
-  BetterPlayerController _betterPlayerController;
-  ChewieController chewieController;
-  VideoPlayerController videoPlayerController;
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    if (videoPlayerController != null && videoPlayerController.value.initialized) {
-      chewieController.dispose();
-      videoPlayerController.dispose();
-    }
   }
 
   @override
@@ -52,7 +39,7 @@ class _HomeTabState extends State<HomeTab> {
       children: <Widget>[
         Expanded(
           child: FutureBuilder(
-            future: memoizer.runOnce(() => getListOfContent()),
+            future: memoizer.runOnce(() => listContentMongo()),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 // Build the widget with data.
@@ -66,8 +53,12 @@ class _HomeTabState extends State<HomeTab> {
                   ),
                 );
               } else {
-                return SizedBox.shrink(
-                  child: CircularProgressIndicator(),
+                return Center(
+                  child: Container(
+                    height: 50,
+                    width: 50,
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
             },
@@ -77,86 +68,17 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget imgWidget(String link) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Image.network(link),
-    );
-  }
-
-  Widget txtWidget(String title, String body) {
-    return Row(
-      children: [
-        Container(
-          height: 5,
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 40, bottom: 10),
-          child: Text(
-            title,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 30 + Constants.textChange),
-          ),
-        ),
-        Padding(
-          padding: EdgeInsets.only(top: 0, bottom: 40),
-          child: Text(
-            body,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
-          ),
-        ),
-        Container(
-          height: 10,
-        ),
-      ],
-    );
-  }
-
-  Widget vidWidget() {
-    return AspectRatio(
-      aspectRatio: 16 / 9,
-      child: Chewie(
-        controller: chewieController,
-      ),
-    );
-  }
-
-  Widget buildContent(String jsonInput) {
+  Widget buildContent(dynamic jsonInput) {
     try {
-      var obj = json.decode(jsonInput);
-      print(obj);
+      print("PRINTING HOME OBJECT");
+      print(jsonInput);
       return Container(
         width: MediaQuery.of(context).size.width,
         child: PageView.builder(
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
-            if (position < obj.length) {
-              if (obj[position]["type"] == "txt") {
-                return buildHomeWidget(obj, position, txtWidget(obj[position]["title"], obj[position]["body"]));
-              } else if (obj[position]["type"] == "img") {
-                return buildHomeWidget(obj, position, imgWidget(obj[position]["link"]));
-              } else if (obj[position]["type"] == "vid") {
-                return FutureBuilder<String>(
-                  future: setUpVideoController(obj[position]["link"]),
-                  builder: (context, snapshot) {
-                    if (snapshot.hasData) {
-                      return Center(
-                        child: buildHomeWidget(obj, position, vidWidget()),
-                      );
-                    } else {
-                      return SizedBox.shrink(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-                  },
-                );
-              } else {
-                return Container(
-                  child: Text(
-                    "ERROR",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                );
-              }
+            if (position < jsonInput.length) {
+              return ContentWidget(jsonInput[position]);
             } else {
               return Center(
                 child: Text(
@@ -174,245 +96,5 @@ class _HomeTabState extends State<HomeTab> {
     } catch (e) {
       throw "Error on parsing content data: " + e.toString();
     }
-  }
-
-  Widget buildHomeWidget(dynamic obj, int position, Widget content) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: ClipOval(
-                    child: FutureBuilder<Widget>(
-                      future: getProfileImage(
-                          obj[position]["uid"] + "_avatar.jpg", getAWSLink(obj[position]["uid"])), 
-                          // a previously-obtained Future<String> or null
-                      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                        double sizeofImage = 25;
-                        if (snapshot.hasData) {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: snapshot.data,
-                          );
-                        } else {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: Constants.tempAvatar,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj[position]["uid"])));
-                  },
-                  child: Text(
-                    obj[position]["uname"] == null ? "usernameError" : obj[position]["uname"],
-                    style: TextStyle(
-                      color: Constants.backgroundWhite.withOpacity(.7),
-                      fontSize: 14 + Constants.textChange,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 6,
-                    right: 6,
-                    top: 2,
-                  ),
-                  child: Icon(
-                    Icons.circle,
-                    color: Constants.backgroundWhite,
-                    size: 5,
-                  ),
-                ),
-                Text(
-                  "Follow",
-                  style: TextStyle(
-                    color: Constants.purpleColor,
-                  ),
-                )
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.more_vert,
-                color: Constants.backgroundWhite,
-                size: 25,
-              ),
-            ),
-          ],
-        ),
-        Container(
-          height: 10,
-        ),
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Padding(
-            padding: EdgeInsets.only(left: 15),
-            child: Text(
-              obj[position]["title"] == null ? "" : obj[position]["title"],
-              style: TextStyle(
-                color: Constants.backgroundWhite,
-                fontSize: 16 + Constants.textChange,
-              ),
-            ),
-          ),
-        ),
-        content,
-        Container(
-          height: 10,
-        ),
-        Container(
-          height: .8,
-          width: MediaQuery.of(context).size.width * .90,
-          color: Constants.purpleColor.withOpacity(.4),
-        ),
-        Padding(
-          padding: EdgeInsets.only(
-            top: 13,
-            bottom: 13,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    "lib/assets/iconsUI/+1Icon.svg",
-                    semanticsLabel: '+1 Icon',
-                    width: 20,
-                    height: 20,
-                  ),
-                  Container(
-                    width: 5,
-                  ),
-                  Text(
-                    "1, 345",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 14 + Constants.textChange,
-                    ),
-                  ),
-                ],
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj[position]["pid"], obj[position]["comm"]), direction: 2)).then((value) {
-                    print("RETURNED TO USER PAGE");
-                    setState(() {});
-                  });
-                },
-                child: Row(
-                  children: [
-                    SvgPicture.asset(
-                      "lib/assets/iconsUI/commentIcon.svg",
-                      semanticsLabel: 'commentIcon',
-                      width: 20,
-                      height: 20,
-                    ),
-                    Container(
-                      width: 5,
-                    ),
-                    Text(
-                      "2",
-                      style: TextStyle(
-                        color: Constants.backgroundWhite,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    "lib/assets/iconsUI/kreditIcon.svg",
-                    semanticsLabel: '+1 Icon',
-                    width: 20,
-                    height: 20,
-                  ),
-                  Container(
-                    width: 5,
-                  ),
-                  Text(
-                    "120",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 14 + Constants.textChange,
-                    ),
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        Container(
-          height: .8,
-          width: MediaQuery.of(context).size.width * .90,
-          color: Constants.purpleColor.withOpacity(.4),
-        ),
-        Container(
-          height: 5,
-        ),
-        showComments ? commentsWidget() : Container(),
-      ],
-    );
-  }
-
-  // ignore: missing_return
-  Future<String> setUpVideoController(String vUrl) async {
-    videoPlayerController = VideoPlayerController.network(vUrl);
-    print("Video URL: " + vUrl);
-    await videoPlayerController.initialize();
-    chewieController = ChewieController(
-      videoPlayerController: videoPlayerController,
-      autoPlay: true,
-      looping: false,
-    );
-    if (videoPlayerController.value.initialized) {
-      return "Done";
-    }
-    return "Initializing";
-  }
-
-  Widget commentsWidget() {
-    return Container(
-      child: DraggableScrollableSheet(
-        initialChildSize: 0.3,
-        minChildSize: 0.1,
-        maxChildSize: 0.8,
-        builder: (BuildContext context, myscrollController) {
-          return Container(
-            height: MediaQuery.of(context).size.height,
-            color: Colors.tealAccent[200],
-            child: ListView.builder(
-              controller: myscrollController,
-              itemCount: 25,
-              itemBuilder: (BuildContext context, int index) {
-                return ListTile(
-                    title: Text(
-                  'Dish $index',
-                  style: TextStyle(color: Colors.black54),
-                ));
-              },
-            ),
-          );
-        },
-      ),
-    );
   }
 }

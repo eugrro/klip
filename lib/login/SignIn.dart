@@ -5,9 +5,9 @@ import 'package:klip/login/ForgotPassword.dart';
 import 'package:klip/login/SignUp.dart';
 import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
-import 'package:klip/currentUser.dart' as currentUser;
+import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
-import '../HomeTabs.dart';
+import '../HomeSideScrolling.dart';
 import '../TopNavBar.dart';
 import '../TopSection.dart';
 
@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> {
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
-                                  Navigator.push(
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => ForgotPassword()),
                                   );
@@ -161,8 +161,14 @@ class _SignInState extends State<SignIn> {
                                   showError(context, "Incorrect Password. Try again?");
                                 } else if (ret.length == 28) {
                                   //correct username and password and uid provided
-                                  setUpCurrentUser(ret);
-                                  Navigator.push(
+                                  setUpCurrentUser(ret).then((val) {
+                                    storeUserToSharedPreferences();
+                                  });
+
+                                  while (Navigator.canPop(context)) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),
                                   );
@@ -238,8 +244,14 @@ class _SignInState extends State<SignIn> {
                                 var userData = await signInWithGoogle();
                                 if (userData != "") {
                                   print("Signing in " + userData[1] + " with google");
-                                  setUpCurrentUser(userData[0]);
-                                  Navigator.push(
+
+                                  setUpCurrentUser(userData[0]).then((val) {
+                                    storeUserToSharedPreferences();
+                                  });
+                                  while (Navigator.canPop(context)) {
+                                    Navigator.of(context).pop();
+                                  }
+                                  Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(builder: (context) => Navigation()),
                                   );
@@ -268,7 +280,7 @@ class _SignInState extends State<SignIn> {
                       alignment: Alignment.bottomCenter,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.push(
+                          Navigator.pushReplacement(
                             context,
                             MaterialPageRoute(builder: (context) => SignUp()),
                           );

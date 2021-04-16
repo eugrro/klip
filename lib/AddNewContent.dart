@@ -135,10 +135,7 @@ class _AddNewContentState extends State<AddNewContent> {
                     RaisedButton(
                       onPressed: () async {
                         print("TRYING TO UPLOAD PHOTO");
-                        uploadImage(
-                          await getImageFromGallery(),
-                          currentUser.uid,
-                        );
+                        uploadImage(await getImageFromGallery(), currentUser.uid, "");
                       },
                       child: Text("Upload Image"),
                     ),
