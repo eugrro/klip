@@ -58,18 +58,24 @@ void showSnackbar(BuildContext context, String text) {
 
 Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {
   if (thickness == null) thickness = 2.0;
+  FocusNode fcs = FocusNode();
   return Stack(
     children: [
-      IgnorePointer(
-        child: Padding(
-          padding: EdgeInsets.all(thickness),
-          child: Container(
-            height: height,
-            width: width,
-            //color: Colors.grey[875],
+      GestureDetector(
+        onTap: () {
+          if (!fcs.hasFocus) fcs.requestFocus();
+        },
+        child: IgnorePointer(
+          child: Padding(
+            padding: EdgeInsets.all(thickness),
+            child: Container(
+              height: height,
+              width: width,
+              //color: Colors.grey[875],
+            ),
           ),
+          ignoring: false, // or false to disable this behavior
         ),
-        ignoring: true, // or false to disable this behavior
       ),
       Align(
         alignment: Alignment.center,
@@ -89,6 +95,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
             ),
           ),
           controller: contr,
+          focusNode: fcs,
           style: TextStyle(
             color: Constants.backgroundWhite,
             fontSize: 16 + Constants.textChange,

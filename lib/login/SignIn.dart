@@ -161,7 +161,7 @@ class _SignInState extends State<SignIn> {
                                   showError(context, "Incorrect Password. Try again?");
                                 } else if (ret.length == 28) {
                                   //correct username and password and uid provided
-                                  setUpCurrentUser(ret).then((val) {
+                                  setUpCurrentUserFromMongo(ret).then((val) {
                                     storeUserToSharedPreferences();
                                   });
 
@@ -245,7 +245,7 @@ class _SignInState extends State<SignIn> {
                                 if (userData != "") {
                                   print("Signing in " + userData[1] + " with google");
 
-                                  setUpCurrentUser(userData[0]).then((val) {
+                                  setUpCurrentUserFromMongo(userData[0]).then((val) {
                                     storeUserToSharedPreferences();
                                   });
                                   while (Navigator.canPop(context)) {

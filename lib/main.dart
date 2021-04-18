@@ -16,8 +16,10 @@ void main() {
 //////////////////////////////////////////////////////////
 ///////////////////TO REMOVE IN PRODUCTION////////////////
 Future<String> loadIP() async {
-  return jsonDecode(await rootBundle.loadString('lib/server/ip.json'))["dartUrl"];
+  return (jsonDecode(await rootBundle.loadString('lib/server/ip.json')))["dartUrl"];
 }
+//"nodeUrl": "192.168.1.124",
+//"dartUrl": "http://192.168.1.124:3000/"
 ///////////////////TO REMOVE IN PRODUCTION////////////////
 //////////////////////////////////////////////////////////
 

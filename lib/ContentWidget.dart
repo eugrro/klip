@@ -305,7 +305,9 @@ class _ContentWidgetState extends State<ContentWidget> {
   Widget imgWidget(String link) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: Image.network(link),
+      child: Image.network(
+        link,
+      ),
     );
   }
 

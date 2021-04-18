@@ -14,6 +14,7 @@ Dio dio = new Dio();
 
 Future<String> updateOne(String uid, String param, String paramVal) async {
   Response response;
+  print("Updating " + param + " to " + paramVal + " in mongo");
   try {
     Map<String, String> params = {
       "uid": uid,
