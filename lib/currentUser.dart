@@ -16,10 +16,10 @@ String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
 String avatarLink = getAWSLink(uid);
 Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
-List<String> currentUserFollowing = [];
-List<String> currentUserFollowers = [];
-List<String> currentUserSubscribing = [];
-List<String> currentUserSubscribers = [];
+List<dynamic> currentUserFollowing = [];
+List<dynamic> currentUserFollowers = [];
+List<dynamic> currentUserSubscribing = [];
+List<dynamic> currentUserSubscribers = [];
 String getAWSLink(uid) {
   return "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
 }
@@ -64,10 +64,10 @@ void storeUserToSharedPreferences() async {
   prefs.setString("gamertag", gamertag);
   prefs.setString("bio", bio);
   prefs.setString("avatarLink", avatarLink);
-  prefs.setStringList("currentUserFollowing", currentUserFollowing);
-  prefs.setStringList("currentUserFollowers", currentUserFollowers);
-  prefs.setStringList("currentUserSubscribing", currentUserSubscribing);
-  prefs.setStringList("currentUserSubscribers", currentUserSubscribers);
+  prefs.setStringList("currentUserFollowing", currentUserFollowing.cast<String>());
+  prefs.setStringList("currentUserFollowers", currentUserFollowers.cast<String>());
+  prefs.setStringList("currentUserSubscribing", currentUserSubscribing.cast<String>());
+  prefs.setStringList("currentUserSubscribers", currentUserSubscribers.cast<String>());
 }
 
 Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
@@ -103,11 +103,14 @@ void pullUserFromSharedPreferences() async {
   gamertag = await pullFieldFromSharedPreferences("gamertag", prefs);
   bio = await pullFieldFromSharedPreferences("bio", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
-  currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs))?.cast<String>();
-  ;
-  currentUserFollowers = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs))?.cast<String>();
-  currentUserSubscribing = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs))?.cast<String>();
-  currentUserSubscribers = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs))?.cast<String>();
+  try {
+    currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs)).toList();
+    currentUserFollowers = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs)).toList();
+    currentUserSubscribing = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs)).toList();
+    currentUserSubscribers = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs)).toList();
+  } catch (err) {
+    print("Ran Into Error! pullUserFromSharedPreferences => " + err.toString());
+  }
 }
 
 dynamic pullFieldFromSharedPreferences(String field, SharedPreferences prefs) async {

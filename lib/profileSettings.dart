@@ -250,11 +250,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fname"),
-                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lname"),
-                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true, mongoParamName: "email"),
-                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true, mongoParamName: "uname"),
-                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false, mongoParamName: "pass"),
+                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fName"),
+                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lName"),
+                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true,
+                      mongoParamName: "email", customfunction: notYetImplemented),
+                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true, mongoParamName: "uName"),
+                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false,
+                      mongoParamName: "pass", customfunction: notYetImplemented),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -267,9 +269,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true),
-                  settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true),
-                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, false),
+                  settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true, customfunction: notYetImplemented),
+                  settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true,
+                      customfunction: notYetImplemented),
+                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, false,
+                      customfunction: notYetImplemented),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -297,6 +301,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         ),
       ),
     );
+  }
+
+  notYetImplemented(BuildContext ctx, List<dynamic> params) {
+    showError(ctx, "Feature is in development\nShould be out by beta :)");
   }
 
   signOutUserWidget(BuildContext ctx, List<dynamic> params) {
@@ -588,13 +596,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   if (mongoParamName != "pass" && mongoParamName != "") {
                                     updateOne(currentUser.uid, mongoParamName, contr.text);
 
-                                    String klipParamName = getKlipParamNameFromMongoParamName(context, mongoParamName);
-                                    setFieldInSharedPreferences(klipParamName, contr.text);
-                                    if (mongoParamName == "fname") currentUser.fName = contr.text;
-                                    if (mongoParamName == "lname") currentUser.lName = contr.text;
+                                    setFieldInSharedPreferences(mongoParamName, contr.text);
+                                    if (mongoParamName == "fName") currentUser.fName = contr.text;
+                                    if (mongoParamName == "lName") currentUser.lName = contr.text;
                                     if (mongoParamName == "bio") currentUser.bio = contr.text;
                                     if (mongoParamName == "email") currentUser.email = contr.text;
-                                    if (mongoParamName == "uname") currentUser.uName = contr.text;
+                                    if (mongoParamName == "uName") currentUser.uName = contr.text;
 
                                     //TODO any other settings feature needs to be added to mongo if necessary
                                     setState(() {});
