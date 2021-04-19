@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/currentUser.dart' as currentUser;
@@ -18,32 +19,37 @@ class StartPage extends StatefulWidget {
 }
 
 class _StartPageState extends State<StartPage> {
+  AsyncMemoizer _memoizer;
   @override
   void initState() {
     super.initState();
+    _memoizer = AsyncMemoizer();
   }
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<String>(
-        future: checkIfUserIsSignedIn(),
-        // a previously-obtained Future<String> or null
-        builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
-          if (snapshot.connectionState == ConnectionState.done) {
-            if (snapshot.data == "UserSignedIn") {
-              //setUpCurrentUser(uid);
-              pullUserFromSharedPreferences();
-              return Navigation();
-            } else {
-              print("DATA " + snapshot.data.toString());
-              return startScreen();
-            }
+    return FutureBuilder<dynamic>(
+      future: _memoizer.runOnce(() async {
+        return await checkIfUserIsSignedIn();
+      }), // checkIfUserIsSignedIn(),
+      // a previously-obtained Future<String> or null
+      builder: (BuildContext context, AsyncSnapshot<dynamic> snapshot) {
+        if (snapshot.connectionState == ConnectionState.done) {
+          if (snapshot.data == "UserSignedIn") {
+            //setUpCurrentUser(uid);
+            pullUserFromSharedPreferences();
+            return Navigation();
           } else {
-            return Center(
-              child: Container(),
-            );
+            print("DATA " + snapshot.data.toString());
+            return startScreen();
           }
-        });
+        } else {
+          return Center(
+            child: Container(),
+          );
+        }
+      },
+    );
   }
 
   Widget startScreen() {

@@ -12,6 +12,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
+import '../Navigation.dart';
 import '../currentUser.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -180,24 +181,26 @@ Future<String> signUp(String user, String pass) async {
 
 Future<String> signIn(String user, String pass) async {
   await Firebase.initializeApp();
-  bool ranIntoError = false;
-  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
-    ranIntoError = true;
+  UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
+      return null;
     } else if (e.code == "wrong-password") {
       print('Wrong password');
+      return null;
     } else if (e.code == 'email-already-in-use') {
       print('The account already exists for that email.');
+      return null;
     } else {
       print("OTHER ERROR: " + e.toString());
+      return null;
     }
   });
-  if (!ranIntoError) {
+  if (userCredential != null) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
   } else {
-    return "";
+    return "ERROR";
   }
 }
 
@@ -220,7 +223,7 @@ Future<bool> doesUserExist(String email) async {
       print("Returned 200");
       print(response.data);
 
-      if (response.data == "UserDoesNotExist")
+      if (response.data["status"] == "UserDoesNotExist")
         return false;
       else
         return true;
@@ -293,29 +296,49 @@ Future<Map<String, dynamic>> getUser(String uid) async {
   return null;
 }
 
-Future<void> setUpCurrentUser(String uid) async {
+Future<void> setUpCurrentUserFromMongo(String uid) async {
+  print("Setting up user from mongo");
   var user = await getUser(uid);
+  print(user);
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
-    currentUser.uName = user["uname"];
+    currentUser.uName = user["uName"];
     currentUser.email = user["email"];
-    currentUser.fName = user["fname"];
-    currentUser.lName = user["lname"];
-    currentUser.numViews = user["numviews"];
-    currentUser.numKredits = user["numkredits"];
+    currentUser.fName = user["fName"];
+    currentUser.lName = user["lName"];
+    currentUser.numViews = user["numViews"];
+    currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
-    for (uid in user["following"]) {
-      currentUser.currentUserFollowing.add(uid);
-    }
-    for (uid in user["subscribing"]) {
-      currentUser.currentUserSubscribing.add(uid);
+    try {
+      for (uid in user["following"]) {
+        currentUser.currentUserFollowing.add(uid);
+      }
+      for (uid in user["subscribing"]) {
+        currentUser.currentUserSubscribing.add(uid);
+      }
+    } catch (err) {
+      print("Ran Into Error! setUpCurrentUser => " + err.toString());
     }
   } else {
     print("Ran Into Error! setUpCurrentUser => ");
     print("USER IS NULL\nDid not set currentUser paramaters correctly");
   }
+}
+
+void setUpCurrentUserFromNewData(String uid, String bio, String uName, String email, String fName, String lName, String numViews, String numKredits) {
+  print("Setting up user from new data");
+  currentUser.uid = uid;
+  currentUser.bio = bio;
+  currentUser.uName = uName;
+  currentUser.email = email;
+  currentUser.fName = fName;
+  currentUser.lName = lName;
+  currentUser.numViews = numViews;
+  currentUser.numKredits = numKredits;
+  currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
 }
 
 bool validinput(BuildContext ctx, String uName, String pass, String passConfirm) {

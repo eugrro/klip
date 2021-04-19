@@ -155,9 +155,9 @@ class _SignUpState extends State<SignUp> {
                                 } else {
                                   String uid = await signUp(userNameController.text, passwordController.text);
                                   postUser(uid, "", "", userNameController.text, userNameController.text);
-                                  setUpCurrentUser(uid).then((val) {
-                                    storeUserToSharedPreferences();
-                                  });
+                                  setUpCurrentUserFromNewData(uid, "Sample bio", email, email, "", "", "0", "0");
+                                  storeUserToSharedPreferences();
+
                                   while (Navigator.canPop(context)) {
                                     Navigator.of(context).pop();
                                   }
@@ -241,7 +241,7 @@ class _SignUpState extends State<SignUp> {
                                   if (await doesUserExist(userData[1])) {
                                     //User exists in the database signing in with given uid
                                     print("User " + userData[1] + " exists already signing in");
-                                    setUpCurrentUser(userData[0]).then((val) {
+                                    setUpCurrentUserFromMongo(userData[0]).then((val) {
                                       storeUserToSharedPreferences();
                                     });
                                     while (Navigator.canPop(context)) {
@@ -268,9 +268,9 @@ class _SignUpState extends State<SignUp> {
                                       print("error on splitting: " + e.toString());
                                     }
                                     postUser(userData[0], fName, lName, userData[1], userData[1]);
-                                    setUpCurrentUser(userData[0]).then((val) {
-                                      storeUserToSharedPreferences();
-                                    });
+                                    setUpCurrentUserFromNewData(uid, "Sample bio", email, email, fName, lName, "0", "0");
+                                    storeUserToSharedPreferences();
+
                                     while (Navigator.canPop(context)) {
                                       Navigator.of(context).pop();
                                     }

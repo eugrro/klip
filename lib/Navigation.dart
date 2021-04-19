@@ -15,7 +15,7 @@ import 'TopNavBar.dart';
 import 'TopSection.dart';
 import 'UserPage.dart';
 
-int homePagePosition = 0;
+int homePagePosition;
 PageController homePageController;
 
 class Navigation extends StatefulWidget {
@@ -32,8 +32,9 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
   bool showNavigationIcons = true;
   @override
   void initState() {
-    homePageController = PageController(initialPage: homePagePosition);
     super.initState();
+    homePagePosition = 0;
+    homePageController = PageController(initialPage: homePagePosition);
   }
 
   @override
