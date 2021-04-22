@@ -362,3 +362,54 @@ bool validinput(BuildContext ctx, String uName, String pass, String passConfirm)
   //TODO add actual input validation
   return valid;
 }
+
+Future<String> updateUsername(String uid, String uName) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "uName": uName,
+    };
+    String uri = Constants.nodeURL + "updateUsername";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.data);
+      if (response.data is String) return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! postUser => " + err.toString());
+  }
+  return "";
+}
+
+Future<bool> doesUsernameExist(String username) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uname": username,
+    };
+    String uri = Constants.nodeURL + "doesUsernameExist";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.data);
+
+      if (response.data["status"] == "UsernameDoesNotExist")
+        return false;
+      else
+        return true;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return null;
+    }
+  } catch (err) {
+    print("Ran Into Error! doesUserExist => " + err.toString());
+  }
+  return null;
+}
