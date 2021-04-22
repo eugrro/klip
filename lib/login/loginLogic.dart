@@ -247,6 +247,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "lName": lName,
       "uName": uName,
       "bio": "",
+      "bioLink": "",
       "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),

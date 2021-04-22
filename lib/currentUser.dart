@@ -14,6 +14,7 @@ String numViews = "0";
 String numKredits = "0";
 String gamertag = "eugro";
 String bio = "Sample bio text for the current user";
+String bioLink = "";
 String avatarLink = getAWSLink(uid);
 Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
 List<dynamic> currentUserFollowing = [];
@@ -58,6 +59,7 @@ void storeUserToSharedPreferences() async {
   prefs.setString("uid", uid);
   print("SETTING UID TO: " + uid);
   prefs.setString("uName", uName);
+  prefs.setString("bioLink", bioLink);
   prefs.setString("fName", fName);
   prefs.setString("lName", lName);
   prefs.setString("email", email);
@@ -102,6 +104,7 @@ void pullUserFromSharedPreferences() async {
   print(email);
   gamertag = await pullFieldFromSharedPreferences("gamertag", prefs);
   bio = await pullFieldFromSharedPreferences("bio", prefs);
+  bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
   try {
     currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs)).toList();

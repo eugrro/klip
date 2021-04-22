@@ -7,7 +7,7 @@ import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
@@ -29,6 +29,7 @@ class _UserPageState extends State<UserPage> {
   String numViews;
   String uName;
   String bio;
+  String bioLink;
   Image avatar;
 
   @override
@@ -57,6 +58,7 @@ class _UserPageState extends State<UserPage> {
         numViews = currentUser.numViews;
         uName = currentUser.uName;
         bio = currentUser.bio;
+        bioLink = currentUser.bioLink;
       });
     } else {
       var user = await getUser(uid);
@@ -68,6 +70,17 @@ class _UserPageState extends State<UserPage> {
         bio = user["bio"];
         avatar = avatarImage;
       });
+    }
+  }
+
+  void _launchbioLink(BuildContext ctx, String url) async {
+    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
+      url = "https://" + url;
+    }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showError(ctx, "Could not Launch Link");
     }
   }
 
@@ -140,7 +153,6 @@ class _UserPageState extends State<UserPage> {
                       padding: EdgeInsets.only(top: 100),
                       child: Container(
                         width: MediaQuery.of(context).size.width * .95,
-                        height: 135,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
@@ -239,39 +251,49 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 5),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
                                   uName == null ? "" : uName,
                                   style: TextStyle(
-                                    fontSize: 20 + Constants.textChange,
+                                    fontSize: 26 + Constants.textChange,
                                     color: Constants.backgroundWhite.withOpacity(.9),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text(
-                                bio == null ? "" : bio,
-                                style: TextStyle(
-                                  fontSize: 13 + Constants.textChange,
-                                  color: Constants.backgroundWhite.withOpacity(.6),
-                                ),
-                              ),
-                            ),
-
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(
-                            //     vertical: 10,
-                            //   ),
-                            //   child: Container(
-                            //     height: 2,
-                            //     width: MediaQuery.of(context).size.width / 15 * 14,
-                            //     color: Constants.purpleColor,
-                            //   ),
-                            // ),
+                            bio != null
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                                    child: Text(
+                                      bio,
+                                      style: TextStyle(
+                                        fontSize: 14 + Constants.textChange,
+                                        color: Constants.backgroundWhite.withOpacity(.6),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            bioLink != null && bioLink != ""
+                                ? GestureDetector(
+                                    onTap: () {
+                                      _launchbioLink(context, bioLink);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 15),
+                                      child: Text(
+                                        bioLink,
+                                        style: TextStyle(
+                                          fontSize: 14 + Constants.textChange,
+                                          decoration: TextDecoration.underline,
+                                          letterSpacing: .75,
+                                          color: Constants.purpleColor,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -343,18 +365,27 @@ class _UserPageState extends State<UserPage> {
                   width: 125,
                   child: AutoSizeText(
                     'Woah what an epic video Title!',
-                    style: Constants.tStyle(),
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Constants.backgroundWhite,
+                    ),
                     maxLines: 3,
                   ),
                 ),
               ),
               Text(
                 "104 Views",
-                style: Constants.tStyle(fontSize: 13),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
               Text(
                 "13 Comments",
-                style: Constants.tStyle(fontSize: 13),
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
             ],
           ),

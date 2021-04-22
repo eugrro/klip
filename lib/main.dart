@@ -18,8 +18,8 @@ void main() {
 Future<String> loadIP() async {
   return (jsonDecode(await rootBundle.loadString('lib/server/ip.json')))["dartUrl"];
 }
-//"nodeUrl": "192.168.1.124",
-//"dartUrl": "http://192.168.1.124:3000/"
+//"nodeUrl": "127.0.0.1",
+//"dartUrl": "http://10.0.2.2:3000/"
 ///////////////////TO REMOVE IN PRODUCTION////////////////
 //////////////////////////////////////////////////////////
 
