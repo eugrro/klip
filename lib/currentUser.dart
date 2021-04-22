@@ -82,7 +82,7 @@ Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
     prefs.setString(key, value);
     return "SetSucessful";
   } else if (value is List) {
-    prefs.setStringList(key, value);
+    prefs.setStringList(key, value.cast<String>());
     return "SetSucessful";
   } else {
     return "InvalidValueType";

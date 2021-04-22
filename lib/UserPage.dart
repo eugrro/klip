@@ -157,7 +157,7 @@ class _UserPageState extends State<UserPage> {
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(.02), Constants.purpleColor.withOpacity(.1)],
+                            colors: [Constants.purpleColor.withOpacity(.05), Constants.purpleColor.withOpacity(.2)],
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
@@ -182,6 +182,7 @@ class _UserPageState extends State<UserPage> {
                                           setState(() {
                                             isFollowing = true;
                                           });
+                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
                                           userFollowsUser(currentUser.uid, uid);
                                         } else {
                                           print("Unfollowing");
@@ -189,6 +190,7 @@ class _UserPageState extends State<UserPage> {
                                           setState(() {
                                             isFollowing = false;
                                           });
+                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
                                           userUnfollowsUser(currentUser.uid, uid);
                                         }
                                       }
