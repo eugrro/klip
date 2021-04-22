@@ -70,8 +70,6 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget buildContent(dynamic jsonInput) {
     try {
-      print("PRINTING HOME OBJECT");
-      print(jsonInput);
       return Container(
         width: MediaQuery.of(context).size.width,
         child: PageView.builder(

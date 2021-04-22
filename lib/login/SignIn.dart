@@ -152,7 +152,7 @@ class _SignInState extends State<SignIn> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
                               if (validinput(context, userNameController.text, passwordController.text, passwordController.text)) {
-                                String ret = await signIn(userNameController.text, passwordController.text);
+                                String ret = await signIn(context, userNameController.text, passwordController.text);
                                 if (ret == "" || ret == "ERROR") {
                                   showError(context, "Unknown error occurred. Please try again");
                                 } else if (ret == "EmailNotFound") {

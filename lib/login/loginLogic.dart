@@ -179,23 +179,18 @@ Future<String> signUp(String user, String pass) async {
   return userCredential.user.uid;
 }
 
-Future<String> signIn(String user, String pass) async {
+Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
-    if (e.code == 'weak-password') {
-      print('The password provided is too weak.');
-      return null;
-    } else if (e.code == "wrong-password") {
-      print('Wrong password');
-      return null;
-    } else if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
-      return null;
-    } else {
-      print("OTHER ERROR: " + e.toString());
-      return null;
+  UserCredential userCredential;
+  try {
+    userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass);
+  } on FirebaseAuthException catch (e) {
+    if (e.code == 'user-not-found') {
+      print('No user found for that email.');
+    } else if (e.code == 'wrong-password') {
+      print('Wrong password provided for that user.');
     }
-  });
+  }
   if (userCredential != null) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;

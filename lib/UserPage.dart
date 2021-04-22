@@ -331,8 +331,12 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<bool> _onWillPop() async {
-    homePagePosition = 0;
-    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    if (uid == currentUser.uid) {
+      homePagePosition = 0;
+      homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    } else {
+      Navigator.of(context).pop();
+    }
     return false;
   }
 
