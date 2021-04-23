@@ -7,7 +7,6 @@ import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'AddNewContent.dart';
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
 import 'HomeSideScrolling.dart';
