@@ -299,12 +299,13 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
-    currentUser.uName = user["uName"];
+    currentUser.bioLink = user["bioLink"];
+    currentUser.uName = user["uname"];
     currentUser.email = user["email"];
-    currentUser.fName = user["fName"];
-    currentUser.lName = user["lName"];
-    currentUser.numViews = user["numViews"];
-    currentUser.numKredits = user["numKredits"];
+    currentUser.fName = user["fname"];
+    currentUser.lName = user["lname"];
+    currentUser.numViews = user["numviews"];
+    currentUser.numKredits = user["numkredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     try {
@@ -327,6 +328,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   print("Setting up user from new data");
   currentUser.uid = uid;
   currentUser.bio = bio;
+  currentUser.bioLink = "";
   currentUser.uName = uName;
   currentUser.email = email;
   currentUser.fName = fName;
