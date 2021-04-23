@@ -3,6 +3,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/SignUp.dart';
+import 'package:klip/login/UsernameCreation.dart';
 import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
@@ -163,7 +164,7 @@ class _SignUpState extends State<SignUp> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Navigation()),
+                                    MaterialPageRoute(builder: (context) => UsernameCreation()),
                                   );
                                 }
                               }
@@ -276,7 +277,7 @@ class _SignUpState extends State<SignUp> {
                                     }
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Navigation()),
+                                      MaterialPageRoute(builder: (context) => UsernameCreation()),
                                     );
                                   }
                                 } else {
