@@ -250,7 +250,7 @@ class _SignUpState extends State<SignUp> {
                                     }
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => UsernameCreation()),
+                                      MaterialPageRoute(builder: (context) => Navigation()),
                                     );
                                   } else {
                                     //User doesnt exist in database adding to database with given uid and email
