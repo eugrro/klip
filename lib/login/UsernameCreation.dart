@@ -23,16 +23,16 @@ class _UsernameCreationState extends State<UsernameCreation> {
   // of the TextField.
   double heightOfButtons = 45;
   bool initialsuffixWidget = true;
-  bool loading = false;
+  bool isNextVisible = false;
   int currentPage = 1;
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
-  bool isUserNameValid = true;
+  bool isUserNameValid = false;
   final validUserNameCharacters = RegExp(r'^[a-zA-Z0-9]+$');
   String validatedUserName;
   final usernameController = TextEditingController();
-
+  int nextAnimationDuration = 250;
   @override
   void initState() {
     super.initState();
@@ -63,12 +63,15 @@ class _UsernameCreationState extends State<UsernameCreation> {
   String validateUsername(value) {
     if (initialsuffixWidget == true) initialsuffixWidget = false;
     if (value.isEmpty) {
+      isNextVisible = false;
       return "Username cannot be empty";
     }
     if (validUserNameCharacters.hasMatch(value) == false) {
+      isNextVisible = false;
       return "Username must only contain alphanumeric values";
     }
     if (value.length < 4) {
+      isNextVisible = false;
       return "Username must contain at least 4 values";
     }
     if (usernameController.value.text != validatedUserName) {
@@ -90,13 +93,14 @@ class _UsernameCreationState extends State<UsernameCreation> {
       validatedUserName = userNameValue;
 
       isUserNameValid = !doesExist;
+      isNextVisible = !doesExist;
     });
   }
 
   Widget getSuffixWdiget() {
     if (initialsuffixWidget)
       return Container();
-    else if (isUserNameValid == true) {
+    else if (isNextVisible == true) {
       return Icon(
         Icons.check,
         color: Colors.green,
@@ -152,10 +156,11 @@ class _UsernameCreationState extends State<UsernameCreation> {
                   child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 4)),
-                  Text("Welcome", style: TextStyle(color: Constants.backgroundWhite, fontSize: 48 + Constants.textChange)),
-                  Text("Let's get you an username",
-                      overflow: TextOverflow.visible, style: TextStyle(color: Constants.backgroundWhite, fontSize: 32 + Constants.textChange)),
+                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
+                  Text("Welcome!", style: TextStyle(color: Constants.backgroundWhite, fontSize: 48 + Constants.textChange)),
+                  Text("Let's get you a username",
+                      overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 20 + Constants.textChange)),
+                  Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5)),
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {},
@@ -255,50 +260,46 @@ class _UsernameCreationState extends State<UsernameCreation> {
                             )),
                       ])),
                   GestureDetector(
-                    onTap: () async {
-                      if (isUserNameValid == true) {
-                        currentUser.uName = validatedUserName;
+                      onTap: () async {
+                        if (isUserNameValid == true) {
+                          currentUser.uName = validatedUserName;
 
-                        String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Navigation()),
-                        );
-                      }
-                    },
-                    child: Container(
-                      width: MediaQuery.of(context).size.width * .4,
-                      height: heightOfContainer - 10,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(Radius.circular(100)),
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [Constants.purpleColor, Color(0xffab57a8)],
-                        ),
-                      ),
-                      child: Center(
-                        child: Text(
-                          "Next",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 24 + Constants.textChange,
+                          String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Navigation()),
+                          );
+                        }
+                      },
+                      child: AnimatedOpacity(
+                        opacity: isNextVisible ? 1.0 : 0.0,
+                        duration: Duration(milliseconds: nextAnimationDuration),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width * .4,
+                          height: heightOfContainer - 10,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [Constants.purpleColor, Color(0xffab57a8)],
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              "Next",
+                              style: TextStyle(
+                                color: Constants.backgroundWhite,
+                                fontSize: 24 + Constants.textChange,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
-                  ),
+                      )),
                 ],
               )))
         ])),
       ),
     );
   }
-}
-
-Widget getValidationIcon(isUserNameValid) {
-  if (isUserNameValid) {
-    return Icon(Icons.check, color: Colors.green);
-  } else
-    return Icon(Icons.highlight_off_sharp, color: Colors.red);
 }
