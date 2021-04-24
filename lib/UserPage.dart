@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
 import 'package:klip/profileSettings.dart';
@@ -7,7 +8,7 @@ import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
@@ -29,7 +30,9 @@ class _UserPageState extends State<UserPage> {
   String numViews;
   String uName;
   String bio;
+  String bioLink;
   Image avatar;
+  final AsyncMemoizer memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -57,6 +60,7 @@ class _UserPageState extends State<UserPage> {
         numViews = currentUser.numViews;
         uName = currentUser.uName;
         bio = currentUser.bio;
+        bioLink = currentUser.bioLink;
       });
     } else {
       var user = await getUser(uid);
@@ -68,6 +72,17 @@ class _UserPageState extends State<UserPage> {
         bio = user["bio"];
         avatar = avatarImage;
       });
+    }
+  }
+
+  void _launchbioLink(BuildContext ctx, String url) async {
+    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
+      url = "https://" + url;
+    }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showError(ctx, "Could not Launch Link");
     }
   }
 
@@ -93,7 +108,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numViews == null ? "" : numViews.toString(),
+                              numViews ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -117,7 +132,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numKredits == null ? "" : numKredits.toString(),
+                              numKredits ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -140,12 +155,11 @@ class _UserPageState extends State<UserPage> {
                       padding: EdgeInsets.only(top: 100),
                       child: Container(
                         width: MediaQuery.of(context).size.width * .95,
-                        height: 135,
                         decoration: BoxDecoration(
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(.02), Constants.purpleColor.withOpacity(.1)],
+                            colors: [Constants.purpleColor.withOpacity(.05), Constants.purpleColor.withOpacity(.2)],
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
@@ -170,6 +184,7 @@ class _UserPageState extends State<UserPage> {
                                           setState(() {
                                             isFollowing = true;
                                           });
+                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
                                           userFollowsUser(currentUser.uid, uid);
                                         } else {
                                           print("Unfollowing");
@@ -177,6 +192,7 @@ class _UserPageState extends State<UserPage> {
                                           setState(() {
                                             isFollowing = false;
                                           });
+                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
                                           userUnfollowsUser(currentUser.uid, uid);
                                         }
                                       }
@@ -239,39 +255,49 @@ class _UserPageState extends State<UserPage> {
                               ),
                             ),
                             Padding(
-                              padding: EdgeInsets.only(top: 10),
+                              padding: EdgeInsets.only(top: 5),
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  uName == null ? "" : uName,
+                                  uName ?? "",
                                   style: TextStyle(
-                                    fontSize: 20 + Constants.textChange,
+                                    fontSize: 26 + Constants.textChange,
                                     color: Constants.backgroundWhite.withOpacity(.9),
                                   ),
                                 ),
                               ),
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text(
-                                bio == null ? "" : bio,
-                                style: TextStyle(
-                                  fontSize: 13 + Constants.textChange,
-                                  color: Constants.backgroundWhite.withOpacity(.6),
-                                ),
-                              ),
-                            ),
-
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(
-                            //     vertical: 10,
-                            //   ),
-                            //   child: Container(
-                            //     height: 2,
-                            //     width: MediaQuery.of(context).size.width / 15 * 14,
-                            //     color: Constants.purpleColor,
-                            //   ),
-                            // ),
+                            bio != null
+                                ? Padding(
+                                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                                    child: Text(
+                                      bio,
+                                      style: TextStyle(
+                                        fontSize: 14 + Constants.textChange,
+                                        color: Constants.backgroundWhite.withOpacity(.6),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
+                            bioLink != null && bioLink != ""
+                                ? GestureDetector(
+                                    onTap: () {
+                                      _launchbioLink(context, bioLink);
+                                    },
+                                    child: Padding(
+                                      padding: EdgeInsets.only(bottom: 15),
+                                      child: Text(
+                                        bioLink,
+                                        style: TextStyle(
+                                          fontSize: 14 + Constants.textChange,
+                                          decoration: TextDecoration.underline,
+                                          letterSpacing: .75,
+                                          color: Constants.purpleColor,
+                                        ),
+                                      ),
+                                    ),
+                                  )
+                                : Container(),
                           ],
                         ),
                       ),
@@ -284,7 +310,7 @@ class _UserPageState extends State<UserPage> {
                         width: 150,
                         child: CircleAvatar(
                           radius: 75,
-                          child: ClipOval(child: avatar == null ? Container() : avatar),
+                          child: ClipOval(child: avatar ?? Container()),
                         ),
                       ),
                     ),
@@ -292,13 +318,37 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 10, bottom: 0),
-              children: [
-                //vidListItem(),
-                vidListItem(),
-              ],
+            FutureBuilder(
+              future: memoizer.runOnce(() => getUserContent(uid)),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  // Build the widget with data.
+                  dynamic objList = snapshot.data;
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: Constants.bottomNavBarHeight,
+                      ),
+                      child: ListView.builder(
+                        itemCount: objList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10, bottom: 0),
+                        itemBuilder: (context, index) {
+                          return vidListItem(objList[index]);
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -307,16 +357,22 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<bool> _onWillPop() async {
-    homePagePosition = 0;
-    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    if (uid == currentUser.uid) {
+      homePagePosition = 0;
+      homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    } else {
+      Navigator.of(context).pop();
+    }
     return false;
   }
 
-  Widget vidListItem() {
+  Widget vidListItem(dynamic obj) {
+    print(obj);
+    if (obj == null) return Container();
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width / 30,
-        vertical: 7,
+        vertical: 6,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,10 +381,13 @@ class _UserPageState extends State<UserPage> {
             padding: EdgeInsets.only(
               right: 10,
             ),
-            child: Container(
-              height: 120,
-              width: 220,
-              color: Colors.indigo,
+            child: FittedBox(
+              child: Image.network(
+                obj["type"] == "vid" ? obj["thumb"] : obj["link"],
+                height: 120,
+                width: 220,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Column(
@@ -342,19 +401,28 @@ class _UserPageState extends State<UserPage> {
                 child: Container(
                   width: 125,
                   child: AutoSizeText(
-                    'Woah what an epic video Title!',
-                    style: Constants.tStyle(),
+                    obj["title"] ?? "",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Constants.backgroundWhite,
+                    ),
                     maxLines: 3,
                   ),
                 ),
               ),
               Text(
-                "104 Views",
-                style: Constants.tStyle(fontSize: 13),
+                (obj["numviews"] ?? "0") + " views",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
               Text(
-                "13 Comments",
-                style: Constants.tStyle(fontSize: 13),
+                (obj["comm"].length.toString() ?? "0") + " comments",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
             ],
           ),

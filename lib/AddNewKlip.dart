@@ -130,7 +130,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
             ),
             child: FutureBuilder(
               future: Future.wait([
-                memoizer.runOnce(() => getImageAsFile(index)),
+                memoizer.runOnce(() => getAsFile(index)),
                 memList[index].runOnce(() => getThumbImage(index)),
               ]),
               builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -198,7 +198,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
     );
   }
 
-  Future<File> getImageAsFile(int index) async {
+  Future<File> getAsFile(int index) async {
     return await assetList[index].file;
   }
 

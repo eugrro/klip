@@ -24,6 +24,7 @@ class ProfileSettings extends StatefulWidget {
 class _ProfileSettingsState extends State<ProfileSettings> {
   TextEditingController newInfoContr;
   TextEditingController bioContr;
+  TextEditingController bioLinkContr;
   var newInfoFocus = new FocusNode();
   var biofcs = new FocusNode();
   bool editingBio = false;
@@ -33,7 +34,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   void initState() {
     newInfoContr = TextEditingController();
     bioContr = TextEditingController(text: currentUser.bio);
-
+    bioLinkContr = TextEditingController();
     super.initState();
   }
 
@@ -85,7 +86,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Opacity(
                   opacity: .4,
                   child: Container(
-                    width: 130,
+                    width: 150,
                     child: ClipOval(
                       child: FutureBuilder<Widget>(
                         future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
@@ -105,7 +106,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     _showPicker(context);
                   },
                   child: CircleAvatar(
-                    radius: 65,
+                    radius: 75,
                     backgroundColor: Colors.transparent,
                     child: Center(
                       child: Padding(
@@ -114,7 +115,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           "Click to change\nprofile picture",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Constants.hintColor,
+                            color: Constants.backgroundWhite.withOpacity(.7),
                             fontSize: 13 + Constants.textChange,
                           ),
                         ),
@@ -125,9 +126,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               ],
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(
-                vertical: 15,
-                horizontal: 20,
+              padding: EdgeInsets.only(
+                bottom: 5,
+                top: 5,
               ),
               child: AbsorbPointer(
                 absorbing: !editingBio,
@@ -175,14 +176,33 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     }
                   },
                   child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * .4,
+                    height: 35,
+                    width: MediaQuery.of(context).size.width * .28,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: kElevationToShadow[3],
-                      color: Constants.purpleColor,
+                      border: Border.all(
+                        color: Constants.purpleColor,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(6),
                     ),
-                    child: Center(child: editingBio ? Text("Cancel", style: Constants.tStyle()) : Text("Edit Background", style: Constants.tStyle())),
+                    child: Center(
+                      child: editingBio
+                          ? Text(
+                              "Cancel",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.red[400],
+                              ),
+                            )
+                          : Text(
+                              "Edit Background",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                fontSize: 11,
+                                color: Constants.backgroundWhite,
+                              ),
+                            ),
+                    ),
                   ),
                 ),
                 GestureDetector(
@@ -203,14 +223,83 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     }
                   },
                   child: Container(
-                    height: 40,
-                    width: MediaQuery.of(context).size.width * .4,
+                    height: 35,
+                    width: MediaQuery.of(context).size.width * .28,
                     decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      boxShadow: kElevationToShadow[3],
-                      color: Constants.purpleColor,
+                      borderRadius: BorderRadius.circular(6),
+                      //boxShadow: kElevationToShadow[3],
+                      color: Colors.transparent,
+                      border: Border.all(
+                        color: Constants.purpleColor,
+                        width: 1.5,
+                      ),
                     ),
-                    child: Center(child: editingBio ? Text("Save", style: Constants.tStyle()) : Text("Edit Bio", style: Constants.tStyle())),
+                    child: Center(
+                      child: editingBio
+                          ? Text(
+                              "Save",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Colors.green[400],
+                              ),
+                            )
+                          : Text(
+                              "Edit Bio",
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: Constants.backgroundWhite,
+                              ),
+                            ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () {
+                    if (editingBio) {
+                      showError(context, "Not yet implemented");
+                    } else if (currentUser.bioLink != null && currentUser.bioLink != "") {
+                      bioLinkContr.text = currentUser.bioLink;
+                      editBioLink(context);
+                    } else {
+                      editBioLink(context);
+                    }
+                  },
+                  child: Container(
+                    height: 35,
+                    width: MediaQuery.of(context).size.width * .28,
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Constants.purpleColor,
+                        width: 1.5,
+                      ),
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    child: Center(
+                      child: editingBio
+                          ? Text(
+                              "Another Option",
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Constants.backgroundWhite,
+                              ),
+                            )
+                          : currentUser.bioLink != null && currentUser.bioLink != ""
+                              ? Text(
+                                  "Edit Link",
+                                  style: TextStyle(
+                                    fontSize: 13,
+                                    color: Constants.backgroundWhite,
+                                  ),
+                                )
+                              : Text(
+                                  "Add A Link",
+                                  textAlign: TextAlign.center,
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    color: Constants.backgroundWhite,
+                                  ),
+                                ),
+                    ),
                   ),
                 ),
               ],
@@ -220,9 +309,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 vertical: 10,
               ),
               child: Container(
-                height: 2,
+                height: 1.5,
                 width: MediaQuery.of(context).size.width,
-                color: Constants.purpleColor,
+                color: Constants.hintColor,
               ),
             ),
             Center(
@@ -307,6 +396,105 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     showError(ctx, "Feature is in development\nShould be out by beta :)");
   }
 
+  editBioLink(BuildContext ctx) {
+    showDialog<void>(
+      context: ctx,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          elevation: 34,
+          scrollable: true,
+          backgroundColor: Constants.backgroundBlack,
+          title: Center(child: Text('Add a Link')),
+          content: Container(
+            width: MediaQuery.of(context).size.width * .8,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(8),
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Material(
+                  child: TextField(
+                    maxLines: 1,
+                    controller: bioLinkContr,
+                    decoration: InputDecoration(
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Colors.grey, width: .5),
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                      ),
+                      hintText: 'http://',
+                      hintStyle: TextStyle(
+                        fontSize: 14,
+                      ),
+                      fillColor: Colors.grey[850],
+                      focusColor: Colors.red,
+                      filled: true,
+                      isCollapsed: true,
+                    ),
+                    //expands: true,
+                    keyboardType: TextInputType.multiline,
+                    //maxLines: null,
+                  ),
+                ),
+                Container(
+                  height: 30,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: Center(
+                        child: Text(
+                          "Cancel",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 14 + Constants.textChange,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      height: 20,
+                      width: 1,
+                      color: Constants.backgroundWhite,
+                    ),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () {
+                        updateOne(uid, "bioLink", bioLinkContr.text);
+                        currentUser.setFieldInSharedPreferences("bioLink", bioLinkContr.text);
+                        Navigator.of(context).pop();
+                        currentUser.bioLink = bioLinkContr.text;
+                      },
+                      child: Center(
+                        child: Text(
+                          currentUser.bioLink != "" && currentUser.bioLink != null ? "Update" : "Add",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 14 + Constants.textChange,
+                            decoration: TextDecoration.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
   signOutUserWidget(BuildContext ctx, List<dynamic> params) {
     return showModalBottomSheet<void>(
       backgroundColor: Colors.black,
@@ -345,7 +533,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         color: Constants.purpleColor,
                       ),
                       child: Center(
-                        child: Text("No", style: Constants.tStyle()),
+                        child: Text(
+                          "No",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Constants.backgroundWhite,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -376,7 +570,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         color: Constants.purpleColor,
                       ),
                       child: Center(
-                        child: Text("Yes", style: Constants.tStyle()),
+                        child: Text(
+                          "Yes",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Constants.backgroundWhite,
+                          ),
+                        ),
                       ),
                     ),
                   ),
@@ -637,7 +837,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     padding: EdgeInsets.only(bottom: 20),
                     child: Text(
                       suppText,
-                      style: Constants.tStyle(),
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Constants.backgroundWhite,
+                      ),
                     ),
                   ),
                 ],
@@ -804,7 +1007,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: txt1Color == null ? Constants.backgroundWhite : txt1Color,
+                    color: txt1Color ?? Constants.backgroundWhite,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),

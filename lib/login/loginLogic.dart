@@ -179,29 +179,31 @@ Future<String> signUp(String user, String pass) async {
   return userCredential.user.uid;
 }
 
-Future<String> signIn(String user, String pass) async {
+Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
-    if (e.code == 'weak-password') {
-      print('The password provided is too weak.');
-      return null;
-    } else if (e.code == "wrong-password") {
-      print('Wrong password');
-      return null;
-    } else if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
-      return null;
+  String ret;
+  await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
+    if (err.code == 'user-not-found') {
+      showError(ctx, 'No user found for that email.');
+    } else if (err.code == 'wrong-password') {
+      showError(ctx, 'Wrong password provided for that user.');
     } else {
-      print("OTHER ERROR: " + e.toString());
-      return null;
+      showError(ctx, 'Unknown error occurred');
     }
+    //consider funnier responses
+    print(err.toString());
+    return null;
+  }).then((userCredential) {
+    print("Signing in: " + userCredential.toString());
+    if (userCredential != null) return userCredential;
   });
-  if (userCredential != null) {
+
+  /*if (userCredential != null) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
   } else {
     return "ERROR";
-  }
+  }*/
 }
 
 Future<void> resetPassword(String email) async {
@@ -247,6 +249,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "lName": lName,
       "uName": uName,
       "bio": "",
+      "bioLink": "",
       "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
@@ -303,12 +306,13 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
-    currentUser.uName = user["uName"];
+    currentUser.bioLink = user["bioLink"];
+    currentUser.uName = user["uname"];
     currentUser.email = user["email"];
-    currentUser.fName = user["fName"];
-    currentUser.lName = user["lName"];
-    currentUser.numViews = user["numViews"];
-    currentUser.numKredits = user["numKredits"];
+    currentUser.fName = user["fname"];
+    currentUser.lName = user["lname"];
+    currentUser.numViews = user["numviews"];
+    currentUser.numKredits = user["numkredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     try {
@@ -331,6 +335,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   print("Setting up user from new data");
   currentUser.uid = uid;
   currentUser.bio = bio;
+  currentUser.bioLink = "";
   currentUser.uName = uName;
   currentUser.email = email;
   currentUser.fName = fName;

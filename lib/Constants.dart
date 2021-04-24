@@ -12,10 +12,6 @@ double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
 String nodeURL;
-TextStyle tStyle({double fontSize = 16}) {
-  return TextStyle(color: backgroundWhite, fontSize: fontSize);
-}
-
 const double bottomNavBarHeight = 80;
 const double animatedBottomSliderHeight = 10;
 
