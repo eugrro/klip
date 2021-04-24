@@ -420,3 +420,28 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
   }
   return "";
 }
+
+Future<dynamic> getUserContent(String uid) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+    };
+
+    String uri = Constants.nodeURL + "getUserContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data == null) return "";
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! getUserContent => " + err.toString());
+  }
+  return "";
+}

@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
 import 'package:klip/profileSettings.dart';
@@ -31,6 +32,7 @@ class _UserPageState extends State<UserPage> {
   String bio;
   String bioLink;
   Image avatar;
+  final AsyncMemoizer memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -106,7 +108,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numViews == null ? "" : numViews.toString(),
+                              numViews ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -130,7 +132,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numKredits == null ? "" : numKredits.toString(),
+                              numKredits ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -257,7 +259,7 @@ class _UserPageState extends State<UserPage> {
                               child: Align(
                                 alignment: Alignment.center,
                                 child: Text(
-                                  uName == null ? "" : uName,
+                                  uName ?? "",
                                   style: TextStyle(
                                     fontSize: 26 + Constants.textChange,
                                     color: Constants.backgroundWhite.withOpacity(.9),
@@ -308,7 +310,7 @@ class _UserPageState extends State<UserPage> {
                         width: 150,
                         child: CircleAvatar(
                           radius: 75,
-                          child: ClipOval(child: avatar == null ? Container() : avatar),
+                          child: ClipOval(child: avatar ?? Container()),
                         ),
                       ),
                     ),
@@ -316,13 +318,37 @@ class _UserPageState extends State<UserPage> {
                 ],
               ),
             ),
-            ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 10, bottom: 0),
-              children: [
-                //vidListItem(),
-                vidListItem(),
-              ],
+            FutureBuilder(
+              future: memoizer.runOnce(() => getUserContent(uid)),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  // Build the widget with data.
+                  dynamic objList = snapshot.data;
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: Constants.bottomNavBarHeight,
+                      ),
+                      child: ListView.builder(
+                        itemCount: objList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10, bottom: 0),
+                        itemBuilder: (context, index) {
+                          return vidListItem(objList[index]);
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -340,11 +366,13 @@ class _UserPageState extends State<UserPage> {
     return false;
   }
 
-  Widget vidListItem() {
+  Widget vidListItem(dynamic obj) {
+    print(obj);
+    if (obj == null) return Container();
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width / 30,
-        vertical: 7,
+        vertical: 6,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -353,10 +381,13 @@ class _UserPageState extends State<UserPage> {
             padding: EdgeInsets.only(
               right: 10,
             ),
-            child: Container(
-              height: 120,
-              width: 220,
-              color: Colors.indigo,
+            child: FittedBox(
+              child: Image.network(
+                obj["type"] == "vid" ? obj["thumb"] : obj["link"],
+                height: 120,
+                width: 220,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Column(
@@ -370,7 +401,7 @@ class _UserPageState extends State<UserPage> {
                 child: Container(
                   width: 125,
                   child: AutoSizeText(
-                    'Woah what an epic video Title!',
+                    obj["title"] ?? "",
                     style: TextStyle(
                       fontSize: 13,
                       color: Constants.backgroundWhite,
@@ -380,14 +411,14 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               Text(
-                "104 Views",
+                (obj["numviews"] ?? "0") + " views",
                 style: TextStyle(
                   fontSize: 13,
                   color: Constants.backgroundWhite,
                 ),
               ),
               Text(
-                "13 Comments",
+                (obj["comm"].length.toString() ?? "0") + " comments",
                 style: TextStyle(
                   fontSize: 13,
                   color: Constants.backgroundWhite,

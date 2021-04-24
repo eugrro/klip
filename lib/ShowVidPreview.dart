@@ -63,7 +63,7 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
     return await temp.thumbDataWithSize(
       300,
       300,
-      quality: 60,
+      quality: 70,
     );
   }
 

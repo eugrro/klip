@@ -101,18 +101,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     ),
                   ),
                 ),
-                /*Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 10),
-                    child: Container(
-                      width: 150,
-                      child: CircleAvatar(
-                        radius: 75,
-                        child: ClipOval(child: avatar == null ? Container() : avatar),
-                      ),
-                    ),
-                  ),
-                ),*/
                 GestureDetector(
                   onTap: () {
                     _showPicker(context);
@@ -1019,7 +1007,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: txt1Color == null ? Constants.backgroundWhite : txt1Color,
+                    color: txt1Color ?? Constants.backgroundWhite,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),

@@ -109,7 +109,7 @@ class _ContentWidgetState extends State<ContentWidget> {
       children: [
         obj["title"] != null
             ? Text(
-                obj["title"] == null ? "" : obj["title"],
+                obj["title"] ?? "",
                 style: TextStyle(
                   color: Constants.backgroundWhite,
                   fontSize: 17 + Constants.textChange,
@@ -161,7 +161,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                     Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
                   },
                   child: Text(
-                    obj["uname"] == null ? "usernameError" : obj["uname"],
+                    obj["uname"] ?? "usernameError",
                     style: TextStyle(
                       color: Constants.backgroundWhite.withOpacity(.7),
                       fontSize: 14 + Constants.textChange,
@@ -201,7 +201,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         Container(
           height: 10,
         ),
-        content == null ? Container() : content,
+        content ?? Container(),
         Container(
           height: 10,
         ),
