@@ -181,22 +181,29 @@ Future<String> signUp(String user, String pass) async {
 
 Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential;
-  try {
-    userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass);
-  } on FirebaseAuthException catch (e) {
-    if (e.code == 'user-not-found') {
-      print('No user found for that email.');
-    } else if (e.code == 'wrong-password') {
-      print('Wrong password provided for that user.');
+  String ret;
+  await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
+    if (err.code == 'user-not-found') {
+      showError(ctx, 'No user found for that email.');
+    } else if (err.code == 'wrong-password') {
+      showError(ctx, 'Wrong password provided for that user.');
+    } else {
+      showError(ctx, 'Unknown error occurred');
     }
-  }
-  if (userCredential != null) {
+    //consider funnier responses
+    print(err.toString());
+    return null;
+  }).then((userCredential) {
+    print("Signing in: " + userCredential.toString());
+    if (userCredential != null) return userCredential;
+  });
+
+  /*if (userCredential != null) {
     print("SIGN IN UID: " + userCredential.user.uid);
     return userCredential.user.uid;
   } else {
     return "ERROR";
-  }
+  }*/
 }
 
 Future<void> resetPassword(String email) async {
