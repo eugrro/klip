@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:klip/HomeSideScrolling.dart';
 import 'package:klip/Requests.dart';
 import './Constants.dart' as Constants;
 import 'package:async/async.dart';
-
 
 // ignore: must_be_immutable
 class HomeTab extends StatefulWidget {

@@ -30,6 +30,13 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
     super.initState();
   }
 
+  callback2(newPagePosition) {
+    setState(() {
+      pageScroll.animateToPage(newPagePosition, duration: Duration(milliseconds: 300), curve: Curves.linear);
+    });
+    callback(newPagePosition);
+  }
+
   @override
   void dispose() {
     //_pageController.dispose();
@@ -51,8 +58,8 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
           });
         },*/
         children: <Widget>[
-          CommentsPage(content["pid"], content["comm"]),
-          ContentWidget(content),
+          CommentsPage(content["pid"], content["comm"], callback2),
+          ContentWidget(content, callback),
           UserPage(content["uid"]),
           /*Container(
             width: MediaQuery.of(context).size.width,

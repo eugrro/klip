@@ -12,14 +12,17 @@ import 'UserPage.dart';
 // ignore: must_be_immutable
 class ContentWidget extends StatefulWidget {
   dynamic obj;
-  ContentWidget(this.obj);
+  Function(int) callback;
+  ContentWidget(this.obj, this.callback);
+
   @override
-  _ContentWidgetState createState() => _ContentWidgetState(obj);
+  _ContentWidgetState createState() => _ContentWidgetState(obj, callback);
 }
 
 class _ContentWidgetState extends State<ContentWidget> {
   Map<String, dynamic> obj;
-  _ContentWidgetState(this.obj);
+  Function(int) callback;
+  _ContentWidgetState(this.obj, this.callback);
 
   String type;
   bool showComments = false;
@@ -240,7 +243,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj["pid"], obj["comm"]), direction: 2)).then((value) {
+                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj["pid"], obj["comm"], callback), direction: 2)).then((value) {
                     print("RETURNED TO USER PAGE");
                     setState(() {});
                   });
