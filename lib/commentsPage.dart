@@ -29,6 +29,7 @@ class _CommentsPageState extends State<CommentsPage> {
     super.initState();
     heightOfCommentBox = 75;
     heightOfTopPart = 60;
+    print(comments);
   }
 
   @override
@@ -123,7 +124,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 0),
                                   child: Text(
-                                    '${comments[index][4]}', //time posted
+                                    getTimeFromSeconds(comments[index][4]), //time posted
                                     style: TextStyle(
                                       color: Constants.backgroundWhite.withOpacity(.3),
                                       fontSize: 14 + Constants.textChange,
@@ -210,18 +211,72 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 
+  String getTimeFromSeconds(String input) {
+    //entire function is in seconds no need to go to milliseconds
+    if (input == "" || input == " " || input == null) return "";
+    //get current time in seconds
+    int currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+    print("INPUT: " + input);
+    int inputTime = int.tryParse(input);
+    if (inputTime == null) return "";
+    int differenceTime = currTime - inputTime;
+    //Year
+    int oneYear = 60 * 60 * 24 * 365;
+    if (differenceTime > oneYear) {
+      int numYears = (differenceTime / oneYear).round();
+      if (numYears == 0) return "ERROR year";
+      return numYears.toString() + "y";
+    }
+    //Month
+    int oneMonth = 60 * 60 * 24 * 30;
+    if (differenceTime > oneMonth) {
+      int numMonths = (differenceTime / oneMonth).round();
+      if (numMonths == 0) return "ERROR month";
+      return numMonths.toString() + "m";
+    }
+    //Week
+    int oneWeek = 60 * 60 * 24 * 7;
+    if (differenceTime > oneWeek) {
+      int numWeeks = (differenceTime / oneWeek).round();
+      if (numWeeks == 0) return "ERROR week";
+      return numWeeks.toString() + "y";
+    }
+    //Day
+    int oneDay = 60 * 60 * 24;
+    if (differenceTime > oneDay) {
+      int numDays = (differenceTime / oneDay).round();
+      if (numDays == 0) return "ERROR day";
+      return numDays.toString() + "d";
+    }
+    //Hour
+    int oneHour = 60 * 60;
+    if (differenceTime > oneHour) {
+      int numHours = (differenceTime / oneHour).round();
+      if (numHours == 0) return "ERROR day";
+      return numHours.toString() + "h";
+    }
+    //Minutes
+    int oneMinute = 60;
+    if (differenceTime > oneMinute) {
+      int numMinutes = (differenceTime / oneMinute).round();
+      if (numMinutes == 0) return "ERROR min";
+      return numMinutes.toString() + " min";
+    }
+    return "< 1 minute ago";
+  }
+
   Widget postText() {
     return GestureDetector(
       onTap: () {
-        print("Post ID: ");
-        print(pid);
         if (commentController.text.isNotEmpty) {
-          setState(() {
-            comments.add([currentUser.uid, currentUser.uName, currentUser.avatarLink, commentController.text, "2h"]);
+          String currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
 
+          setState(() {
+            comments.add([currentUser.uid, currentUser.uName, currentUser.avatarLink, commentController.text, currTime]);
             FocusScope.of(context).requestFocus(new FocusNode());
           });
-          addComment(pid, currentUser.uid, currentUser.uName, currentUser.avatarLink, commentController.text, "2h");
+
+          addComment(pid, commentController.text, currTime);
           commentController.text = "";
         } else {
           print("No Text Gathered");

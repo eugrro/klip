@@ -39,14 +39,14 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
   return "";
 }
 
-Future<String> addComment(String pid, String uid, String uname, String avatarLink, String comm, String time) async {
+Future<String> addComment(String pid, String comm, String time) async {
   Response response;
   try {
     Map<String, String> params = {
       "pid": pid,
-      "uid": uid,
-      "uname": uname,
-      "avatarLink": avatarLink,
+      "uid": currentUser.uid,
+      "uName": currentUser.uName,
+      "avatarLink": currentUser.avatarLink,
       "comm": comm,
       "time": time,
     };
