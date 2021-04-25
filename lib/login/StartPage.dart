@@ -3,10 +3,8 @@ import 'dart:ui';
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
-import 'package:klip/currentUser.dart' as currentUser;
 import 'package:klip/login/loginLogic.dart';
 import '../Constants.dart' as Constants;
-import 'package:klip/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../currentUser.dart';

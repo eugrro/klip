@@ -2,7 +2,6 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/commentsPage.dart';
-import 'package:klip/currentUser.dart' as currentUser;
 import 'package:klip/currentUser.dart';
 import 'Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
@@ -10,6 +9,7 @@ import 'package:video_player/video_player.dart';
 
 import 'UserPage.dart';
 
+// ignore: must_be_immutable
 class ContentWidget extends StatefulWidget {
   dynamic obj;
   ContentWidget(this.obj);

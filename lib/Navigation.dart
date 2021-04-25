@@ -3,15 +3,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
-import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
-import 'HomeSideScrolling.dart';
-import 'TopNavBar.dart';
-import 'TopSection.dart';
 import 'UserPage.dart';
 
 int homePagePosition;
@@ -42,96 +38,99 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
-        body: Stack(children: [
-          PageView(
-            controller: homePageController,
-            physics: NeverScrollableScrollPhysics(),
-            children: [
-              HomePage(),
-              UserPage(currentUser.uid),
-            ],
-          ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: Constants.bottomNavBarHeight,
-              color: Colors.transparent,
-              child: Center(
-                child: AnimatedContainer(
-                  duration: Duration(milliseconds: 300),
-                  height: 45,
-                  width: !addingNewContent ? MediaQuery.of(context).size.width / 10 * 8 : MediaQuery.of(context).size.width / 10 * 2,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(20),
-                    ),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.3),
-                        spreadRadius: 2,
-                        blurRadius: 3,
-                        offset: Offset(0, 3.1), // changes position of shadow
+        body: Stack(
+          children: [
+            PageView(
+              controller: homePageController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                HomePage(),
+                UserPage(currentUser.uid),
+              ],
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: Constants.bottomNavBarHeight,
+                width: MediaQuery.of(context).size.width,
+                color: Colors.transparent,
+                child: Center(
+                  child: AnimatedContainer(
+                    duration: Duration(milliseconds: 300),
+                    height: 45,
+                    width: !addingNewContent ? MediaQuery.of(context).size.width / 10 * 8 : MediaQuery.of(context).size.width / 10 * 2,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(20),
                       ),
-                    ],
-                    color: Constants.purpleColor.withOpacity(.3),
-                  ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      left: 25,
-                      right: 25,
-                    ),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        showNavigationIcons
-                            ? GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    homePagePosition = 0;
-                                  });
-                                  homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                                },
-                                child: Icon(
-                                  Icons.home_outlined,
-                                  color: Constants.backgroundWhite.withOpacity(.6),
-                                ),
-                              )
-                            : Container(),
-                        GestureDetector(
-                          onTap: () {
-                            _showTypePicker(context);
-                            setState(() {
-                              addingNewContent = !addingNewContent;
-                              showNavigationIcons = !showNavigationIcons;
-                            });
-                          },
-                          child: Icon(
-                            Icons.add_box_outlined,
-                            color: Constants.backgroundWhite.withOpacity(.6),
-                          ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.3),
+                          spreadRadius: 2,
+                          blurRadius: 3,
+                          offset: Offset(0, 3.1), // changes position of shadow
                         ),
-                        showNavigationIcons
-                            ? GestureDetector(
-                                onTap: () {
-                                  setState(() {
-                                    homePagePosition = 1;
-                                  });
-                                  homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                                },
-                                child: Icon(
-                                  Icons.person_outline_outlined,
-                                  color: Constants.backgroundWhite.withOpacity(.6),
-                                ),
-                              )
-                            : Container(),
                       ],
+                      color: Constants.purpleColor.withOpacity(.3),
+                    ),
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        left: 25,
+                        right: 25,
+                      ),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          showNavigationIcons
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      homePagePosition = 0;
+                                    });
+                                    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                  },
+                                  child: Icon(
+                                    Icons.home_outlined,
+                                    color: Constants.backgroundWhite.withOpacity(.6),
+                                  ),
+                                )
+                              : Container(),
+                          GestureDetector(
+                            onTap: () {
+                              _showTypePicker(context);
+                              setState(() {
+                                addingNewContent = !addingNewContent;
+                                showNavigationIcons = !showNavigationIcons;
+                              });
+                            },
+                            child: Icon(
+                              Icons.add_box_outlined,
+                              color: Constants.backgroundWhite.withOpacity(.6),
+                            ),
+                          ),
+                          showNavigationIcons
+                              ? GestureDetector(
+                                  onTap: () {
+                                    setState(() {
+                                      homePagePosition = 1;
+                                    });
+                                    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                                  },
+                                  child: Icon(
+                                    Icons.person_outline_outlined,
+                                    color: Constants.backgroundWhite.withOpacity(.6),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
                     ),
                   ),
                 ),
               ),
             ),
-          ),
-        ]),
+          ],
+        ),
       ),
     );
   }

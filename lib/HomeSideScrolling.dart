@@ -1,38 +1,32 @@
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:klip/HomeTab.dart';
+import 'package:klip/ContentWidget.dart';
+import 'package:klip/UserPage.dart';
+import 'package:klip/commentsPage.dart';
 import 'package:klip/widgets.dart';
-import 'package:toast/toast.dart';
-import 'Constants.dart' as Constants;
-import 'Notifiers.dart';
 
 // ignore: must_be_immutable
-class HomeTabs extends StatefulWidget {
-  int pageNumber;
-  ValueNotifier valueNotifier;
+class HomeSideScrolling extends StatefulWidget {
+  int homePageSideScrollPosition;
+  dynamic content;
   Function(int) callback;
-  HomeTabs(this.pageNumber, this.callback);
+  HomeSideScrolling(this.homePageSideScrollPosition, this.callback, this.content);
   @override
-  _HomeTabsState createState() => _HomeTabsState(pageNumber, callback);
+  _HomeSideScrollingState createState() => _HomeSideScrollingState(homePageSideScrollPosition, callback, content);
 }
 
-class _HomeTabsState extends State<HomeTabs> {
-  int pageNumber;
+class _HomeSideScrollingState extends State<HomeSideScrolling> {
+  int homePageSideScrollPosition;
   ValueNotifier valueNotifier;
-
+  dynamic content;
   Function(int) callback;
 
-  _HomeTabsState(this.pageNumber, this.callback);
+  _HomeSideScrollingState(this.homePageSideScrollPosition, this.callback, this.content);
 
-  HomeScrollValueNotifier notif = HomeScrollValueNotifier();
   PageController pageScroll;
   BuildContext ctx;
   @override
   void initState() {
-    pageScroll = notif.getPageScroll();
-    pageScroll.addListener(() {
-      notif.update(pageScroll.offset);
-    });
+    pageScroll = PageController(initialPage: homePageSideScrollPosition);
     super.initState();
   }
 
@@ -47,31 +41,24 @@ class _HomeTabsState extends State<HomeTabs> {
     ctx = context;
     return WillPopScope(
       onWillPop: _onWillPop,
-      child: Expanded(
-        child: PageView(
-          scrollDirection: Axis.horizontal,
-          controller: pageScroll,
-          /*onPageChanged: (newPage) {
-            setState(() {
-              pageNumber = newPage;
-              widget.callback(pageNumber);
-            });
-          },*/
-          children: <Widget>[
-            HomeTab(),
-            Container(
-              color: Constants.backgroundBlack,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.green,
-            ),
-            Container(
-              width: MediaQuery.of(context).size.width,
-              color: Colors.orange,
-            ),
-          ],
-        ),
+      child: PageView(
+        scrollDirection: Axis.horizontal,
+        controller: pageScroll,
+        /*onPageChanged: (newPage) {
+          setState(() {
+            pageNumber = newPage;
+            widget.callback(pageNumber);
+          });
+        },*/
+        children: <Widget>[
+          CommentsPage(content["pid"], content["comm"]),
+          ContentWidget(content),
+          UserPage(content["uid"]),
+          /*Container(
+            width: MediaQuery.of(context).size.width,
+            color: Colors.orange,
+          ),*/
+        ],
       ),
     );
   }

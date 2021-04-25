@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:klip/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
-import '../Navigation.dart';
 import '../currentUser.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -179,9 +174,9 @@ Future<String> signUp(String user, String pass) async {
   return userCredential.user.uid;
 }
 
+// ignore: missing_return
 Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  String ret;
   await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
     if (err.code == 'user-not-found') {
       showError(ctx, 'No user found for that email.');
@@ -197,13 +192,6 @@ Future<String> signIn(BuildContext ctx, String user, String pass) async {
     print("Signing in: " + userCredential.toString());
     if (userCredential != null) return userCredential;
   });
-
-  /*if (userCredential != null) {
-    print("SIGN IN UID: " + userCredential.user.uid);
-    return userCredential.user.uid;
-  } else {
-    return "ERROR";
-  }*/
 }
 
 Future<void> resetPassword(String email) async {

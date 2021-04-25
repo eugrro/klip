@@ -21,7 +21,7 @@ class TopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = new TextEditingController();
+    //TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
         color: Constants.purpleColor.withOpacity(.3),

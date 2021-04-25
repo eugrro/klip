@@ -901,7 +901,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
                                 return newImg;
                               });
-                              ;
                             });
                             Navigator.of(context).pop();
                           }

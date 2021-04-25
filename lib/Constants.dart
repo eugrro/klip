@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets

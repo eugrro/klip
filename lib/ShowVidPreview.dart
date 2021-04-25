@@ -1,8 +1,6 @@
-import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/currentUser.dart' as currentUser;
@@ -12,7 +10,6 @@ import 'Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:chewie/chewie.dart';
 
-import 'CropVideo.dart';
 import 'Requests.dart';
 
 //import 'CropVideo.dart';
@@ -50,9 +47,9 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
 
   Future<void> downloadXboxAsFile(String url) async {
     print("GETTING DIO DATA");
-    Response response;
+
     try {
-      response = await dio.get(url);
+      await dio.get(url);
     } catch (e) {
       print("RAN INTO DIO ERROR");
       print(e);

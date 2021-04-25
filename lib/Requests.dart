@@ -7,8 +7,6 @@ import 'package:http_parser/http_parser.dart';
 
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:flutter/services.dart';
-import 'dart:convert';
 
 Response response;
 Dio dio = new Dio();

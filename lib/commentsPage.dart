@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:klip/widgets.dart';
 import 'Requests.dart';
 
 // ignore: must_be_immutable
