@@ -853,17 +853,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   String getKlipParamNameFromMongoParamName(BuildContext ctx, String mParam) {
-    if (mParam == "fname") {
+    if (mParam == "fName") {
       return "fName";
-    } else if (mParam == "lname") {
+    } else if (mParam == "lName") {
       return "lName";
     } else if (mParam == "bio") {
       return "bio";
-    } else if (mParam == "fname") {
+    } else if (mParam == "fName") {
       return "fName";
     } else if (mParam == "email") {
       return "email";
-    } else if (mParam == "uname") {
+    } else if (mParam == "uName") {
       return "uName";
     } else {
       showError(ctx, "mongoParamName was not set yet please update");

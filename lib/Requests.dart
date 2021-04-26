@@ -126,7 +126,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         'path': '/uploads',
         'uid': uid,
         "avatar": currentUser.avatarLink,
-        "uname": currentUser.uName,
+        "uName": currentUser.uName,
         "title": title,
         "file": await MultipartFile.fromFile(
           filePath,
@@ -189,7 +189,7 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
         'uid': uid,
         "title": title,
         "avatar": currentUser.avatarLink,
-        "uname": currentUser.uName,
+        "uName": currentUser.uName,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -297,7 +297,7 @@ Future<String> addTextContent(String uid, String title, String body) async {
       "pid": fileName,
       "uid": uid,
       "avatar": currentUser.avatarLink,
-      "uname": currentUser.uName,
+      "uName": currentUser.uName,
       "title": title,
       "body": body,
     };

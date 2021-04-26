@@ -295,12 +295,12 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
   if (user != null) {
     currentUser.bio = user["bio"];
     currentUser.bioLink = user["bioLink"];
-    currentUser.uName = user["uname"];
+    currentUser.uName = user["uName"];
     currentUser.email = user["email"];
-    currentUser.fName = user["fname"];
-    currentUser.lName = user["lname"];
-    currentUser.numViews = user["numviews"];
-    currentUser.numKredits = user["numkredits"];
+    currentUser.fName = user["fName"];
+    currentUser.lName = user["lName"];
+    currentUser.numViews = user["numViews"];
+    currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     try {
@@ -384,7 +384,7 @@ Future<bool> doesUsernameExist(String username) async {
   Response response;
   try {
     Map<String, String> params = {
-      "uname": username,
+      "uName": username,
     };
     String uri = Constants.nodeURL + "doesUsernameExist";
     print("Sending Request To: " + uri);

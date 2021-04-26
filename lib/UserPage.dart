@@ -66,9 +66,9 @@ class _UserPageState extends State<UserPage> {
       var user = await getUser(uid);
       Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
       setState(() {
-        numKredits = user["numkredits"];
-        numViews = user["numviews"];
-        uName = user["uname"];
+        numKredits = user["numKredits"];
+        numViews = user["numViews"];
+        uName = user["uName"];
         bio = user["bio"];
         avatar = avatarImage;
       });
@@ -406,7 +406,7 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               Text(
-                (obj["numviews"] ?? "0") + " views",
+                (obj["numViews"] ?? "0") + " views",
                 style: TextStyle(
                   fontSize: 13,
                   color: Constants.backgroundWhite,

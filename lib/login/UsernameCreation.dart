@@ -259,7 +259,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                         if (isUserNameValid == true) {
                           currentUser.uName = validatedUserName;
 
-                          String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
+                          String updateuName = await updateUsername(currentUser.uid, currentUser.uName);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Navigation()),

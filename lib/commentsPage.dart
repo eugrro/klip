@@ -46,7 +46,8 @@ class _CommentsPageState extends State<CommentsPage> {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 15, right: 20, left: 30), //more on the left since row is space between for title centering
+              padding: EdgeInsets.only(top: 15, right: 20, left: 30), //more on the left since
+              //row is space between for title centering
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -211,6 +212,9 @@ class _CommentsPageState extends State<CommentsPage> {
     );
   }
 
+  //Converts the time the comment was posted to a string
+  //Expects an input of time since epoch in seconds
+  //returns a string like '1d' or '3w'
   String getTimeFromSeconds(String input) {
     //entire function is in seconds no need to go to milliseconds
     if (input == "" || input == " " || input == null) return "";
@@ -265,6 +269,8 @@ class _CommentsPageState extends State<CommentsPage> {
     return "< 1 minute ago";
   }
 
+  //Function validates that user inputted in some text then adds it to the page and mongo
+  //Is the post comment widget at the bottom of the screen
   Widget postText() {
     return GestureDetector(
       onTap: () {
