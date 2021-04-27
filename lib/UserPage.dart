@@ -15,15 +15,17 @@ import 'currentUser.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
-  UserPage(this.uid);
+  Function(int) callback;
+  UserPage(this.uid, this.callback);
 
   @override
-  _UserPageState createState() => _UserPageState(uid);
+  _UserPageState createState() => _UserPageState(uid, callback);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
-  _UserPageState(this.uid);
+  Function(int) callback;
+  _UserPageState(this.uid, this.callback);
 
   bool isFollowing;
   String numKredits;
@@ -104,7 +106,7 @@ class _UserPageState extends State<UserPage> {
                       Column(
                         children: [
                           Text(
-                            numViews ?? "",
+                            numViews.toString() ?? "",
                             style: TextStyle(
                               fontSize: 28 + Constants.textChange,
                               color: Constants.backgroundWhite,
@@ -128,7 +130,7 @@ class _UserPageState extends State<UserPage> {
                       Column(
                         children: [
                           Text(
-                            numKredits ?? "",
+                            numKredits.toString() ?? "",
                             style: TextStyle(
                               fontSize: 28 + Constants.textChange,
                               color: Constants.backgroundWhite,
@@ -406,7 +408,7 @@ class _UserPageState extends State<UserPage> {
                 ),
               ),
               Text(
-                (obj["numViews"] ?? "0") + " views",
+                (obj["numViews"].toString() ?? "0") + " views",
                 style: TextStyle(
                   fontSize: 13,
                   color: Constants.backgroundWhite,

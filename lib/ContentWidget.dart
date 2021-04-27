@@ -1,13 +1,11 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:klip/commentsPage.dart';
+import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart';
 import 'Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:video_player/video_player.dart';
-
-import 'UserPage.dart';
+import 'package:klip/currentUser.dart' as currentUser;
 
 // ignore: must_be_immutable
 class ContentWidget extends StatefulWidget {
@@ -31,6 +29,7 @@ class _ContentWidgetState extends State<ContentWidget> {
   VideoPlayerController videoPlayerController;
   Widget content;
   double spaceBetweenBottomContent = 3;
+  bool likedPost = false;
 
   @override
   void initState() {
@@ -158,7 +157,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    callback(3);
+                    callback(2);
                     //Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
                   },
                   child: Text(
@@ -181,12 +180,6 @@ class _ContentWidgetState extends State<ContentWidget> {
                     size: 5,
                   ),
                 ),
-                Text(
-                  "Follow",
-                  style: TextStyle(
-                    color: Constants.purpleColor,
-                  ),
-                )
               ],
             ),
             Padding(
@@ -206,35 +199,56 @@ class _ContentWidgetState extends State<ContentWidget> {
 
         Padding(
           padding: EdgeInsets.only(
-            top: 4,
+            top: 5,
             bottom: 8,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.favorite_border_rounded,
-                    color: Constants.hintColor,
-                    size: 24,
-                  ),
-                  Container(
-                    width: spaceBetweenBottomContent,
-                  ),
-                  Text(
-                    obj["numLikes"].toString() ?? "error",
-                    style: TextStyle(
-                      color: Constants.hintColor,
-                      fontSize: 14 + Constants.textChange,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (likedPost) {
+                    unlikeContent(
+                      obj["pid"],
+                      currentUser.uid,
+                    );
+                    obj["numLikes"] -= 1;
+                  } else {
+                    likeContent(
+                      obj["pid"],
+                      currentUser.uid,
+                    );
+                    obj["numLikes"] += 1;
+                  }
+                  setState(() {
+                    likedPost = !likedPost;
+                  });
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite_border_rounded,
+                      color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                      size: 24,
                     ),
-                  ),
-                ],
+                    Container(
+                      width: spaceBetweenBottomContent,
+                    ),
+                    Text(
+                      obj["numLikes"].toString() ?? "error",
+                      style: TextStyle(
+                        color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                        fontSize: 14 + Constants.textChange,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj["pid"], obj["comm"], callback), direction: 2)).then((value) {
+                  callback(0).then((value) {
                     print("RETURNED TO USER PAGE");
                     setState(() {});
                   });

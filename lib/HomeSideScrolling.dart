@@ -59,8 +59,8 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
         },*/
         children: <Widget>[
           CommentsPage(content["pid"], content["comm"], callback2),
-          ContentWidget(content, callback),
-          UserPage(content["uid"]),
+          ContentWidget(content, callback2),
+          UserPage(content["uid"], callback2),
           /*Container(
             width: MediaQuery.of(context).size.width,
             color: Colors.orange,

@@ -108,7 +108,7 @@ Future<String> checkIfUserIsSignedIn() async {
   //return "ErrorOccuredGeneric";
 }
 
-///Returns a list [uid, email] if sucessful otherwise ""
+///Returns a list [uid, email] if successful otherwise ""
 Future<dynamic> signInWithGoogle() async {
   try {
     await Firebase.initializeApp();
@@ -156,7 +156,7 @@ Future<String> signOutUser() async {
       return "ERROR";
     }
   });
-  return "SignOutSucessful";
+  return "SignOutSuccessful";
 }
 
 Future<String> signUp(String user, String pass) async {
@@ -299,6 +299,7 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
     currentUser.email = user["email"];
     currentUser.fName = user["fName"];
     currentUser.lName = user["lName"];
+    currentUser.xTag = user["xTag"];
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
@@ -328,6 +329,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   currentUser.email = email;
   currentUser.fName = fName;
   currentUser.lName = lName;
+  currentUser.xTag = "";
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
   currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";

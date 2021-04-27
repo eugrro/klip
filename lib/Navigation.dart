@@ -45,7 +45,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               physics: NeverScrollableScrollPhysics(),
               children: [
                 HomePage(),
-                UserPage(currentUser.uid),
+                UserPage(currentUser.uid, null),
               ],
             ),
             Align(
@@ -53,78 +53,71 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               child: Container(
                 height: Constants.bottomNavBarHeight,
                 width: MediaQuery.of(context).size.width,
-                color: Colors.transparent,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: Duration(milliseconds: 300),
-                    height: 45,
-                    width: !addingNewContent ? MediaQuery.of(context).size.width / 10 * 8 : MediaQuery.of(context).size.width / 10 * 2,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(20),
-                      ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withOpacity(0.3),
-                          spreadRadius: 2,
-                          blurRadius: 3,
-                          offset: Offset(0, 3.1), // changes position of shadow
+                color: Constants.purpleColor.withOpacity(.2),
+                child: Padding(
+                  padding: EdgeInsets.only(
+                    left: 30,
+                    right: 30,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            homePagePosition = 0;
+                          });
+                          homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                        },
+                        child: Icon(
+                          Icons.home_outlined,
+                          color: Constants.backgroundWhite.withOpacity(.6),
                         ),
-                      ],
-                      color: Constants.purpleColor.withOpacity(.3),
-                    ),
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        left: 25,
-                        right: 25,
                       ),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          showNavigationIcons
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      homePagePosition = 0;
-                                    });
-                                    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                                  },
-                                  child: Icon(
-                                    Icons.home_outlined,
-                                    color: Constants.backgroundWhite.withOpacity(.6),
-                                  ),
-                                )
-                              : Container(),
-                          GestureDetector(
-                            onTap: () {
-                              _showTypePicker(context);
-                              setState(() {
-                                addingNewContent = !addingNewContent;
-                                showNavigationIcons = !showNavigationIcons;
-                              });
-                            },
-                            child: Icon(
-                              Icons.add_box_outlined,
-                              color: Constants.backgroundWhite.withOpacity(.6),
-                            ),
-                          ),
-                          showNavigationIcons
-                              ? GestureDetector(
-                                  onTap: () {
-                                    setState(() {
-                                      homePagePosition = 1;
-                                    });
-                                    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
-                                  },
-                                  child: Icon(
-                                    Icons.person_outline_outlined,
-                                    color: Constants.backgroundWhite.withOpacity(.6),
-                                  ),
-                                )
-                              : Container(),
-                        ],
+                      GestureDetector(
+                        onTap: () {
+                          showSnackbar(context, "In development");
+                        },
+                        child: Icon(
+                          Icons.announcement_outlined,
+                          color: Constants.backgroundWhite.withOpacity(.6),
+                        ),
                       ),
-                    ),
+                      GestureDetector(
+                        onTap: () {
+                          _showTypePicker(context);
+                          setState(() {
+                            addingNewContent = !addingNewContent;
+                            showNavigationIcons = !showNavigationIcons;
+                          });
+                        },
+                        child: Icon(
+                          Icons.add_box_outlined,
+                          color: Constants.backgroundWhite.withOpacity(.6),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          showSnackbar(context, "In development");
+                        },
+                        child: Icon(
+                          Icons.shopping_cart_outlined,
+                          color: Constants.backgroundWhite.withOpacity(.6),
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          setState(() {
+                            homePagePosition = 1;
+                          });
+                          homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                        },
+                        child: Icon(
+                          Icons.person_outline_outlined,
+                          color: Constants.backgroundWhite.withOpacity(.6),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
               ),
@@ -172,7 +165,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.all_inclusive,
+                              Icons.graphic_eq_rounded,
                               color: Constants.purpleColor,
                               size: largeIcon,
                             ),
@@ -202,7 +195,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
-                              Icons.public,
+                              Icons.wallpaper,
                               color: Constants.purpleColor,
                               size: largeIcon,
                             ),
