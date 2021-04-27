@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:klip/login/StartPage.dart';
-
-import './Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'UserPage.dart';
-import 'login/SignIn.dart';
 import './Constants.dart' as Constants;
 
 void main() {

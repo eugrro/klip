@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:klip/widgets.dart';
 import 'Requests.dart';
 
 // ignore: must_be_immutable
 class CommentsPage extends StatefulWidget {
   String pid;
   List<dynamic> comments;
-  CommentsPage(this.pid, this.comments);
+  Function(int) callback;
+  CommentsPage(this.pid, this.comments, this.callback);
 
   @override
-  _CommentsPageState createState() => _CommentsPageState(pid, comments);
+  _CommentsPageState createState() => _CommentsPageState(pid, comments, callback);
 }
 
 class _CommentsPageState extends State<CommentsPage> {
   String pid;
   List<dynamic> comments;
-  _CommentsPageState(this.pid, this.comments);
+  Function(int) callback;
+  _CommentsPageState(this.pid, this.comments, this.callback);
 
   TextEditingController commentController = TextEditingController();
   double heightOfCommentBox;
@@ -28,6 +29,7 @@ class _CommentsPageState extends State<CommentsPage> {
     super.initState();
     heightOfCommentBox = 75;
     heightOfTopPart = 60;
+    print(comments);
   }
 
   @override
@@ -41,139 +43,108 @@ class _CommentsPageState extends State<CommentsPage> {
       },
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Container(
-                height: heightOfTopPart,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    top: 15,
+        body: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(top: 15, right: 20, left: 30), //more on the left since
+              //row is space between for title centering
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Container(),
+                  Text(
+                    "Comments",
+                    style: TextStyle(color: Constants.backgroundWhite, fontSize: 22),
                   ),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: GestureDetector(
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Padding(
-                                padding: EdgeInsets.only(left: 10, right: 30),
-                                child: Icon(
-                                  Icons.arrow_back,
-                                  color: Constants.backgroundWhite,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.center,
-                            child: Text(
-                              "Comments",
-                              style: TextStyle(
-                                color: Constants.backgroundWhite,
-                                fontSize: 20 + Constants.textChange,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 15,
-                      )
-                    ],
-                  ),
-                ),
+                  GestureDetector(
+                    onTap: () {
+                      callback(1);
+                    },
+                    child: Icon(
+                      Icons.arrow_right_alt_outlined,
+                      size: 26,
+                    ),
+                  )
+                ],
               ),
-              Container(
-                height: MediaQuery.of(context).size.height -
-                    MediaQuery.of(context).viewInsets.bottom -
-                    MediaQuery.of(context).padding.top -
-                    heightOfTopPart -
-                    heightOfCommentBox,
-                child: SingleChildScrollView(
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: comments.length,
-                    itemBuilder: (context, index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: 5,
+            ),
+            Expanded(
+              child: ListView.builder(
+                shrinkWrap: true,
+                padding: EdgeInsets.only(top: 10),
+                itemCount: comments.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      top: 5,
+                      bottom: 5,
+                    ),
+                    child: Container(
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                          left: 20,
                         ),
-                        child: Container(
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                              left: 20,
+                        child: Row(
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.only(
+                                right: 10,
+                              ),
+                              child: CircleAvatar(
+                                radius: 15,
+                                backgroundImage: NetworkImage(comments[index][2]), //Profile Pic
+                              ),
                             ),
-                            child: Row(
+                            //COMMENT GENERATION NEEDS TO BE A FUNCTION
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                    right: 10,
-                                  ),
-                                  child: CircleAvatar(
-                                    radius: 15,
-                                    backgroundImage: NetworkImage(
-                                        comments[index][2]), //Profile Pic
-                                  ),
-                                ),
-                                //COMMENT GENERATION NEEDS TO BE A FUNCTION
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                Wrap(
                                   children: [
-                                    Wrap(
-                                      children: [
-                                        Text(
-                                          '${comments[index][1]}', //Uname
-                                          style: TextStyle(
-                                            color: Constants.backgroundWhite,
-                                            fontSize: 14 + Constants.textChange,
-                                            fontWeight: FontWeight.bold,
-                                          ),
-                                        ),
-                                        Padding(
-                                          padding:
-                                              EdgeInsets.only(left: 3, top: 2),
-                                          child: Text(
-                                            '${comments[index][3]}', // comment
-                                            style: TextStyle(
-                                              color: Constants.backgroundWhite,
-                                              fontSize:
-                                                  12 + Constants.textChange,
-                                              fontWeight: FontWeight.w300,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
+                                    Text(
+                                      '${comments[index][1]}', //Uname
+                                      style: TextStyle(
+                                        color: Constants.backgroundWhite,
+                                        fontSize: 14 + Constants.textChange,
+                                        fontWeight: FontWeight.bold,
+                                      ),
                                     ),
                                     Padding(
-                                      padding: EdgeInsets.only(left: 0),
+                                      padding: EdgeInsets.only(left: 3, top: 2),
                                       child: Text(
-                                        '${comments[index][4]}', //time posted
+                                        '${comments[index][3]}', // comment
                                         style: TextStyle(
-                                          color: Constants.backgroundWhite
-                                              .withOpacity(.3),
-                                          fontSize: 14 + Constants.textChange,
+                                          color: Constants.backgroundWhite,
+                                          fontSize: 12 + Constants.textChange,
+                                          fontWeight: FontWeight.w300,
                                         ),
                                       ),
-                                    )
+                                    ),
                                   ],
                                 ),
+                                Padding(
+                                  padding: EdgeInsets.only(left: 0),
+                                  child: Text(
+                                    getTimeFromSeconds(comments[index][4]), //time posted
+                                    style: TextStyle(
+                                      color: Constants.backgroundWhite.withOpacity(.3),
+                                      fontSize: 14 + Constants.textChange,
+                                    ),
+                                  ),
+                                )
                               ],
                             ),
-                          ),
+                          ],
                         ),
-                      );
-                    },
-                  ),
-                ),
+                      ),
+                    ),
+                  );
+                },
               ),
-              Container(
+            ),
+            Align(
+              alignment: Alignment.bottomCenter,
+              child: Container(
                 height: heightOfCommentBox,
                 width: MediaQuery.of(context).size.width,
                 color: Constants.purpleColor.withOpacity(.1),
@@ -185,8 +156,7 @@ class _CommentsPageState extends State<CommentsPage> {
                         width: MediaQuery.of(context).size.width * 9 / 10,
                         decoration: BoxDecoration(
                           color: Constants.backgroundBlack,
-                          borderRadius:
-                              new BorderRadius.all(Radius.circular(100)),
+                          borderRadius: new BorderRadius.all(Radius.circular(100)),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -207,8 +177,7 @@ class _CommentsPageState extends State<CommentsPage> {
                               border: InputBorder.none,
                               hintText: "Add a Comment...",
                               hintStyle: TextStyle(
-                                color:
-                                    Constants.backgroundWhite.withOpacity(.6),
+                                color: Constants.backgroundWhite.withOpacity(.6),
                                 fontSize: 13 + Constants.textChange,
                               ),
                               suffixIcon: postText(),
@@ -236,32 +205,84 @@ class _CommentsPageState extends State<CommentsPage> {
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
   }
 
+  //Converts the time the comment was posted to a string
+  //Expects an input of time since epoch in seconds
+  //returns a string like '1d' or '3w'
+  String getTimeFromSeconds(String input) {
+    //entire function is in seconds no need to go to milliseconds
+    if (input == "" || input == " " || input == null) return "";
+    //get current time in seconds
+    int currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+    print("INPUT: " + input);
+    int inputTime = int.tryParse(input);
+    if (inputTime == null) return "";
+    int differenceTime = currTime - inputTime;
+    //Year
+    int oneYear = 60 * 60 * 24 * 365;
+    if (differenceTime > oneYear) {
+      int numYears = (differenceTime / oneYear).round();
+      if (numYears == 0) return "ERROR year";
+      return numYears.toString() + "y";
+    }
+    //Month
+    int oneMonth = 60 * 60 * 24 * 30;
+    if (differenceTime > oneMonth) {
+      int numMonths = (differenceTime / oneMonth).round();
+      if (numMonths == 0) return "ERROR month";
+      return numMonths.toString() + "m";
+    }
+    //Week
+    int oneWeek = 60 * 60 * 24 * 7;
+    if (differenceTime > oneWeek) {
+      int numWeeks = (differenceTime / oneWeek).round();
+      if (numWeeks == 0) return "ERROR week";
+      return numWeeks.toString() + "y";
+    }
+    //Day
+    int oneDay = 60 * 60 * 24;
+    if (differenceTime > oneDay) {
+      int numDays = (differenceTime / oneDay).round();
+      if (numDays == 0) return "ERROR day";
+      return numDays.toString() + "d";
+    }
+    //Hour
+    int oneHour = 60 * 60;
+    if (differenceTime > oneHour) {
+      int numHours = (differenceTime / oneHour).round();
+      if (numHours == 0) return "ERROR day";
+      return numHours.toString() + "h";
+    }
+    //Minutes
+    int oneMinute = 60;
+    if (differenceTime > oneMinute) {
+      int numMinutes = (differenceTime / oneMinute).round();
+      if (numMinutes == 0) return "ERROR min";
+      return numMinutes.toString() + " min";
+    }
+    return "< 1 minute ago";
+  }
+
+  //Function validates that user inputted in some text then adds it to the page and mongo
+  //Is the post comment widget at the bottom of the screen
   Widget postText() {
     return GestureDetector(
       onTap: () {
-        print("Post ID: ");
-        print(pid);
         if (commentController.text.isNotEmpty) {
-          setState(() {
-            comments.add([
-              currentUser.uid,
-              currentUser.uName,
-              currentUser.avatarLink,
-              commentController.text,
-              "2h"
-            ]);
+          String currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
 
+          setState(() {
+            comments.add([currentUser.uid, currentUser.uName, currentUser.avatarLink, commentController.text, currTime]);
             FocusScope.of(context).requestFocus(new FocusNode());
           });
-          addComment(pid, currentUser.uid, currentUser.uName,
-              currentUser.avatarLink, commentController.text, "2h");
+
+          addComment(pid, commentController.text, currTime);
           commentController.text = "";
         } else {
           print("No Text Gathered");

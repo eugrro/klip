@@ -1,32 +1,23 @@
-import 'dart:convert';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:klip/ContentWidget.dart';
+import 'package:klip/HomeSideScrolling.dart';
 import 'package:klip/Requests.dart';
-import 'package:klip/UserPage.dart';
-import 'package:klip/commentsPage.dart';
-import 'package:klip/currentUser.dart' as currentUser;
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:klip/widgets.dart';
-import 'package:video_player/video_player.dart';
-import 'dart:convert' as convert;
 import './Constants.dart' as Constants;
 import 'package:async/async.dart';
-import 'package:chewie/chewie.dart';
-import 'package:vibration/vibration.dart';
 
-import 'currentUser.dart';
-
-//import 'Vid.dart';
-
+// ignore: must_be_immutable
 class HomeTab extends StatefulWidget {
-  _HomeTabState createState() => _HomeTabState();
+  int homePageSideScrollPosition;
+  Function(int) callback;
+  HomeTab(this.homePageSideScrollPosition, this.callback);
+  _HomeTabState createState() => _HomeTabState(homePageSideScrollPosition, callback);
 }
 
 class _HomeTabState extends State<HomeTab> {
   final AsyncMemoizer memoizer = AsyncMemoizer();
+
+  int homePageSideScrollPosition;
+  Function(int) callback;
+  _HomeTabState(this.homePageSideScrollPosition, this.callback);
 
   @override
   void initState() {
@@ -76,7 +67,7 @@ class _HomeTabState extends State<HomeTab> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             if (position < jsonInput.length) {
-              return ContentWidget(jsonInput[position]);
+              return HomeSideScrolling(homePageSideScrollPosition, callback, jsonInput[position]);
             } else {
               return Center(
                 child: Text(

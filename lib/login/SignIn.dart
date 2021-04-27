@@ -7,9 +7,6 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
-import '../HomeSideScrolling.dart';
-import '../TopNavBar.dart';
-import '../TopSection.dart';
 
 class SignIn extends StatefulWidget {
   @override

@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
-import 'package:klip/login/SignIn.dart';
-import 'package:klip/login/SignUp.dart';
-import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'loginLogic.dart';
-import '../TopNavBar.dart';
-import '../TopSection.dart';
 
 // Define a custom Form widget.
 class UsernameCreation extends StatefulWidget {
@@ -264,7 +259,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                         if (isUserNameValid == true) {
                           currentUser.uName = validatedUserName;
 
-                          String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
+                          String updateuName = await updateUsername(currentUser.uid, currentUser.uName);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => Navigation()),
