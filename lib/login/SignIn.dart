@@ -7,9 +7,6 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
-import '../HomeSideScrolling.dart';
-import '../TopNavBar.dart';
-import '../TopSection.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -151,15 +148,14 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              FocusScopeNode currentFocus = FocusScope.of(context);
+
+                              if (!currentFocus.hasPrimaryFocus) {
+                                currentFocus.unfocus();
+                              }
                               if (validinput(context, userNameController.text, passwordController.text, passwordController.text)) {
-                                String ret = await signIn(userNameController.text, passwordController.text);
-                                if (ret == "" || ret == "ERROR") {
-                                  showError(context, "Unknown error occurred. Please try again");
-                                } else if (ret == "EmailNotFound") {
-                                  showError(context, "Email not found. Try signing up?");
-                                } else if (ret == "WrongPassword") {
-                                  showError(context, "Incorrect Password. Try again?");
-                                } else if (ret.length == 28) {
+                                String ret = await signIn(context, userNameController.text, passwordController.text);
+                                if (ret != "" || ret != "ERROR" || ret != null) {
                                   //correct username and password and uid provided
                                   setUpCurrentUserFromMongo(ret).then((val) {
                                     storeUserToSharedPreferences();

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:klip/widgets.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Requests.dart';
+import './Constants.dart' as Constants;
 
 String uid = "testUID";
 String uName = "testUserName";
@@ -12,8 +11,9 @@ String lName = "testLastName";
 String email = "testEmail@gmail.com";
 String numViews = "0";
 String numKredits = "0";
-String gamertag = "eugro";
+String xTag = "";
 String bio = "Sample bio text for the current user";
+String bioLink = "";
 String avatarLink = getAWSLink(uid);
 Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
 List<dynamic> currentUserFollowing = [];
@@ -41,7 +41,9 @@ void displayCurrentUser() {
 
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
 Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
-  if (await doesObjectExistInS3(avatarURI, "avatars-klip") == "ObjectFound") {
+  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "avatars-klip") == "ObjectFound") {
+    //doing this may cause issues if the profile image gets changed needs further testing
+    Constants.checkedProfileImage = true;
     return Image.network(avatarLink);
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
@@ -58,10 +60,11 @@ void storeUserToSharedPreferences() async {
   prefs.setString("uid", uid);
   print("SETTING UID TO: " + uid);
   prefs.setString("uName", uName);
+  prefs.setString("bioLink", bioLink);
   prefs.setString("fName", fName);
   prefs.setString("lName", lName);
   prefs.setString("email", email);
-  prefs.setString("gamertag", gamertag);
+  prefs.setString("xTag", xTag);
   prefs.setString("bio", bio);
   prefs.setString("avatarLink", avatarLink);
   prefs.setStringList("currentUserFollowing", currentUserFollowing.cast<String>());
@@ -75,13 +78,13 @@ Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
   print("Setting " + key + " to " + value.toString() + " in shared preferences");
   if (value is int) {
     prefs.setInt(key, value);
-    return "SetSucessful";
+    return "SetSuccessful";
   } else if (value is String) {
     prefs.setString(key, value);
-    return "SetSucessful";
+    return "SetSuccessful";
   } else if (value is List) {
-    prefs.setStringList(key, value);
-    return "SetSucessful";
+    prefs.setStringList(key, value.cast<String>());
+    return "SetSuccessful";
   } else {
     return "InvalidValueType";
   }
@@ -100,8 +103,9 @@ void pullUserFromSharedPreferences() async {
   lName = await pullFieldFromSharedPreferences("lName", prefs);
   email = await pullFieldFromSharedPreferences("email", prefs);
   print(email);
-  gamertag = await pullFieldFromSharedPreferences("gamertag", prefs);
+  xTag = await pullFieldFromSharedPreferences("gamertag", prefs);
   bio = await pullFieldFromSharedPreferences("bio", prefs);
+  bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
   try {
     currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs)).toList();

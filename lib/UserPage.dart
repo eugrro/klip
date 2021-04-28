@@ -1,3 +1,4 @@
+import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
 import 'package:klip/profileSettings.dart';
@@ -7,29 +8,33 @@ import './PaymentFunctions.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
-
+import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
-  UserPage(this.uid);
+  Function(int) callback;
+  UserPage(this.uid, this.callback);
 
   @override
-  _UserPageState createState() => _UserPageState(uid);
+  _UserPageState createState() => _UserPageState(uid, callback);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
-  _UserPageState(this.uid);
+  Function(int) callback;
+  _UserPageState(this.uid, this.callback);
 
   bool isFollowing;
   String numKredits;
   String numViews;
   String uName;
   String bio;
+  String bioLink;
   Image avatar;
+  final AsyncMemoizer memoizer = AsyncMemoizer();
 
   @override
   void initState() {
@@ -57,17 +62,29 @@ class _UserPageState extends State<UserPage> {
         numViews = currentUser.numViews;
         uName = currentUser.uName;
         bio = currentUser.bio;
+        bioLink = currentUser.bioLink;
       });
     } else {
       var user = await getUser(uid);
       Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
       setState(() {
-        numKredits = user["numkredits"];
-        numViews = user["numviews"];
-        uName = user["uname"];
+        numKredits = user["numKredits"];
+        numViews = user["numViews"];
+        uName = user["uName"];
         bio = user["bio"];
         avatar = avatarImage;
       });
+    }
+  }
+
+  void _launchbioLink(BuildContext ctx, String url) async {
+    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
+      url = "https://" + url;
+    }
+    if (await canLaunch(url)) {
+      await launch(url);
+    } else {
+      showError(ctx, "Could not Launch Link");
     }
   }
 
@@ -79,226 +96,256 @@ class _UserPageState extends State<UserPage> {
         backgroundColor: Constants.backgroundBlack,
         body: Column(
           children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: Constants.statusBarHeight + 10,
-              ),
-              child: Stack(
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(top: 40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: [
-                        Column(
-                          children: [
-                            Text(
-                              numViews == null ? "" : numViews.toString(),
-                              style: TextStyle(
-                                fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
-                              ),
-                            ),
-                            Text(
-                              "Views",
-                              style: TextStyle(
-                                fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Container(
-                          width: 10,
-                        ),
-                        Container(
-                          width: 10,
-                        ),
-                        Column(
-                          children: [
-                            Text(
-                              numKredits == null ? "" : numKredits.toString(),
-                              style: TextStyle(
-                                fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
-                              ),
-                            ),
-                            Text(
-                              "Kredits",
-                              style: TextStyle(
-                                fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 100),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * .95,
-                        height: 135,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(.02), Constants.purpleColor.withOpacity(.1)],
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 25, left: 15, right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (currentUser.uid == uid) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
-                                          setUserPageValues(currentUser.uid);
-                                          setState(() {});
-                                        });
-                                      } else {
-                                        if (!isFollowing) {
-                                          print("Following");
-                                          currentUser.currentUserFollowing.add(uid);
-                                          setState(() {
-                                            isFollowing = true;
-                                          });
-                                          userFollowsUser(currentUser.uid, uid);
-                                        } else {
-                                          print("Unfollowing");
-                                          currentUser.currentUserFollowing.remove(uid);
-                                          setState(() {
-                                            isFollowing = false;
-                                          });
-                                          userUnfollowsUser(currentUser.uid, uid);
-                                        }
-                                      }
-                                    },
-                                    child: Container(
-                                      height: 35,
-                                      width: MediaQuery.of(context).size.width / 50 * 12,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        boxShadow: kElevationToShadow[4],
-                                        gradient: LinearGradient(
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                          colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          uid == currentUser.uid
-                                              ? "Settings"
-                                              : isFollowing
-                                                  ? "Following"
-                                                  : "Follow",
-                                          style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
-                                            fontSize: 15 + Constants.textChange,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      checkIfNativePayReady();
-                                    },
-                                    child: Container(
-                                      height: 35,
-                                      width: MediaQuery.of(context).size.width / 50 * 12,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        boxShadow: kElevationToShadow[4],
-                                        gradient: LinearGradient(
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                          colors: [Constants.purpleColor.withOpacity(.4), Colors.purple],
-                                        ),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "Subscribe",
-                                          style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
-                                            fontSize: 15 + Constants.textChange,
-                                          ),
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  uName == null ? "" : uName,
-                                  style: TextStyle(
-                                    fontSize: 20 + Constants.textChange,
-                                    color: Constants.backgroundWhite.withOpacity(.9),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 10),
-                              child: Text(
-                                bio == null ? "" : bio,
-                                style: TextStyle(
-                                  fontSize: 13 + Constants.textChange,
-                                  color: Constants.backgroundWhite.withOpacity(.6),
-                                ),
-                              ),
-                            ),
-
-                            // Padding(
-                            //   padding: EdgeInsets.symmetric(
-                            //     vertical: 10,
-                            //   ),
-                            //   child: Container(
-                            //     height: 2,
-                            //     width: MediaQuery.of(context).size.width / 15 * 14,
-                            //     color: Constants.purpleColor,
-                            //   ),
-                            // ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(top: 10),
-                      child: Container(
-                        width: 150,
-                        child: CircleAvatar(
-                          radius: 75,
-                          child: ClipOval(child: avatar == null ? Container() : avatar),
-                        ),
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            ListView(
-              shrinkWrap: true,
-              padding: EdgeInsets.only(top: 10, bottom: 0),
+            Stack(
               children: [
-                //vidListItem(),
-                vidListItem(),
+                Padding(
+                  padding: EdgeInsets.only(top: 40),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Column(
+                        children: [
+                          Text(
+                            numViews.toString() ?? "",
+                            style: TextStyle(
+                              fontSize: 28 + Constants.textChange,
+                              color: Constants.backgroundWhite,
+                            ),
+                          ),
+                          Text(
+                            "Views",
+                            style: TextStyle(
+                              fontSize: 14 + Constants.textChange,
+                              color: Constants.backgroundWhite.withOpacity(.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                      Container(
+                        width: 10,
+                      ),
+                      Container(
+                        width: 10,
+                      ),
+                      Column(
+                        children: [
+                          Text(
+                            numKredits.toString() ?? "",
+                            style: TextStyle(
+                              fontSize: 28 + Constants.textChange,
+                              color: Constants.backgroundWhite,
+                            ),
+                          ),
+                          Text(
+                            "Kredits",
+                            style: TextStyle(
+                              fontSize: 14 + Constants.textChange,
+                              color: Constants.backgroundWhite.withOpacity(.5),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 100),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * .95,
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Constants.purpleColor.withOpacity(.05), Constants.purpleColor.withOpacity(.2)],
+                        ),
+                        borderRadius: BorderRadius.all(Radius.circular(5)),
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 25, left: 15, right: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (currentUser.uid == uid) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
+                                        setUserPageValues(currentUser.uid);
+                                        setState(() {});
+                                      });
+                                    } else {
+                                      if (!isFollowing) {
+                                        print("Following");
+                                        currentUser.currentUserFollowing.add(uid);
+                                        setState(() {
+                                          isFollowing = true;
+                                        });
+                                        setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
+                                        userFollowsUser(currentUser.uid, uid);
+                                      } else {
+                                        print("Unfollowing");
+                                        currentUser.currentUserFollowing.remove(uid);
+                                        setState(() {
+                                          isFollowing = false;
+                                        });
+                                        setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
+                                        userUnfollowsUser(currentUser.uid, uid);
+                                      }
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      boxShadow: kElevationToShadow[4],
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        uid == currentUser.uid
+                                            ? "Settings"
+                                            : isFollowing
+                                                ? "Following"
+                                                : "Follow",
+                                        style: TextStyle(
+                                          color: Constants.backgroundWhite.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    checkIfNativePayReady();
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      boxShadow: kElevationToShadow[4],
+                                      gradient: LinearGradient(
+                                        begin: Alignment.centerLeft,
+                                        end: Alignment.centerRight,
+                                        colors: [Constants.purpleColor.withOpacity(.4), Colors.purple],
+                                      ),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Subscribe",
+                                        style: TextStyle(
+                                          color: Constants.backgroundWhite.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                uName ?? "",
+                                style: TextStyle(
+                                  fontSize: 23 + Constants.textChange,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                ),
+                              ),
+                            ),
+                          ),
+                          bio != null
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                                  child: Text(
+                                    bio,
+                                    style: TextStyle(
+                                      fontSize: 13 + Constants.textChange,
+                                      color: Constants.backgroundWhite.withOpacity(.6),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          bioLink != null && bioLink != ""
+                              ? GestureDetector(
+                                  onTap: () {
+                                    _launchbioLink(context, bioLink);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 15),
+                                    child: Text(
+                                      bioLink,
+                                      style: TextStyle(
+                                        fontSize: 13 + Constants.textChange,
+                                        decoration: TextDecoration.underline,
+                                        letterSpacing: .75,
+                                        color: Constants.purpleColor,
+                                      ),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(top: 10),
+                    child: Container(
+                      width: 150,
+                      child: CircleAvatar(
+                        radius: 75,
+                        child: ClipOval(child: avatar ?? Container()),
+                      ),
+                    ),
+                  ),
+                ),
               ],
+            ),
+            FutureBuilder(
+              future: memoizer.runOnce(() => getUserContent(uid)),
+              builder: (context, snapshot) {
+                if (snapshot.hasData) {
+                  // Build the widget with data.
+                  dynamic objList = snapshot.data;
+                  return Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(
+                        bottom: Constants.bottomNavBarHeight,
+                      ),
+                      child: ListView.builder(
+                        itemCount: objList.length,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.only(top: 10, bottom: 0),
+                        itemBuilder: (context, index) {
+                          return vidListItem(objList[index]);
+                        },
+                      ),
+                    ),
+                  );
+                } else {
+                  return Center(
+                    child: Container(
+                      height: 50,
+                      width: 50,
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+              },
             ),
           ],
         ),
@@ -307,16 +354,22 @@ class _UserPageState extends State<UserPage> {
   }
 
   Future<bool> _onWillPop() async {
-    homePagePosition = 0;
-    homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    if (uid == currentUser.uid) {
+      homePagePosition = 0;
+      homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+    } else {
+      Navigator.of(context).pop();
+    }
     return false;
   }
 
-  Widget vidListItem() {
+  Widget vidListItem(dynamic obj) {
+    print(obj);
+    if (obj == null) return Container();
     return Padding(
       padding: EdgeInsets.symmetric(
         horizontal: MediaQuery.of(context).size.width / 30,
-        vertical: 7,
+        vertical: 6,
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -325,10 +378,13 @@ class _UserPageState extends State<UserPage> {
             padding: EdgeInsets.only(
               right: 10,
             ),
-            child: Container(
-              height: 120,
-              width: 220,
-              color: Colors.indigo,
+            child: FittedBox(
+              child: Image.network(
+                obj["type"] == "vid" ? obj["thumb"] : obj["link"],
+                height: 120,
+                width: 220,
+                fit: BoxFit.cover,
+              ),
             ),
           ),
           Column(
@@ -342,19 +398,28 @@ class _UserPageState extends State<UserPage> {
                 child: Container(
                   width: 125,
                   child: AutoSizeText(
-                    'Woah what an epic video Title!',
-                    style: Constants.tStyle(),
+                    obj["title"] ?? "",
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: Constants.backgroundWhite,
+                    ),
                     maxLines: 3,
                   ),
                 ),
               ),
               Text(
-                "104 Views",
-                style: Constants.tStyle(fontSize: 13),
+                (obj["numViews"].toString() ?? "0") + " views",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
               Text(
-                "13 Comments",
-                style: Constants.tStyle(fontSize: 13),
+                (obj["comm"].length.toString() ?? "0") + " comments",
+                style: TextStyle(
+                  fontSize: 13,
+                  color: Constants.backgroundWhite,
+                ),
               ),
             ],
           ),

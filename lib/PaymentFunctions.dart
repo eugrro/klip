@@ -58,19 +58,20 @@ Future<void> createPaymentMethodNative() async {
       : print('It is not possible to pay with this card. Please try again with a different card');
 }
 
-Future<void> createPaymentMethod() async {
+// ignore: missing_return
+Future<PaymentMethod> createPaymentMethod() async {
   StripePayment.setStripeAccount(null);
   tax = ((totalCost * taxPercent) * 100).ceil() / 100;
   amount = ((totalCost + tip + tax) * 100).toInt();
   print('amount in pence/cent which will be charged = $amount');
   //step 1: add card
-  PaymentMethod paymentMethod = PaymentMethod();
-  paymentMethod = await StripePayment.paymentRequestWithCardForm(
+  await StripePayment.paymentRequestWithCardForm(
     CardFormPaymentRequest(),
   ).then((PaymentMethod paymentMethod) {
     return paymentMethod;
   }).catchError((e) {
     print('Errore Card: ${e.toString()}');
+    return null;
   });
 }
 

@@ -1,6 +1,4 @@
-import 'dart:collection';
 import 'dart:convert';
-import 'dart:ffi';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -48,6 +46,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
   AnimationController switchExpandController;
   Animation<double> switchAnimation;
 
+  bool loadedKlips = false;
   int gridLength = 0;
   int numSelected;
   final AsyncMemoizer memoizer = AsyncMemoizer();
@@ -130,7 +129,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
             ),
             child: FutureBuilder(
               future: Future.wait([
-                memoizer.runOnce(() => getImageAsFile(index)),
+                memoizer.runOnce(() => getAsFile(index)),
                 memList[index].runOnce(() => getThumbImage(index)),
               ]),
               builder: (context, AsyncSnapshot<List<dynamic>> snapshot) {
@@ -198,7 +197,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
     );
   }
 
-  Future<File> getImageAsFile(int index) async {
+  Future<File> getAsFile(int index) async {
     return await assetList[index].file;
   }
 
@@ -222,10 +221,11 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
   }
 
   Future<void> loadXboxClips(String gamertag) async {
-    String getVids = await getXboxClips(gamertag);
-    if (getVids != null) xboxData = jsonDecode(getVids);
+    if (gamertag == null || gamertag == "" || loadedKlips) return;
+    List<dynamic> vidsList = await getXboxClips(gamertag);
+
     //print(servRet);
-    for (var clip in xboxData) {
+    for (var clip in vidsList) {
       print(clip["thumbnails"][0]["uri"]);
       print(clip["gameClipUris"]);
       xboxThumbs.add(clip["thumbnails"][0]["uri"].toString());
@@ -233,6 +233,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
       tappedXbox.add(false);
       // clip["thumbnails"][1]["uri"] for high quality
     }
+    loadedKlips = true;
   }
 
   Widget selectFromConsole() {
@@ -547,7 +548,9 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
           children: [
             GestureDetector(
               onTap: () {
-                pageController.animateToPage(0, duration: animationDuration, curve: Curves.linear);
+                //pageController.animateToPage(0, duration: animationDuration, curve: Curves.linear);
+                //TODO figure out why the animation is so jerky
+                pageController.jumpToPage(0);
               },
               child: Container(
                 width: MediaQuery.of(context).size.width / 3,
@@ -580,8 +583,9 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
             ),
             GestureDetector(
               onTap: () {
-                pageController.animateToPage(1, duration: animationDuration, curve: Curves.linear);
-                loadXboxClips(currentUser.gamertag);
+                //pageController.animateToPage(1, duration: animationDuration, curve: Curves.linear);
+                pageController.jumpToPage(1);
+                loadXboxClips(currentUser.xTag);
               },
               child: Container(
                 width: MediaQuery.of(context).size.width / 3,

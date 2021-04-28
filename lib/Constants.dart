@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
@@ -12,13 +11,12 @@ double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
 String nodeURL;
-TextStyle tStyle({double fontSize = 16}) {
-  return TextStyle(color: backgroundWhite, fontSize: fontSize);
-}
-
-const double bottomNavBarHeight = 80;
+const double bottomNavBarHeight = 55;
 const double animatedBottomSliderHeight = 10;
 
 double statusBarHeight = 0;
 const String StripePKey = "pk_test_51IOnY5Hau82X1Y1fc6l4P6QUfpK6euFX8ULZ3PLpCAG0rObkmlwt7g5k20eFCJzmdFUtZl18wF8kFVZYrqsMuYKa002zcUpSaa";
 //testing
+
+//DO NOT MODIFY THIS VARIABLE IN THE CODE
+bool checkedProfileImage = false;

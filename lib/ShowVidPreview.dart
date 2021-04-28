@@ -1,8 +1,8 @@
-import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:klip/Navigation.dart';
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:photo_manager/photo_manager.dart';
 import 'package:video_player/video_player.dart';
@@ -10,7 +10,6 @@ import 'Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:chewie/chewie.dart';
 
-import 'CropVideo.dart';
 import 'Requests.dart';
 
 //import 'CropVideo.dart';
@@ -29,7 +28,8 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
 
   var videoPlayerController;
   ChewieController chewieController;
-  var currVid;
+  File currVidFile;
+  dynamic currVid;
   bool isVideoPlaying = true;
 
   @override
@@ -47,13 +47,21 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
 
   Future<void> downloadXboxAsFile(String url) async {
     print("GETTING DIO DATA");
-    Response response;
+
     try {
-      response = await dio.get(url);
+      await dio.get(url);
     } catch (e) {
       print("RAN INTO DIO ERROR");
       print(e);
     }
+  }
+
+  Future<Uint8List> getThumbImage(AssetEntity temp) async {
+    return await temp.thumbDataWithSize(
+      300,
+      300,
+      quality: 70,
+    );
   }
 
   Future<void> initializeVideoPlayer() async {
@@ -70,10 +78,10 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
         await videoPlayerController.initialize();
         chewieController = klipChewieController(videoPlayerController);
       } else if (currVid is AssetEntity) {
-        currVid = await currVid.file;
+        currVidFile = await currVid.file;
 
         //Navigator.push(context, MaterialPageRoute(builder: (context) => VideoEditor(input: currVid)));
-        videoPlayerController = VideoPlayerController.file(currVid);
+        videoPlayerController = VideoPlayerController.file(currVidFile);
         await videoPlayerController.initialize();
         chewieController = klipChewieController(videoPlayerController);
       } else {
@@ -107,8 +115,19 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
           ),
           IconButton(
             onPressed: () async {
-              if (currVid is File) {
-                uploadKlip(currVid.path, currentUser.uid, "").then((value) => null);
+              if (currVidFile is File) {
+                print("UPLOADING KLIP");
+                uploadKlip(currVidFile.path, currentUser.uid, "").then((pid) async {
+                  if (pid == "" || pid == null) {
+                    showError(context, "Could not upload klip");
+                  } else {
+                    await uploadThumbnail(await getThumbImage(currVid), pid);
+                    while (Navigator.of(context).canPop()) {
+                      Navigator.of(context).pop();
+                    }
+                    Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
+                  }
+                });
               } else {
                 print(currVid.runtimeType);
                 showError(context, "Uploading Xbox Klips not yet supported\nneed to be downloaded first");

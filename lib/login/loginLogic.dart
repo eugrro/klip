@@ -1,18 +1,13 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:klip/widgets.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
-import '../Navigation.dart';
 import '../currentUser.dart';
 
 final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -113,7 +108,7 @@ Future<String> checkIfUserIsSignedIn() async {
   //return "ErrorOccuredGeneric";
 }
 
-///Returns a list [uid, email] if sucessful otherwise ""
+///Returns a list [uid, email] if successful otherwise ""
 Future<dynamic> signInWithGoogle() async {
   try {
     await Firebase.initializeApp();
@@ -161,7 +156,7 @@ Future<String> signOutUser() async {
       return "ERROR";
     }
   });
-  return "SignOutSucessful";
+  return "SignOutSuccessful";
 }
 
 Future<String> signUp(String user, String pass) async {
@@ -179,29 +174,24 @@ Future<String> signUp(String user, String pass) async {
   return userCredential.user.uid;
 }
 
-Future<String> signIn(String user, String pass) async {
+// ignore: missing_return
+Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential = await _auth.signInWithEmailAndPassword(email: user, password: pass).catchError((e) {
-    if (e.code == 'weak-password') {
-      print('The password provided is too weak.');
-      return null;
-    } else if (e.code == "wrong-password") {
-      print('Wrong password');
-      return null;
-    } else if (e.code == 'email-already-in-use') {
-      print('The account already exists for that email.');
-      return null;
+  await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
+    if (err.code == 'user-not-found') {
+      showError(ctx, 'No user found for that email.');
+    } else if (err.code == 'wrong-password') {
+      showError(ctx, 'Wrong password provided for that user.');
     } else {
-      print("OTHER ERROR: " + e.toString());
-      return null;
+      showError(ctx, 'Unknown error occurred');
     }
+    //consider funnier responses
+    print(err.toString());
+    return null;
+  }).then((userCredential) {
+    print("Signing in: " + userCredential.toString());
+    if (userCredential != null) return userCredential;
   });
-  if (userCredential != null) {
-    print("SIGN IN UID: " + userCredential.user.uid);
-    return userCredential.user.uid;
-  } else {
-    return "ERROR";
-  }
 }
 
 Future<void> resetPassword(String email) async {
@@ -247,6 +237,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "lName": lName,
       "uName": uName,
       "bio": "",
+      "bioLink": "",
       "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
@@ -303,10 +294,12 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
+    currentUser.bioLink = user["bioLink"];
     currentUser.uName = user["uName"];
     currentUser.email = user["email"];
     currentUser.fName = user["fName"];
     currentUser.lName = user["lName"];
+    currentUser.xTag = user["xTag"];
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
@@ -331,10 +324,12 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   print("Setting up user from new data");
   currentUser.uid = uid;
   currentUser.bio = bio;
+  currentUser.bioLink = "";
   currentUser.uName = uName;
   currentUser.email = email;
   currentUser.fName = fName;
   currentUser.lName = lName;
+  currentUser.xTag = "";
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
   currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
@@ -361,4 +356,55 @@ bool validinput(BuildContext ctx, String uName, String pass, String passConfirm)
   }
   //TODO add actual input validation
   return valid;
+}
+
+Future<String> updateUsername(String uid, String uName) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "uName": uName,
+    };
+    String uri = Constants.nodeURL + "updateUsername";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.data);
+      if (response.data is String) return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! postUser => " + err.toString());
+  }
+  return "";
+}
+
+Future<bool> doesUsernameExist(String username) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uName": username,
+    };
+    String uri = Constants.nodeURL + "doesUsernameExist";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      print(response.data);
+
+      if (response.data["status"] == "UsernameDoesNotExist")
+        return false;
+      else
+        return true;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return null;
+    }
+  } catch (err) {
+    print("Ran Into Error! doesUserExist => " + err.toString());
+  }
+  return null;
 }

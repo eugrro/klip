@@ -1,12 +1,8 @@
 import 'dart:convert';
 import 'dart:ui';
 import 'package:klip/login/StartPage.dart';
-
-import './Navigation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'UserPage.dart';
-import 'login/SignIn.dart';
 import './Constants.dart' as Constants;
 
 void main() {
@@ -18,8 +14,8 @@ void main() {
 Future<String> loadIP() async {
   return (jsonDecode(await rootBundle.loadString('lib/server/ip.json')))["dartUrl"];
 }
-//"nodeUrl": "192.168.1.124",
-//"dartUrl": "http://192.168.1.124:3000/"
+//"nodeUrl": "127.0.0.1",
+//"dartUrl": "http://10.0.2.2:3000/"
 ///////////////////TO REMOVE IN PRODUCTION////////////////
 //////////////////////////////////////////////////////////
 
