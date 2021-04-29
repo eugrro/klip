@@ -1,10 +1,9 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart';
 import 'Constants.dart' as Constants;
-import 'package:klip/widgets.dart';
-import 'package:video_player/video_player.dart';
+import 'ContentVideoWidget.dart';
+
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:visibility_detector/visibility_detector.dart';
 
@@ -25,9 +24,7 @@ class _ContentWidgetState extends State<ContentWidget> {
 
   String type;
   bool showComments = false;
-  var isVideoPlaying = ValueNotifier<bool>(true);
-  ChewieController chewieController;
-  VideoPlayerController videoPlayerController;
+
   Widget content;
   double spaceBetweenBottomContent = 3;
   bool likedPost = false;
@@ -45,18 +42,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   // ignore: missing_return
-  Future<Widget> setUpVideoController(dynamic obj) async {
-    videoPlayerController = VideoPlayerController.network(obj["link"]);
-    print("Video URL: " + obj["link"]);
-    await videoPlayerController.initialize();
-    chewieController = klipChewieController(videoPlayerController);
-    videoPlayerController.addListener(() {
-      if (videoPlayerController.value.position == videoPlayerController.value.duration) {
-        print("Setting Value");
-        isVideoPlaying.value = false;
-      }
-    });
-  }
 
   void setUpContent(obj) async {
     if (type == "txt") {
@@ -68,10 +53,8 @@ class _ContentWidgetState extends State<ContentWidget> {
         content = imgWidget(obj["link"]);
       });
     } else if (type == "vid") {
-      setUpVideoController(obj).then((value) {
-        setState(() {
-          content = vidWidget();
-        });
+      setState(() {
+        content = ContentVideoWidget(obj);
       });
     } else {
       print("ERROR Invalid content type");
@@ -275,34 +258,25 @@ class _ContentWidgetState extends State<ContentWidget> {
                   ],
                 ),
               ),
-              VisibilityDetector(
-                key: Key(obj['pid']),
-                onVisibilityChanged: (visibilityInfo) {
-                  var visiblePercentage = visibilityInfo.visibleFraction * 100;
-                  if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
-                    postViewed(obj['pid']);
-                  }
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.visibility_outlined,
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Icon(
+                    Icons.visibility_outlined,
+                    color: Constants.hintColor,
+                    size: 24,
+                  ),
+                  Container(
+                    width: spaceBetweenBottomContent,
+                  ),
+                  Text(
+                    obj["numViews"].toString() ?? "error",
+                    style: TextStyle(
                       color: Constants.hintColor,
-                      size: 24,
+                      fontSize: 14 + Constants.textChange,
                     ),
-                    Container(
-                      width: spaceBetweenBottomContent,
-                    ),
-                    Text(
-                      obj["numViews"].toString() ?? "error",
-                      style: TextStyle(
-                        color: Constants.hintColor,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ],
           ),
@@ -353,72 +327,6 @@ class _ContentWidgetState extends State<ContentWidget> {
           height: 10,
         ),
       ],
-    );
-  }
-
-  Widget vidWidget() {
-    return GestureDetector(
-      onTap: () {
-        if (chewieController.videoPlayerController.value.position != chewieController.videoPlayerController.value.duration) {
-          print("VIDEO NOT ENDED PAUSING");
-          if (chewieController.isPlaying) {
-            print("PAUSING");
-
-            isVideoPlaying.value = false;
-            chewieController.pause();
-          } else {
-            print("PLAYING");
-
-            isVideoPlaying.value = true;
-            chewieController.play();
-          }
-        } else {
-          print("VIDEO HAS ENDED RESTARTING");
-
-          chewieController.seekTo(Duration(seconds: 0)).then((value) {
-            isVideoPlaying.value = true;
-          });
-          chewieController.play();
-        }
-      },
-      child: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: chewieController != null
-                  ? Chewie(
-                      controller: chewieController,
-                    )
-                  : Center(child: CircularProgressIndicator()),
-            ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: isVideoPlaying,
-            builder: (context, value, widget) {
-              return AnimatedOpacity(
-                opacity: value == true ? 0 : 1,
-                duration: Duration(milliseconds: 300),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: Center(
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Constants.backgroundWhite.withOpacity(.6),
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        color: Constants.purpleColor,
-                        size: 60,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 }
