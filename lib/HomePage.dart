@@ -27,7 +27,6 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
     return Scaffold(
       backgroundColor: Constants.backgroundBlack,
       body: Column(
-        mainAxisSize: MainAxisSize.min,
         children: [
           TopSection(),
           Expanded(

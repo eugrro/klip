@@ -197,8 +197,10 @@ class _CommentsPageState extends State<CommentsPage> {
                         child: CircleAvatar(
                           radius: 16,
                           backgroundImage: NetworkImage(
-                            currentUser.avatarLink,
-                          ), //Profile Pic
+                                currentUser.avatarLink,
+                                //Profile Pic
+                              ) ??
+                              Container(),
                         ),
                       ),
                     ],

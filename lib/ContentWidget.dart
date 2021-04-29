@@ -6,6 +6,7 @@ import 'Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:video_player/video_player.dart';
 import 'package:klip/currentUser.dart' as currentUser;
+import 'package:visibility_detector/visibility_detector.dart';
 
 // ignore: must_be_immutable
 class ContentWidget extends StatefulWidget {
@@ -274,25 +275,34 @@ class _ContentWidgetState extends State<ContentWidget> {
                   ],
                 ),
               ),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.visibility_outlined,
-                    color: Constants.hintColor,
-                    size: 24,
-                  ),
-                  Container(
-                    width: spaceBetweenBottomContent,
-                  ),
-                  Text(
-                    obj["numViews"].toString() ?? "error",
-                    style: TextStyle(
+              VisibilityDetector(
+                key: Key(obj['pid']),
+                onVisibilityChanged: (visibilityInfo) {
+                  var visiblePercentage = visibilityInfo.visibleFraction * 100;
+                  if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
+                    postViewed(obj['pid']);
+                  }
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.visibility_outlined,
                       color: Constants.hintColor,
-                      fontSize: 14 + Constants.textChange,
+                      size: 24,
                     ),
-                  ),
-                ],
+                    Container(
+                      width: spaceBetweenBottomContent,
+                    ),
+                    Text(
+                      obj["numViews"].toString() ?? "error",
+                      style: TextStyle(
+                        color: Constants.hintColor,
+                        fontSize: 14 + Constants.textChange,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),
