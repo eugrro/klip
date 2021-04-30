@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'Requests.dart';
+import 'widgets.dart';
 
 // ignore: must_be_immutable
 class CommentsPage extends StatefulWidget {
@@ -27,7 +28,7 @@ class _CommentsPageState extends State<CommentsPage> {
   @override
   void initState() {
     super.initState();
-    heightOfCommentBox = 75;
+    heightOfCommentBox = 60;
     heightOfTopPart = 60;
     print(comments);
   }
@@ -145,60 +146,65 @@ class _CommentsPageState extends State<CommentsPage> {
             Align(
               alignment: Alignment.bottomCenter,
               child: Container(
-                height: heightOfCommentBox,
+                //height: heightOfCommentBox,
                 width: MediaQuery.of(context).size.width,
                 color: Constants.purpleColor.withOpacity(.1),
-                child: Center(
-                  child: Stack(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
+                      CircleAvatar(
+                        radius: 16,
+                        backgroundImage: NetworkImage(
+                          currentUser.avatarLink,
+                        ), //Profile Pic
+                      ),
                       Container(
-                        height: heightOfCommentBox * .7,
-                        width: MediaQuery.of(context).size.width * 9 / 10,
+                        width: MediaQuery.of(context).size.width * 8 / 10,
                         decoration: BoxDecoration(
                           color: Constants.backgroundBlack,
-                          borderRadius: new BorderRadius.all(Radius.circular(100)),
+                          borderRadius: new BorderRadius.all(Radius.circular(25)),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,
-                            left: 52, //16 * 2 + 20
+                            left: 20, //16 * 2 + 20
                             right: 15,
                           ),
-                          child: TextField(
-                            controller: commentController,
-                            keyboardType: TextInputType.multiline,
-                            maxLines: null,
-                            textAlignVertical: TextAlignVertical.center,
-                            cursorColor: Constants.backgroundWhite,
-                            cursorWidth: 1.5,
-                            decoration: InputDecoration(
-                              isDense: true,
-                              border: InputBorder.none,
-                              hintText: "Add a Comment...",
-                              hintStyle: TextStyle(
-                                color: Constants.backgroundWhite.withOpacity(.6),
-                                fontSize: 13 + Constants.textChange,
+                          child: Row(
+                            children: [
+                              ExpandingTextField(
+                                maxHeightPx: 150, // px value after which textbox won't expand
+                                width: MediaQuery.of(context).size.width * 6.5 / 10, // width of your textfield
+                                child: TextField(
+                                  controller: commentController,
+                                  keyboardType: TextInputType.multiline,
+                                  minLines: 1, // number of lines your textfield start with
+                                  maxLines: null,
+                                  textAlignVertical: TextAlignVertical.center,
+                                  cursorColor: Constants.backgroundWhite,
+                                  cursorWidth: 1.5,
+                                  decoration: InputDecoration(
+                                    isDense: true,
+                                    border: InputBorder.none,
+                                    hintText: "Add a Comment...",
+                                    hintStyle: TextStyle(
+                                      color: Constants.backgroundWhite.withOpacity(.6),
+                                      fontSize: 13 + Constants.textChange,
+                                    ),
+                                  ),
+                                  style: TextStyle(
+                                    color: Constants.backgroundWhite.withOpacity(.9),
+                                    fontSize: 13 + Constants.textChange,
+                                  ),
+                                ),
                               ),
-                              suffixIcon: postText(),
-                            ),
-                            style: TextStyle(
-                              color: Constants.backgroundWhite.withOpacity(.9),
-                              fontSize: 13 + Constants.textChange,
-                            ),
+                              postText(),
+                            ],
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 10,
-                          top: heightOfCommentBox * .35 - 16,
-                        ),
-                        child: CircleAvatar(
-                          radius: 16,
-                          backgroundImage: NetworkImage(
-                            currentUser.avatarLink,
-                          ), //Profile Pic
                         ),
                       ),
                     ],
@@ -288,20 +294,7 @@ class _CommentsPageState extends State<CommentsPage> {
           print("No Text Gathered");
         }
       },
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: heightOfCommentBox * .35 - 13 - Constants.textChange,
-          left: 15,
-        ), //perfectly even is -14
-        child: Text(
-          "Post",
-          style: TextStyle(
-            color: Constants.backgroundWhite,
-            fontSize: 14 + Constants.textChange,
-            fontWeight: FontWeight.w700,
-          ),
-        ),
-      ),
+      child: Icon(Icons.send),
     );
   }
 }
