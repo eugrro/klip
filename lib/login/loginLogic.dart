@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -177,7 +179,7 @@ Future<String> signUp(String user, String pass) async {
 // ignore: missing_return
 Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
+  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
     if (err.code == 'user-not-found') {
       showError(ctx, 'No user found for that email.');
     } else if (err.code == 'wrong-password') {
@@ -188,10 +190,9 @@ Future<String> signIn(BuildContext ctx, String user, String pass) async {
     //consider funnier responses
     print(err.toString());
     return null;
-  }).then((userCredential) {
-    print("Signing in: " + userCredential.toString());
-    if (userCredential != null) return userCredential;
   });
+  print("Signing in: " + userCredential.user.uid.toString());
+  if (userCredential != null) return userCredential.user.uid;
 }
 
 Future<void> resetPassword(String email) async {
@@ -276,6 +277,8 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
+      print(response.data);
+      if (response.data is String && response.data != "") return jsonDecode(response.data);
       return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());

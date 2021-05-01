@@ -155,8 +155,10 @@ class _SignInState extends State<SignIn> {
                               }
                               if (validinput(context, userNameController.text, passwordController.text, passwordController.text)) {
                                 String ret = await signIn(context, userNameController.text, passwordController.text);
+                                print("Signing in user with uid: " + ret.toString());
                                 if (ret != "" || ret != "ERROR" || ret != null) {
                                   //correct username and password and uid provided
+
                                   setUpCurrentUserFromMongo(ret).then((val) {
                                     storeUserToSharedPreferences();
                                   });

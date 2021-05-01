@@ -45,7 +45,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               physics: NeverScrollableScrollPhysics(),
               children: [
                 HomePage(),
-                UserPage(currentUser.uid, null),
+                UserPage(currentUser.uid, null, false),
               ],
             ),
             Align(
@@ -63,6 +63,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             homePagePosition = 0;
@@ -75,6 +76,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           showSnackbar(context, "In development");
                         },
@@ -84,6 +86,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           _showTypePicker(context);
                           setState(() {
@@ -97,6 +100,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           showSnackbar(context, "In development");
                         },
@@ -106,6 +110,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         ),
                       ),
                       GestureDetector(
+                        behavior: HitTestBehavior.translucent,
                         onTap: () {
                           setState(() {
                             homePagePosition = 1;

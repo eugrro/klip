@@ -125,6 +125,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
+        'pid': fileName,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
         "title": title,
@@ -137,7 +138,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadContent";
+      String uri = Constants.nodeURL + "uploadImage";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -174,7 +175,7 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
       return "";
     }
   } catch (err) {
-    print("Ran Into Error! uploadImage => " + err.toString());
+    print("Ran Into Error! uploadThumbnail => " + err.toString());
   }
 }
 
@@ -469,6 +470,30 @@ Future<String> unlikeContent(String pid, String uid) async {
   return "";
 }
 
+Future<String> postViewed(String pid) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+    };
+    String uri = Constants.nodeURL + "postViewed";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "ViewAdded")
+        return "ViewAdded";
+      else if (response.data["status"] == "ViewNotAdded") return "ViewNotAdded";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! unlikeContent => " + err.toString());
+  }
+  return "";
+}
+
 Future<dynamic> getUserContent(String uid) async {
   Response response;
   try {
@@ -490,6 +515,34 @@ Future<dynamic> getUserContent(String uid) async {
     }
   } catch (err) {
     print("Ran Into Error! getUserContent => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> deleteContent(String pid, String thumb) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+      "thumb": thumb,
+      //thumb value is not important
+      //must be not null or empty string and it will attempt to delete the thumbnail
+    };
+
+    String uri = Constants.nodeURL + "deleteContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "DeleteSuccessful")
+        return "DeleteSuccessful";
+      else if (response.data["status"] == "DeleteUnsuccessful") return "DeleteUnsuccessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! deleteContent => " + err.toString());
   }
   return "";
 }

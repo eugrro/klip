@@ -36,9 +36,13 @@ class MyApp extends StatelessWidget {
     setConstantsIp();
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Klips',
-      initialRoute: '/',
-      routes: klipRoutes,
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: child,
+        );
+      },
+      home: StartPage(),
       theme: ThemeData(
         textSelectionTheme: TextSelectionThemeData(
           selectionHandleColor: Constants.purpleColor,
@@ -60,3 +64,10 @@ Map<String, Widget Function(BuildContext)> klipRoutes = {
   '/': (context) => StartPage(),
   //'/second': (context) => SecondScreen(),
 };
+
+class MyBehavior extends ScrollBehavior {
+  @override
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
+    return child;
+  }
+}
