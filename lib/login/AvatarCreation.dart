@@ -1,20 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/Requests.dart';
-import 'package:klip/login/SignIn.dart';
-import 'package:klip/login/SignUp.dart';
-import 'package:klip/widgets.dart';
-import 'package:photo_manager/photo_manager.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:simple_image_crop/simple_image_crop.dart';
 import 'package:image_picker/image_picker.dart';
-import 'loginLogic.dart';
-import '../TopNavBar.dart';
-import '../TopSection.dart';
-import "package:klip/profileSettings.dart";
 import '../CropProfilePic.dart';
 import 'package:flutter/services.dart' show rootBundle;
 import 'package:path_provider/path_provider.dart';
@@ -110,8 +101,62 @@ class _AvatarCreationState extends State<AvatarCreation> {
                   child: SingleChildScrollView(
                       child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    Text("Choose your Avatar",
+                    Text("Choose A Avatar",
                         overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 32 + Constants.textChange)),
+                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: .3,
+                          width: MediaQuery.of(context).size.width * .3,
+                          color: Constants.purpleColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "or",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 16 + Constants.textChange,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: .3,
+                          width: MediaQuery.of(context).size.width * .3,
+                          color: Constants.purpleColor,
+                        ),
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
+                    GestureDetector(
+                      behavior: HitTestBehavior.translucent,
+                      onTap: () async => {
+                        _showPicker(context),
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width * .8,
+                        height: 40,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Constants.purpleColor, Color(0xffab57a8)],
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Select your own",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 24 + Constants.textChange,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
                     Container(
                       child: Row(
@@ -140,16 +185,17 @@ class _AvatarCreationState extends State<AvatarCreation> {
                                   },
                               child: Stack(children: [
                                 CircleAvatar(
-                                  radius: (MediaQuery.of(context).size.width / 4),
-                                  child: ClipOval(
-                                      child: Align(
-                                          child: Stack(children: <Widget>[
-                                    Opacity(
-                                      opacity: .4,
-                                      child: hasImageFiles ? Container(child: Image.file(imageFiles[currentFileIndex])) : null,
-                                    )
-                                  ]))),
-                                ),
+                                    radius: (MediaQuery.of(context).size.width / 4),
+                                    child: Stack(children: [
+                                      ClipOval(
+                                          child: Align(
+                                              child: Stack(children: <Widget>[
+                                        Opacity(
+                                          opacity: 1,
+                                          child: hasImageFiles ? Container(child: Image.file(imageFiles[currentFileIndex])) : null,
+                                        ),
+                                      ]))),
+                                    ])),
                               ])),
                           Container(
                               child: IconButton(
@@ -175,7 +221,6 @@ class _AvatarCreationState extends State<AvatarCreation> {
                         updateAvatar(imageFiles[currentFileIndex].path, currentUser.uid);
                         Image newImg = Image.file(imageFiles[currentFileIndex]);
                         setState(() {
-                          //little bit of a hacky way but this needs to return a future
                           currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
                             return newImg;
                           });
