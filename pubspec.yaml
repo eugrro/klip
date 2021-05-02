@@ -53,6 +53,7 @@ dependencies:
       url: git://github.com/eugrro/flutter_simple_image_crop.git
   
   flutter_launcher_icons: ^0.9.0
+  path_provider: ^2.0.1
 flutter_icons:
   android: true
   ios: true
