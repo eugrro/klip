@@ -1,14 +1,23 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
+import 'package:klip/Requests.dart';
 import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/SignUp.dart';
 import 'package:klip/widgets.dart';
+import 'package:photo_manager/photo_manager.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
+import 'package:simple_image_crop/simple_image_crop.dart';
+import 'package:image_picker/image_picker.dart';
 import 'loginLogic.dart';
 import '../TopNavBar.dart';
 import '../TopSection.dart';
+import "package:klip/profileSettings.dart";
+import '../CropProfilePic.dart';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:path_provider/path_provider.dart';
 
 class AvatarCreation extends StatefulWidget {
   @override
@@ -16,14 +25,43 @@ class AvatarCreation extends StatefulWidget {
 }
 
 class _AvatarCreationState extends State<AvatarCreation> {
+  File contentImage;
+  File tmpAvatar3;
+  int currentFileIndex = 0;
+  bool hasImageFiles = false;
+  final tmpAvatar = File('lib/assets/images/tempAvatar.png');
+  File tmpAvatar2 = File('lib/assets/images/personOutline.png');
+  List<File> imageFiles = [];
+
+  final imgCropKey = GlobalKey<ImgCropState>();
   @override
   void initState() {
+    initFiles();
+
     super.initState();
   }
 
   @override
   void dispose() {
     super.dispose();
+  }
+
+  static Future<File> getImageFileFromAssets(String path) async {
+    final byteData = await rootBundle.load('lib/assets/images/$path');
+
+    final file = File('${(await getTemporaryDirectory()).path}/$path');
+    await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
+
+    return file;
+  }
+
+  Future initFiles() async {
+    imageFiles.add(await (getImageFileFromAssets('tempAvatar.png')));
+    imageFiles.add(await (getImageFileFromAssets('personOutline.png')));
+    setState(() {
+      hasImageFiles = true;
+    });
+    print(imageFiles.length);
   }
 
   @override
@@ -70,68 +108,230 @@ class _AvatarCreationState extends State<AvatarCreation> {
               Align(
                   alignment: Alignment.topCenter,
                   child: SingleChildScrollView(
-                      child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    Text("Pick an Avatar",
-                        overflow: TextOverflow.visible, style: TextStyle(color: Constants.backgroundWhite, fontSize: 32 + Constants.textChange)),
+                    Text("Choose your Avatar",
+                        overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 32 + Constants.textChange)),
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {},
-                        child: Stack(alignment: AlignmentDirectional.center, children: [
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.max,
+                        //alignment: Alignment.center,
+                        children: [
                           Container(
-                            width: MediaQuery.of(context).size.height / 4,
-                            child: ClipOval(
-                              child: FutureBuilder<Widget>(
-                                future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
-                                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                                  if (snapshot.hasData) {
-                                    return snapshot.data;
-                                  } else {
-                                    return Align(
-                                        alignment: Alignment.center,
-                                        child: Stack(children: <Widget>[
-                                          Opacity(opacity: .15, child: Container(child: Constants.tempAvatar)),
-                                          Container(
-                                              padding: EdgeInsets.only(top: 65, left: 70),
-                                              child: Opacity(
-                                                  opacity: 1,
-                                                  child: Icon(Icons.camera_alt_outlined,
-                                                      color: Constants.backgroundBlack, size: MediaQuery.of(context).size.height / 15)))
-                                        ]));
-                                  }
-                                },
-                              ),
+                              child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                currentFileIndex = (currentFileIndex + 1) % imageFiles.length;
+                              });
+                            },
+                            icon: Icon(
+                              Icons.arrow_left_outlined,
+                              color: Constants.purpleColor,
                             ),
-                          )
-                        ])),
-                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    GestureDetector(
-                        onTap: () async {},
-                        child: Container(
-                          child: Container(
-                            width: MediaQuery.of(context).size.width * .4,
-                            height: 50,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(Radius.circular(100)),
-                              gradient: LinearGradient(
-                                begin: Alignment.centerLeft,
-                                end: Alignment.centerRight,
-                                colors: [Constants.purpleColor, Color(0xffab57a8)],
-                              ),
-                            ),
-                            child: Center(
-                              child: Text(
-                                "Skip",
-                                style: TextStyle(
-                                  color: Constants.backgroundWhite,
-                                  fontSize: 32 + Constants.textChange,
+                            iconSize: MediaQuery.of(context).size.width / 5,
+                          )),
+                          GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () async => {
+                                    _showPicker(context),
+                                  },
+                              child: Stack(children: [
+                                CircleAvatar(
+                                  radius: (MediaQuery.of(context).size.width / 4),
+                                  child: ClipOval(
+                                      child: Align(
+                                          child: Stack(children: <Widget>[
+                                    Opacity(
+                                      opacity: .4,
+                                      child: hasImageFiles ? Container(child: Image.file(imageFiles[currentFileIndex])) : null,
+                                    )
+                                  ]))),
                                 ),
-                              ),
+                              ])),
+                          Container(
+                              child: IconButton(
+                            onPressed: () {
+                              setState(() {
+                                currentFileIndex = (currentFileIndex - 1) % imageFiles.length;
+                              });
+                            },
+                            icon: Icon(Icons.arrow_right_outlined, color: Constants.purpleColor),
+                            iconSize: MediaQuery.of(context).size.width / 5,
+                          )),
+                          // Align(
+                          //alignment: Alignment.bottomRight,
+                          //
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20),
+                    ),
+                    GestureDetector(
+                      onTap: () async {
+                        updateAvatar(imageFiles[currentFileIndex].path, currentUser.uid);
+                        Image newImg = Image.file(imageFiles[currentFileIndex]);
+                        setState(() {
+                          //little bit of a hacky way but this needs to return a future
+                          currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
+                            return newImg;
+                          });
+                          ;
+                        });
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (context) => Navigation()),
+                        );
+                      },
+                      child: Container(
+                        width: MediaQuery.of(context).size.width / 3,
+                        height: MediaQuery.of(context).size.height / 16,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.all(Radius.circular(100)),
+                          gradient: LinearGradient(
+                            begin: Alignment.centerLeft,
+                            end: Alignment.centerRight,
+                            colors: [Constants.purpleColor, Color(0xffab57a8)],
+                          ),
+                        ),
+                        child: Center(
+                          child: Text(
+                            "Next",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 24 + Constants.textChange,
                             ),
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
                   ])))
             ]))));
+  }
+
+  void _showPicker(context) {
+    showModalBottomSheet(
+      context: context,
+      builder: (BuildContext bc) {
+        return SafeArea(
+          child: Container(
+            child: new Wrap(
+              children: <Widget>[
+                new ListTile(
+                  leading: new Icon(Icons.photo_library),
+                  title: new Text('Photo Library'),
+                  onTap: () {
+                    getImageGallery().then((value) async {
+                      if (contentImage == null)
+                        Navigator.of(context).pop();
+                      else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CropProfilePic(contentImage, imgCropKey),
+                          ),
+                        ).then(
+                          (value) async {
+                            if (value) {
+                              final crop = imgCropKey.currentState;
+                              File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
+                              Image newImg = Image.file(newFile);
+                              //updateAvatar(newFile.path, currentUser.uid);
+                              setState(() {
+                                imageFiles.add(newFile);
+                                currentFileIndex = imageFiles.length - 1;
+                              });
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        );
+                      }
+
+                      // show you croppedFile ……
+                      //showImage(context, croppedFile);
+                    });
+                  },
+                ),
+                new ListTile(
+                  leading: new Icon(Icons.photo_camera),
+                  title: new Text('Camera'),
+                  onTap: () {
+                    getImageCamera().then((value) async {
+                      if (contentImage == null)
+                        Navigator.of(context).pop();
+                      else {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => CropProfilePic(contentImage, imgCropKey),
+                          ),
+                        ).then(
+                          (value) async {
+                            if (value) {
+                              final crop = imgCropKey.currentState;
+                              File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
+                              Image newImg = Image.file(newFile);
+                              //updateAvatar(newFile.path, currentUser.uid);
+                              setState(() {
+                                imageFiles.add(newFile);
+                                currentFileIndex = imageFiles.length - 1;
+                              });
+                              Navigator.of(context).pop();
+                            }
+                          },
+                        );
+                      }
+
+                      // show you croppedFile ……
+                      //showImage(context, croppedFile);
+                    });
+                  },
+                ),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  final picker = ImagePicker();
+
+  Future getImageCamera() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.camera,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        contentImage = File(pickedFile.path);
+        //final bytes = await pickedFile.readAsBytes();
+        //TODO look into bytes instead of paths
+      } else {
+        contentImage = null;
+        print('No image selected.');
+      }
+    });
+  }
+
+  Future getImageGallery() async {
+    final pickedFile = await picker.getImage(
+      source: ImageSource.gallery,
+      preferredCameraDevice: CameraDevice.rear,
+    );
+
+    setState(() {
+      if (pickedFile != null) {
+        contentImage = File(pickedFile.path);
+        //final bytes = await pickedFile.readAsBytes();
+        //TODO look into bytes instead of paths
+      } else {
+        contentImage = null;
+        print('No image selected.');
+      }
+    });
   }
 }

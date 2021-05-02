@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
+import 'package:klip/login/AvatarCreation.dart';
 import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/SignUp.dart';
 import 'package:klip/widgets.dart';
@@ -267,7 +268,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                           String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => Navigation()),
+                            MaterialPageRoute(builder: (context) => AvatarCreation()),
                           );
                         }
                       },
