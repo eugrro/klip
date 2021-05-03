@@ -104,32 +104,6 @@ class _AvatarCreationState extends State<AvatarCreation> {
                     Text("Choose A Avatar",
                         overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 32 + Constants.textChange)),
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Container(
-                          height: .3,
-                          width: MediaQuery.of(context).size.width * .3,
-                          color: Constants.purpleColor,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                          child: Text(
-                            "or",
-                            style: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 16 + Constants.textChange,
-                            ),
-                          ),
-                        ),
-                        Container(
-                          height: .3,
-                          width: MediaQuery.of(context).size.width * .3,
-                          color: Constants.purpleColor,
-                        ),
-                      ],
-                    ),
-                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () async => {
@@ -157,7 +131,33 @@ class _AvatarCreationState extends State<AvatarCreation> {
                         ),
                       ),
                     ),
-                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
+                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 40)),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          height: .3,
+                          width: MediaQuery.of(context).size.width * .3,
+                          color: Constants.purpleColor,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                          child: Text(
+                            "or",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 16 + Constants.textChange,
+                            ),
+                          ),
+                        ),
+                        Container(
+                          height: .3,
+                          width: MediaQuery.of(context).size.width * .3,
+                          color: Constants.purpleColor,
+                        ),
+                      ],
+                    ),
+                    Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 40)),
                     Container(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
