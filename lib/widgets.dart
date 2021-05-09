@@ -55,6 +55,7 @@ void showSnackbar(BuildContext context, String text) {
   ));
 }
 
+//check this widget
 Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {
   if (thickness == null) thickness = 2.0;
   FocusNode fcs = FocusNode();
@@ -236,4 +237,30 @@ class SlideInRoute extends PageRouteBuilder {
             child: child,
           ),
         );
+}
+
+// Textfield widget customised to be expanding when handle large body of texts gracefully
+class ExpandingTextField extends StatelessWidget {
+  const ExpandingTextField({
+    Key key,
+    @required this.maxHeightPx,
+    @required this.child,
+    @required this.width,
+  }) : super(key: key);
+
+  final TextField child;
+  final double maxHeightPx; // height after which textfield won't expand to fit text but will be scrollable
+  final double width;
+  @override
+  Widget build(BuildContext context) {
+    return ConstrainedBox(
+      constraints: BoxConstraints(
+        maxHeight: maxHeightPx,
+      ),
+      child: SizedBox(
+        width: width,
+        child: child,
+      ),
+    );
+  }
 }

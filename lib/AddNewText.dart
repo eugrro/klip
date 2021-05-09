@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:klip/widgets.dart';
 import 'Requests.dart';
 
+//Add dynamic textfield widget here
 class AddNewText extends StatefulWidget {
   @override
   _AddNewTextState createState() => _AddNewTextState();
@@ -33,6 +34,7 @@ class _AddNewTextState extends State<AddNewText> {
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
               children: [
                 Container(
                   decoration: BoxDecoration(
@@ -44,8 +46,7 @@ class _AddNewTextState extends State<AddNewText> {
                         //color: Constants.backgroundBlack,
                         blurRadius: 1.0,
                         spreadRadius: 0.0,
-                        offset:
-                            Offset(2.0, 2.0), // shadow direction: bottom right
+                        offset: Offset(2.0, 2.0), // shadow direction: bottom right
                       )
                     ],
                   ),
@@ -72,9 +73,7 @@ class _AddNewTextState extends State<AddNewText> {
                               ),
                               Text(
                                 "Add New Text",
-                                style: TextStyle(
-                                    color: Constants.backgroundWhite,
-                                    fontSize: 18 + Constants.textChange),
+                                style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
                               ),
                             ],
                           ),
@@ -91,42 +90,53 @@ class _AddNewTextState extends State<AddNewText> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Title",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 18 + Constants.textChange,
+                SizedBox(height: 30),
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 150),
+                    child: TextFormField(
+                      maxLength: 150,
+                      maxLengthEnforcement: MaxLengthEnforcement.enforced,
+                      controller: titleController,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
+                          ),
+                          hintText: "An Interesting title",
+                          hintStyle: TextStyle(fontSize: 16)),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * .05),
-                  child: klipTextField(
-                    100,
-                    MediaQuery.of(context).size.width * .9,
-                    titleController,
-                  ),
+                SizedBox(
+                  height: 20,
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Text(
-                    "Body",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 18 + Constants.textChange,
+                Container(
+                  width: MediaQuery.of(context).size.width * 0.95,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(maxHeight: 300),
+                    child: TextFormField(
+                      controller: bodyController,
+                      minLines: 5,
+                      maxLines: null,
+                      decoration: InputDecoration(
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
+                          ),
+                          enabledBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
+                          ),
+                          hintText: "Your text post",
+                          hintStyle: TextStyle(fontSize: 14)),
                     ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width * .05),
-                  child: klipTextField(
-                    300,
-                    MediaQuery.of(context).size.width * .9,
-                    bodyController,
                   ),
                 ),
                 Padding(
