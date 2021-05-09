@@ -47,12 +47,15 @@ dependencies:
   fluttertoast: ^8.0.6
   async: ^2.5.0
   url_launcher: ^6.0.3
+  path_provider: ^2.0.1
+  visibility_detector: ^0.2.0
   
   simple_image_crop:
     git:
       url: git://github.com/eugrro/flutter_simple_image_crop.git
   
   flutter_launcher_icons: ^0.9.0
+  
 flutter_icons:
   android: true
   ios: true
@@ -82,7 +85,6 @@ flutter:
      - lib/assets/vids/
      - lib/assets/images/
      - lib/assets/iconsUI/
-     - lib/server/ip.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

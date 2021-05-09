@@ -381,7 +381,7 @@ packages:
     source: hosted
     version: "0.2.0"
   path_provider:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: path_provider
       url: "https://pub.dartlang.org"
@@ -682,7 +682,7 @@ packages:
     source: hosted
     version: "0.3.3"
   visibility_detector:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: visibility_detector
       url: "https://pub.dartlang.org"

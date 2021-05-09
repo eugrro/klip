@@ -207,6 +207,20 @@ class _CommentsPageState extends State<CommentsPage> {
                           ),
                         ),
                       ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 10,
+                          top: heightOfCommentBox * .35 - 16,
+                        ),
+                        child: CircleAvatar(
+                          radius: 16,
+                          backgroundImage: NetworkImage(
+                                currentUser.avatarLink,
+                                //Profile Pic
+                              ) ??
+                              Container(),
+                        ),
+                      ),
                     ],
                   ),
                 ),
