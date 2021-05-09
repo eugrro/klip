@@ -8,8 +8,6 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'loginLogic.dart';
-import '../TopNavBar.dart';
-import '../TopSection.dart';
 
 // Define a custom Form widget.
 class UsernameCreation extends StatefulWidget {
@@ -265,7 +263,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                         if (isUserNameValid == true) {
                           currentUser.uName = validatedUserName;
 
-                          String updateuname = await updateUsername(currentUser.uid, currentUser.uName);
+                          String updateuName = await updateUsername(currentUser.uid, currentUser.uName);
                           Navigator.push(
                             context,
                             MaterialPageRoute(builder: (context) => AvatarCreation()),

@@ -7,8 +7,6 @@ import 'package:http_parser/http_parser.dart';
 
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:flutter/services.dart';
-import 'dart:convert';
 
 Response response;
 Dio dio = new Dio();
@@ -41,14 +39,14 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
   return "";
 }
 
-Future<String> addComment(String pid, String uid, String uname, String avatarLink, String comm, String time) async {
+Future<String> addComment(String pid, String comm, String time) async {
   Response response;
   try {
     Map<String, String> params = {
       "pid": pid,
-      "uid": uid,
-      "uname": uname,
-      "avatarLink": avatarLink,
+      "uid": currentUser.uid,
+      "uName": currentUser.uName,
+      "avatarLink": currentUser.avatarLink,
       "comm": comm,
       "time": time,
     };
@@ -85,15 +83,15 @@ Future<String> reportBug(String uid, String bug) async {
 
     if (response.statusCode == 200) {
       print("Returned 200");
-      return "BugReportedSucessfully";
+      return "BugReportedSuccessfully";
     } else {
       print("Returned error " + response.statusCode.toString());
-      return "BugReportedUnsucessfully";
+      return "BugReportedUnsuccessfully";
     }
   } catch (err) {
     print("Ran Into Error! reportBug => " + err.toString());
   }
-  return "BugReportedUnsucessfully";
+  return "BugReportedUnsuccessfully";
 }
 
 // ignore: missing_return
@@ -127,8 +125,9 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
+        'pid': fileName,
         "avatar": currentUser.avatarLink,
-        "uname": currentUser.uName,
+        "uName": currentUser.uName,
         "title": title,
         "file": await MultipartFile.fromFile(
           filePath,
@@ -139,7 +138,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadContent";
+      String uri = Constants.nodeURL + "uploadImage";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -176,7 +175,7 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
       return "";
     }
   } catch (err) {
-    print("Ran Into Error! uploadImage => " + err.toString());
+    print("Ran Into Error! uploadThumbnail => " + err.toString());
   }
 }
 
@@ -191,7 +190,7 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
         'uid': uid,
         "title": title,
         "avatar": currentUser.avatarLink,
-        "uname": currentUser.uName,
+        "uName": currentUser.uName,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -299,7 +298,7 @@ Future<String> addTextContent(String uid, String title, String body) async {
       "pid": fileName,
       "uid": uid,
       "avatar": currentUser.avatarLink,
-      "uname": currentUser.uName,
+      "uName": currentUser.uName,
       "title": title,
       "body": body,
     };
@@ -347,7 +346,7 @@ Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
   return "ERROR";
 }
 
-Future<String> getXboxClips(String gamertag) async {
+Future<List<dynamic>> getXboxClips(String gamertag) async {
   Response response;
   try {
     Map<String, String> params = {
@@ -361,12 +360,12 @@ Future<String> getXboxClips(String gamertag) async {
       return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
-      return "Error";
+      return [];
     }
   } catch (err) {
     print("Ran Into Error! getXboxClips => " + err.toString());
   }
-  return "";
+  return [];
 }
 
 Future<String> userFollowsUser(String uid1, String uid2) async {
@@ -381,9 +380,9 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.data["status"] == "FollowSucessful")
-        return "FollowSucessful";
-      else if ((response.data["status"] == "FollowUnsucessful")) return "FollowUnsucessful";
+      if (response.data["status"] == "FollowSuccessful")
+        return "FollowSuccessful";
+      else if ((response.data["status"] == "FollowUnsuccessful")) return "FollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -408,15 +407,89 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
 
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.data["status"] == "UnfollowSucessful")
-        return "UnfollowSucessful";
-      else if ((response.data["status"] == "UnfollowUnsucessful")) return "UnfollowUnsucessful";
+      if (response.data["status"] == "UnfollowSuccessful")
+        return "UnfollowSuccessful";
+      else if ((response.data["status"] == "UnfollowUnsuccessful")) return "UnfollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
     }
   } catch (err) {
     print("Ran Into Error! userUnfollowsUser => " + err.toString());
+  }
+  return "";
+}
+
+Future<String> likeContent(String pid, String uid) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+      "uid": uid,
+    };
+    String uri = Constants.nodeURL + "likeContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "LikeSuccessful")
+        return "LikeSuccessful";
+      else if (response.data["status"] == "LikeUnsuccessful") return "LikeUnsuccessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! likeContent => " + err.toString());
+  }
+  return "";
+}
+
+Future<String> unlikeContent(String pid, String uid) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+      "uid": uid,
+    };
+    String uri = Constants.nodeURL + "unlikeContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "UnlikeSuccessful")
+        return "UnlikeSuccessful";
+      else if (response.data["status"] == "UnlikeUnsuccessful") return "UnlikeUnsuccessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! unlikeContent => " + err.toString());
+  }
+  return "";
+}
+
+Future<String> postViewed(String pid) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+    };
+    String uri = Constants.nodeURL + "postViewed";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "ViewAdded")
+        return "ViewAdded";
+      else if (response.data["status"] == "ViewNotAdded") return "ViewNotAdded";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! unlikeContent => " + err.toString());
   }
   return "";
 }
@@ -442,6 +515,34 @@ Future<dynamic> getUserContent(String uid) async {
     }
   } catch (err) {
     print("Ran Into Error! getUserContent => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> deleteContent(String pid, String thumb) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "pid": pid,
+      "thumb": thumb,
+      //thumb value is not important
+      //must be not null or empty string and it will attempt to delete the thumbnail
+    };
+
+    String uri = Constants.nodeURL + "deleteContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      if (response.data["status"] == "DeleteSuccessful")
+        return "DeleteSuccessful";
+      else if (response.data["status"] == "DeleteUnsuccessful") return "DeleteUnsuccessful";
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! deleteContent => " + err.toString());
   }
   return "";
 }

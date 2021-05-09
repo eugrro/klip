@@ -5,8 +5,8 @@ import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import './PaymentFunctions.dart';
+import './ContentListItem.dart';
 import 'package:klip/currentUser.dart' as currentUser;
-import 'package:auto_size_text/auto_size_text.dart';
 import 'package:stripe_payment/stripe_payment.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
@@ -15,15 +15,19 @@ import 'currentUser.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
-  UserPage(this.uid);
+  Function(int) callback;
+  bool isHomeUserPage;
+  UserPage(this.uid, this.callback, this.isHomeUserPage);
 
   @override
-  _UserPageState createState() => _UserPageState(uid);
+  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
-  _UserPageState(this.uid);
+  Function(int) callback;
+  bool isHomeUserPage;
+  _UserPageState(this.uid, this.callback, this.isHomeUserPage);
 
   bool isFollowing;
   String numKredits;
@@ -66,11 +70,12 @@ class _UserPageState extends State<UserPage> {
       var user = await getUser(uid);
       Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
       setState(() {
-        numKredits = user["numkredits"];
-        numViews = user["numviews"];
-        uName = user["uname"];
-        bio = user["bio"];
         avatar = avatarImage;
+        numKredits = user["numKredits"];
+        numViews = user["numViews"];
+        uName = user["uName"];
+        bio = user["bio"];
+        bioLink = user["bioLink"];
       });
     }
   }
@@ -92,13 +97,16 @@ class _UserPageState extends State<UserPage> {
       onWillPop: _onWillPop,
       child: Scaffold(
         backgroundColor: Constants.backgroundBlack,
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.only(
-                top: Constants.statusBarHeight + 10,
-              ),
-              child: Stack(
+        body: Padding(
+          padding: EdgeInsets.only(
+            bottom: isHomeUserPage ? 0 : Constants.bottomNavBarHeight,
+            top: isHomeUserPage ? 0 : MediaQuery.of(context).padding.top,
+          ),
+          child: ListView(
+            padding: EdgeInsets.zero,
+            shrinkWrap: true,
+            children: [
+              Stack(
                 children: [
                   Padding(
                     padding: EdgeInsets.only(top: 40),
@@ -108,7 +116,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numViews ?? "",
+                              numViews.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -132,7 +140,7 @@ class _UserPageState extends State<UserPage> {
                         Column(
                           children: [
                             Text(
-                              numKredits ?? "",
+                              numKredits.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
                                 color: Constants.backgroundWhite,
@@ -261,7 +269,7 @@ class _UserPageState extends State<UserPage> {
                                 child: Text(
                                   uName ?? "",
                                   style: TextStyle(
-                                    fontSize: 26 + Constants.textChange,
+                                    fontSize: 23 + Constants.textChange,
                                     color: Constants.backgroundWhite.withOpacity(.9),
                                   ),
                                 ),
@@ -273,7 +281,7 @@ class _UserPageState extends State<UserPage> {
                                     child: Text(
                                       bio,
                                       style: TextStyle(
-                                        fontSize: 14 + Constants.textChange,
+                                        fontSize: 13 + Constants.textChange,
                                         color: Constants.backgroundWhite.withOpacity(.6),
                                       ),
                                     ),
@@ -289,7 +297,7 @@ class _UserPageState extends State<UserPage> {
                                       child: Text(
                                         bioLink,
                                         style: TextStyle(
-                                          fontSize: 14 + Constants.textChange,
+                                          fontSize: 13 + Constants.textChange,
                                           decoration: TextDecoration.underline,
                                           letterSpacing: .75,
                                           color: Constants.purpleColor,
@@ -317,40 +325,34 @@ class _UserPageState extends State<UserPage> {
                   ),
                 ],
               ),
-            ),
-            FutureBuilder(
-              future: memoizer.runOnce(() => getUserContent(uid)),
-              builder: (context, snapshot) {
-                if (snapshot.hasData) {
-                  // Build the widget with data.
-                  dynamic objList = snapshot.data;
-                  return Center(
-                    child: Padding(
-                      padding: EdgeInsets.only(
-                        bottom: Constants.bottomNavBarHeight,
+              FutureBuilder(
+                future: memoizer.runOnce(() => getUserContent(uid)),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    // Build the widget with data.
+                    dynamic objList = snapshot.data;
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: objList.length,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.only(top: 10, bottom: 0),
+                      itemBuilder: (context, index) {
+                        return ContentListItem(objList[index], isHomeUserPage);
+                      },
+                    );
+                  } else {
+                    return Center(
+                      child: Container(
+                        height: 50,
+                        width: 50,
+                        child: CircularProgressIndicator(),
                       ),
-                      child: ListView.builder(
-                        itemCount: objList.length,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.only(top: 10, bottom: 0),
-                        itemBuilder: (context, index) {
-                          return vidListItem(objList[index]);
-                        },
-                      ),
-                    ),
-                  );
-                } else {
-                  return Center(
-                    child: Container(
-                      height: 50,
-                      width: 50,
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                }
-              },
-            ),
-          ],
+                    );
+                  }
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -364,70 +366,5 @@ class _UserPageState extends State<UserPage> {
       Navigator.of(context).pop();
     }
     return false;
-  }
-
-  Widget vidListItem(dynamic obj) {
-    print(obj);
-    if (obj == null) return Container();
-    return Padding(
-      padding: EdgeInsets.symmetric(
-        horizontal: MediaQuery.of(context).size.width / 30,
-        vertical: 6,
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: EdgeInsets.only(
-              right: 10,
-            ),
-            child: FittedBox(
-              child: Image.network(
-                obj["type"] == "vid" ? obj["thumb"] : obj["link"],
-                height: 120,
-                width: 220,
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.end,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  bottom: 15,
-                ),
-                child: Container(
-                  width: 125,
-                  child: AutoSizeText(
-                    obj["title"] ?? "",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Constants.backgroundWhite,
-                    ),
-                    maxLines: 3,
-                  ),
-                ),
-              ),
-              Text(
-                (obj["numviews"] ?? "0") + " views",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Constants.backgroundWhite,
-                ),
-              ),
-              Text(
-                (obj["comm"].length.toString() ?? "0") + " comments",
-                style: TextStyle(
-                  fontSize: 13,
-                  color: Constants.backgroundWhite,
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
   }
 }

@@ -1,32 +1,33 @@
-import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:klip/commentsPage.dart';
-import 'package:klip/currentUser.dart' as currentUser;
+import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart';
 import 'Constants.dart' as Constants;
-import 'package:klip/widgets.dart';
-import 'package:video_player/video_player.dart';
+import 'ContentVideoWidget.dart';
 
-import 'UserPage.dart';
+import 'package:klip/currentUser.dart' as currentUser;
+import 'package:visibility_detector/visibility_detector.dart';
 
+// ignore: must_be_immutable
 class ContentWidget extends StatefulWidget {
   dynamic obj;
-  ContentWidget(this.obj);
+  Function(int) callback;
+  ContentWidget(this.obj, this.callback);
+
   @override
-  _ContentWidgetState createState() => _ContentWidgetState(obj);
+  _ContentWidgetState createState() => _ContentWidgetState(obj, callback);
 }
 
 class _ContentWidgetState extends State<ContentWidget> {
   Map<String, dynamic> obj;
-  _ContentWidgetState(this.obj);
+  Function(int) callback;
+  _ContentWidgetState(this.obj, this.callback);
 
   String type;
   bool showComments = false;
-  var isVideoPlaying = ValueNotifier<bool>(true);
-  ChewieController chewieController;
-  VideoPlayerController videoPlayerController;
+
   Widget content;
+  double spaceBetweenBottomContent = 3;
+  bool likedPost = false;
 
   @override
   void initState() {
@@ -41,18 +42,6 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   // ignore: missing_return
-  Future<Widget> setUpVideoController(dynamic obj) async {
-    videoPlayerController = VideoPlayerController.network(obj["link"]);
-    print("Video URL: " + obj["link"]);
-    await videoPlayerController.initialize();
-    chewieController = klipChewieController(videoPlayerController);
-    videoPlayerController.addListener(() {
-      if (videoPlayerController.value.position == videoPlayerController.value.duration) {
-        print("Setting Value");
-        isVideoPlaying.value = false;
-      }
-    });
-  }
 
   void setUpContent(obj) async {
     if (type == "txt") {
@@ -64,10 +53,8 @@ class _ContentWidgetState extends State<ContentWidget> {
         content = imgWidget(obj["link"]);
       });
     } else if (type == "vid") {
-      setUpVideoController(obj).then((value) {
-        setState(() {
-          content = vidWidget();
-        });
+      setState(() {
+        content = ContentVideoWidget(obj);
       });
     } else {
       print("ERROR Invalid content type");
@@ -154,14 +141,11 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 GestureDetector(
                   onTap: () {
-                    //TODO
-                    //dont push to stack, have account slide in from the right
-                    //and be dismissable by swiping left
-                    //if you click on your own account change navigation
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
+                    callback(2);
+                    //Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
                   },
                   child: Text(
-                    obj["uname"] ?? "usernameError",
+                    obj["uName"] ?? "usernameError",
                     style: TextStyle(
                       color: Constants.backgroundWhite.withOpacity(.7),
                       fontSize: 14 + Constants.textChange,
@@ -180,12 +164,6 @@ class _ContentWidgetState extends State<ContentWidget> {
                     size: 5,
                   ),
                 ),
-                Text(
-                  "Follow",
-                  style: TextStyle(
-                    color: Constants.purpleColor,
-                  ),
-                )
               ],
             ),
             Padding(
@@ -198,68 +176,82 @@ class _ContentWidgetState extends State<ContentWidget> {
             ),
           ],
         ),
-        Container(
-          height: 10,
-        ),
+
+        //===============================================================
         content ?? Container(),
-        Container(
-          height: 10,
-        ),
-        Container(
-          height: .8,
-          width: MediaQuery.of(context).size.width * .90,
-          color: Constants.purpleColor.withOpacity(.4),
-        ),
+        //===============================================================
+
         Padding(
           padding: EdgeInsets.only(
-            top: 13,
-            bottom: 13,
+            top: 5,
+            bottom: 8,
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              Row(
-                children: [
-                  SvgPicture.asset(
-                    "lib/assets/iconsUI/+1Icon.svg",
-                    semanticsLabel: '+1 Icon',
-                    width: 20,
-                    height: 20,
-                  ),
-                  Container(
-                    width: 5,
-                  ),
-                  Text(
-                    "1, 345",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite,
-                      fontSize: 14 + Constants.textChange,
+              GestureDetector(
+                behavior: HitTestBehavior.translucent,
+                onTap: () {
+                  if (likedPost) {
+                    unlikeContent(
+                      obj["pid"],
+                      currentUser.uid,
+                    );
+                    obj["numLikes"] -= 1;
+                  } else {
+                    likeContent(
+                      obj["pid"],
+                      currentUser.uid,
+                    );
+                    obj["numLikes"] += 1;
+                  }
+                  setState(() {
+                    likedPost = !likedPost;
+                  });
+                },
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.favorite_border_rounded,
+                      color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                      size: 24,
                     ),
-                  ),
-                ],
+                    Container(
+                      width: spaceBetweenBottomContent,
+                    ),
+                    Text(
+                      obj["numLikes"].toString() ?? "error",
+                      style: TextStyle(
+                        color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                        fontSize: 14 + Constants.textChange,
+                      ),
+                    ),
+                  ],
+                ),
               ),
               GestureDetector(
                 onTap: () {
-                  Navigator.push(context, SlideInRoute(page: CommentsPage(obj["pid"], obj["comm"]), direction: 2)).then((value) {
+                  callback(0).then((value) {
                     print("RETURNED TO USER PAGE");
                     setState(() {});
                   });
                 },
                 child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(
-                      "lib/assets/iconsUI/commentIcon.svg",
-                      semanticsLabel: 'commentIcon',
-                      width: 20,
-                      height: 20,
+                    Icon(
+                      Icons.mode_comment_outlined,
+                      color: Constants.hintColor,
+                      size: 24,
                     ),
                     Container(
-                      width: 5,
+                      width: spaceBetweenBottomContent,
                     ),
                     Text(
-                      "2",
+                      obj["comm"].length.toString() ?? "error",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.hintColor,
                         fontSize: 14 + Constants.textChange,
                       ),
                     ),
@@ -267,20 +259,20 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
               ),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  SvgPicture.asset(
-                    "lib/assets/iconsUI/kreditIcon.svg",
-                    semanticsLabel: '+1 Icon',
-                    width: 20,
-                    height: 20,
+                  Icon(
+                    Icons.visibility_outlined,
+                    color: Constants.hintColor,
+                    size: 24,
                   ),
                   Container(
-                    width: 5,
+                    width: spaceBetweenBottomContent,
                   ),
                   Text(
-                    "120",
+                    obj["numViews"].toString() ?? "error",
                     style: TextStyle(
-                      color: Constants.backgroundWhite,
+                      color: Constants.hintColor,
                       fontSize: 14 + Constants.textChange,
                     ),
                   ),
@@ -289,11 +281,11 @@ class _ContentWidgetState extends State<ContentWidget> {
             ],
           ),
         ),
-        Container(
+        /*Container(
           height: .8,
           width: MediaQuery.of(context).size.width * .90,
           color: Constants.purpleColor.withOpacity(.4),
-        ),
+        ),*/
         Container(
           height: 5,
         ),
@@ -335,72 +327,6 @@ class _ContentWidgetState extends State<ContentWidget> {
           height: 10,
         ),
       ],
-    );
-  }
-
-  Widget vidWidget() {
-    return GestureDetector(
-      onTap: () {
-        if (chewieController.videoPlayerController.value.position != chewieController.videoPlayerController.value.duration) {
-          print("VIDEO NOT ENDED PAUSING");
-          if (chewieController.isPlaying) {
-            print("PAUSING");
-
-            isVideoPlaying.value = false;
-            chewieController.pause();
-          } else {
-            print("PLAYING");
-
-            isVideoPlaying.value = true;
-            chewieController.play();
-          }
-        } else {
-          print("VIDEO HAS ENDED RESTARTING");
-
-          chewieController.seekTo(Duration(seconds: 0)).then((value) {
-            isVideoPlaying.value = true;
-          });
-          chewieController.play();
-        }
-      },
-      child: Stack(
-        children: [
-          Container(
-            height: MediaQuery.of(context).size.height / 3,
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: chewieController != null
-                  ? Chewie(
-                      controller: chewieController,
-                    )
-                  : Center(child: CircularProgressIndicator()),
-            ),
-          ),
-          ValueListenableBuilder(
-            valueListenable: isVideoPlaying,
-            builder: (context, value, widget) {
-              return AnimatedOpacity(
-                opacity: value == true ? 0 : 1,
-                duration: Duration(milliseconds: 300),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  child: Center(
-                    child: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Constants.backgroundWhite.withOpacity(.6),
-                      child: Icon(
-                        Icons.play_arrow_rounded,
-                        color: Constants.purpleColor,
-                        size: 60,
-                      ),
-                    ),
-                  ),
-                ),
-              );
-            },
-          ),
-        ],
-      ),
     );
   }
 }

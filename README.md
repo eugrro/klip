@@ -12,3 +12,7 @@ Using AWS S3 for object storage.
 ## Implementing
 
 Project is in progress. Contact owner if interested in working on it. 
+
+## Getting Started
+
+Check out the getting started page on the wiki for setep and installation

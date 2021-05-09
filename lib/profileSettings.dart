@@ -66,7 +66,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       alignment: Alignment.centerLeft,
                       child: GestureDetector(
                         onTap: () {
-                          Navigator.pop(context, SlideDownRoute(page: UserPage(currentUser.uid)));
+                          Navigator.of(context).pop();
                         },
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -341,11 +341,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                   settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fName"),
                   settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lName"),
+                  settingsCard(context, "Xbox Gamertage", currentUser.xTag, "Request to update your password", false, false,
+                      mongoParamName: "pass", customfunction: notYetImplemented),
                   settingsCard(context, "Email", currentUser.email, "Change your email", false, true,
                       mongoParamName: "email", customfunction: notYetImplemented),
-                  settingsCard(context, "Username", currentUser.uName, "Change your first name", false, true, mongoParamName: "uName"),
+                  settingsCard(context, "Username", currentUser.uName, "Change your username", false, true, mongoParamName: "uName"),
                   settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false,
                       mongoParamName: "pass", customfunction: notYetImplemented),
+
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
                     child: Center(
@@ -547,7 +550,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     onTap: () async {
                       clearSharedPreferences();
                       String ret = await signOutUser();
-                      if (ret == "SignOutSucessful") {
+                      if (ret == "SignOutSuccessful") {
                         print(ret);
                         while (Navigator.canPop(context)) {
                           Navigator.of(context).pop();
@@ -558,7 +561,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         );
                       } else {
                         Navigator.of(context).pop();
-                        showError(context, "Sign out was unsucessful please report this bug");
+                        showError(context, "Sign out was unsuccessful please report this bug");
                       }
                     },
                     child: Container(
@@ -853,17 +856,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   }
 
   String getKlipParamNameFromMongoParamName(BuildContext ctx, String mParam) {
-    if (mParam == "fname") {
+    if (mParam == "fName") {
       return "fName";
-    } else if (mParam == "lname") {
+    } else if (mParam == "lName") {
       return "lName";
     } else if (mParam == "bio") {
       return "bio";
-    } else if (mParam == "fname") {
+    } else if (mParam == "fName") {
       return "fName";
     } else if (mParam == "email") {
       return "email";
-    } else if (mParam == "uname") {
+    } else if (mParam == "uName") {
       return "uName";
     } else {
       showError(ctx, "mongoParamName was not set yet please update");
@@ -901,7 +904,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
                                 return newImg;
                               });
-                              ;
                             });
                             Navigator.of(context).pop();
                           }

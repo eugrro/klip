@@ -21,7 +21,7 @@ class TopSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    TextEditingController searchController = new TextEditingController();
+    //TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
         color: Constants.purpleColor.withOpacity(.3),
@@ -30,7 +30,7 @@ class TopSection extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Padding(
         padding: EdgeInsets.only(
-          top: Constants.statusBarHeight + 5,
+          top: Constants.statusBarHeight,
           left: 15,
           right: 15,
           bottom: 10,
