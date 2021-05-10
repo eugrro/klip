@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
+import 'Navigation.dart';
 import 'Requests.dart';
 
 //Add dynamic textfield widget here
@@ -148,7 +149,12 @@ class _AddNewTextState extends State<AddNewText> {
                           currentUser.uid,
                           titleController.text,
                           bodyController.text,
-                        );
+                        ).then((value) {
+                          while (Navigator.of(context).canPop()) {
+                            Navigator.of(context).pop();
+                          }
+                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
+                        });
                       },
                       child: Container(
                         width: 150,

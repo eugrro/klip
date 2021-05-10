@@ -341,8 +341,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                   settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fName"),
                   settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lName"),
-                  settingsCard(context, "Xbox Gamertage", currentUser.xTag, "Request to update your password", false, false,
-                      mongoParamName: "pass", customfunction: notYetImplemented),
+                  settingsCard(context, "Xbox Gamertag", currentUser.xTag, "Request to update your password", false, true,
+                      mongoParamName: "xTag", customfunction: notYetImplemented),
                   settingsCard(context, "Email", currentUser.email, "Change your email", false, true,
                       mongoParamName: "email", customfunction: notYetImplemented),
                   settingsCard(context, "Username", currentUser.uName, "Change your username", false, true, mongoParamName: "uName"),

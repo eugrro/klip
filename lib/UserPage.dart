@@ -167,7 +167,7 @@ class _UserPageState extends State<UserPage> {
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(.05), Constants.purpleColor.withOpacity(.2)],
+                            colors: [Constants.purpleColor.withOpacity(0), Constants.purpleColor.withOpacity(.2)],
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
@@ -211,11 +211,7 @@ class _UserPageState extends State<UserPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(3),
                                         boxShadow: kElevationToShadow[4],
-                                        gradient: LinearGradient(
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                          colors: [Colors.purple, Constants.purpleColor.withOpacity(.4)],
-                                        ),
+                                        color: Constants.purpleColor.withOpacity(.6),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -242,11 +238,7 @@ class _UserPageState extends State<UserPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(3),
                                         boxShadow: kElevationToShadow[4],
-                                        gradient: LinearGradient(
-                                          begin: Alignment.centerLeft,
-                                          end: Alignment.centerRight,
-                                          colors: [Constants.purpleColor.withOpacity(.4), Colors.purple],
-                                        ),
+                                        color: Constants.purpleColor.withOpacity(.6),
                                       ),
                                       child: Center(
                                         child: Text(

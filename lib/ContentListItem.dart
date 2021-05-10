@@ -63,12 +63,32 @@ class _ContentListItemState extends State<ContentListItem> {
                   right: 10,
                 ),
                 child: FittedBox(
-                  child: Image.network(
-                    obj["type"] == "vid" ? obj["thumb"] : obj["link"],
-                    height: 120,
-                    width: 220,
-                    fit: BoxFit.cover,
-                  ),
+                  fit: BoxFit.fitWidth,
+                  child: obj["type"] == "txt"
+                      ? Container(
+                          height: 120,
+                          width: 220,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(obj["title"]),
+                              Container(
+                                height: 10,
+                              ),
+                              Text(obj["body"]),
+                              Container(
+                                height: 10,
+                              )
+                            ],
+                          ),
+                        )
+                      : Image.network(
+                          obj["type"] == "vid" ? obj["thumb"] : obj["link"],
+                          height: 120,
+                          width: 220,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
               Column(

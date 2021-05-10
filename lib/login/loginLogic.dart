@@ -305,7 +305,7 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
     currentUser.xTag = user["xTag"];
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
-    currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+    currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     try {
       for (uid in user["following"]) {
@@ -335,7 +335,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   currentUser.xTag = "";
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
-  currentUser.avatarLink = "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+  currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
   currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
 }
 

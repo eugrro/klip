@@ -304,29 +304,17 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   Widget txtWidget(String title, String body) {
-    return Row(
-      children: [
-        Container(
-          height: 5,
+    return Center(
+      child: Padding(
+        padding: EdgeInsets.only(
+          top: 25,
+          bottom: 25,
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 40, bottom: 10),
-          child: Text(
-            title,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 30 + Constants.textChange),
-          ),
+        child: Text(
+          body,
+          style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
         ),
-        Padding(
-          padding: EdgeInsets.only(top: 0, bottom: 40),
-          child: Text(
-            body,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
-          ),
-        ),
-        Container(
-          height: 10,
-        ),
-      ],
+      ),
     );
   }
 }

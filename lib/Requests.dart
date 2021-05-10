@@ -288,7 +288,7 @@ Future<List<dynamic>> listContentMongo() async {
   }
 }
 
-Future<String> addTextContent(String uid, String title, String body) async {
+Future<dynamic> addTextContent(String uid, String title, String body) async {
   Response response;
 
   String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
@@ -313,7 +313,7 @@ Future<String> addTextContent(String uid, String title, String body) async {
       return "Error";
     }
   } catch (err) {
-    print("Ran Into Error! getListOfContent => " + err.toString());
+    print("Ran Into Error! addTextContent => " + err.toString());
   }
   return "";
 }

@@ -41,7 +41,7 @@ dependencies:
   #video_editor updated 4/15/21
   #gallery_saver: ^2.1.0
   #gallery_saver updated 4/15/21
-  vibration: ^1.7.3
+  vibration: ^1.7.3  
   shared_preferences: ^2.0.5
   #shared_preferences updated 4/15/21
   fluttertoast: ^8.0.6

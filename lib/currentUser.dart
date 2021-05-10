@@ -21,7 +21,7 @@ List<dynamic> currentUserFollowers = [];
 List<dynamic> currentUserSubscribing = [];
 List<dynamic> currentUserSubscribers = [];
 String getAWSLink(uid) {
-  return "https://avatars-klip.s3.amazonaws.com/" + uid + "_avatar.jpg";
+  return "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
 }
 
 bool signedInWithGoogle = false;
@@ -41,9 +41,10 @@ void displayCurrentUser() {
 
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
 Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
-  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "avatars-klip") == "ObjectFound") {
+  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
     //doing this may cause issues if the profile image gets changed needs further testing
     Constants.checkedProfileImage = true;
+    print("Sending request to: " + avatarLink);
     return Image.network(avatarLink);
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
@@ -108,10 +109,15 @@ void pullUserFromSharedPreferences() async {
   bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
   try {
-    currentUserFollowing = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs)).toList();
-    currentUserFollowers = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs)).toList();
-    currentUserSubscribing = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs)).toList();
-    currentUserSubscribers = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs)).toList();
+    dynamic temp;
+    temp = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs));
+    currentUserFollowing = temp.runtimeType == String ? [] : temp.toList();
+    temp = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs));
+    currentUserFollowers = temp.runtimeType == String ? [] : temp.toList();
+    temp = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs));
+    currentUserSubscribing = temp.runtimeType == String ? [] : temp.toList();
+    temp = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs));
+    currentUserSubscribers = temp.runtimeType == String ? [] : temp.toList();
   } catch (err) {
     print("Ran Into Error! pullUserFromSharedPreferences => " + err.toString());
   }

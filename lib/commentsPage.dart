@@ -171,8 +171,8 @@ class _CommentsPageState extends State<CommentsPage> {
                           padding: EdgeInsets.only(
                             top: 5,
                             bottom: 5,
-                            left: 20, //16 * 2 + 20
-                            right: 15,
+                            left: 20,
+                            right: 10,
                           ),
                           child: Row(
                             children: [
@@ -205,20 +205,6 @@ class _CommentsPageState extends State<CommentsPage> {
                               postText(),
                             ],
                           ),
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 10,
-                          top: heightOfCommentBox * .35 - 16,
-                        ),
-                        child: CircleAvatar(
-                          radius: 16,
-                          backgroundImage: NetworkImage(
-                                currentUser.avatarLink,
-                                //Profile Pic
-                              ) ??
-                              Container(),
                         ),
                       ),
                     ],
