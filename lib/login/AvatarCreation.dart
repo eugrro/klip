@@ -226,7 +226,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           });
                           ;
                         });
-                        Navigator.push(
+                        Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(builder: (context) => Navigation()),
                         );
