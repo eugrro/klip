@@ -99,7 +99,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           setState(() {
                             addingNewContent = !addingNewContent;
                             showNavigationIcons = !showNavigationIcons;
-                            currentlySelectedPage = 2;
+                            //currentlySelectedPage = 2;
                           });
                         },
                         child: Icon(
@@ -191,7 +191,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Audio",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -221,7 +221,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Image",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -257,7 +257,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Klip",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -287,7 +287,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Text",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -315,7 +315,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Poll",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -344,8 +344,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                       color: Colors.transparent,
                       child: Center(
                         child: Container(
-                          height: 45,
-                          width: MediaQuery.of(context).size.width / 10 * 2,
+                          height: 35,
+                          width: MediaQuery.of(context).size.width / 4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20),

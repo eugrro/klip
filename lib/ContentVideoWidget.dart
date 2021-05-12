@@ -98,6 +98,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
               future: setUpVideoController(obj["link"]),
               builder: (BuildContext context, AsyncSnapshot<ChewieController> snapshot) {
                 if (snapshot.hasData) {
+                  snapshot.data.pause();
                   return Container(
                     height: MediaQuery.of(context).size.height / 3,
                     child: AspectRatio(

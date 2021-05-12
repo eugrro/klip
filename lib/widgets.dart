@@ -6,7 +6,6 @@ import './Constants.dart' as Constants;
 ChewieController klipChewieController(VideoPlayerController vp) {
   return ChewieController(
     videoPlayerController: vp,
-    autoPlay: true,
     looping: false,
     autoInitialize: true,
     allowMuting: false,
@@ -22,6 +21,31 @@ ChewieController klipChewieController(VideoPlayerController vp) {
       handleColor: Constants.purpleColor,
       backgroundColor: Colors.grey[100],
       bufferedColor: Colors.grey,
+    ),
+  );
+}
+
+Widget klipLogo(double height, double width) {
+  return ShaderMask(
+    shaderCallback: (rect) {
+      return LinearGradient(
+        begin: Alignment.topLeft,
+        end: Alignment.bottomRight,
+        stops: [.3, .8],
+        colors: [
+          Constants.backgroundWhite,
+          Constants.purpleColor,
+        ],
+      ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+    },
+    blendMode: BlendMode.srcIn,
+    child: Center(
+      child: Image.asset(
+        "lib/assets/images/KlipLogo.png",
+        width: width,
+        height: height,
+        fit: BoxFit.contain,
+      ),
     ),
   );
 }

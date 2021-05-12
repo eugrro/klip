@@ -83,12 +83,26 @@ class _StartPageState extends State<StartPage> {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Center(
-                  child: SvgPicture.asset(
-                    "lib/assets/iconsUI/Klip_Logo.svg",
-                    semanticsLabel: 'commentIcon',
-                    width: MediaQuery.of(context).size.width * .75,
-                    height: 150,
+                ShaderMask(
+                  shaderCallback: (rect) {
+                    return LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      stops: [.3, .8],
+                      colors: [
+                        Constants.backgroundWhite,
+                        Constants.purpleColor,
+                      ],
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                  },
+                  blendMode: BlendMode.srcIn,
+                  child: Center(
+                    child: Image.asset(
+                      "lib/assets/images/KlipLogo.png",
+                      width: MediaQuery.of(context).size.width * .75,
+                      height: 200,
+                      fit: BoxFit.contain,
+                    ),
                   ),
                 ),
                 Container(

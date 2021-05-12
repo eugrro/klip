@@ -188,6 +188,7 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
+        'pid': fileName,
         "title": title,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,

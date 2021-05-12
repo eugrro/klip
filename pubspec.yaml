@@ -60,7 +60,9 @@ dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "lib/assets/images/Icon5.png"
+  remove_alpha_ios: true
+  adaptive_icon_foreground: #191919
+  image_path: "lib/assets/images/klipIconJpg.jpg"
 #flutter pub run flutter_launcher_icons:main  
       
 

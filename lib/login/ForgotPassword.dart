@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'loginLogic.dart';
 
@@ -70,12 +71,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
-                    child: SvgPicture.asset(
-                      "lib/assets/iconsUI/Klip_Logo.svg",
-                      semanticsLabel: 'commentIcon',
-                      width: MediaQuery.of(context).size.width * .5,
-                      height: 115,
-                    ),
+                    child: klipLogo(115, MediaQuery.of(context).size.width * .5),
                   ),
                   Container(
                     height: 20,
