@@ -81,12 +81,7 @@ class _SignInState extends State<SignIn> {
                         height: 25,
                       ),
                       Center(
-                        child: SvgPicture.asset(
-                          "lib/assets/iconsUI/Klip_Logo.svg",
-                          semanticsLabel: 'commentIcon',
-                          width: MediaQuery.of(context).size.width * .5,
-                          height: 115,
-                        ),
+                        child: klipLogo(140, MediaQuery.of(context).size.width * .6),
                       ),
                       Container(
                         height: 40,

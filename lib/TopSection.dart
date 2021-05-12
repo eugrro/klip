@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 
 class Post {
@@ -38,12 +39,7 @@ class TopSection extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            SvgPicture.asset(
-              "lib/assets/iconsUI/Klip_Logo.svg",
-              semanticsLabel: 'Klip Logo',
-              width: 40,
-              height: 35,
-            ),
+            klipLogo(200, MediaQuery.of(context).size.width * .75),
             Icon(
               Icons.search,
               color: Constants.backgroundWhite,

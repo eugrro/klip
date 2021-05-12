@@ -3,6 +3,7 @@ import 'package:klip/HomeSideScrolling.dart';
 import 'package:klip/Requests.dart';
 import './Constants.dart' as Constants;
 import 'package:async/async.dart';
+import 'package:preload_page_view/preload_page_view.dart';
 
 // ignore: must_be_immutable
 class HomeTab extends StatefulWidget {
@@ -63,7 +64,8 @@ class _HomeTabState extends State<HomeTab> {
     try {
       return Container(
         width: MediaQuery.of(context).size.width,
-        child: PageView.builder(
+        child: PreloadPageView.builder(
+          preloadPagesCount: 3,
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             if (position < jsonInput.length) {

@@ -11,6 +11,7 @@ import 'AddNewKlip.dart';
 import 'UserPage.dart';
 
 int homePagePosition;
+
 PageController homePageController;
 
 class Navigation extends StatefulWidget {
@@ -25,11 +26,13 @@ class Navigation extends StatefulWidget {
 class _NavigationState extends State<Navigation> with SingleTickerProviderStateMixin {
   bool addingNewContent = false;
   bool showNavigationIcons = true;
+  int currentlySelectedPage;
   @override
   void initState() {
     super.initState();
     homePagePosition = 0;
     homePageController = PageController(initialPage: homePagePosition);
+    currentlySelectedPage = 0;
   }
 
   @override
@@ -67,22 +70,26 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         onTap: () {
                           setState(() {
                             homePagePosition = 0;
+                            currentlySelectedPage = 0;
                           });
-                          homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                          homePageController.jumpToPage(homePagePosition);
                         },
                         child: Icon(
                           Icons.home_outlined,
-                          color: Constants.backgroundWhite.withOpacity(.6),
+                          color: currentlySelectedPage == 0 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
                         ),
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           showSnackbar(context, "In development");
+                          setState(() {
+                            //currentlySelectedPage = 1;
+                          });
                         },
                         child: Icon(
                           Icons.announcement_outlined,
-                          color: Constants.backgroundWhite.withOpacity(.6),
+                          color: currentlySelectedPage == 1 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
                         ),
                       ),
                       GestureDetector(
@@ -92,21 +99,25 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           setState(() {
                             addingNewContent = !addingNewContent;
                             showNavigationIcons = !showNavigationIcons;
+                            //currentlySelectedPage = 2;
                           });
                         },
                         child: Icon(
                           Icons.add_box_outlined,
-                          color: Constants.backgroundWhite.withOpacity(.6),
+                          color: currentlySelectedPage == 2 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
                         ),
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
                           showSnackbar(context, "In development");
+                          setState(() {
+                            //currentlySelectedPage = 3;
+                          });
                         },
                         child: Icon(
                           Icons.shopping_cart_outlined,
-                          color: Constants.backgroundWhite.withOpacity(.6),
+                          color: currentlySelectedPage == 3 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
                         ),
                       ),
                       GestureDetector(
@@ -114,12 +125,13 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         onTap: () {
                           setState(() {
                             homePagePosition = 1;
+                            currentlySelectedPage = 4;
                           });
-                          homePageController.animateToPage(homePagePosition, duration: Duration(milliseconds: 500), curve: Curves.ease);
+                          homePageController.jumpToPage(homePagePosition);
                         },
                         child: Icon(
                           Icons.person_outline_outlined,
-                          color: Constants.backgroundWhite.withOpacity(.6),
+                          color: currentlySelectedPage == 4 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
                         ),
                       ),
                     ],
@@ -179,7 +191,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Audio",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -209,7 +221,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Image",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -245,7 +257,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Klip",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -275,7 +287,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Text",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -303,7 +315,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Poll",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.backgroundWhite.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -332,8 +344,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                       color: Colors.transparent,
                       child: Center(
                         child: Container(
-                          height: 45,
-                          width: MediaQuery.of(context).size.width / 10 * 2,
+                          height: 35,
+                          width: MediaQuery.of(context).size.width / 4,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20),
