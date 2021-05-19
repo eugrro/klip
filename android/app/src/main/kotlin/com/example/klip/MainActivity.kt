@@ -1,4 +1,4 @@
-package com.example.klip
+package com.klipApp
 
 import io.flutter.embedding.android.FlutterActivity
 

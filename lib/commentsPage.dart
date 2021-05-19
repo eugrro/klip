@@ -249,7 +249,7 @@ class _CommentsPageState extends State<CommentsPage> {
     if (differenceTime > oneWeek) {
       int numWeeks = (differenceTime / oneWeek).round();
       if (numWeeks == 0) return "ERROR week";
-      return numWeeks.toString() + "y";
+      return numWeeks.toString() + "w";
     }
     //Day
     int oneDay = 60 * 60 * 24;

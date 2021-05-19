@@ -39,7 +39,7 @@ class TopSection extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            klipLogo(200, MediaQuery.of(context).size.width * .75),
+            klipLogo(45, 55),
             Icon(
               Icons.search,
               color: Constants.backgroundWhite,

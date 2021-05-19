@@ -285,6 +285,9 @@ Future<List<dynamic>> listContentMongo() async {
     }
   } catch (err) {
     print("Ran Into Error! listContentMongo => " + err.toString());
+    if (response != null) {
+      print(response.data);
+    }
     return null;
   }
 }
