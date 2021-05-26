@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:klip/AddNewPoll.dart';
 import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/widgets.dart';
@@ -298,7 +299,9 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                     //4444444444444444444444444444444444444444444444444444444444
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, SlideInRoute(page: AddNewPoll(), direction: 0));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
                         height: contentTypeHeight,
