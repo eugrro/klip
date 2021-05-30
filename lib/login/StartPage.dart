@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'dart:ui';
 
 import 'package:async/async.dart';
@@ -6,7 +7,7 @@ import 'package:klip/Navigation.dart';
 import 'package:klip/login/loginLogic.dart';
 import '../Constants.dart' as Constants;
 import 'package:flutter_svg/flutter_svg.dart';
-
+import 'package:klip/currentUser.dart' as currentUser;
 import '../currentUser.dart';
 import 'SignIn.dart';
 import 'SignUp.dart';
@@ -35,6 +36,7 @@ class _StartPageState extends State<StartPage> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data == "UserSignedIn") {
             //setUpCurrentUser(uid);
+
             pullUserFromSharedPreferences();
             return Navigation();
           } else {

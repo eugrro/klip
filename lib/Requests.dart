@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -377,6 +378,46 @@ Future<dynamic> voteOnPoll(String uid, String pid, int valVoted) async {
   return "";
 }
 
+Future<dynamic> getNotifications(String uid) async {
+  Response response;
+  try {
+    Map<String, dynamic> params = {"uid": uid};
+    String uri = Constants.nodeURL + "getNotifications";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! getNotifications => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> addNotification(String uid, String newText, bool sentVal) async {
+  Response response;
+  try {
+    Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
+    String uri = Constants.nodeURL + "addNotification";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! getNotifications => " + err.toString());
+  }
+  return "";
+}
+
 Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
   Response response;
   try {
@@ -417,7 +458,8 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.data.runtimeType == List) return response.data;
-      print("Returned unknown value: " + response.data.toString());
+      if (response.data.runtimeType == String && response.data.length > 10) return jsonDecode(response.data);
+      print("Returned unknown value: " + response.data.toString() + "\n" + response.data.runtimeType.toString());
     } else {
       print("Returned error " + response.statusCode.toString());
       return [];
