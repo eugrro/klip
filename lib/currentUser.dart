@@ -91,7 +91,7 @@ Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
   }
 }
 
-void pullUserFromSharedPreferences() async {
+Future<void> pullUserFromSharedPreferences() async {
   print("Pulling user from shared preferences");
   final prefs = await SharedPreferences.getInstance();
   numViews = await pullFieldFromSharedPreferences("numViews", prefs);

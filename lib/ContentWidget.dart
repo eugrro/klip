@@ -29,6 +29,8 @@ class _ContentWidgetState extends State<ContentWidget> {
   double spaceBetweenBottomContent = 3;
   bool likedPost = false;
 
+  int largestVote;
+
   @override
   void initState() {
     super.initState();
@@ -55,6 +57,10 @@ class _ContentWidgetState extends State<ContentWidget> {
     } else if (type == "vid") {
       setState(() {
         content = ContentVideoWidget(obj);
+      });
+    } else if (type == "poll") {
+      setState(() {
+        content = pollWidget(obj["options"], obj["optionsCount"], obj["pid"]);
       });
     } else {
       print("ERROR Invalid content type");
@@ -281,11 +287,6 @@ class _ContentWidgetState extends State<ContentWidget> {
             ],
           ),
         ),
-        /*Container(
-          height: .8,
-          width: MediaQuery.of(context).size.width * .90,
-          color: Constants.purpleColor.withOpacity(.4),
-        ),*/
         Container(
           height: 5,
         ),
@@ -316,5 +317,183 @@ class _ContentWidgetState extends State<ContentWidget> {
         ),
       ),
     );
+  }
+
+  ValueNotifier<int> pollValueSelected = ValueNotifier(-1);
+  ValueNotifier<bool> isShowingResultForPoll = ValueNotifier(false);
+  Widget pollWidget(dynamic options, dynamic optionsCount, String pid) {
+    double heightOfPollItem = 50;
+    return Column(
+      children: [
+        ListView.builder(
+          physics: NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          padding: EdgeInsets.only(top: 20),
+          itemCount: options.length,
+          itemBuilder: (context, index) {
+            return ValueListenableBuilder(
+              valueListenable: isShowingResultForPoll,
+              builder: (BuildContext context, bool showResults, Widget child) {
+                if (!showResults) {
+                  //USER IS STILL SELECTING A RESULT
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 16,
+                      right: MediaQuery.of(context).size.width / 16,
+                    ),
+                    child: InkWell(
+                      onTap: () {
+                        pollValueSelected.value = index;
+                      },
+                      child: Container(
+                        height: heightOfPollItem,
+                        child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            ValueListenableBuilder(
+                                valueListenable: pollValueSelected,
+                                builder: (BuildContext context, int pollVal, Widget child) {
+                                  return Icon(
+                                    pollVal == index ? Icons.radio_button_on : Icons.radio_button_off,
+                                    size: 15,
+                                    color: Constants.purpleColor,
+                                  );
+                                }),
+                            Container(
+                              width: 20,
+                            ),
+                            Align(
+                              alignment: Alignment.centerRight,
+                              child: Text(
+                                options[index],
+                                style: TextStyle(
+                                  color: Constants.backgroundWhite,
+                                  fontSize: 16 + Constants.textChange,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  );
+                } else {
+                  //SHOWING RESULTS
+                  int currentVote = obj["optionsCount"][index];
+                  double ratio = currentVote / largestVote;
+                  return Padding(
+                    padding: EdgeInsets.only(
+                      left: MediaQuery.of(context).size.width / 16,
+                      right: MediaQuery.of(context).size.width / 16,
+                    ),
+                    child: Container(
+                      height: heightOfPollItem,
+                      child: Stack(
+                        children: [
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Container(
+                              height: heightOfPollItem,
+                              width: MediaQuery.of(context).size.width / 8 * 7 * ratio + 30,
+                              color: Colors.grey.withOpacity(.5),
+                              //im not sure whether to go index/largest or index/total. I chose the former
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerRight,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                right: 15,
+                              ),
+                              child: Text(
+                                currentVote.toString(),
+                                style: TextStyle(
+                                  color: Constants.backgroundWhite,
+                                ),
+                              ),
+                            ),
+                          ),
+                          Align(
+                            alignment: Alignment.centerLeft,
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                left: 15,
+                              ),
+                              child: Text(
+                                options[index],
+                                style: TextStyle(
+                                  color: Constants.backgroundWhite,
+                                  fontSize: 16 + Constants.textChange,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                }
+              },
+            );
+          },
+        ),
+        ValueListenableBuilder(
+          valueListenable: isShowingResultForPoll,
+          builder: (BuildContext context, bool showResults, Widget child) {
+            if (!showResults) {
+              return Padding(
+                padding: EdgeInsets.only(
+                  top: 20,
+                  bottom: 10,
+                ),
+                child: InkWell(
+                  onTap: () {
+                    if (pollValueSelected.value != -1) {
+                      voteOnPoll(currentUser.uid, pid, pollValueSelected.value);
+                      obj["optionsCount"][pollValueSelected.value]++;
+                      largestVote = getLargestVoteCount(obj["optionsCount"]);
+                      isShowingResultForPoll.value = !isShowingResultForPoll.value;
+                    }
+                  },
+                  child: Container(
+                    width: 200,
+                    height: heightOfPollItem,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.all(Radius.circular(7)),
+                      color: Constants.purpleColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Vote",
+                        style: TextStyle(
+                          color: Constants.backgroundWhite,
+                          fontSize: 18 + Constants.textChange,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              );
+            } else {
+              return Container(
+                height: 20,
+              );
+            }
+          },
+        ),
+      ],
+    );
+  }
+
+  int getLargestVoteCount(List<dynamic> obj) {
+    print("PRINTING OBJ IN FUNCT: " + obj.toString());
+    if (obj == null) return 1;
+    int largest = 0;
+    for (int i = 0; i < obj.length; i++) {
+      if (obj[i] > largest) {
+        largest = obj[i];
+      }
+    }
+    return largest;
   }
 }
