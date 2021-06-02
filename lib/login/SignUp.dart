@@ -25,8 +25,8 @@ class _SignUpState extends State<SignUp> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
-  IconData pvToggle = PVIcons.eye; //Password Visibility Toggle
-  bool canSeePassword = false;
+  IconData pvToggle = PVIcons.eye_slash; //Password Visibility Toggle
+  bool canSeePassword = true;
   @override
   void initState() {
     passwordController = TextEditingController();
