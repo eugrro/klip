@@ -17,9 +17,18 @@ final GoogleSignIn googleSignIn = GoogleSignIn();
 Dio dio = new Dio();
 
 // ignore: non_constant_identifier_names
-Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
-    TextEditingController contrl, Widget prefixIcon,
-    {isObscured = false, isAutoFocus = false, FocusNode focusNode}) {
+Widget LoginTextField(
+    BuildContext context,
+    double heightOfContainer,
+    double borderThickness,
+    double imgThickness,
+    String hintText,
+    TextEditingController contrl,
+    Widget prefixIcon,
+    {isObscured = false,
+    isAutoFocus = false,
+    FocusNode focusNode,
+    Widget suffixIconButton = null}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {},
@@ -86,6 +95,17 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
               child: Center(child: prefixIcon),
             ),
           ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * .8 - 60,
+              top: heightOfContainer * .5 - imgThickness / 2 - borderThickness,
+            ),
+            child: Container(
+              width: imgThickness,
+              height: imgThickness,
+              child: Center(child: suffixIconButton),
+            ),
+          ),
         ],
       ),
     ),
@@ -116,14 +136,16 @@ Future<dynamic> signInWithGoogle() async {
     await Firebase.initializeApp();
 
     final GoogleSignInAccount googleSignInAccount = await googleSignIn.signIn();
-    final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount.authentication;
+    final GoogleSignInAuthentication googleSignInAuthentication =
+        await googleSignInAccount.authentication;
 
     final AuthCredential credential = GoogleAuthProvider.credential(
       accessToken: googleSignInAuthentication.accessToken,
       idToken: googleSignInAuthentication.idToken,
     );
 
-    final UserCredential authResult = await _auth.signInWithCredential(credential);
+    final UserCredential authResult =
+        await _auth.signInWithCredential(credential);
     final User user = authResult.user;
 
     if (user != null) {
@@ -163,7 +185,9 @@ Future<String> signOutUser() async {
 
 Future<String> signUp(String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential = await FirebaseAuth.instance.createUserWithEmailAndPassword(email: user, password: pass).catchError((e) {
+  UserCredential userCredential = await FirebaseAuth.instance
+      .createUserWithEmailAndPassword(email: user, password: pass)
+      .catchError((e) {
     if (e.code == 'weak-password') {
       print('The password provided is too weak.');
     } else if (e.code == 'email-already-in-use') {
@@ -179,7 +203,9 @@ Future<String> signUp(String user, String pass) async {
 // ignore: missing_return
 Future<String> signIn(BuildContext ctx, String user, String pass) async {
   await Firebase.initializeApp();
-  UserCredential userCredential = await FirebaseAuth.instance.signInWithEmailAndPassword(email: user, password: pass).catchError((err, stackTrace) {
+  UserCredential userCredential = await FirebaseAuth.instance
+      .signInWithEmailAndPassword(email: user, password: pass)
+      .catchError((err, stackTrace) {
     if (err.code == 'user-not-found') {
       showError(ctx, 'No user found for that email.');
     } else if (err.code == 'wrong-password') {
@@ -228,7 +254,9 @@ Future<bool> doesUserExist(String email) async {
   return null;
 }
 
-Future<String> postUser(String uid, String fName, String lName, String uName, String email, {int numViews = 0, int numKredits = 0}) async {
+Future<String> postUser(
+    String uid, String fName, String lName, String uName, String email,
+    {int numViews = 0, int numKredits = 0}) async {
   Response response;
   try {
     Map<String, dynamic> params = {
@@ -278,7 +306,8 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     if (response.statusCode == 200) {
       print("Returned 200");
       print(response.data);
-      if (response.data is String && response.data != "") return jsonDecode(response.data);
+      if (response.data is String && response.data != "")
+        return jsonDecode(response.data);
       return response.data;
     } else {
       print("Returned error " + response.statusCode.toString());
@@ -305,8 +334,10 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
     currentUser.xTag = user["xTag"];
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
-    currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    currentUser.avatarLink =
+        "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
+    currentUser.userProfileImg =
+        getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
     try {
       for (uid in user["following"]) {
         currentUser.currentUserFollowing.add(uid);
@@ -323,7 +354,15 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
   }
 }
 
-void setUpCurrentUserFromNewData(String uid, String bio, String uName, String email, String fName, String lName, String numViews, String numKredits) {
+void setUpCurrentUserFromNewData(
+    String uid,
+    String bio,
+    String uName,
+    String email,
+    String fName,
+    String lName,
+    String numViews,
+    String numKredits) {
   print("Setting up user from new data");
   currentUser.uid = uid;
   currentUser.bio = bio;
@@ -335,11 +374,14 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   currentUser.xTag = "";
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
-  currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+  currentUser.avatarLink =
+      "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
+  currentUser.userProfileImg =
+      getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
 }
 
-bool validinput(BuildContext ctx, String uName, String pass, String passConfirm) {
+bool validinput(
+    BuildContext ctx, String uName, String pass, String passConfirm) {
   bool valid = true;
   if (!uName.contains('@')) {
     valid = false;

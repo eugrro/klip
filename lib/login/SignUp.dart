@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
+import 'package:klip/assets/fonts/p_v_icons_icons.dart';
 import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/UsernameCreation.dart';
 import 'package:klip/widgets.dart';
@@ -24,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
+  IconData pvToggle = PVIcons.eye; //Password Visibility Toggle
+  bool canSeePassword = false;
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -62,7 +65,8 @@ class _SignUpState extends State<SignUp> {
                         Constants.purpleColor.withOpacity(.1),
                         Colors.transparent
                       ],
-                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(
+                        Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Image.asset(
@@ -83,7 +87,8 @@ class _SignUpState extends State<SignUp> {
                         height: 25,
                       ),
                       Center(
-                        child: klipLogo(140, MediaQuery.of(context).size.width * .6),
+                        child: klipLogo(
+                            140, MediaQuery.of(context).size.width * .6),
                       ),
                       Container(
                         height: 40,
@@ -106,18 +111,38 @@ class _SignUpState extends State<SignUp> {
                             height: 20,
                           ),
                           LoginTextField(
-                            context,
-                            heightOfContainer,
-                            borderThickness,
-                            imgThickness,
-                            "Password",
-                            passwordController,
-                            Icon(
-                              Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
-                            ),
-                            isObscured: true,
-                          ),
+                              context,
+                              heightOfContainer,
+                              borderThickness,
+                              imgThickness,
+                              "Password",
+                              passwordController,
+                              Icon(
+                                Icons.lock_outline_rounded,
+                                color:
+                                    Constants.backgroundWhite.withOpacity(.9),
+                              ),
+                              isObscured: canSeePassword,
+                              suffixIconButton: TextButton.icon(
+                                  style: ButtonStyle(
+                                    foregroundColor:
+                                        MaterialStateProperty.all<Color>(
+                                            Constants.backgroundWhite
+                                                .withOpacity(0.9)),
+                                  ),
+                                  onPressed: () {
+                                    setState(() {
+                                      this.canSeePassword = !canSeePassword;
+                                      this.pvToggle = (pvToggle == PVIcons.eye)
+                                          ? PVIcons.eye_slash
+                                          : PVIcons.eye;
+                                    });
+                                  },
+                                  icon: Icon(
+                                    pvToggle,
+                                    size: 18.0,
+                                  ),
+                                  label: Text(""))),
                           Container(
                             height: 20,
                           ),
@@ -132,7 +157,27 @@ class _SignUpState extends State<SignUp> {
                               Icons.lock_outline_rounded,
                               color: Constants.backgroundWhite.withOpacity(.9),
                             ),
-                            isObscured: true,
+                            isObscured: canSeePassword,
+                            suffixIconButton: TextButton.icon(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(Constants
+                                          .backgroundWhite
+                                          .withOpacity(0.9)),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    this.canSeePassword = !canSeePassword;
+                                    this.pvToggle = (pvToggle == PVIcons.eye)
+                                        ? PVIcons.eye_slash
+                                        : PVIcons.eye;
+                                  });
+                                },
+                                icon: Icon(
+                                  pvToggle,
+                                  size: 18.0,
+                                ),
+                                label: Text("")),
                           ),
                           Container(
                             height: 35,
@@ -140,14 +185,25 @@ class _SignUpState extends State<SignUp> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
-                              if (validinput(context, userNameController.text, passwordController.text, passwordConfirmController.text)) {
-                                if (await doesUserExist(userNameController.text)) {
-                                  showSnackbar(context,
-                                      userNameController.text + " is already a registered accout. Try signing in or resetting your password?");
+                              if (validinput(
+                                  context,
+                                  userNameController.text,
+                                  passwordController.text,
+                                  passwordConfirmController.text)) {
+                                if (await doesUserExist(
+                                    userNameController.text)) {
+                                  showSnackbar(
+                                      context,
+                                      userNameController.text +
+                                          " is already a registered accout. Try signing in or resetting your password?");
                                 } else {
-                                  String uid = await signUp(userNameController.text, passwordController.text);
-                                  postUser(uid, "", "", userNameController.text, userNameController.text);
-                                  setUpCurrentUserFromNewData(uid, "Sample bio", email, email, "", "", "0", "0");
+                                  String uid = await signUp(
+                                      userNameController.text,
+                                      passwordController.text);
+                                  postUser(uid, "", "", userNameController.text,
+                                      userNameController.text);
+                                  setUpCurrentUserFromNewData(uid, "Sample bio",
+                                      email, email, "", "", "0", "0");
                                   storeUserToSharedPreferences();
 
                                   while (Navigator.canPop(context)) {
@@ -155,7 +211,9 @@ class _SignUpState extends State<SignUp> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => UsernameCreation()),
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            UsernameCreation()),
                                   );
                                 }
                               }
@@ -164,11 +222,15 @@ class _SignUpState extends State<SignUp> {
                               width: MediaQuery.of(context).size.width * .8,
                               height: heightOfContainer - 10,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(100)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Constants.purpleColor, Color(0xffab57a8)],
+                                  colors: [
+                                    Constants.purpleColor,
+                                    Color(0xffab57a8)
+                                  ],
                                 ),
                               ),
                               child: Center(
@@ -196,7 +258,8 @@ class _SignUpState extends State<SignUp> {
                             color: Constants.purpleColor,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               "or",
                               style: TextStyle(
@@ -232,8 +295,11 @@ class _SignUpState extends State<SignUp> {
                                 if (userData != "") {
                                   if (await doesUserExist(userData[1])) {
                                     //User exists in the database signing in with given uid
-                                    print("User " + userData[1] + " exists already signing in");
-                                    setUpCurrentUserFromMongo(userData[0]).then((val) {
+                                    print("User " +
+                                        userData[1] +
+                                        " exists already signing in");
+                                    setUpCurrentUserFromMongo(userData[0])
+                                        .then((val) {
                                       storeUserToSharedPreferences();
                                     });
                                     while (Navigator.canPop(context)) {
@@ -241,26 +307,40 @@ class _SignUpState extends State<SignUp> {
                                     }
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => Navigation()),
+                                      MaterialPageRoute(
+                                          builder: (context) => Navigation()),
                                     );
                                   } else {
                                     //User doesnt exist in database adding to database with given uid and email
-                                    print("New user " + userData[1] + " signing in with google, creating in database");
+                                    print("New user " +
+                                        userData[1] +
+                                        " signing in with google, creating in database");
                                     String fName = "";
                                     String lName = "";
                                     print("NAME: " + userData[2]);
                                     try {
                                       fName = userData[2].split(" ")[0];
                                     } catch (e) {
-                                      print("error on splitting: " + e.toString());
+                                      print("error on splitting: " +
+                                          e.toString());
                                     }
                                     try {
                                       lName = userData[2].split(" ")[1];
                                     } catch (e) {
-                                      print("error on splitting: " + e.toString());
+                                      print("error on splitting: " +
+                                          e.toString());
                                     }
-                                    postUser(userData[0], fName, lName, userData[1], userData[1]);
-                                    setUpCurrentUserFromNewData(uid, "Sample bio", email, email, fName, lName, "0", "0");
+                                    postUser(userData[0], fName, lName,
+                                        userData[1], userData[1]);
+                                    setUpCurrentUserFromNewData(
+                                        uid,
+                                        "Sample bio",
+                                        email,
+                                        email,
+                                        fName,
+                                        lName,
+                                        "0",
+                                        "0");
                                     storeUserToSharedPreferences();
 
                                     while (Navigator.canPop(context)) {
@@ -268,11 +348,14 @@ class _SignUpState extends State<SignUp> {
                                     }
                                     Navigator.pushReplacement(
                                       context,
-                                      MaterialPageRoute(builder: (context) => UsernameCreation()),
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              UsernameCreation()),
                                     );
                                   }
                                 } else {
-                                  showError(context, "Unable to sign in with Google");
+                                  showError(
+                                      context, "Unable to sign in with Google");
                                 }
                               },
                               child: Image.asset(

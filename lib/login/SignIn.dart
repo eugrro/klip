@@ -7,6 +7,7 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
+import 'package:klip/assets/fonts/p_v_icons_icons.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _SignInState extends State<SignIn> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
+  IconData pvToggle = PVIcons.eye; //Password Visibility Toggle
+  bool canSeePassword = false;
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -60,7 +63,8 @@ class _SignInState extends State<SignIn> {
                         Constants.purpleColor.withOpacity(.1),
                         Colors.transparent
                       ],
-                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(
+                        Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Image.asset(
@@ -81,7 +85,8 @@ class _SignInState extends State<SignIn> {
                         height: 25,
                       ),
                       Center(
-                        child: klipLogo(140, MediaQuery.of(context).size.width * .6),
+                        child: klipLogo(
+                            140, MediaQuery.of(context).size.width * .6),
                       ),
                       Container(
                         height: 40,
@@ -104,27 +109,51 @@ class _SignInState extends State<SignIn> {
                             height: 20,
                           ),
                           LoginTextField(
-                            context,
-                            heightOfContainer,
-                            borderThickness,
-                            imgThickness,
-                            "Password",
-                            passwordController,
-                            Icon(
-                              Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
-                            ),
-                            isObscured: true,
-                          ),
+                              context,
+                              heightOfContainer,
+                              borderThickness,
+                              imgThickness,
+                              "Password",
+                              passwordController,
+                              Icon(
+                                Icons.lock_outline_rounded,
+                                color:
+                                    Constants.backgroundWhite.withOpacity(.9),
+                              ),
+                              isObscured: true,
+                              suffixIconButton: TextButton.icon(
+                                style: ButtonStyle(
+                                  foregroundColor:
+                                      MaterialStateProperty.all<Color>(Constants
+                                          .backgroundWhite
+                                          .withOpacity(0.9)),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    this.canSeePassword = !canSeePassword;
+                                    this.pvToggle = (pvToggle == PVIcons.eye)
+                                        ? PVIcons.eye_slash
+                                        : PVIcons.eye;
+                                  });
+                                },
+                                icon: Icon(
+                                  pvToggle,
+                                  size: 18.0,
+                                ),
+                                label: Text(""),
+                              )),
                           Padding(
-                            padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * .15, top: 10),
+                            padding: EdgeInsets.only(
+                                right: MediaQuery.of(context).size.width * .15,
+                                top: 10),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => ForgotPassword()),
+                                    MaterialPageRoute(
+                                        builder: (context) => ForgotPassword()),
                                   );
                                 },
                                 child: Text(
@@ -143,15 +172,26 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
-                              FocusScopeNode currentFocus = FocusScope.of(context);
+                              FocusScopeNode currentFocus =
+                                  FocusScope.of(context);
 
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
-                              if (validinput(context, userNameController.text, passwordController.text, passwordController.text)) {
-                                String ret = await signIn(context, userNameController.text, passwordController.text);
-                                print("Signing in user with uid: " + ret.toString());
-                                if (ret != "" || ret != "ERROR" || ret != null) {
+                              if (validinput(
+                                  context,
+                                  userNameController.text,
+                                  passwordController.text,
+                                  passwordController.text)) {
+                                String ret = await signIn(
+                                    context,
+                                    userNameController.text,
+                                    passwordController.text);
+                                print("Signing in user with uid: " +
+                                    ret.toString());
+                                if (ret != "" ||
+                                    ret != "ERROR" ||
+                                    ret != null) {
                                   //correct username and password and uid provided
 
                                   setUpCurrentUserFromMongo(ret).then((val) {
@@ -163,7 +203,8 @@ class _SignInState extends State<SignIn> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Navigation()),
+                                    MaterialPageRoute(
+                                        builder: (context) => Navigation()),
                                   );
                                 }
                               }
@@ -172,11 +213,15 @@ class _SignInState extends State<SignIn> {
                               width: MediaQuery.of(context).size.width * .8,
                               height: heightOfContainer - 10,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.all(Radius.circular(100)),
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(100)),
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Constants.purpleColor, Color(0xffab57a8)],
+                                  colors: [
+                                    Constants.purpleColor,
+                                    Color(0xffab57a8)
+                                  ],
                                 ),
                               ),
                               child: Center(
@@ -204,7 +249,8 @@ class _SignInState extends State<SignIn> {
                             color: Constants.purpleColor,
                           ),
                           Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding:
+                                const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               "or",
                               style: TextStyle(
@@ -236,9 +282,12 @@ class _SignInState extends State<SignIn> {
                               onTap: () async {
                                 var userData = await signInWithGoogle();
                                 if (userData != "") {
-                                  print("Signing in " + userData[1] + " with google");
+                                  print("Signing in " +
+                                      userData[1] +
+                                      " with google");
 
-                                  setUpCurrentUserFromMongo(userData[0]).then((val) {
+                                  setUpCurrentUserFromMongo(userData[0])
+                                      .then((val) {
                                     storeUserToSharedPreferences();
                                   });
                                   while (Navigator.canPop(context)) {
@@ -246,10 +295,12 @@ class _SignInState extends State<SignIn> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(builder: (context) => Navigation()),
+                                    MaterialPageRoute(
+                                        builder: (context) => Navigation()),
                                   );
                                 } else {
-                                  showError(context, "Unable to sign in with Google");
+                                  showError(
+                                      context, "Unable to sign in with Google");
                                 }
                               },
                               child: Image.asset(
