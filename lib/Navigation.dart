@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:klip/AddNewPoll.dart';
 import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/widgets.dart';
@@ -8,11 +9,13 @@ import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'AddNewImage.dart';
 import 'AddNewKlip.dart';
+import 'NotificationPage.dart';
 import 'UserPage.dart';
 
 int homePagePosition;
 
 PageController homePageController;
+ValueNotifier<bool> showBottomNavBar = ValueNotifier(true);
 
 class Navigation extends StatefulWidget {
   Navigation({Key key, this.title}) : super(key: key);
@@ -48,96 +51,107 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               physics: NeverScrollableScrollPhysics(),
               children: [
                 HomePage(),
+                NotificationPage(),
                 UserPage(currentUser.uid, null, false),
               ],
             ),
-            Align(
-              alignment: Alignment.bottomCenter,
-              child: Container(
-                height: Constants.bottomNavBarHeight,
-                width: MediaQuery.of(context).size.width,
-                color: Constants.purpleColor.withOpacity(.2),
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    left: 30,
-                    right: 30,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          setState(() {
-                            homePagePosition = 0;
-                            currentlySelectedPage = 0;
-                          });
-                          homePageController.jumpToPage(homePagePosition);
-                        },
-                        child: Icon(
-                          Icons.home_outlined,
-                          color: currentlySelectedPage == 0 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+            ValueListenableBuilder(
+              valueListenable: showBottomNavBar,
+              builder: (BuildContext context, bool showBottomNavBar, Widget child) {
+                if (showBottomNavBar) {
+                  return Align(
+                    alignment: Alignment.bottomCenter,
+                    child: Container(
+                      height: Constants.bottomNavBarHeight,
+                      width: MediaQuery.of(context).size.width,
+                      color: Constants.purpleColor.withOpacity(.2),
+                      child: Padding(
+                        padding: EdgeInsets.only(
+                          left: 30,
+                          right: 30,
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                setState(() {
+                                  homePagePosition = 0;
+                                  currentlySelectedPage = 0;
+                                });
+                                homePageController.jumpToPage(homePagePosition);
+                              },
+                              child: Icon(
+                                Icons.home_outlined,
+                                color: currentlySelectedPage == 0 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                              ),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                setState(() {
+                                  homePagePosition = 1;
+                                  currentlySelectedPage = 1;
+                                });
+                                homePageController.jumpToPage(homePagePosition);
+                              },
+                              child: Icon(
+                                Icons.announcement_outlined,
+                                color: currentlySelectedPage == 1 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                              ),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                _showTypePicker(context);
+                                setState(() {
+                                  addingNewContent = !addingNewContent;
+                                  showNavigationIcons = !showNavigationIcons;
+                                  //currentlySelectedPage = 2;
+                                });
+                              },
+                              child: Icon(
+                                Icons.add_box_outlined,
+                                color: currentlySelectedPage == 2 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                              ),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                showSnackbar(context, "In development");
+                                setState(() {
+                                  //currentlySelectedPage = 3;
+                                });
+                              },
+                              child: Icon(
+                                Icons.shopping_cart_outlined,
+                                color: currentlySelectedPage == 3 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                              ),
+                            ),
+                            GestureDetector(
+                              behavior: HitTestBehavior.translucent,
+                              onTap: () {
+                                setState(() {
+                                  homePagePosition = 2;
+                                  currentlySelectedPage = 4;
+                                });
+                                homePageController.jumpToPage(homePagePosition);
+                              },
+                              child: Icon(
+                                Icons.person_outline_outlined,
+                                color: currentlySelectedPage == 4 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                              ),
+                            ),
+                          ],
                         ),
                       ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          showSnackbar(context, "In development");
-                          setState(() {
-                            //currentlySelectedPage = 1;
-                          });
-                        },
-                        child: Icon(
-                          Icons.announcement_outlined,
-                          color: currentlySelectedPage == 1 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
-                        ),
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          _showTypePicker(context);
-                          setState(() {
-                            addingNewContent = !addingNewContent;
-                            showNavigationIcons = !showNavigationIcons;
-                            //currentlySelectedPage = 2;
-                          });
-                        },
-                        child: Icon(
-                          Icons.add_box_outlined,
-                          color: currentlySelectedPage == 2 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
-                        ),
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          showSnackbar(context, "In development");
-                          setState(() {
-                            //currentlySelectedPage = 3;
-                          });
-                        },
-                        child: Icon(
-                          Icons.shopping_cart_outlined,
-                          color: currentlySelectedPage == 3 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
-                        ),
-                      ),
-                      GestureDetector(
-                        behavior: HitTestBehavior.translucent,
-                        onTap: () {
-                          setState(() {
-                            homePagePosition = 1;
-                            currentlySelectedPage = 4;
-                          });
-                          homePageController.jumpToPage(homePagePosition);
-                        },
-                        child: Icon(
-                          Icons.person_outline_outlined,
-                          color: currentlySelectedPage == 4 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+                    ),
+                  );
+                } else {
+                  return Container();
+                }
+              },
             ),
           ],
         ),
@@ -298,7 +312,9 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                     //4444444444444444444444444444444444444444444444444444444444
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, SlideInRoute(page: AddNewPoll(), direction: 0));
+                      },
                       child: Container(
                         width: MediaQuery.of(context).size.width / 5 - 4,
                         height: contentTypeHeight,

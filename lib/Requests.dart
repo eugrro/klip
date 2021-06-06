@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -322,6 +323,101 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
   return "";
 }
 
+Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) async {
+  Response response;
+
+  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+
+  try {
+    Map<String, dynamic> params = {
+      "pid": fileName,
+      "uid": uid,
+      "avatar": currentUser.avatarLink,
+      "uName": currentUser.uName,
+      "title": title,
+      "options": options,
+    };
+    String uri = Constants.nodeURL + "addPollContent";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! addTextContent => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> voteOnPoll(String uid, String pid, int valVoted) async {
+  Response response;
+  //add confirmation that vote did not go through multiple times
+  try {
+    Map<String, dynamic> params = {
+      "pid": pid,
+      "uid": uid,
+      "valVoted": valVoted,
+    };
+    String uri = Constants.nodeURL + "voteOnPoll";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! voteOnPoll => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> getNotifications(String uid) async {
+  Response response;
+  try {
+    Map<String, dynamic> params = {"uid": uid};
+    String uri = Constants.nodeURL + "getNotifications";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! getNotifications => " + err.toString());
+  }
+  return "";
+}
+
+Future<dynamic> addNotification(String uid, String newText, bool sentVal) async {
+  Response response;
+  try {
+    Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
+    String uri = Constants.nodeURL + "addNotification";
+    print("Sending Request To: " + uri);
+    response = await dio.post(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return "Error";
+    }
+  } catch (err) {
+    print("Ran Into Error! getNotifications => " + err.toString());
+  }
+  return "";
+}
+
 Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
   Response response;
   try {
@@ -361,7 +457,9 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      return response.data;
+      if (response.data.runtimeType == List) return response.data;
+      if (response.data.runtimeType == String && response.data.length > 10) return jsonDecode(response.data);
+      print("Returned unknown value: " + response.data.toString() + "\n" + response.data.runtimeType.toString());
     } else {
       print("Returned error " + response.statusCode.toString());
       return [];

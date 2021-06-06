@@ -1,5 +1,6 @@
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
+import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import 'Requests.dart';
 
@@ -55,79 +56,114 @@ class _ContentListItemState extends State<ContentListItem> {
               });
             }
           },
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  right: 10,
-                ),
-                child: FittedBox(
-                  fit: BoxFit.fitWidth,
-                  child: obj["type"] == "txt"
-                      ? Container(
-                          height: 120,
-                          width: 220,
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(obj["title"]),
-                              Container(
-                                height: 10,
-                              ),
-                              Text(obj["body"]),
-                              Container(
-                                height: 10,
+          child: InkWell(
+            onTap: () {
+              showSnackbar(context, "In development");
+            },
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: 10,
+                  ),
+                  child: FittedBox(
+                    fit: BoxFit.fitWidth,
+                    child: obj["type"] == "txt"
+                        ? Container(
+                            height: 120,
+                            width: 220,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(obj["title"]),
+                                Container(
+                                  height: 10,
+                                ),
+                                Text(obj["body"]),
+                                Container(
+                                  height: 10,
+                                )
+                              ],
+                            ),
+                          )
+                        : obj["type"] == "poll"
+                            ? Container(
+                                height: 120,
+                                width: 220,
+                                color: Colors.black.withOpacity(.5),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      obj["title"],
+                                      style: TextStyle(
+                                        fontSize: 16 + Constants.textChange,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 10,
+                                    ),
+                                    Text(
+                                      "Click to expand",
+                                      style: TextStyle(
+                                        fontSize: 12 + Constants.textChange,
+                                      ),
+                                    ),
+                                    Container(
+                                      height: 10,
+                                    )
+                                  ],
+                                ),
                               )
-                            ],
-                          ),
-                        )
-                      : Image.network(
-                          obj["type"] == "vid" ? obj["thumb"] : obj["link"],
-                          height: 120,
-                          width: 220,
-                          fit: BoxFit.cover,
-                        ),
+                            : Image.network(
+                                obj["type"] == "vid" ? obj["thumb"] : obj["link"],
+                                height: 120,
+                                width: 220,
+                                fit: BoxFit.cover,
+                              ),
+                  ),
                 ),
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 15,
-                    ),
-                    child: Container(
-                      width: 125,
-                      child: AutoSizeText(
-                        obj["title"] ?? "",
-                        style: TextStyle(
-                          fontSize: 13,
-                          color: Constants.backgroundWhite,
+                Column(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                        bottom: 15,
+                      ),
+                      child: Container(
+                        width: 125,
+                        child: AutoSizeText(
+                          obj["title"] ?? "",
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: Constants.backgroundWhite,
+                          ),
+                          maxLines: 3,
                         ),
-                        maxLines: 3,
                       ),
                     ),
-                  ),
-                  Text(
-                    (obj["numViews"].toString() ?? "0") + " views",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Constants.backgroundWhite,
+                    Text(
+                      (obj["numViews"].toString() ?? "0") + " views",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Constants.backgroundWhite,
+                      ),
                     ),
-                  ),
-                  Text(
-                    (obj["comm"].length.toString() ?? "0") + " comments",
-                    style: TextStyle(
-                      fontSize: 13,
-                      color: Constants.backgroundWhite,
+                    Text(
+                      (obj["comm"].length.toString() ?? "0") + " comments",
+                      style: TextStyle(
+                        fontSize: 13,
+                        color: Constants.backgroundWhite,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ],
+                  ],
+                ),
+              ],
+            ),
           ),
         ),
       ),

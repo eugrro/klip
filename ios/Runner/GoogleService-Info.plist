@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>652306028694-69h966vks4ga3hfv7u5ta455ob23c8or.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.652306028694-69h966vks4ga3hfv7u5ta455ob23c8or</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>652306028694-42p5ifljhjpegsum4k2l6rg8t33jq80u.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyDQTfa0Hc05M01b_1jn2eMAbyl-XfzvZEk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>652306028694</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.klipApp.-</string>
+	<key>PROJECT_ID</key>
+	<string>klip-d7c5d</string>
+	<key>STORAGE_BUCKET</key>
+	<string>klip-d7c5d.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:652306028694:ios:1f6fde8b902fbd833fcab7</string>
+</dict>
+</plist>
