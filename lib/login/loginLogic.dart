@@ -453,3 +453,14 @@ Future<bool> doesUsernameExist(String username) async {
   }
   return null;
 }
+
+String rstrip(String s) {
+  /*For stripping whitespace on username and email to avoid bad email
+  format and incorrect username*/
+  int iter = s.length - 1;
+  while (s[iter] == ' ' || s[iter] == '\r' || s[iter] == '\n') {
+    iter--;
+    print(iter);
+  }
+  return s.substring(0, iter);
+}

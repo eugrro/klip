@@ -120,7 +120,7 @@ class _SignInState extends State<SignIn> {
                                 color:
                                     Constants.backgroundWhite.withOpacity(.9),
                               ),
-                              isObscured: true,
+                              isObscured: canSeePassword,
                               suffixIconButton: TextButton.icon(
                                 style: ButtonStyle(
                                   foregroundColor:
@@ -172,6 +172,9 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              //Strip whitespace on right side of username
+                              userNameController.text =
+                                  rstrip(userNameController.text);
                               FocusScopeNode currentFocus =
                                   FocusScope.of(context);
 

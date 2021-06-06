@@ -185,6 +185,9 @@ class _SignUpState extends State<SignUp> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              //Extra white space check on email
+                              userNameController.text =
+                                  rstrip(userNameController.text);
                               if (validinput(
                                   context,
                                   userNameController.text,
