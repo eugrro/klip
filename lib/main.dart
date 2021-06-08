@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Constants.purpleColor.withOpacity(0),
+        statusBarColor: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(0),
         //statusBarIconBrightness: Brightness.light,
         //statusBarBrightness: Brightness.dark,
       ),
