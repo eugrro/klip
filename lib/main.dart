@@ -13,17 +13,12 @@ void main() {
 
 class MyApp extends StatelessWidget {
   // This widget is the root of your application.
-  bool darkTheme = false;
-  void toggleTheme() {
-    darkTheme = darkTheme ? false : true;
-  }
-
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(0),
+        statusBarColor: Constants.purpleColor.withOpacity(0),
         //statusBarIconBrightness: Brightness.light,
         //statusBarBrightness: Brightness.dark,
       ),
@@ -37,7 +32,15 @@ class MyApp extends StatelessWidget {
         );
       },
       home: StartPage(),
-      theme: darkTheme ? Constants.darkTheme : Constants.lightTheme,
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          selectionHandleColor: Constants.purpleColor,
+          selectionColor: Constants.purpleColor.withOpacity(.5),
+          cursorColor: Constants.purpleColor,
+        ),
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Constants.backgroundBlack,
+      ),
     );
   }
 }

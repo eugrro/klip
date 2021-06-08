@@ -58,9 +58,9 @@ class _SignInState extends State<SignIn> {
                       end: Alignment.topRight,
                       stops: [0.1, 0.4, 0.5, 0.9],
                       colors: [
-                        Constants.purpleColor,
-                        Constants.purpleColor.withOpacity(.6),
-                        Constants.purpleColor.withOpacity(.1),
+                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(
@@ -102,7 +102,7 @@ class _SignInState extends State<SignIn> {
                             userNameController,
                             SvgPicture.asset(
                               "lib/assets/iconsUI/personOutline.svg",
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                             ),
                           ),
                           Container(
@@ -118,7 +118,7 @@ class _SignInState extends State<SignIn> {
                               Icon(
                                 Icons.lock_outline_rounded,
                                 color:
-                                    Constants.backgroundWhite.withOpacity(.9),
+                                    Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                               ),
                               isObscured: canSeePassword,
                               suffixIconButton: TextButton.icon(
@@ -159,7 +159,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Theme.of(context).textTheme.bodyText1.color,
                                     fontSize: 15 + Constants.textChange,
                                   ),
                                 ),
@@ -222,7 +222,7 @@ class _SignInState extends State<SignIn> {
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
                                   colors: [
-                                    Constants.purpleColor,
+                                    Theme.of(context).textSelectionTheme.cursorColor,
                                     Color(0xffab57a8)
                                   ],
                                 ),
@@ -231,7 +231,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Sign In",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Theme.of(context).textTheme.bodyText1.color,
                                     fontSize: 24 + Constants.textChange,
                                   ),
                                 ),
@@ -249,7 +249,7 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                           Padding(
                             padding:
@@ -257,7 +257,7 @@ class _SignInState extends State<SignIn> {
                             child: Text(
                               "or",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Theme.of(context).textTheme.bodyText1.color,
                                 fontSize: 16 + Constants.textChange,
                               ),
                             ),
@@ -265,7 +265,7 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                         ],
                       ),
@@ -340,14 +340,14 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Don't have an account? ",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),
                               Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                  color: Constants.purpleColor,
+                                  color: Theme.of(context).textSelectionTheme.cursorColor,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

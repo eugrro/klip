@@ -96,7 +96,7 @@ class _UserPageState extends State<UserPage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         body: Padding(
           padding: EdgeInsets.only(
             bottom: isHomeUserPage ? 0 : Constants.bottomNavBarHeight,
@@ -119,14 +119,14 @@ class _UserPageState extends State<UserPage> {
                               numViews.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
+                                color: Theme.of(context).textTheme.bodyText1.color,
                               ),
                             ),
                             Text(
                               "Views",
                               style: TextStyle(
                                 fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
+                                color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                           ],
@@ -143,14 +143,14 @@ class _UserPageState extends State<UserPage> {
                               numKredits.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
+                                color: Theme.of(context).textTheme.bodyText1.color,
                               ),
                             ),
                             Text(
                               "Kredits",
                               style: TextStyle(
                                 fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
+                                color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                           ],
@@ -167,7 +167,7 @@ class _UserPageState extends State<UserPage> {
                           gradient: LinearGradient(
                             begin: Alignment.topCenter,
                             end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(0), Constants.purpleColor.withOpacity(.2)],
+                            colors: [Theme.of(context).textSelectionTheme.cursorColor.withOpacity(0), Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.2)],
                           ),
                           borderRadius: BorderRadius.all(Radius.circular(5)),
                         ),
@@ -211,7 +211,7 @@ class _UserPageState extends State<UserPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(3),
                                         boxShadow: kElevationToShadow[4],
-                                        color: Constants.purpleColor.withOpacity(.6),
+                                        color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
                                       ),
                                       child: Center(
                                         child: Text(
@@ -221,7 +221,7 @@ class _UserPageState extends State<UserPage> {
                                                   ? "Following"
                                                   : "Follow",
                                           style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
+                                            color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                             fontSize: 15 + Constants.textChange,
                                           ),
                                         ),
@@ -238,13 +238,13 @@ class _UserPageState extends State<UserPage> {
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(3),
                                         boxShadow: kElevationToShadow[4],
-                                        color: Constants.purpleColor.withOpacity(.6),
+                                        color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
                                       ),
                                       child: Center(
                                         child: Text(
                                           "Subscribe",
                                           style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
+                                            color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                             fontSize: 15 + Constants.textChange,
                                           ),
                                         ),
@@ -262,7 +262,7 @@ class _UserPageState extends State<UserPage> {
                                   uName ?? "",
                                   style: TextStyle(
                                     fontSize: 23 + Constants.textChange,
-                                    color: Constants.backgroundWhite.withOpacity(.9),
+                                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                   ),
                                 ),
                               ),
@@ -274,7 +274,7 @@ class _UserPageState extends State<UserPage> {
                                       bio,
                                       style: TextStyle(
                                         fontSize: 13 + Constants.textChange,
-                                        color: Constants.backgroundWhite.withOpacity(.6),
+                                        color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                                       ),
                                     ),
                                   )
@@ -292,7 +292,7 @@ class _UserPageState extends State<UserPage> {
                                           fontSize: 13 + Constants.textChange,
                                           decoration: TextDecoration.underline,
                                           letterSpacing: .75,
-                                          color: Constants.purpleColor,
+                                          color: Theme.of(context).textSelectionTheme.cursorColor,
                                         ),
                                       ),
                                     ),

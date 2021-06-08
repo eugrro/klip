@@ -39,7 +39,7 @@ class _ContentListItemState extends State<ContentListItem> {
       child: Container(
         decoration: BoxDecoration(
           border: Border.all(
-            color: currentlyHolding ? Constants.purpleColor : Colors.transparent,
+            color: currentlyHolding ? Theme.of(context).textSelectionTheme.cursorColor : Colors.transparent,
             width: currentlyHolding ? 1.5 : 0,
           ),
         ),
@@ -140,7 +140,7 @@ class _ContentListItemState extends State<ContentListItem> {
                           obj["title"] ?? "",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Constants.backgroundWhite,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                           ),
                           maxLines: 3,
                         ),
@@ -150,14 +150,14 @@ class _ContentListItemState extends State<ContentListItem> {
                       (obj["numViews"].toString() ?? "0") + " views",
                       style: TextStyle(
                         fontSize: 13,
-                        color: Constants.backgroundWhite,
+                        color: Theme.of(context).textTheme.bodyText1.color,
                       ),
                     ),
                     Text(
                       (obj["comm"].length.toString() ?? "0") + " comments",
                       style: TextStyle(
                         fontSize: 13,
-                        color: Constants.backgroundWhite,
+                        color: Theme.of(context).textTheme.bodyText1.color,
                       ),
                     ),
                   ],
@@ -180,7 +180,7 @@ class _ContentListItemState extends State<ContentListItem> {
             height: MediaQuery.of(context).size.height * .3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Constants.backgroundBlack,
+              color: Theme.of(context).scaffoldBackgroundColor,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +192,7 @@ class _ContentListItemState extends State<ContentListItem> {
                     child: Text(
                       "Content Options",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Theme.of(context).textTheme.bodyText1.color,
                         fontSize: 18 + Constants.textChange,
                         decoration: TextDecoration.none,
                       ),
@@ -210,7 +210,7 @@ class _ContentListItemState extends State<ContentListItem> {
                       children: [
                         Container(
                           height: .5,
-                          color: Constants.hintColor.withOpacity(.5),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.5),
                         ),
                         GestureDetector(
                           onTap: () {
@@ -227,7 +227,7 @@ class _ContentListItemState extends State<ContentListItem> {
                         ),
                         Container(
                           height: .5,
-                          color: Constants.hintColor.withOpacity(.5),
+                          color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.5),
                         ),
                       ],
                     ),

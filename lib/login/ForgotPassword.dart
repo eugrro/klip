@@ -50,9 +50,9 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       end: Alignment.topRight,
                       stops: [0.1, 0.4, 0.5, 0.9],
                       colors: [
-                        Constants.purpleColor,
-                        Constants.purpleColor.withOpacity(.6),
-                        Constants.purpleColor.withOpacity(.1),
+                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -80,7 +80,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Text(
                       "Enter your Email to reset your password",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Theme.of(context).textTheme.bodyText1.color,
                         fontSize: 16 + Constants.textChange,
                       ),
                     ),
@@ -99,7 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         emailController,
                         Icon(
                           Icons.mail_outline,
-                          color: Constants.backgroundWhite.withOpacity(.9),
+                          color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                         ),
                       ),
                       Container(
@@ -119,14 +119,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: [Constants.purpleColor, Color(0xffab57a8)],
+                              colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                             ),
                           ),
                           child: Center(
                             child: Text(
                               "Reset",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Theme.of(context).textTheme.bodyText1.color,
                                 fontSize: 24 + Constants.textChange,
                               ),
                             ),
@@ -144,14 +144,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       Container(
                         height: .3,
                         width: MediaQuery.of(context).size.width * .3,
-                        color: Constants.purpleColor,
+                        color: Theme.of(context).textSelectionTheme.cursorColor,
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 8.0),
                         child: Text(
                           "or",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),
@@ -159,7 +159,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       Container(
                         height: .3,
                         width: MediaQuery.of(context).size.width * .3,
-                        color: Constants.purpleColor,
+                        color: Theme.of(context).textSelectionTheme.cursorColor,
                       ),
                     ],
                   ),
@@ -204,14 +204,14 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         Text(
                           "Remembered your account? ",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),
                         Text(
                           "Go Back",
                           style: TextStyle(
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),

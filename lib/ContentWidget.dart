@@ -104,7 +104,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             ? Text(
                 obj["title"] ?? "",
                 style: TextStyle(
-                  color: Constants.backgroundWhite,
+                  color: Theme.of(context).textTheme.bodyText1.color,
                   fontSize: 17 + Constants.textChange,
                 ),
               )
@@ -153,7 +153,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   child: Text(
                     obj["uName"] ?? "usernameError",
                     style: TextStyle(
-                      color: Constants.backgroundWhite.withOpacity(.7),
+                      color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.7),
                       fontSize: 14 + Constants.textChange,
                     ),
                   ),
@@ -166,7 +166,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   ),
                   child: Icon(
                     Icons.circle,
-                    color: Constants.backgroundWhite,
+                    color: Theme.of(context).textTheme.bodyText1.color,
                     size: 5,
                   ),
                 ),
@@ -176,7 +176,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               padding: EdgeInsets.only(right: 10),
               child: Icon(
                 Icons.more_vert,
-                color: Constants.backgroundWhite,
+                color: Theme.of(context).textTheme.bodyText1.color,
                 size: 25,
               ),
             ),
@@ -220,7 +220,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   children: [
                     Icon(
                       Icons.favorite_border_rounded,
-                      color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                      color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
                       size: 24,
                     ),
                     Container(
@@ -229,7 +229,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                     Text(
                       obj["numLikes"].toString() ?? "error",
                       style: TextStyle(
-                        color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                        color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
                         fontSize: 14 + Constants.textChange,
                       ),
                     ),
@@ -248,7 +248,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   children: [
                     Icon(
                       Icons.mode_comment_outlined,
-                      color: Constants.hintColor,
+                      color: Theme.of(context).textTheme.bodyText2.color,
                       size: 24,
                     ),
                     Container(
@@ -257,7 +257,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                     Text(
                       obj["comm"].length.toString() ?? "error",
                       style: TextStyle(
-                        color: Constants.hintColor,
+                        color: Theme.of(context).textTheme.bodyText2.color,
                         fontSize: 14 + Constants.textChange,
                       ),
                     ),
@@ -269,7 +269,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 children: [
                   Icon(
                     Icons.visibility_outlined,
-                    color: Constants.hintColor,
+                    color: Theme.of(context).textTheme.bodyText2.color,
                     size: 24,
                   ),
                   Container(
@@ -278,7 +278,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                   Text(
                     obj["numViews"].toString() ?? "error",
                     style: TextStyle(
-                      color: Constants.hintColor,
+                      color: Theme.of(context).textTheme.bodyText2.color,
                       fontSize: 14 + Constants.textChange,
                     ),
                   ),
@@ -313,7 +313,7 @@ class _ContentWidgetState extends State<ContentWidget> {
         ),
         child: Text(
           body,
-          style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
+          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 16 + Constants.textChange),
         ),
       ),
     );
@@ -356,7 +356,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                   return Icon(
                                     pollVal == index ? Icons.radio_button_on : Icons.radio_button_off,
                                     size: 15,
-                                    color: Constants.purpleColor,
+                                    color: Theme.of(context).textSelectionTheme.cursorColor,
                                   );
                                 }),
                             Container(
@@ -367,7 +367,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                               child: Text(
                                 options[index],
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),
@@ -408,7 +408,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                               child: Text(
                                 currentVote.toString(),
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                 ),
                               ),
                             ),
@@ -422,7 +422,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                               child: Text(
                                 options[index],
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),
@@ -460,13 +460,13 @@ class _ContentWidgetState extends State<ContentWidget> {
                     height: heightOfPollItem,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.all(Radius.circular(7)),
-                      color: Constants.purpleColor,
+                      color: Theme.of(context).textSelectionTheme.cursorColor,
                     ),
                     child: Center(
                       child: Text(
                         "Vote",
                         style: TextStyle(
-                          color: Constants.backgroundWhite,
+                          color: Theme.of(context).textTheme.bodyText1.color,
                           fontSize: 18 + Constants.textChange,
                         ),
                       ),

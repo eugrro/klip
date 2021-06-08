@@ -136,7 +136,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                   begin: Alignment.bottomLeft,
                   end: Alignment.topRight,
                   stops: [0.9, 0.4, 0.5, 0.9],
-                  colors: [Constants.purpleColor, Constants.purpleColor.withOpacity(.6), Constants.purpleColor.withOpacity(.1), Colors.transparent],
+                  colors: [Theme.of(context).textSelectionTheme.cursorColor, Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6), Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1), Colors.transparent],
                 ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
               },
               blendMode: BlendMode.srcIn,
@@ -156,9 +156,9 @@ class _UsernameCreationState extends State<UsernameCreation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                  Text("Welcome!", style: TextStyle(color: Constants.backgroundWhite, fontSize: 48 + Constants.textChange)),
+                  Text("Welcome!", style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 48 + Constants.textChange)),
                   Text("Let's get you a username",
-                      overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 20 + Constants.textChange)),
+                      overflow: TextOverflow.visible, style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontSize: 20 + Constants.textChange)),
                   Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5)),
                   GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -171,7 +171,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                             borderRadius: BorderRadius.all(Radius.circular(100)),
                             border: Border.all(
                               width: borderThickness,
-                              color: Constants.purpleColor.withOpacity(.8),
+                              color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.8),
                             ),
                           ),
                           child: Stack(
@@ -181,7 +181,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 9 / 10,
                                 decoration: BoxDecoration(
-                                  color: Constants.backgroundBlack,
+                                  color: Theme.of(context).scaffoldBackgroundColor,
                                   borderRadius: new BorderRadius.all(Radius.circular(100)),
                                 ),
                                 child: Padding(
@@ -202,7 +202,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       "lib/assets/iconsUI/personOutline.svg",
-                                      color: Constants.backgroundWhite.withOpacity(.9),
+                                      color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                     ),
                                   ),
                                 ),
@@ -234,7 +234,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                 keyboardType: TextInputType.multiline,
                                 obscureText: false,
                                 //textAlign: TextAlign.center,
-                                cursorColor: Constants.backgroundWhite,
+                                cursorColor: Theme.of(context).textTheme.bodyText1.color,
                                 cursorWidth: 1.5,
                                 validator: validateUsername,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -248,13 +248,13 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                   helperText: ' ',
 
                                   hintStyle: TextStyle(
-                                    color: Constants.backgroundWhite.withOpacity(.6),
+                                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                                     fontSize: 20 + Constants.textChange,
                                   ),
                                   //suffixIcon: postText(),
                                 ),
 
-                                style: TextStyle(color: Constants.backgroundWhite.withOpacity(.9), fontSize: 20 + Constants.textChange, height: 1),
+                                style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9), fontSize: 20 + Constants.textChange, height: 1),
                               ),
                             )),
                       ])),
@@ -281,14 +281,14 @@ class _UsernameCreationState extends State<UsernameCreation> {
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: [Constants.purpleColor, Color(0xffab57a8)],
+                              colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                             ),
                           ),
                           child: Center(
                             child: Text(
                               "Next",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Theme.of(context).textTheme.bodyText1.color,
                                 fontSize: 24 + Constants.textChange,
                               ),
                             ),

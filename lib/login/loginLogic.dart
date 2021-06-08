@@ -39,7 +39,7 @@ Widget LoginTextField(
         borderRadius: BorderRadius.all(Radius.circular(100)),
         border: Border.all(
           width: borderThickness,
-          color: Constants.purpleColor.withOpacity(.8),
+          color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.8),
         ),
       ),
       child: Stack(
@@ -49,7 +49,7 @@ Widget LoginTextField(
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width * 9 / 10,
             decoration: BoxDecoration(
-              color: Constants.backgroundBlack,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: new BorderRadius.all(Radius.circular(100)),
             ),
             child: Padding(
@@ -64,7 +64,7 @@ Widget LoginTextField(
                 keyboardType: TextInputType.multiline,
                 obscureText: isObscured,
                 //textAlign: TextAlign.center,
-                cursorColor: Constants.backgroundWhite,
+                cursorColor: Theme.of(context).textTheme.bodyText1.color,
                 cursorWidth: 1.5,
                 decoration: InputDecoration(
                   isDense: true,
@@ -72,13 +72,13 @@ Widget LoginTextField(
                   border: InputBorder.none,
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    color: Constants.backgroundWhite.withOpacity(.6),
+                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                     fontSize: 20 + Constants.textChange,
                   ),
                   //suffixIcon: postText(),
                 ),
                 style: TextStyle(
-                  color: Constants.backgroundWhite.withOpacity(.9),
+                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                   fontSize: 20 + Constants.textChange,
                 ),
               ),

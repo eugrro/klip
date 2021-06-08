@@ -64,7 +64,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                     child: Container(
                       height: Constants.bottomNavBarHeight,
                       width: MediaQuery.of(context).size.width,
-                      color: Constants.purpleColor.withOpacity(.2),
+                      color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.2),
                       child: Padding(
                         padding: EdgeInsets.only(
                           left: 30,
@@ -84,7 +84,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.home_outlined,
-                                color: currentlySelectedPage == 0 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                color: currentlySelectedPage == 0 ? Colors.white : Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                             GestureDetector(
@@ -98,7 +98,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.announcement_outlined,
-                                color: currentlySelectedPage == 1 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                color: currentlySelectedPage == 1 ? Colors.white : Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                             GestureDetector(
@@ -113,7 +113,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.add_box_outlined,
-                                color: currentlySelectedPage == 2 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                color: currentlySelectedPage == 2 ? Colors.white : Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                             GestureDetector(
@@ -126,7 +126,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.shopping_cart_outlined,
-                                color: currentlySelectedPage == 3 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                color: currentlySelectedPage == 3 ? Colors.white : Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                             GestureDetector(
@@ -140,7 +140,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.person_outline_outlined,
-                                color: currentlySelectedPage == 4 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                color: currentlySelectedPage == 4 ? Colors.white : Theme.of(context).textTheme.bodyText1.color.withOpacity(.5),
                               ),
                             ),
                           ],
@@ -197,7 +197,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           children: [
                             Icon(
                               Icons.graphic_eq_rounded,
-                              color: Constants.purpleColor,
+                              color: Theme.of(context).textSelectionTheme.cursorColor,
                               size: largeIcon,
                             ),
                             Container(
@@ -205,7 +205,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Audio",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -227,7 +227,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           children: [
                             Icon(
                               Icons.wallpaper,
-                              color: Constants.purpleColor,
+                              color: Theme.of(context).textSelectionTheme.cursorColor,
                               size: largeIcon,
                             ),
                             Container(
@@ -235,7 +235,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Image",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -263,7 +263,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           children: [
                             Icon(
                               Icons.videogame_asset,
-                              color: Constants.purpleColor,
+                              color: Theme.of(context).textSelectionTheme.cursorColor,
                               size: largeIcon,
                             ),
                             Container(
@@ -271,7 +271,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Klip",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -293,7 +293,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           children: [
                             Icon(
                               Icons.short_text,
-                              color: Constants.purpleColor,
+                              color: Theme.of(context).textSelectionTheme.cursorColor,
                               size: largeIcon,
                             ),
                             Container(
@@ -301,7 +301,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Text",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -323,7 +323,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           children: [
                             Icon(
                               Icons.poll,
-                              color: Constants.purpleColor,
+                              color: Theme.of(context).textSelectionTheme.cursorColor,
                               size: largeIcon,
                             ),
                             Container(
@@ -331,7 +331,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 "Poll",
                                 style: TextStyle(
                                   fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
+                                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                                 ),
                               ),
                             ),
@@ -374,7 +374,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                                 offset: Offset(0, 3.1), // changes position of shadow
                               ),
                             ],
-                            color: Constants.purpleColor.withOpacity(.9),
+                            color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.9),
                           ),
                           child: Padding(
                             padding: EdgeInsets.only(
@@ -383,7 +383,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             ),
                             child: Icon(
                               Icons.close,
-                              color: Constants.backgroundWhite,
+                              color: Theme.of(context).textTheme.bodyText1.color,
                             ),
                           ),
                         ),

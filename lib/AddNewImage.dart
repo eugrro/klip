@@ -135,7 +135,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                  color: tappedGallery[index] == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                  color: tappedGallery[index] == 1 ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                   width: tappedGallery[index] == 1 ? 3 : 1),
             ),
             child: FutureBuilder<File>(
@@ -181,11 +181,11 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                               DateFormat('MMM d').format(
                                 assetList[index].modifiedDateTime,
                               ),
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                              style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 10),
                             ),
                             Text(
                               sizeOfFile(snapshot.data),
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                              style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 10),
                             ),
                           ],
                         ),
@@ -225,7 +225,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
           AnimatedContainer(
             width: selectedXbox ? MediaQuery.of(context).size.width * .95 : MediaQuery.of(context).size.width * .9,
             decoration: BoxDecoration(
-              border: Border.all(color: Constants.backgroundWhite),
+              border: Border.all(color: Theme.of(context).textTheme.bodyText1.color),
               boxShadow: kElevationToShadow[4],
               borderRadius: BorderRadius.circular(12),
               color: Colors.black,
@@ -264,7 +264,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                               Text(
                                 "Xbox",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                   fontSize: 18 + Constants.textChange,
                                 ),
                               )
@@ -272,7 +272,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                           ),
                           Icon(
                             selectedXbox ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                            color: Constants.backgroundWhite,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             size: 30,
                           ),
                         ],
@@ -307,7 +307,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: tappedXbox[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                                  color: tappedXbox[index] ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                                   width: tappedXbox[index] ? 3 : 1),
                             ),
                             child: Image.network(
@@ -331,7 +331,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
             duration: animationDuration,
             width: !selectedPs ? MediaQuery.of(context).size.width * .9 : MediaQuery.of(context).size.width * .95,
             decoration: BoxDecoration(
-              border: Border.all(color: Constants.backgroundWhite),
+              border: Border.all(color: Theme.of(context).textTheme.bodyText1.color),
               boxShadow: kElevationToShadow[4],
               borderRadius: BorderRadius.circular(12),
               color: Colors.black,
@@ -371,7 +371,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                               Text(
                                 "PlayStation",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Theme.of(context).textTheme.bodyText1.color,
                                   fontSize: 18 + Constants.textChange,
                                 ),
                               )
@@ -379,7 +379,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                           ),
                           Icon(
                             selectedPs ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                            color: Constants.backgroundWhite,
+                            color: Theme.of(context).textTheme.bodyText1.color,
                             size: 30,
                           ),
                         ],
@@ -421,7 +421,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
               height: 80,
               width: MediaQuery.of(context).size.width * .9,
               decoration: BoxDecoration(
-                border: Border.all(color: Constants.backgroundWhite),
+                border: Border.all(color: Theme.of(context).textTheme.bodyText1.color),
                 boxShadow: kElevationToShadow[4],
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.black,
@@ -447,7 +447,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                           Text(
                             "Switch",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Theme.of(context).textTheme.bodyText1.color,
                               fontSize: 18 + Constants.textChange,
                             ),
                           )
@@ -455,7 +455,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                       ),
                       Icon(
                         Icons.arrow_forward_rounded,
-                        color: Constants.backgroundWhite,
+                        color: Theme.of(context).textTheme.bodyText1.color,
                         size: 30,
                       ),
                     ],
@@ -497,7 +497,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                     }
                   },
                   icon: Icon(Icons.check),
-                  color: Constants.purpleColor,
+                  color: Theme.of(context).textSelectionTheme.cursorColor,
                 )
               : Container(),
         ],
@@ -521,7 +521,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
       ),
       bottomNavigationBar: Container(
         height: 50,
-        color: Constants.purpleColor.withOpacity(.1),
+        color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
@@ -537,7 +537,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                 child: Center(
                   child: Icon(
                     Icons.photo_size_select_actual_outlined,
-                    color: currentPage == 0 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 0 ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                     size: 25,
                   ),
                 ),
@@ -554,7 +554,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                 child: Center(
                   child: Icon(
                     Icons.circle,
-                    color: currentPage == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 1 ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                     size: 25,
                   ),
                 ),
@@ -574,7 +574,7 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
                     semanticsLabel: 'Console Icon',
                     width: 25,
                     height: 25,
-                    color: currentPage == 2 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 2 ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                   ),
                 ),
               ),

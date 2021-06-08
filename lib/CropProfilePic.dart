@@ -56,13 +56,13 @@ class _CropProfilePicState extends State<CropProfilePic> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: kElevationToShadow[3],
-                      color: Constants.purpleColor,
+                      color: Theme.of(context).textSelectionTheme.cursorColor,
                     ),
                     child: Center(
                       child: Text(
                         "X",
                         style: TextStyle(
-                          color: Constants.backgroundWhite,
+                          color: Theme.of(context).textTheme.bodyText1.color,
                           fontSize: 30 + Constants.textChange,
                         ),
                       ),
@@ -81,7 +81,7 @@ class _CropProfilePicState extends State<CropProfilePic> {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: kElevationToShadow[3],
-                      color: Constants.purpleColor,
+                      color: Theme.of(context).textSelectionTheme.cursorColor,
                     ),
                     child: Center(
                       child: Icon(
