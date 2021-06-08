@@ -462,5 +462,5 @@ String rstrip(String s) {
     iter--;
     print(iter);
   }
-  return s.substring(0, iter);
+  return s.substring(0, iter + 1);
 }
