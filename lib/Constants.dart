@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './utilityFunctions.dart';
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
@@ -9,6 +10,46 @@ Color backgroundWhite = Color(0xfff8f8f8);
 Color hintColor = Color(0xffc0c0c0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
+
+ThemeData darkTheme = ThemeData(
+  textTheme: TextTheme(
+    bodyText1: TextStyle(
+      color: backgroundWhite,
+      fontSize: 16 + textChange,
+    ),
+    bodyText2: TextStyle(
+      color: backgroundWhite,
+      fontSize: 16 + textChange,
+    ),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    selectionHandleColor: purpleColor,
+    selectionColor: purpleColor.withOpacity(.5),
+    cursorColor: purpleColor,
+  ),
+  brightness: Brightness.dark,
+  scaffoldBackgroundColor: backgroundBlack,
+);
+
+ThemeData lightTheme = ThemeData(
+  textTheme: TextTheme(
+    bodyText1: TextStyle(
+      color: invertColor(backgroundWhite),
+      fontSize: 16 + textChange,
+    ),
+    bodyText2: TextStyle(
+      color: invertColor(hintColor),
+      fontSize: 16 + textChange,
+    ),
+  ),
+  textSelectionTheme: TextSelectionThemeData(
+    selectionHandleColor: invertColor(purpleColor),
+    selectionColor: invertColor(purpleColor.withOpacity(.5)),
+    cursorColor: invertColor(purpleColor),
+  ),
+  brightness: Brightness.light,
+  scaffoldBackgroundColor: invertColor(backgroundBlack),
+);
 
 const double bottomNavBarHeight = 55;
 double statusBarHeight = 0;
