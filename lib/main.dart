@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:dynamic_theme/dynamic_theme.dart';
 import 'package:klip/login/StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -12,7 +13,6 @@ void main() {
 //LOOK INTO THIS https://pub.dev/packages/animated_text_kit
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -23,25 +23,21 @@ class MyApp extends StatelessWidget {
         //statusBarBrightness: Brightness.dark,
       ),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return ScrollConfiguration(
-          behavior: MyBehavior(),
-          child: child,
-        );
-      },
-      home: StartPage(),
-      theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(
-          selectionHandleColor: Constants.purpleColor,
-          selectionColor: Constants.purpleColor.withOpacity(.5),
-          cursorColor: Constants.purpleColor,
-        ),
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Constants.backgroundBlack,
-      ),
-    );
+    return DynamicTheme(
+        data: (brightness) => Constants.darkTheme,
+        themedWidgetBuilder: (context, theme) {
+          return MaterialApp(
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              return ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: child,
+              );
+            },
+            theme: theme,
+            home: StartPage(),
+          );
+        });
   }
 }
 

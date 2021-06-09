@@ -13,6 +13,8 @@ import 'package:klip/currentUser.dart' as currentUser;
 import 'CropProfilePic.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
+import 'utilityFunctions.dart';
+import 'package:dynamic_theme/dynamic_theme.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -30,6 +32,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   bool editingBio = false;
   File contentImage;
   final imgCropKey = GlobalKey<ImgCropState>();
+  bool darkTheme = true;
+  String themeText = "Dark";
+  void toggleTheme(BuildContext context, List<dynamic> newThemes) {
+    /*When using to change themes, only pass in a list of ThemeData objects
+  and use first object (perhaps modify settingsCard in order to achieve this)*/
+    setState(() {
+      if (darkTheme) {
+        this.darkTheme = false;
+        themeText = "Light";
+      } else {
+        this.darkTheme = true;
+        themeText = "Dark";
+      }
+    });
+
+    ThemeData theme = darkTheme ? Constants.darkTheme : Constants.lightTheme;
+    DynamicTheme.of(context).setThemeData(theme);
+  }
+
   @override
   void initState() {
     newInfoContr = TextEditingController();
@@ -89,8 +110,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     width: 150,
                     child: ClipOval(
                       child: FutureBuilder<Widget>(
-                        future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
-                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                        future: currentUser
+                            .userProfileImg, // a previously-obtained Future<String> or null
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Widget> snapshot) {
                           if (snapshot.hasData) {
                             return snapshot.data;
                           } else {
@@ -115,7 +138,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           "Click to change\nprofile picture",
                           textAlign: TextAlign.center,
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.7),
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .color
+                                .withOpacity(.7),
                             fontSize: 13 + Constants.textChange,
                           ),
                         ),
@@ -199,7 +226,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 11,
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
                               ),
                             ),
                     ),
@@ -247,7 +275,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               "Edit Bio",
                               style: TextStyle(
                                 fontSize: 13,
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
                               ),
                             ),
                     ),
@@ -257,7 +286,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   onTap: () {
                     if (editingBio) {
                       showError(context, "Not yet implemented");
-                    } else if (currentUser.bioLink != null && currentUser.bioLink != "") {
+                    } else if (currentUser.bioLink != null &&
+                        currentUser.bioLink != "") {
                       bioLinkContr.text = currentUser.bioLink;
                       editBioLink(context);
                     } else {
@@ -280,15 +310,20 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               "Another Option",
                               style: TextStyle(
                                 fontSize: 12,
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color:
+                                    Theme.of(context).textTheme.bodyText1.color,
                               ),
                             )
-                          : currentUser.bioLink != null && currentUser.bioLink != ""
+                          : currentUser.bioLink != null &&
+                                  currentUser.bioLink != ""
                               ? Text(
                                   "Edit Link",
                                   style: TextStyle(
                                     fontSize: 13,
-                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
                                   ),
                                 )
                               : Text(
@@ -296,7 +331,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                     fontSize: 12,
-                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    color: Theme.of(context)
+                                        .textTheme
+                                        .bodyText1
+                                        .color,
                                   ),
                                 ),
                     ),
@@ -339,15 +377,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fName"),
-                  settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lName"),
-                  settingsCard(context, "Xbox Gamertag", currentUser.xTag, "Request to update your password", false, true,
-                      mongoParamName: "xTag", customfunction: notYetImplemented),
-                  settingsCard(context, "Email", currentUser.email, "Change your email", false, true,
-                      mongoParamName: "email", customfunction: notYetImplemented),
-                  settingsCard(context, "Username", currentUser.uName, "Change your username", false, true, mongoParamName: "uName"),
-                  settingsCard(context, "Password", "* * * * * * * *", "Request to update your password", false, false,
-                      mongoParamName: "pass", customfunction: notYetImplemented),
+                  settingsCard(context, "First Name", currentUser.fName,
+                      "Change your first name", false, true,
+                      mongoParamName: "fName"),
+                  settingsCard(context, "Last Name", currentUser.lName,
+                      "Change your last name", false, true,
+                      mongoParamName: "lName"),
+                  settingsCard(context, "Xbox Gamertag", currentUser.xTag,
+                      "Request to update your password", false, true,
+                      mongoParamName: "xTag",
+                      customfunction: notYetImplemented),
+                  settingsCard(context, "Email", currentUser.email,
+                      "Change your email", false, true,
+                      mongoParamName: "email",
+                      customfunction: notYetImplemented),
+                  settingsCard(context, "Username", currentUser.uName,
+                      "Change your username", false, true,
+                      mongoParamName: "uName"),
+                  settingsCard(context, "Password", "* * * * * * * *",
+                      "Request to update your password", false, false,
+                      mongoParamName: "pass",
+                      customfunction: notYetImplemented),
 
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -361,10 +411,21 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", "Dark", "Update your theme preference", false, true, customfunction: notYetImplemented),
-                  settingsCard(context, "Show Username", "Show First + Fast Name", "Change how you will be displayed on the app", false, true,
+                  settingsCard(context, "Theme", themeText,
+                      "Update your theme preference", false, true,
+                      customfunction: toggleTheme,
+                      customFunctionParams: [Constants.lightTheme]),
+
+                  settingsCard(
+                      context,
+                      "Show Username",
+                      "Show First + Fast Name",
+                      "Change how you will be displayed on the app",
+                      false,
+                      true,
                       customfunction: notYetImplemented),
-                  settingsCard(context, "Comment Color", "Purple", "Change your prefered comment color", false, false,
+                  settingsCard(context, "Comment Color", "Purple",
+                      "Change your prefered comment color", false, false,
                       customfunction: notYetImplemented),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -378,10 +439,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Report A Bug", "", "Report a bug", false, true,
-                      txt1Color: Colors.blue[700], customfunction: reportABug, customFunctionParams: [newInfoFocus]),
-                  settingsCard(context, "Sign out", "", "Sign out", false, true, customfunction: signOutUserWidget),
-                  settingsCard(context, "Delete Your Account", "", "Delete your account", false, false, txt1Color: Colors.redAccent),
+                  settingsCard(
+                      context, "Report A Bug", "", "Report a bug", false, true,
+                      txt1Color: Colors.blue[700],
+                      customfunction: reportABug,
+                      customFunctionParams: [newInfoFocus]),
+                  settingsCard(context, "Sign out", "", "Sign out", false, true,
+                      customfunction: signOutUserWidget),
+                  settingsCard(context, "Delete Your Account", "",
+                      "Delete your account", false, false,
+                      txt1Color: Colors.redAccent),
                   //TODO implement delete account and sign out
                   Container(
                     height: 20,
@@ -421,12 +488,19 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     maxLines: 1,
                     controller: bioLinkContr,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                      contentPadding: const EdgeInsets.symmetric(
+                          vertical: 15.0, horizontal: 8),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: .5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.8), width: 1.5),
+                        borderSide: BorderSide(
+                            color: Theme.of(context)
+                                .textTheme
+                                .bodyText1
+                                .color
+                                .withOpacity(.8),
+                            width: 1.5),
                       ),
                       hintText: 'http://',
                       hintStyle: TextStyle(
@@ -473,13 +547,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
                         updateOne(uid, "bioLink", bioLinkContr.text);
-                        currentUser.setFieldInSharedPreferences("bioLink", bioLinkContr.text);
+                        currentUser.setFieldInSharedPreferences(
+                            "bioLink", bioLinkContr.text);
                         Navigator.of(context).pop();
                         currentUser.bioLink = bioLinkContr.text;
                       },
                       child: Center(
                         child: Text(
-                          currentUser.bioLink != "" && currentUser.bioLink != null ? "Update" : "Add",
+                          currentUser.bioLink != "" &&
+                                  currentUser.bioLink != null
+                              ? "Update"
+                              : "Add",
                           style: TextStyle(
                             color: Theme.of(context).textTheme.bodyText1.color,
                             fontSize: 14 + Constants.textChange,
@@ -561,7 +639,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         );
                       } else {
                         Navigator.of(context).pop();
-                        showError(context, "Sign out was unsuccessful please report this bug");
+                        showError(context,
+                            "Sign out was unsuccessful please report this bug");
                       }
                     },
                     child: Container(
@@ -625,18 +704,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                  padding:
+                      EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
                   child: Material(
                     child: TextField(
                       maxLines: 12,
                       controller: bugController,
                       decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                        contentPadding: const EdgeInsets.symmetric(
+                            vertical: 15.0, horizontal: 8),
                         enabledBorder: OutlineInputBorder(
                           borderSide: BorderSide(color: Colors.grey, width: .5),
                         ),
                         focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.8), width: 1.5),
+                          borderSide: BorderSide(
+                              color: Theme.of(context)
+                                  .textTheme
+                                  .bodyText1
+                                  .color
+                                  .withOpacity(.8),
+                              width: 1.5),
                         ),
                         hintText: 'Report the bug here',
                         fillColor: Colors.grey[850],
@@ -654,7 +741,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   child: Align(
                     alignment: Alignment.bottomCenter,
                     child: Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 15, left: 10, right: 10),
+                        padding: EdgeInsets.only(
+                            top: 10, bottom: 15, left: 10, right: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: [
@@ -664,13 +752,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 Navigator.of(context).pop();
                               },
                               child: Container(
-                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                width:
+                                    MediaQuery.of(context).size.width * .4 - 15,
                                 height: 30,
                                 child: Center(
                                   child: Text(
                                     "Cancel",
                                     style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyText1.color,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
                                       fontSize: 14 + Constants.textChange,
                                       decoration: TextDecoration.none,
                                     ),
@@ -681,27 +773,35 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Container(
                               height: 20,
                               width: 1,
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color:
+                                  Theme.of(context).textTheme.bodyText1.color,
                             ),
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 if (bugController.text.length > 20) {
-                                  reportBug(currentUser.uid, bugController.text);
+                                  reportBug(
+                                      currentUser.uid, bugController.text);
                                   Navigator.of(context).pop();
-                                  showSnackbar(context, "Thank you for reporting and improving\nthe app experience");
+                                  showSnackbar(context,
+                                      "Thank you for reporting and improving\nthe app experience");
                                 } else {
-                                  showError(context, "Bug Report must have at least 20 characters");
+                                  showError(context,
+                                      "Bug Report must have at least 20 characters");
                                 }
                               },
                               child: Container(
-                                width: MediaQuery.of(context).size.width * .4 - 15,
+                                width:
+                                    MediaQuery.of(context).size.width * .4 - 15,
                                 height: 30,
                                 child: Center(
                                   child: Text(
                                     "Submit",
                                     style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyText1.color,
+                                      color: Theme.of(context)
+                                          .textTheme
+                                          .bodyText1
+                                          .color,
                                       fontSize: 14 + Constants.textChange,
                                       decoration: TextDecoration.none,
                                     ),
@@ -721,7 +821,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
-  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText, String hint, FocusNode fcs, {String mongoParamName = ""}) {
+  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText,
+      String hint, FocusNode fcs,
+      {String mongoParamName = ""}) {
     fcs.requestFocus();
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -751,9 +853,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Padding(
-                            padding: EdgeInsets.only(top: 20, right: 15, bottom: 15),
+                            padding:
+                                EdgeInsets.only(top: 20, right: 15, bottom: 15),
                             child: Container(
-                              width: MediaQuery.of(context).size.width / 100 * 55,
+                              width:
+                                  MediaQuery.of(context).size.width / 100 * 55,
                               child: LoginTextField(
                                 context,
                                 45,
@@ -778,8 +882,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   height: 40,
                                   width: 55,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                    color: Theme.of(context)
+                                        .textSelectionTheme
+                                        .cursorColor
+                                        .withOpacity(.5),
                                     boxShadow: kElevationToShadow[12],
                                   ),
                                   child: Icon(
@@ -796,22 +904,32 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             child: Center(
                               child: GestureDetector(
                                 onTap: () {
-                                  if (mongoParamName != "pass" && mongoParamName != "") {
-                                    updateOne(currentUser.uid, mongoParamName, contr.text);
+                                  if (mongoParamName != "pass" &&
+                                      mongoParamName != "") {
+                                    updateOne(currentUser.uid, mongoParamName,
+                                        contr.text);
 
-                                    setFieldInSharedPreferences(mongoParamName, contr.text);
-                                    if (mongoParamName == "fName") currentUser.fName = contr.text;
-                                    if (mongoParamName == "lName") currentUser.lName = contr.text;
-                                    if (mongoParamName == "bio") currentUser.bio = contr.text;
-                                    if (mongoParamName == "email") currentUser.email = contr.text;
-                                    if (mongoParamName == "uName") currentUser.uName = contr.text;
+                                    setFieldInSharedPreferences(
+                                        mongoParamName, contr.text);
+                                    if (mongoParamName == "fName")
+                                      currentUser.fName = contr.text;
+                                    if (mongoParamName == "lName")
+                                      currentUser.lName = contr.text;
+                                    if (mongoParamName == "bio")
+                                      currentUser.bio = contr.text;
+                                    if (mongoParamName == "email")
+                                      currentUser.email = contr.text;
+                                    if (mongoParamName == "uName")
+                                      currentUser.uName = contr.text;
 
                                     //TODO any other settings feature needs to be added to mongo if necessary
                                     setState(() {});
                                   } else if (mongoParamName == "") {
-                                    print("App preferance change no need to update mongo");
+                                    print(
+                                        "App preferance change no need to update mongo");
                                   } else {
-                                    showError(context, "Update password feature not yet implemented");
+                                    showError(context,
+                                        "Update password feature not yet implemented");
                                   }
                                   Navigator.of(context).pop();
                                 },
@@ -819,8 +937,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   height: 40,
                                   width: 55,
                                   decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.5),
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(8)),
+                                    color: Theme.of(context)
+                                        .textSelectionTheme
+                                        .cursorColor
+                                        .withOpacity(.5),
                                     boxShadow: kElevationToShadow[12],
                                   ),
                                   child: Icon(
@@ -890,18 +1012,22 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => CropProfilePic(contentImage, imgCropKey),
+                          builder: (context) =>
+                              CropProfilePic(contentImage, imgCropKey),
                         ),
                       ).then(
                         (value) async {
                           if (value) {
                             final crop = imgCropKey.currentState;
-                            File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
+                            File newFile = await crop.cropCompleted(
+                                contentImage,
+                                preferredSize: 600);
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
                               //little bit of a hacky way but this needs to return a future
-                              currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
+                              currentUser.userProfileImg =
+                                  Future.delayed(Duration(seconds: 0), () {
                                 return newImg;
                               });
                             });
@@ -922,7 +1048,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     getImageGallery().then((value) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => CropProfilePic(contentImage, imgCropKey)),
+                        MaterialPageRoute(
+                            builder: (context) =>
+                                CropProfilePic(contentImage, imgCropKey)),
                       );
                     });
                   },
@@ -971,8 +1099,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  Widget settingsCard(BuildContext context, String txt1, String txt2, String description, bool showTopLine, bool showBottomLine,
-      {String mongoParamName = "", Function customfunction, Color txt1Color, List<dynamic> customFunctionParams}) {
+  Widget settingsCard(BuildContext context, String txt1, String txt2,
+      String description, bool showTopLine, bool showBottomLine,
+      {String mongoParamName = "",
+      Function customfunction,
+      Color txt1Color,
+      List<dynamic> customFunctionParams}) {
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -982,7 +1114,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             extentOffset: newInfoContr.text.length,
           );
           newInfoContr.text = txt2;
-          inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus, mongoParamName: mongoParamName);
+          inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus,
+              mongoParamName: mongoParamName);
         } else {
           customfunction(context, customFunctionParams);
         }
@@ -992,7 +1125,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           showTopLine
               ? Container(
                   height: 1,
-                  color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.3),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .color
+                      .withOpacity(.3),
                   margin: EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
@@ -1009,7 +1146,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: txt1Color ?? Theme.of(context).textTheme.bodyText1.color,
+                    color: txt1Color ??
+                        Theme.of(context).textTheme.bodyText1.color,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),
@@ -1026,7 +1164,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           showBottomLine
               ? Container(
                   height: 1,
-                  color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.3),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText2
+                      .color
+                      .withOpacity(.3),
                   margin: EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
