@@ -104,7 +104,7 @@ Future<void> pullUserFromSharedPreferences() async {
   lName = await pullFieldFromSharedPreferences("lName", prefs);
   email = await pullFieldFromSharedPreferences("email", prefs);
   print(email);
-  xTag = await pullFieldFromSharedPreferences("gamertag", prefs);
+  xTag = await pullFieldFromSharedPreferences("xTag", prefs);
   bio = await pullFieldFromSharedPreferences("bio", prefs);
   bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
