@@ -206,7 +206,7 @@ Future<bool> doesUserExist(String email) async {
       "email": email,
     };
 
-    String uri = Constants.nodeURL + "doesUserExist";
+    String uri = Constants.nodeURL + "user/doesUserExist";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
 
@@ -248,7 +248,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "subscribers": [],
     };
 
-    String uri = Constants.nodeURL + "postUser";
+    String uri = Constants.nodeURL + "user/postUser";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
 
@@ -272,7 +272,7 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     Map<String, String> params = {
       "uid": uid,
     };
-    String uri = Constants.nodeURL + "getUser";
+    String uri = Constants.nodeURL + "user/getUser";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -368,7 +368,7 @@ Future<String> updateUsername(String uid, String uName) async {
       "uid": uid,
       "uName": uName,
     };
-    String uri = Constants.nodeURL + "updateUsername";
+    String uri = Constants.nodeURL + "user/updateUsername";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -391,7 +391,7 @@ Future<bool> doesUsernameExist(String username) async {
     Map<String, String> params = {
       "uName": username,
     };
-    String uri = Constants.nodeURL + "doesUsernameExist";
+    String uri = Constants.nodeURL + "user/doesUsernameExist";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
