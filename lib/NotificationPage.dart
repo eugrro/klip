@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart' as currentUser;
@@ -27,6 +28,14 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardVisibilityController.onChange.listen((bool visible) {
+      print('Keyboard visibility update. Is visible: ${visible}');
+      if (visible)
+        showBottomNavBar.value = false;
+      else
+        showBottomNavBar.value = true;
+    });
   }
 
   @override
@@ -146,7 +155,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 ),
               ),
               Container(
-                height: 55,
+                height: showBottomNavBar.value ? 55 : 0,
               ),
             ],
           ),

@@ -3,6 +3,8 @@ import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'Requests.dart';
 import 'widgets.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
+import 'Navigation.dart';
 
 // ignore: must_be_immutable
 class CommentsPage extends StatefulWidget {
@@ -30,7 +32,15 @@ class _CommentsPageState extends State<CommentsPage> {
     super.initState();
     heightOfCommentBox = 60;
     heightOfTopPart = 60;
-    print(comments);
+
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardVisibilityController.onChange.listen((bool visible) {
+      print('Keyboard visibility update. Is visible: ${visible}');
+      if (visible)
+        showBottomNavBar.value = false;
+      else
+        showBottomNavBar.value = true;
+    });
   }
 
   @override

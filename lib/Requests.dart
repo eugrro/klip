@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:http_parser/http_parser.dart';
 
@@ -457,9 +458,10 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.data.runtimeType == List) return response.data;
+      if (response.data.runtimeType.toString() == "List<dynamic>") return response.data;
       if (response.data.runtimeType == String && response.data.length > 10) return jsonDecode(response.data);
-      print("Returned unknown value: " + response.data.toString() + "\n" + response.data.runtimeType.toString());
+      print("Returned unknown value: " + response.data.toString());
+      print("\n" + response.data.runtimeType.toString());
     } else {
       print("Returned error " + response.statusCode.toString());
       return [];

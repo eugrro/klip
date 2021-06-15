@@ -341,8 +341,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                   settingsCard(context, "First Name", currentUser.fName, "Change your first name", false, true, mongoParamName: "fName"),
                   settingsCard(context, "Last Name", currentUser.lName, "Change your last name", false, true, mongoParamName: "lName"),
-                  settingsCard(context, "Xbox Gamertag", currentUser.xTag, "Request to update your password", false, true,
-                      mongoParamName: "xTag", customfunction: notYetImplemented),
+                  settingsCard(context, "Xbox Gamertag", currentUser.xTag, "Request to update your password", false, true, mongoParamName: "xTag"),
                   settingsCard(context, "Email", currentUser.email, "Change your email", false, true,
                       mongoParamName: "email", customfunction: notYetImplemented),
                   settingsCard(context, "Username", currentUser.uName, "Change your username", false, true, mongoParamName: "uName"),
@@ -805,6 +804,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     if (mongoParamName == "bio") currentUser.bio = contr.text;
                                     if (mongoParamName == "email") currentUser.email = contr.text;
                                     if (mongoParamName == "uName") currentUser.uName = contr.text;
+                                    if (mongoParamName == "xTag") currentUser.xTag = contr.text;
 
                                     //TODO any other settings feature needs to be added to mongo if necessary
                                     setState(() {});

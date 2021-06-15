@@ -5,6 +5,8 @@ import './Constants.dart' as Constants;
 import 'package:async/async.dart';
 import 'package:preload_page_view/preload_page_view.dart';
 
+import 'Navigation.dart';
+
 // ignore: must_be_immutable
 class HomeTab extends StatefulWidget {
   int homePageSideScrollPosition;
@@ -37,11 +39,16 @@ class _HomeTabState extends State<HomeTab> {
                 // Build the widget with data.
                 print("Home Page Displayed");
                 return Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      bottom: Constants.bottomNavBarHeight,
-                    ),
-                    child: buildContent(snapshot.data),
+                  child: ValueListenableBuilder(
+                    valueListenable: showBottomNavBar,
+                    builder: (BuildContext context, bool showBottomNavBar, Widget child) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          bottom: showBottomNavBar ? Constants.bottomNavBarHeight : 0,
+                        ),
+                        child: buildContent(snapshot.data),
+                      );
+                    },
                   ),
                 );
               } else {
