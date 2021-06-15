@@ -22,7 +22,7 @@ Future<String> updateOne(String uid, String param, String paramVal) async {
       "paramVal": paramVal,
     };
 
-    String reqString = Constants.nodeURL + "updateOne";
+    String reqString = Constants.nodeURL + "user/updateOne";
     print("Sending Request To: " + reqString);
     response = await dio.post(reqString, queryParameters: params);
 
@@ -52,7 +52,7 @@ Future<String> addComment(String pid, String comm, String time) async {
       "time": time,
     };
 
-    String reqString = Constants.nodeURL + "addComment";
+    String reqString = Constants.nodeURL + "content/addComment";
     print("Sending Request To: " + reqString);
     response = await dio.post(reqString, queryParameters: params);
 
@@ -78,7 +78,7 @@ Future<String> reportBug(String uid, String bug) async {
       "bug": bug,
     };
 
-    String reqString = Constants.nodeURL + "reportBug";
+    String reqString = Constants.nodeURL + "misc/reportBug";
     print("Sending Request To: " + reqString);
     response = await dio.post(reqString, queryParameters: params);
 
@@ -139,7 +139,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadImage";
+      String uri = Constants.nodeURL + "content/uploadImage";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -168,7 +168,7 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadThumbnail";
+      String uri = Constants.nodeURL + "content/uploadThumbnail";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -202,7 +202,7 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadKlip";
+      String uri = Constants.nodeURL + "content/uploadKlip";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -234,7 +234,7 @@ Future<String> updateAvatar(String filePath, String uid) async {
         'record': null
       });
 
-      String uri = Constants.nodeURL + "uploadAvatar";
+      String uri = Constants.nodeURL + "user/uploadAvatar";
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
@@ -274,7 +274,7 @@ Future<String> getImageFromGallery() async {
 Future<List<dynamic>> listContentMongo() async {
   Response response;
   try {
-    String uri = Constants.nodeURL + "listContentMongo";
+    String uri = Constants.nodeURL + "content/listContentMongo";
     print("Sending Request To: " + uri);
     response = await dio.get(uri);
     if (response.statusCode == 200) {
@@ -307,7 +307,7 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
       "title": title,
       "body": body,
     };
-    String uri = Constants.nodeURL + "addTextContent";
+    String uri = Constants.nodeURL + "content/addTextContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -337,7 +337,7 @@ Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) 
       "title": title,
       "options": options,
     };
-    String uri = Constants.nodeURL + "addPollContent";
+    String uri = Constants.nodeURL + "content/addPollContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -362,7 +362,7 @@ Future<dynamic> voteOnPoll(String uid, String pid, int valVoted) async {
       "uid": uid,
       "valVoted": valVoted,
     };
-    String uri = Constants.nodeURL + "voteOnPoll";
+    String uri = Constants.nodeURL + "content/voteOnPoll";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -382,7 +382,7 @@ Future<dynamic> getNotifications(String uid) async {
   Response response;
   try {
     Map<String, dynamic> params = {"uid": uid};
-    String uri = Constants.nodeURL + "getNotifications";
+    String uri = Constants.nodeURL + "notif/getNotifications";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -402,7 +402,7 @@ Future<dynamic> addNotification(String uid, String newText, bool sentVal) async 
   Response response;
   try {
     Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
-    String uri = Constants.nodeURL + "addNotification";
+    String uri = Constants.nodeURL + "notif/addNotification";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -477,7 +477,7 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
       "uid1": uid1,
       "uid2": uid2,
     };
-    String uri = Constants.nodeURL + "userFollowsUser";
+    String uri = Constants.nodeURL + "user/userFollowsUser";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -503,7 +503,7 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
       "uid2": uid2,
     };
 
-    String uri = Constants.nodeURL + "userUnfollowsUser";
+    String uri = Constants.nodeURL + "user/userUnfollowsUser";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
 
@@ -529,7 +529,7 @@ Future<String> likeContent(String pid, String uid) async {
       "pid": pid,
       "uid": uid,
     };
-    String uri = Constants.nodeURL + "likeContent";
+    String uri = Constants.nodeURL + "content/likeContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -554,7 +554,7 @@ Future<String> unlikeContent(String pid, String uid) async {
       "pid": pid,
       "uid": uid,
     };
-    String uri = Constants.nodeURL + "unlikeContent";
+    String uri = Constants.nodeURL + "content/unlikeContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -578,7 +578,7 @@ Future<String> postViewed(String pid) async {
     Map<String, String> params = {
       "pid": pid,
     };
-    String uri = Constants.nodeURL + "postViewed";
+    String uri = Constants.nodeURL + "content/postViewed";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -603,7 +603,7 @@ Future<dynamic> getUserContent(String uid) async {
       "uid": uid,
     };
 
-    String uri = Constants.nodeURL + "getUserContent";
+    String uri = Constants.nodeURL + "content/getUserContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
 
@@ -631,7 +631,7 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
       //must be not null or empty string and it will attempt to delete the thumbnail
     };
 
-    String uri = Constants.nodeURL + "deleteContent";
+    String uri = Constants.nodeURL + "content/deleteContent";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
