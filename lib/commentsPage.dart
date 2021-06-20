@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'Requests.dart';
+import 'currentUser.dart';
 import 'widgets.dart';
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'Navigation.dart';
@@ -101,10 +102,24 @@ class _CommentsPageState extends State<CommentsPage> {
                               padding: EdgeInsets.only(
                                 right: 10,
                               ),
-                              child: CircleAvatar(
-                                radius: 15,
-                                backgroundImage: NetworkImage(comments[index][2]), //Profile Pic
-                              ),
+                              child: FutureBuilder<Widget>(
+                                future: getProfileImage(comments[index][2], getAWSLink(comments[index][0])),
+                                // a previously-obtained Future<String> or null
+                                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                                  double imageRadius = 16;
+                                  if (snapshot.hasData) {
+                                    return CircleAvatar(
+                                      radius: imageRadius,
+                                      child: ClipOval(child: snapshot.data ?? Container()),
+                                    );
+                                  } else {
+                                    return CircleAvatar(
+                                      radius: imageRadius,
+                                      child: ClipOval(child: Constants.tempAvatar ?? Container()),
+                                    );
+                                  }
+                                },
+                              ), //Profile Pic
                             ),
                             //COMMENT GENERATION NEEDS TO BE A FUNCTION
                             Column(
@@ -165,12 +180,25 @@ class _CommentsPageState extends State<CommentsPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      CircleAvatar(
-                        radius: 16,
-                        backgroundImage: NetworkImage(
-                          currentUser.avatarLink,
-                        ), //Profile Pic
-                      ),
+                      FutureBuilder<Widget>(
+                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid)),
+                        // a previously-obtained Future<String> or null
+                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                          double imageRadius = 16;
+                          if (snapshot.hasData) {
+                            return CircleAvatar(
+                              radius: imageRadius,
+                              child: ClipOval(child: snapshot.data ?? Container()),
+                            );
+                          } else {
+                            return CircleAvatar(
+                              radius: imageRadius,
+                              child: ClipOval(child: Constants.tempAvatar ?? Container()),
+                            );
+                          }
+                        },
+                      ), //Profile Pic
+
                       Container(
                         width: MediaQuery.of(context).size.width * 8 / 10,
                         decoration: BoxDecoration(

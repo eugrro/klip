@@ -763,6 +763,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 Container(),
                                 focusNode: fcs,
                                 isAutoFocus: true,
+                                fontSize: 16,
                               ),
                             ),
                           ),
