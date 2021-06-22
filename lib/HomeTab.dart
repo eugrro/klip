@@ -46,7 +46,7 @@ class _HomeTabState extends State<HomeTab> {
                         padding: EdgeInsets.only(
                           bottom: showBottomNavBar ? Constants.bottomNavBarHeight : 0,
                         ),
-                        child: buildContent(snapshot.data),
+                        child: buildContent(List.from(snapshot.data.reversed)),
                       );
                     },
                   ),

@@ -50,6 +50,63 @@ Widget klipLogo(double height, double width) {
   );
 }
 
+//Converts the time the comment was posted to a string
+//Expects an input of time since epoch in seconds
+//returns a string like '1d' or '3w'
+String getTimeFromSeconds(String input) {
+  //entire function is in seconds no need to go to milliseconds
+  if (input == "" || input == " " || input == null) return "";
+  //get current time in seconds
+  int currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round();
+  print("INPUT: " + input);
+  int inputTime = int.tryParse(input);
+  if (inputTime == null) return "";
+  int differenceTime = currTime - inputTime;
+  //Year
+  int oneYear = 60 * 60 * 24 * 365;
+  if (differenceTime > oneYear) {
+    int numYears = (differenceTime / oneYear).round();
+    if (numYears == 0) return "ERROR year";
+    return numYears.toString() + "y";
+  }
+  //Month
+  int oneMonth = 60 * 60 * 24 * 30;
+  if (differenceTime > oneMonth) {
+    int numMonths = (differenceTime / oneMonth).round();
+    if (numMonths == 0) return "ERROR month";
+    return numMonths.toString() + "m";
+  }
+  //Week
+  int oneWeek = 60 * 60 * 24 * 7;
+  if (differenceTime > oneWeek) {
+    int numWeeks = (differenceTime / oneWeek).round();
+    if (numWeeks == 0) return "ERROR week";
+    return numWeeks.toString() + "w";
+  }
+  //Day
+  int oneDay = 60 * 60 * 24;
+  if (differenceTime > oneDay) {
+    int numDays = (differenceTime / oneDay).round();
+    if (numDays == 0) return "ERROR day";
+    return numDays.toString() + "d";
+  }
+  //Hour
+  int oneHour = 60 * 60;
+  if (differenceTime > oneHour) {
+    int numHours = (differenceTime / oneHour).round();
+    if (numHours == 0) return "ERROR day";
+    return numHours.toString() + "h";
+  }
+  //Minutes
+  int oneMinute = 60;
+  if (differenceTime > oneMinute) {
+    int numMinutes = (differenceTime / oneMinute).round();
+    if (numMinutes == 0) return "ERROR min";
+    return numMinutes.toString() + " min";
+  }
+  return "< 1 minute ago";
+}
+
 void showError(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),

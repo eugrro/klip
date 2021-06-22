@@ -19,7 +19,7 @@ Dio dio = new Dio();
 // ignore: non_constant_identifier_names
 Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
     TextEditingController contrl, Widget prefixIcon,
-    {isObscured = false, isAutoFocus = false, FocusNode focusNode}) {
+    {isObscured = false, isAutoFocus = false, FocusNode focusNode, double fontSize = 20}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {},
@@ -70,7 +70,7 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
                 ),
                 style: TextStyle(
                   color: Constants.backgroundWhite.withOpacity(.9),
-                  fontSize: 20 + Constants.textChange,
+                  fontSize: fontSize + Constants.textChange,
                 ),
               ),
             ),

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:klip/InspectContent.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart';
+import 'package:klip/widgets.dart';
 import 'Constants.dart' as Constants;
 import 'ContentVideoWidget.dart';
 
@@ -100,169 +102,103 @@ class _ContentWidgetState extends State<ContentWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        obj["title"] != null
-            ? Text(
-                obj["title"] ?? "",
-                style: TextStyle(
-                  color: Constants.backgroundWhite,
-                  fontSize: 17 + Constants.textChange,
-                ),
-              )
-            : Container(),
-        Container(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: ClipOval(
-                    child: FutureBuilder<Widget>(
-                      future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
-                      // a previously-obtained Future<String> or null
-                      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                        double sizeofImage = 25;
-                        if (snapshot.hasData) {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: snapshot.data,
-                          );
-                        } else {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: Constants.tempAvatar,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    callback(2);
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
-                  },
-                  child: Text(
-                    obj["uName"] ?? "usernameError",
-                    style: TextStyle(
-                      color: Constants.backgroundWhite.withOpacity(.7),
-                      fontSize: 14 + Constants.textChange,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 6,
-                    right: 6,
-                    top: 2,
-                  ),
-                  child: Icon(
-                    Icons.circle,
-                    color: Constants.backgroundWhite,
-                    size: 5,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.more_vert,
-                color: Constants.backgroundWhite,
-                size: 25,
-              ),
-            ),
-          ],
+        //===============================================================
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InspectContent(content ?? Container())));
+          },
+          child: content ?? Container(),
         ),
 
-        //===============================================================
-        content ?? Container(),
         //===============================================================
 
         Padding(
           padding: EdgeInsets.only(
-            top: 5,
+            top: 10,
             bottom: 8,
+            left: 20,
+            right: 20,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (likedPost) {
-                    unlikeContent(
-                      obj["pid"],
-                      currentUser.uid,
-                    );
-                    obj["numLikes"] -= 1;
-                  } else {
-                    likeContent(
-                      obj["pid"],
-                      currentUser.uid,
-                    );
-                    obj["numLikes"] += 1;
-                  }
-                  setState(() {
-                    likedPost = !likedPost;
-                  });
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.favorite_border_rounded,
-                      color: likedPost ? Constants.purpleColor : Constants.hintColor,
-                      size: 24,
+              Row(
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      if (likedPost) {
+                        unlikeContent(
+                          obj["pid"],
+                          currentUser.uid,
+                        );
+                        obj["numLikes"] -= 1;
+                      } else {
+                        likeContent(
+                          obj["pid"],
+                          currentUser.uid,
+                        );
+                        obj["numLikes"] += 1;
+                      }
+                      setState(() {
+                        likedPost = !likedPost;
+                      });
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.favorite_border_rounded,
+                          color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                          size: 24,
+                        ),
+                        Container(
+                          width: spaceBetweenBottomContent,
+                        ),
+                        Text(
+                          obj["numLikes"].toString() ?? "error",
+                          style: TextStyle(
+                            color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                            fontSize: 14 + Constants.textChange,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: spaceBetweenBottomContent,
+                  ),
+                  Container(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      callback(0).then((value) {
+                        print("RETURNED TO USER PAGE");
+                        setState(() {});
+                      });
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.mode_comment_outlined,
+                          color: Constants.hintColor,
+                          size: 24,
+                        ),
+                        Container(
+                          width: spaceBetweenBottomContent,
+                        ),
+                        Text(
+                          obj["comm"].length.toString() ?? "error",
+                          style: TextStyle(
+                            color: Constants.hintColor,
+                            fontSize: 14 + Constants.textChange,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      obj["numLikes"].toString() ?? "error",
-                      style: TextStyle(
-                        color: likedPost ? Constants.purpleColor : Constants.hintColor,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  callback(0).then((value) {
-                    print("RETURNED TO USER PAGE");
-                    setState(() {});
-                  });
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.mode_comment_outlined,
-                      color: Constants.hintColor,
-                      size: 24,
-                    ),
-                    Container(
-                      width: spaceBetweenBottomContent,
-                    ),
-                    Text(
-                      obj["comm"].length.toString() ?? "error",
-                      style: TextStyle(
-                        color: Constants.hintColor,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -282,11 +218,110 @@ class _ContentWidgetState extends State<ContentWidget> {
                       fontSize: 14 + Constants.textChange,
                     ),
                   ),
+                  Container(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      showContentOptions(context);
+                    },
+                    child: Text(
+                      "!",
+                      style: TextStyle(
+                        color: Constants.hintColor,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ],
           ),
         ),
+        GestureDetector(
+          onTap: () {
+            callback(2);
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 10,
+                ),
+                child: ClipOval(
+                  child: FutureBuilder<Widget>(
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    // a previously-obtained Future<String> or null
+                    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                      double sizeofImage = 40;
+                      if (snapshot.hasData) {
+                        return Container(
+                          height: sizeofImage,
+                          width: sizeofImage,
+                          child: snapshot.data,
+                        );
+                      } else {
+                        return Container(
+                          height: sizeofImage,
+                          width: sizeofImage,
+                          child: Constants.tempAvatar,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  obj["title"] != null
+                      ? Text(
+                          obj["title"] ?? "",
+                          style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 17 + Constants.textChange,
+                          ),
+                        )
+                      : Container(),
+                  Row(
+                    children: [
+                      Text(
+                        obj["uName"] ?? "usernameError",
+                        style: TextStyle(
+                          color: Constants.hintColor,
+                          fontSize: 14 + Constants.textChange,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 2,
+                        ),
+                        child: Icon(
+                          Icons.circle,
+                          color: Constants.hintColor,
+                          size: 5,
+                        ),
+                      ),
+                      Text(
+                        getTimeFromSeconds(obj["pid"].split("_")[1]),
+                        style: TextStyle(
+                          color: Constants.hintColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
         Container(
           height: 5,
         ),
@@ -305,9 +340,11 @@ class _ContentWidgetState extends State<ContentWidget> {
         }
       },
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: EdgeInsets.only(top: 8, bottom: 8),
         child: Image.network(
           link,
+          height: 400,
+          fit: BoxFit.fitHeight,
         ),
       ),
     );
@@ -522,5 +559,79 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
     }
     return largest;
+  }
+
+  Widget delimeter(double width) {
+    return Container(
+      height: .5,
+      width: width,
+      color: Constants.hintColor,
+    );
+  }
+
+  showContentOptions(BuildContext ctx) {
+    showDialog<void>(
+      context: ctx,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(ctx).size.width * .7,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Constants.backgroundBlack,
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                delimeter(MediaQuery.of(ctx).size.width * .9),
+                Material(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showSnackbar(context, "Post has been reported successfully");
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Report"),
+                          Icon(Icons.arrow_right_alt),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                delimeter(MediaQuery.of(ctx).size.width * .9),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SizeProviderWidget extends StatefulWidget {
+  final Widget child;
+  final Function(Size) onChildSize;
+
+  const SizeProviderWidget({Key key, this.onChildSize, this.child}) : super(key: key);
+  @override
+  _SizeProviderWidgetState createState() => _SizeProviderWidgetState();
+}
+
+class _SizeProviderWidgetState extends State<SizeProviderWidget> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.onChildSize(context.size);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }
