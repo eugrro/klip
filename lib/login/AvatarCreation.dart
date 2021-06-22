@@ -101,7 +101,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                   child: SingleChildScrollView(
                       child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    Text("Choose A Avatar",
+                    Text("Choose an Avatar",
                         overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 32 + Constants.textChange)),
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
                     GestureDetector(

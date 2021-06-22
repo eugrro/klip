@@ -55,3 +55,4 @@ build/app/intermediates/incremental/debug-mergeJavaRes/zip-cache/IIdct2ITJeS_ZUM
 build/app/intermediates/stripped_native_libs/debug/out/lib/x86_64/libflutter.so
 lib/server/keys.js
 android/key.properties
+pubspec.lock

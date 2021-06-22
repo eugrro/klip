@@ -267,7 +267,7 @@ class _UserPageState extends State<UserPage> {
                                 ),
                               ),
                             ),
-                            bio != null
+                            bio != null && bio != "" && bio != " "
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 5, bottom: 5),
                                     child: Text(
@@ -329,7 +329,22 @@ class _UserPageState extends State<UserPage> {
                       shrinkWrap: true,
                       padding: EdgeInsets.only(top: 10, bottom: 0),
                       itemBuilder: (context, index) {
-                        return ContentListItem(objList[index], isHomeUserPage);
+                        return Column(
+                          children: [
+                            ContentListItem(objList[index], isHomeUserPage),
+                            ///////////////////////////DELIMETER//////////////////////////
+                            index != objList.length - 1
+                                ? Center(
+                                    child: Container(
+                                      height: .5,
+                                      width: MediaQuery.of(context).size.width * .95,
+                                      color: Constants.hintColor,
+                                    ),
+                                  )
+                                : Container(),
+                            ///////////////////////////DELIMETER//////////////////////////
+                          ],
+                        );
                       },
                     );
                   } else {
@@ -337,7 +352,10 @@ class _UserPageState extends State<UserPage> {
                       child: Container(
                         height: 50,
                         width: 50,
-                        child: CircularProgressIndicator(),
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 10),
+                          child: CircularProgressIndicator(),
+                        ),
                       ),
                     );
                   }

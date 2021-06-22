@@ -134,9 +134,8 @@ class _AddNewImageState extends State<AddNewImage> with TickerProviderStateMixin
           },
           child: Container(
             decoration: BoxDecoration(
-              border: Border.all(
-                  color: tappedGallery[index] == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
-                  width: tappedGallery[index] == 1 ? 3 : 1),
+              border:
+                  Border.all(color: tappedGallery[index] == 1 ? Constants.purpleColor : Colors.transparent, width: tappedGallery[index] == 1 ? 3 : 0),
             ),
             child: FutureBuilder<File>(
               future: loadImage(assetList[index]), // a previously-obtained Future<String> or null

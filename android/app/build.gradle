@@ -11,15 +11,6 @@ if (flutterRoot == null) {
     throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '0.1.0'
-}
-
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
 
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
@@ -49,8 +40,8 @@ android {
         applicationId "com.klipApp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
-        versionName flutterVersionName
+        versionCode 1
+        versionName "1.0"
         multiDexEnabled true
     }
 
