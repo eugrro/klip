@@ -6,7 +6,7 @@ import 'package:flutter/material.dart';
 Color purpleColor = Color(0xff6E5Ac9);
 Color backgroundBlack = Color(0xff282828);
 Color backgroundWhite = Color(0xfff8f8f8);
-Color hintColor = Color(0xffc0c0c0);
+Color hintColor = Color(0xffa0a0a0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
