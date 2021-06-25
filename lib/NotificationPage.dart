@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 import 'package:klip/Navigation.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart' as currentUser;
@@ -14,6 +15,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+
   Color receiveColor = Colors.black.withOpacity(.5);
   Color sendColor = Constants.purpleColor;
   //true is sent
@@ -27,6 +29,14 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   void initState() {
     super.initState();
+    var keyboardVisibilityController = KeyboardVisibilityController();
+    keyboardVisibilityController.onChange.listen((bool visible) {
+      print('Keyboard visibility update. Is visible: ${visible}');
+      if (visible)
+        showBottomNavBar.value = false;
+      else
+        showBottomNavBar.value = true;
+    });
   }
 
   @override
@@ -88,7 +98,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     Container(
                       padding: EdgeInsets.only(left: 20, right: 15, top: 7, bottom: 7),
                       decoration: BoxDecoration(
-                        color: Constants.hintColor.withOpacity(.4),
+                        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.4),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: ExpandingTextField(
@@ -100,19 +110,19 @@ class _NotificationPageState extends State<NotificationPage> {
                           minLines: 1, // number of lines your textfield start with
                           maxLines: null,
                           textAlignVertical: TextAlignVertical.center,
-                          cursorColor: Constants.backgroundWhite,
+                          cursorColor: Theme.of(context).textTheme.bodyText1.color,
                           cursorWidth: 1.5,
                           decoration: InputDecoration(
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Send a Message",
                             hintStyle: TextStyle(
-                              color: Constants.backgroundWhite.withOpacity(.7),
+                              color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.7),
                               fontSize: 13 + Constants.textChange,
                             ),
                           ),
                           style: TextStyle(
-                            color: Constants.backgroundWhite.withOpacity(.9),
+                            color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
                             fontSize: 13 + Constants.textChange,
                           ),
                         ),
@@ -136,7 +146,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       },
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundColor: Constants.hintColor,
+                        backgroundColor: Theme.of(context).textTheme.bodyText2.color,
                         child: Icon(
                           Icons.send_rounded,
                         ),
@@ -146,7 +156,7 @@ class _NotificationPageState extends State<NotificationPage> {
                 ),
               ),
               Container(
-                height: 55,
+                height: showBottomNavBar.value ? 55 : 0,
               ),
             ],
           ),

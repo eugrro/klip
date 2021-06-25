@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
-
+import "package:theme_provider/theme_provider.dart";
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
@@ -19,8 +19,14 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   AsyncMemoizer _memoizer;
+  void setUpPreferences() async {
+    await pullUserFromSharedPreferences();
+    ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
+  }
+
   @override
   void initState() {
+    setUpPreferences();
     super.initState();
     _memoizer = AsyncMemoizer();
   }
@@ -36,8 +42,6 @@ class _StartPageState extends State<StartPage> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data == "UserSignedIn") {
             //setUpCurrentUser(uid);
-
-            pullUserFromSharedPreferences();
             return Navigation();
           } else {
             print("DATA " + snapshot.data.toString());
@@ -69,7 +73,12 @@ class _StartPageState extends State<StartPage> {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     stops: [0.1, 0.4, 0.5, 0.9],
-                    colors: [Theme.of(context).textSelectionTheme.cursorColor, Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6), Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1), Colors.transparent],
+                    colors: [
+                      Constants.purpleColor,
+                      Constants.purpleColor.withOpacity(.6),
+                      Constants.purpleColor.withOpacity(.1),
+                      Colors.transparent
+                    ],
                   ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                 },
                 blendMode: BlendMode.srcIn,
@@ -92,10 +101,11 @@ class _StartPageState extends State<StartPage> {
                       end: Alignment.bottomRight,
                       stops: [.3, .8],
                       colors: [
-                        Theme.of(context).textTheme.bodyText1.color,
-                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Constants.backgroundWhite,
+                        Constants.purpleColor,
                       ],
-                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(
+                        Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Center(
@@ -126,13 +136,15 @@ class _StartPageState extends State<StartPage> {
                       gradient: LinearGradient(
                         begin: Alignment.centerLeft,
                         end: Alignment.centerRight,
-                        colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
+                        colors: [Constants.purpleColor, Color(0xffab57a8)],
                       ),
                     ),
                     child: Center(
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 24 + Constants.textChange),
+                        style: TextStyle(
+                            color: Constants.backgroundWhite,
+                            fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),
@@ -155,13 +167,15 @@ class _StartPageState extends State<StartPage> {
                       borderRadius: BorderRadius.all(Radius.circular(100)),
                       border: Border.all(
                         width: 3,
-                        color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.3),
+                        color: Constants.purpleColor.withOpacity(.3),
                       ),
                     ),
                     child: Center(
                       child: Text(
                         "Sign In",
-                        style: TextStyle(color: Theme.of(context).textSelectionTheme.cursorColor, fontSize: 24 + Constants.textChange),
+                        style: TextStyle(
+                            color: Constants.purpleColor,
+                            fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),

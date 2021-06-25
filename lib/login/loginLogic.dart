@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import "package:http/http.dart" as http;
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -39,7 +39,8 @@ Widget LoginTextField(
         borderRadius: BorderRadius.all(Radius.circular(100)),
         border: Border.all(
           width: borderThickness,
-          color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.8),
+          color:
+              Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.8),
         ),
       ),
       child: Stack(
@@ -57,7 +58,7 @@ Widget LoginTextField(
                 left: 10 + imgThickness,
                 right: 20, //+ imgThickness,
               ),
-              child: TextField(
+              child: TextFormField(
                 autofocus: isAutoFocus,
                 focusNode: focusNode != null ? focusNode : new FocusNode(),
                 controller: contrl,
@@ -72,13 +73,21 @@ Widget LoginTextField(
                   border: InputBorder.none,
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
+                    color: Theme.of(context)
+                        .textTheme
+                        .bodyText1
+                        .color
+                        .withOpacity(.6),
                     fontSize: 20 + Constants.textChange,
                   ),
                   //suffixIcon: postText(),
                 ),
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+                  color: Theme.of(context)
+                      .textTheme
+                      .bodyText1
+                      .color
+                      .withOpacity(.9),
                   fontSize: 20 + Constants.textChange,
                 ),
               ),
@@ -183,6 +192,30 @@ Future<String> signOutUser() async {
   return "SignOutSuccessful";
 }
 
+Future<String> deleteUser() async {
+  await Firebase.initializeApp();
+  await FirebaseAuth.instance.currentUser.delete().catchError((err) {
+    if (err) {
+      print("Ran Into Error! deleteUser => " + err.toString());
+      return "ERROR";
+    }
+  });
+  try {
+    //if in MongoDB, delete there with delete request
+    var queryParams = {"uid": "${currentUser.uid}"};
+    var uri = Uri.http("10.0.2.2:3000", "/user/deleteAccount", queryParams);
+      //send to Constants.nodeURL endpoint when functional
+    print("UID upon deletion...: $queryParams");
+    var res = await http.delete(uri);
+    print("Deletion Successful: ${res.body}");
+  } catch (err) {
+    print("Account deletion in MongoDB failed: $err");
+    return "AccountDeletionFailed";
+  }
+  await signOutUser();
+  return "AccountDeletionSuccessful";
+}
+
 Future<String> signUp(String user, String pass) async {
   await Firebase.initializeApp();
   UserCredential userCredential = await FirebaseAuth.instance
@@ -232,7 +265,7 @@ Future<bool> doesUserExist(String email) async {
       "email": email,
     };
 
-    String uri = Constants.nodeURL + "doesUserExist";
+    String uri = Constants.nodeURL + "user/doesUserExist";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
 
@@ -270,13 +303,14 @@ Future<String> postUser(
       "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
+      "themePreference": "dark",
       "following": [],
       "followers": [],
       "subscribing": [],
       "subscribers": [],
     };
 
-    String uri = Constants.nodeURL + "postUser";
+    String uri = Constants.nodeURL + "user/postUser";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
 
@@ -300,7 +334,7 @@ Future<Map<String, dynamic>> getUser(String uid) async {
     Map<String, String> params = {
       "uid": uid,
     };
-    String uri = Constants.nodeURL + "getUser";
+    String uri = Constants.nodeURL + "user/getUser";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -322,7 +356,7 @@ Future<Map<String, dynamic>> getUser(String uid) async {
 Future<void> setUpCurrentUserFromMongo(String uid) async {
   print("Setting up user from mongo");
   var user = await getUser(uid);
-  print(user);
+  print("USER SUCCESS: $user");
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
@@ -338,6 +372,7 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
         "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
     currentUser.userProfileImg =
         getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    currentUser.themePreference = user["themePreference"];
     try {
       for (uid in user["following"]) {
         currentUser.currentUserFollowing.add(uid);
@@ -378,6 +413,7 @@ void setUpCurrentUserFromNewData(
       "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
   currentUser.userProfileImg =
       getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+  currentUser.themePreference = "dark"; //default value
 }
 
 bool validinput(
@@ -410,7 +446,7 @@ Future<String> updateUsername(String uid, String uName) async {
       "uid": uid,
       "uName": uName,
     };
-    String uri = Constants.nodeURL + "updateUsername";
+    String uri = Constants.nodeURL + "user/updateUsername";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -433,7 +469,7 @@ Future<bool> doesUsernameExist(String username) async {
     Map<String, String> params = {
       "uName": username,
     };
-    String uri = Constants.nodeURL + "doesUsernameExist";
+    String uri = Constants.nodeURL + "user/doesUsernameExist";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {

@@ -49,7 +49,6 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
 
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
     return VisibilityDetector(
       key: Key(obj['pid']),
       onVisibilityChanged: (visibilityInfo) {

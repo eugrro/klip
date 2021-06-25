@@ -11,7 +11,7 @@ description: A new Flutter project.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 0.0.1
 
 environment:
   sdk: ">=2.6.0 <3.0.0"
@@ -31,7 +31,7 @@ dependencies:
   dio: ^4.0.0
   #dio updated 4/15/21
   mime: ^0.9.7
-  better_player: ^0.0.37
+  #better_player: ^0.0.37
   cupertino_icons: ^1.0.0
   flutter_svg: ^0.21.0-nullsafety.0
   stripe_payment: ^1.0.10
@@ -41,8 +41,8 @@ dependencies:
   #video_editor updated 4/15/21
   #gallery_saver: ^2.1.0
   #gallery_saver updated 4/15/21
-  vibration: ^1.7.3  
-  shared_preferences: ^0.5.0
+  vibration: ^1.7.3
+  shared_preferences: ^2.0.5
   #shared_preferences updated 4/15/21
   fluttertoast: ^8.0.6
   async: ^2.5.0
@@ -50,24 +50,24 @@ dependencies:
   path_provider: ^2.0.1
   visibility_detector: ^0.2.0
   preload_page_view: ^0.1.6
-  
+  flutter_keyboard_visibility: ^5.0.2
+  photo_view: ^0.11.1
+
   simple_image_crop:
     git:
       url: git://github.com/eugrro/flutter_simple_image_crop.git
-  
+
   flutter_launcher_icons: ^0.9.0
-  wakelock: ^0.5.2
-  in_app_review: ^2.0.2
-  dynamic_theme: ^1.0.0 
-  
+  theme_provider: ^0.5.0
+  string_extensions: ^0.1.4
+
 flutter_icons:
   android: true
   ios: true
   remove_alpha_ios: true
   adaptive_icon_foreground: #191919
   image_path: "lib/assets/images/klipIconJpg.jpg"
-#flutter pub run flutter_launcher_icons:main  
-      
+#flutter pub run flutter_launcher_icons:main
 
 dev_dependencies:
   flutter_test:
@@ -78,9 +78,6 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
-  
-  
-
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -88,9 +85,9 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-     - lib/assets/vids/
-     - lib/assets/images/
-     - lib/assets/iconsUI/
+    - lib/assets/vids/
+    - lib/assets/images/
+    - lib/assets/iconsUI/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

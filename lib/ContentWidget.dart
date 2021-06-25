@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:klip/InspectContent.dart';
 import 'package:klip/Requests.dart';
 import 'package:klip/currentUser.dart';
+import 'package:klip/widgets.dart';
 import 'Constants.dart' as Constants;
 import 'ContentVideoWidget.dart';
 
@@ -100,169 +102,103 @@ class _ContentWidgetState extends State<ContentWidget> {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        obj["title"] != null
-            ? Text(
-                obj["title"] ?? "",
-                style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color,
-                  fontSize: 17 + Constants.textChange,
-                ),
-              )
-            : Container(),
-        Container(
-          height: 10,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 10,
-                    right: 10,
-                  ),
-                  child: ClipOval(
-                    child: FutureBuilder<Widget>(
-                      future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
-                      // a previously-obtained Future<String> or null
-                      builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                        double sizeofImage = 25;
-                        if (snapshot.hasData) {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: snapshot.data,
-                          );
-                        } else {
-                          return Container(
-                            height: sizeofImage,
-                            width: sizeofImage,
-                            child: Constants.tempAvatar,
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-                GestureDetector(
-                  onTap: () {
-                    callback(2);
-                    //Navigator.push(context, MaterialPageRoute(builder: (context) => UserPage(obj["uid"])));
-                  },
-                  child: Text(
-                    obj["uName"] ?? "usernameError",
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.7),
-                      fontSize: 14 + Constants.textChange,
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    left: 6,
-                    right: 6,
-                    top: 2,
-                  ),
-                  child: Icon(
-                    Icons.circle,
-                    color: Theme.of(context).textTheme.bodyText1.color,
-                    size: 5,
-                  ),
-                ),
-              ],
-            ),
-            Padding(
-              padding: EdgeInsets.only(right: 10),
-              child: Icon(
-                Icons.more_vert,
-                color: Theme.of(context).textTheme.bodyText1.color,
-                size: 25,
-              ),
-            ),
-          ],
+        //===============================================================
+
+        GestureDetector(
+          onTap: () {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InspectContent(content ?? Container())));
+          },
+          child: content ?? Container(),
         ),
 
-        //===============================================================
-        content ?? Container(),
         //===============================================================
 
         Padding(
           padding: EdgeInsets.only(
-            top: 5,
+            top: 10,
             bottom: 8,
+            left: 20,
+            right: 20,
           ),
           child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              GestureDetector(
-                behavior: HitTestBehavior.translucent,
-                onTap: () {
-                  if (likedPost) {
-                    unlikeContent(
-                      obj["pid"],
-                      currentUser.uid,
-                    );
-                    obj["numLikes"] -= 1;
-                  } else {
-                    likeContent(
-                      obj["pid"],
-                      currentUser.uid,
-                    );
-                    obj["numLikes"] += 1;
-                  }
-                  setState(() {
-                    likedPost = !likedPost;
-                  });
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.favorite_border_rounded,
-                      color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
-                      size: 24,
+              Row(
+                children: [
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      if (likedPost) {
+                        unlikeContent(
+                          obj["pid"],
+                          currentUser.uid,
+                        );
+                        obj["numLikes"] -= 1;
+                      } else {
+                        likeContent(
+                          obj["pid"],
+                          currentUser.uid,
+                        );
+                        obj["numLikes"] += 1;
+                      }
+                      setState(() {
+                        likedPost = !likedPost;
+                      });
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.favorite_border_rounded,
+                          color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
+                          size: 24,
+                        ),
+                        Container(
+                          width: spaceBetweenBottomContent,
+                        ),
+                        Text(
+                          obj["numLikes"].toString() ?? "error",
+                          style: TextStyle(
+                            color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
+                            fontSize: 14 + Constants.textChange,
+                          ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: spaceBetweenBottomContent,
+                  ),
+                  Container(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      callback(0).then((value) {
+                        print("RETURNED TO USER PAGE");
+                        setState(() {});
+                      });
+                    },
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Icon(
+                          Icons.mode_comment_outlined,
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                          size: 24,
+                        ),
+                        Container(
+                          width: spaceBetweenBottomContent,
+                        ),
+                        Text(
+                          obj["comm"].length.toString() ?? "error",
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText2.color,
+                            fontSize: 14 + Constants.textChange,
+                          ),
+                        ),
+                      ],
                     ),
-                    Text(
-                      obj["numLikes"].toString() ?? "error",
-                      style: TextStyle(
-                        color: likedPost ? Theme.of(context).textSelectionTheme.cursorColor : Theme.of(context).textTheme.bodyText2.color,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () {
-                  callback(0).then((value) {
-                    print("RETURNED TO USER PAGE");
-                    setState(() {});
-                  });
-                },
-                child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Icon(
-                      Icons.mode_comment_outlined,
-                      color: Theme.of(context).textTheme.bodyText2.color,
-                      size: 24,
-                    ),
-                    Container(
-                      width: spaceBetweenBottomContent,
-                    ),
-                    Text(
-                      obj["comm"].length.toString() ?? "error",
-                      style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText2.color,
-                        fontSize: 14 + Constants.textChange,
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
               Row(
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -282,11 +218,110 @@ class _ContentWidgetState extends State<ContentWidget> {
                       fontSize: 14 + Constants.textChange,
                     ),
                   ),
+                  Container(
+                    width: 20,
+                  ),
+                  GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      showContentOptions(context);
+                    },
+                    child: Text(
+                      "!",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyText2.color,
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  )
                 ],
               ),
             ],
           ),
         ),
+        GestureDetector(
+          onTap: () {
+            callback(2);
+          },
+          behavior: HitTestBehavior.translucent,
+          child: Row(
+            children: [
+              Padding(
+                padding: EdgeInsets.only(
+                  left: 20,
+                  right: 10,
+                ),
+                child: ClipOval(
+                  child: FutureBuilder<Widget>(
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    // a previously-obtained Future<String> or null
+                    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                      double sizeofImage = 40;
+                      if (snapshot.hasData) {
+                        return Container(
+                          height: sizeofImage,
+                          width: sizeofImage,
+                          child: snapshot.data,
+                        );
+                      } else {
+                        return Container(
+                          height: sizeofImage,
+                          width: sizeofImage,
+                          child: Constants.tempAvatar,
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  obj["title"] != null
+                      ? Text(
+                          obj["title"] ?? "",
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                            fontSize: 17 + Constants.textChange,
+                          ),
+                        )
+                      : Container(),
+                  Row(
+                    children: [
+                      Text(
+                        obj["uName"] ?? "usernameError",
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                          fontSize: 14 + Constants.textChange,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(
+                          left: 8,
+                          right: 8,
+                          top: 2,
+                        ),
+                        child: Icon(
+                          Icons.circle,
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                          size: 5,
+                        ),
+                      ),
+                      Text(
+                        getTimeFromSeconds(obj["pid"].split("_")[1]),
+                        style: TextStyle(
+                          color: Theme.of(context).textTheme.bodyText2.color,
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
+
         Container(
           height: 5,
         ),
@@ -296,24 +331,44 @@ class _ContentWidgetState extends State<ContentWidget> {
   }
 
   Widget imgWidget(String link) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: Image.network(
-        link,
+    return VisibilityDetector(
+      key: Key(obj['pid']),
+      onVisibilityChanged: (visibilityInfo) {
+        var visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
+          postViewed(obj['pid']);
+        }
+      },
+      child: Padding(
+        padding: EdgeInsets.only(top: 8, bottom: 8),
+        child: Image.network(
+          link,
+          height: 400,
+          fit: BoxFit.fitHeight,
+        ),
       ),
     );
   }
 
   Widget txtWidget(String title, String body) {
-    return Center(
-      child: Padding(
-        padding: EdgeInsets.only(
-          top: 25,
-          bottom: 25,
-        ),
-        child: Text(
-          body,
-          style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 16 + Constants.textChange),
+    return VisibilityDetector(
+      key: Key(obj['pid']),
+      onVisibilityChanged: (visibilityInfo) {
+        var visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
+          postViewed(obj['pid']);
+        }
+      },
+      child: Center(
+        child: Padding(
+          padding: EdgeInsets.only(
+            top: 25,
+            bottom: 25,
+          ),
+          child: Text(
+            body,
+            style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 16 + Constants.textChange),
+          ),
         ),
       ),
     );
@@ -323,165 +378,174 @@ class _ContentWidgetState extends State<ContentWidget> {
   ValueNotifier<bool> isShowingResultForPoll = ValueNotifier(false);
   Widget pollWidget(dynamic options, dynamic optionsCount, String pid) {
     double heightOfPollItem = 50;
-    return Column(
-      children: [
-        ListView.builder(
-          physics: NeverScrollableScrollPhysics(),
-          shrinkWrap: true,
-          padding: EdgeInsets.only(top: 20),
-          itemCount: options.length,
-          itemBuilder: (context, index) {
-            return ValueListenableBuilder(
-              valueListenable: isShowingResultForPoll,
-              builder: (BuildContext context, bool showResults, Widget child) {
-                if (!showResults) {
-                  //USER IS STILL SELECTING A RESULT
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 16,
-                      right: MediaQuery.of(context).size.width / 16,
-                    ),
-                    child: InkWell(
-                      onTap: () {
-                        pollValueSelected.value = index;
-                      },
+    return VisibilityDetector(
+      key: Key(obj['pid']),
+      onVisibilityChanged: (visibilityInfo) {
+        var visiblePercentage = visibilityInfo.visibleFraction * 100;
+        if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
+          postViewed(obj['pid']);
+        }
+      },
+      child: Column(
+        children: [
+          ListView.builder(
+            physics: NeverScrollableScrollPhysics(),
+            shrinkWrap: true,
+            padding: EdgeInsets.only(top: 20),
+            itemCount: options.length,
+            itemBuilder: (context, index) {
+              return ValueListenableBuilder(
+                valueListenable: isShowingResultForPoll,
+                builder: (BuildContext context, bool showResults, Widget child) {
+                  if (!showResults) {
+                    //USER IS STILL SELECTING A RESULT
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 16,
+                        right: MediaQuery.of(context).size.width / 16,
+                      ),
+                      child: InkWell(
+                        onTap: () {
+                          pollValueSelected.value = index;
+                        },
+                        child: Container(
+                          height: heightOfPollItem,
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              ValueListenableBuilder(
+                                  valueListenable: pollValueSelected,
+                                  builder: (BuildContext context, int pollVal, Widget child) {
+                                    return Icon(
+                                      pollVal == index ? Icons.radio_button_on : Icons.radio_button_off,
+                                      size: 15,
+                                      color: Theme.of(context).textSelectionTheme.cursorColor,
+                                    );
+                                  }),
+                              Container(
+                                width: 20,
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Text(
+                                  options[index],
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    fontSize: 16 + Constants.textChange,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    );
+                  } else {
+                    //SHOWING RESULTS
+                    int currentVote = obj["optionsCount"][index];
+                    double ratio = currentVote / largestVote;
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        left: MediaQuery.of(context).size.width / 16,
+                        right: MediaQuery.of(context).size.width / 16,
+                      ),
                       child: Container(
                         height: heightOfPollItem,
-                        child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
+                        child: Stack(
                           children: [
-                            ValueListenableBuilder(
-                                valueListenable: pollValueSelected,
-                                builder: (BuildContext context, int pollVal, Widget child) {
-                                  return Icon(
-                                    pollVal == index ? Icons.radio_button_on : Icons.radio_button_off,
-                                    size: 15,
-                                    color: Theme.of(context).textSelectionTheme.cursorColor,
-                                  );
-                                }),
-                            Container(
-                              width: 20,
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Container(
+                                height: heightOfPollItem,
+                                width: MediaQuery.of(context).size.width / 8 * 7 * ratio + 30,
+                                color: Colors.grey.withOpacity(.5),
+                                //im not sure whether to go index/largest or index/total. I chose the former
+                              ),
                             ),
                             Align(
                               alignment: Alignment.centerRight,
-                              child: Text(
-                                options[index],
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1.color,
-                                  fontSize: 16 + Constants.textChange,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  right: 15,
+                                ),
+                                child: Text(
+                                  currentVote.toString(),
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            Align(
+                              alignment: Alignment.centerLeft,
+                              child: Padding(
+                                padding: EdgeInsets.only(
+                                  left: 15,
+                                ),
+                                child: Text(
+                                  options[index],
+                                  style: TextStyle(
+                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    fontSize: 16 + Constants.textChange,
+                                  ),
                                 ),
                               ),
                             ),
                           ],
                         ),
                       ),
-                    ),
-                  );
-                } else {
-                  //SHOWING RESULTS
-                  int currentVote = obj["optionsCount"][index];
-                  double ratio = currentVote / largestVote;
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      left: MediaQuery.of(context).size.width / 16,
-                      right: MediaQuery.of(context).size.width / 16,
-                    ),
+                    );
+                  }
+                },
+              );
+            },
+          ),
+          ValueListenableBuilder(
+            valueListenable: isShowingResultForPoll,
+            builder: (BuildContext context, bool showResults, Widget child) {
+              if (!showResults) {
+                return Padding(
+                  padding: EdgeInsets.only(
+                    top: 20,
+                    bottom: 10,
+                  ),
+                  child: InkWell(
+                    onTap: () {
+                      if (pollValueSelected.value != -1) {
+                        voteOnPoll(currentUser.uid, pid, pollValueSelected.value);
+                        obj["optionsCount"][pollValueSelected.value]++;
+                        largestVote = getLargestVoteCount(obj["optionsCount"]);
+                        isShowingResultForPoll.value = !isShowingResultForPoll.value;
+                      }
+                    },
                     child: Container(
+                      width: 200,
                       height: heightOfPollItem,
-                      child: Stack(
-                        children: [
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Container(
-                              height: heightOfPollItem,
-                              width: MediaQuery.of(context).size.width / 8 * 7 * ratio + 30,
-                              color: Colors.grey.withOpacity(.5),
-                              //im not sure whether to go index/largest or index/total. I chose the former
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerRight,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                right: 15,
-                              ),
-                              child: Text(
-                                currentVote.toString(),
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1.color,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Align(
-                            alignment: Alignment.centerLeft,
-                            child: Padding(
-                              padding: EdgeInsets.only(
-                                left: 15,
-                              ),
-                              child: Text(
-                                options[index],
-                                style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1.color,
-                                  fontSize: 16 + Constants.textChange,
-                                ),
-                              ),
-                            ),
-                          ),
-                        ],
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.all(Radius.circular(7)),
+                        color: Theme.of(context).textSelectionTheme.cursorColor,
                       ),
-                    ),
-                  );
-                }
-              },
-            );
-          },
-        ),
-        ValueListenableBuilder(
-          valueListenable: isShowingResultForPoll,
-          builder: (BuildContext context, bool showResults, Widget child) {
-            if (!showResults) {
-              return Padding(
-                padding: EdgeInsets.only(
-                  top: 20,
-                  bottom: 10,
-                ),
-                child: InkWell(
-                  onTap: () {
-                    if (pollValueSelected.value != -1) {
-                      voteOnPoll(currentUser.uid, pid, pollValueSelected.value);
-                      obj["optionsCount"][pollValueSelected.value]++;
-                      largestVote = getLargestVoteCount(obj["optionsCount"]);
-                      isShowingResultForPoll.value = !isShowingResultForPoll.value;
-                    }
-                  },
-                  child: Container(
-                    width: 200,
-                    height: heightOfPollItem,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(Radius.circular(7)),
-                      color: Theme.of(context).textSelectionTheme.cursorColor,
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Vote",
-                        style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1.color,
-                          fontSize: 18 + Constants.textChange,
+                      child: Center(
+                        child: Text(
+                          "Vote",
+                          style: TextStyle(
+                            color: Theme.of(context).textTheme.bodyText1.color,
+                            fontSize: 18 + Constants.textChange,
+                          ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              );
-            } else {
-              return Container(
-                height: 20,
-              );
-            }
-          },
-        ),
-      ],
+                );
+              } else {
+                return Container(
+                  height: 20,
+                );
+              }
+            },
+          ),
+        ],
+      ),
     );
   }
 
@@ -495,5 +559,79 @@ class _ContentWidgetState extends State<ContentWidget> {
       }
     }
     return largest;
+  }
+
+  Widget delimeter(double width) {
+    return Container(
+      height: .5,
+      width: width,
+      color: Theme.of(context).textTheme.bodyText2.color,
+    );
+  }
+
+  showContentOptions(BuildContext ctx) {
+    showDialog<void>(
+      context: ctx,
+      builder: (BuildContext context) {
+        return Center(
+          child: Container(
+            width: MediaQuery.of(ctx).size.width * .7,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              color: Theme.of(context).scaffoldBackgroundColor,
+            ),
+            child: ListView(
+              shrinkWrap: true,
+              children: <Widget>[
+                delimeter(MediaQuery.of(ctx).size.width * .9),
+                Material(
+                  child: InkWell(
+                    onTap: () {
+                      Navigator.of(context).pop();
+                      showSnackbar(context, "Post has been reported successfully");
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Report"),
+                          Icon(Icons.arrow_right_alt),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+                delimeter(MediaQuery.of(ctx).size.width * .9),
+              ],
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+class SizeProviderWidget extends StatefulWidget {
+  final Widget child;
+  final Function(Size) onChildSize;
+
+  const SizeProviderWidget({Key key, this.onChildSize, this.child}) : super(key: key);
+  @override
+  _SizeProviderWidgetState createState() => _SizeProviderWidgetState();
+}
+
+class _SizeProviderWidgetState extends State<SizeProviderWidget> {
+  @override
+  void initState() {
+    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
+      widget.onChildSize(context.size);
+    });
+    super.initState();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return widget.child;
   }
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import './utilityFunctions.dart';
+import './utils.dart';
+import 'package:theme_provider/theme_provider.dart';
+import "./themes.dart";
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
@@ -11,45 +13,19 @@ Color hintColor = Color(0xffc0c0c0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
-ThemeData darkTheme = ThemeData(
-  textTheme: TextTheme(
-    bodyText1: TextStyle(
-      color: backgroundWhite,
-      fontSize: 16 + textChange,
-    ),
-    bodyText2: TextStyle(
-      color: backgroundWhite,
-      fontSize: 16 + textChange,
-    ),
-  ),
-  textSelectionTheme: TextSelectionThemeData(
-    selectionHandleColor: purpleColor,
-    selectionColor: purpleColor.withOpacity(.5),
-    cursorColor: purpleColor,
-  ),
-  brightness: Brightness.dark,
-  scaffoldBackgroundColor: backgroundBlack,
-);
-
-ThemeData lightTheme = ThemeData(
-  textTheme: TextTheme(
-    bodyText1: TextStyle(
-      color: invertColor(backgroundWhite),
-      fontSize: 16 + textChange,
-    ),
-    bodyText2: TextStyle(
-      color: invertColor(hintColor),
-      fontSize: 16 + textChange,
-    ),
-  ),
-  textSelectionTheme: TextSelectionThemeData(
-    selectionHandleColor: invertColor(purpleColor),
-    selectionColor: invertColor(purpleColor.withOpacity(.5)),
-    cursorColor: invertColor(purpleColor),
-  ),
-  brightness: Brightness.light,
-  scaffoldBackgroundColor: invertColor(backgroundBlack),
-);
+//All themes
+List<AppTheme> allThemes = [
+  //Dark Theme
+  AppTheme(
+      id: "dark",
+      data: darkTheme,
+      description: "The Default Dark Theme"),
+  //LightTheme
+  AppTheme(
+      id: "light",
+      data: lightTheme,
+      description: "The Default Dark Inverted"),
+];
 
 const double bottomNavBarHeight = 55;
 double statusBarHeight = 0;
@@ -59,7 +35,6 @@ const String StripePKey =
 
 String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
 //String nodeURL = "http://10.0.2.2:3000/";   //Local Server for emulator
-// String nodeURL = "http://192.168.86.28:3000/"; //Local Server for physical device (your ip)
-
+// String nodeURL = "http://192.168.50.13:3000/"; //Local Server for physical device (your ip)
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;

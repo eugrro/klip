@@ -1,5 +1,6 @@
 import 'dart:io';
-
+import "./currentUser.dart";
+import "Themes.dart" as Themes;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
@@ -7,14 +8,14 @@ import 'package:klip/login/StartPage.dart';
 import 'package:klip/login/loginLogic.dart';
 import 'package:klip/widgets.dart';
 import 'package:simple_image_crop/simple_image_crop.dart';
+import 'package:theme_provider/theme_provider.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 
 import 'CropProfilePic.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
-import 'utilityFunctions.dart';
-import 'package:dynamic_theme/dynamic_theme.dart';
+import 'utils.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -33,22 +34,30 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   File contentImage;
   final imgCropKey = GlobalKey<ImgCropState>();
   bool darkTheme = true;
-  String themeText = "Dark";
+  String currentThemeID = "dark";
   void toggleTheme(BuildContext context, List<dynamic> newThemes) {
     /*When using to change themes, only pass in a list of ThemeData objects
   and use first object (perhaps modify settingsCard in order to achieve this)*/
     setState(() {
       if (darkTheme) {
         this.darkTheme = false;
-        themeText = "Light";
+        currentThemeID = "light";
+        print("Dark Theme: " + darkTheme.toString() + ' ' + currentThemeID);
       } else {
         this.darkTheme = true;
-        themeText = "Dark";
+        currentThemeID = "dark";
+        print("Dark Theme: " + darkTheme.toString() + ' ' + currentThemeID);
       }
+      currentUser.themePreference = currentThemeID;
+      //Fine if not awaited
+      //need to store user's preferences at this point
+      setFieldInSharedPreferences("themePreference", currentThemeID);
+      currentUser.saveOnePreferenceToMongo("themePreference", currentThemeID);
     });
 
-    ThemeData theme = darkTheme ? Constants.darkTheme : Constants.lightTheme;
-    DynamicTheme.of(context).setThemeData(theme);
+    //set theme here
+    print(currentThemeID);
+    ThemeProvider.controllerOf(context).setTheme(currentThemeID);
   }
 
   @override
@@ -411,10 +420,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", themeText,
+                  settingsCard(context, "Theme", capitalize(currentThemeID),
                       "Update your theme preference", false, true,
                       customfunction: toggleTheme,
-                      customFunctionParams: [Constants.lightTheme]),
+                      customFunctionParams: [Themes.darkTheme]),
 
                   settingsCard(
                       context,
@@ -446,9 +455,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       customFunctionParams: [newInfoFocus]),
                   settingsCard(context, "Sign out", "", "Sign out", false, true,
                       customfunction: signOutUserWidget),
-                  settingsCard(context, "Delete Your Account", "",
-                      "Delete your account", false, false,
-                      txt1Color: Colors.redAccent),
+                  settingsCard(
+                    context,
+                    "Delete Your Account",
+                    "",
+                    "Delete your account",
+                    false,
+                    false,
+                    txt1Color: Colors.redAccent,
+                    customfunction: deleteUserWidget,
+                  ),
                   //TODO implement delete account and sign out
                   Container(
                     height: 20,
@@ -590,7 +606,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Text(
                 "Are you sure you want to sign out?",
                 style: TextStyle(
-                  color: Theme.of(context).textTheme.bodyText1.color,
+                  color: Constants.backgroundWhite,
+                  //TODO: Adjust color scheme of this widget with context
                   fontSize: 18 + Constants.textChange,
                   decoration: TextDecoration.none,
                 ),
@@ -1036,7 +1053,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         },
                       );
 
-                      // show you croppedFile ……
+                      // show you croppedFile â€¦â€¦
                       //showImage(context, croppedFile);
                     });
                   },
@@ -1204,4 +1221,99 @@ class SlideDownRoute extends PageRouteBuilder {
             child: child,
           ),
         );
+}
+
+deleteUserWidget(BuildContext ctx, List<dynamic> params) {
+  return showModalBottomSheet<void>(
+    backgroundColor: Colors.black,
+    isScrollControlled: true,
+    context: ctx,
+    builder: (BuildContext context) {
+      return Container(
+        height: 150,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Are you sure you delete your account?",
+              style: TextStyle(
+                color: Constants.backgroundWhite,
+                //TO DO: Adjust color scheme of this widget
+                fontSize: 18 + Constants.textChange,
+                decoration: TextDecoration.none,
+              ),
+            ),
+            Container(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Theme.of(context).textSelectionTheme.cursorColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "No",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    clearSharedPreferences();
+                    String ret = await deleteUser();
+                    if (ret == "AccountDeletionSuccessful") {
+                      print("SUCCESS: $ret");
+                      while (Navigator.canPop(context)) {
+                        Navigator.of(context).pop();
+                      }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartPage()),
+                      );
+                    } else {
+                      Navigator.of(context).pop();
+                      showError(context, "Account deletion was unsuccessful.");
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Theme.of(context).textSelectionTheme.cursorColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Theme.of(context).textTheme.bodyText1.color,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

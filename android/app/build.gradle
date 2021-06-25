@@ -49,7 +49,7 @@ android {
         applicationId "com.klipApp"
         minSdkVersion 19
         targetSdkVersion 29
-        versionCode flutterVersionCode.toInteger()
+        versionCode 1 
         versionName flutterVersionName
         multiDexEnabled true
     }

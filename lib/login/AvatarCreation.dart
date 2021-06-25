@@ -79,9 +79,9 @@ class _AvatarCreationState extends State<AvatarCreation> {
                       end: Alignment.topRight,
                       stops: [0.9, 0.4, 0.5, 0.9],
                       colors: [
-                        Theme.of(context).textSelectionTheme.cursorColor,
-                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
-                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
+                        Constants.purpleColor,
+                        Constants.purpleColor.withOpacity(.6),
+                        Constants.purpleColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -101,8 +101,8 @@ class _AvatarCreationState extends State<AvatarCreation> {
                   child: SingleChildScrollView(
                       child: Column(mainAxisAlignment: MainAxisAlignment.spaceEvenly, crossAxisAlignment: CrossAxisAlignment.center, children: [
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                    Text("Choose A Avatar",
-                        overflow: TextOverflow.visible, style: TextStyle(color: Theme.of(context).textTheme.bodyText2.color, fontSize: 32 + Constants.textChange)),
+                    Text("Choose an Avatar",
+                        overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 32 + Constants.textChange)),
                     Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 80)),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -117,14 +117,14 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
+                            colors: [Constants.purpleColor, Color(0xffab57a8)],
                           ),
                         ),
                         child: Center(
                           child: Text(
                             "Select your own",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                               fontSize: 24 + Constants.textChange,
                             ),
                           ),
@@ -138,14 +138,14 @@ class _AvatarCreationState extends State<AvatarCreation> {
                         Container(
                           height: .3,
                           width: MediaQuery.of(context).size.width * .3,
-                          color: Theme.of(context).textSelectionTheme.cursorColor,
+                          color: Constants.purpleColor,
                         ),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 8.0),
                           child: Text(
                             "or",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                               fontSize: 16 + Constants.textChange,
                             ),
                           ),
@@ -153,7 +153,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                         Container(
                           height: .3,
                           width: MediaQuery.of(context).size.width * .3,
-                          color: Theme.of(context).textSelectionTheme.cursorColor,
+                          color: Constants.purpleColor,
                         ),
                       ],
                     ),
@@ -174,7 +174,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                             },
                             icon: Icon(
                               Icons.arrow_left_outlined,
-                              color: Theme.of(context).textSelectionTheme.cursorColor,
+                              color: Constants.purpleColor,
                             ),
                             iconSize: MediaQuery.of(context).size.width / 5,
                           )),
@@ -204,7 +204,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                                 currentFileIndex = (currentFileIndex - 1) % imageFiles.length;
                               });
                             },
-                            icon: Icon(Icons.arrow_right_outlined, color: Theme.of(context).textSelectionTheme.cursorColor),
+                            icon: Icon(Icons.arrow_right_outlined, color: Constants.purpleColor),
                             iconSize: MediaQuery.of(context).size.width / 5,
                           )),
                           // Align(
@@ -239,14 +239,14 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           gradient: LinearGradient(
                             begin: Alignment.centerLeft,
                             end: Alignment.centerRight,
-                            colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
+                            colors: [Constants.purpleColor, Color(0xffab57a8)],
                           ),
                         ),
                         child: Center(
                           child: Text(
                             "Next",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                               fontSize: 24 + Constants.textChange,
                             ),
                           ),
