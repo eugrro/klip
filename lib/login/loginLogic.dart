@@ -101,6 +101,7 @@ Future<String> checkIfUserIsSignedIn() async {
       return "UserNotSignedIn";
     } else {
       print('User is signed in!');
+
       return "UserSignedIn";
     }
   } catch (err) {
@@ -191,6 +192,8 @@ Future<String> signIn(BuildContext ctx, String user, String pass) async {
     print(err.toString());
     return null;
   });
+  final tokenID = await userCredential.user.getIdToken();
+  print("TOken ID:" + tokenID);
   print("Signing in: " + userCredential.user.uid.toString());
   if (userCredential != null) return userCredential.user.uid;
 }
@@ -363,6 +366,11 @@ bool validinput(BuildContext ctx, String uName, String pass, String passConfirm)
 
 Future<String> updateUsername(String uid, String uName) async {
   Response response;
+  User firebaseUser = FirebaseAuth.instance.currentUser;
+  final tokenID = await firebaseUser.getIdToken();
+  final tokenString = tokenID.toString();
+  String headers = "Bearer ${tokenString}";
+
   try {
     Map<String, String> params = {
       "uid": uid,
@@ -370,7 +378,13 @@ Future<String> updateUsername(String uid, String uName) async {
     };
     String uri = Constants.nodeURL + "user/updateUsername";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       print(response.data);
