@@ -54,7 +54,7 @@ class _CommentsPageState extends State<CommentsPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Constants.backgroundBlack,
         body: Column(
           children: [
             Padding(
@@ -66,7 +66,7 @@ class _CommentsPageState extends State<CommentsPage> {
                   Container(),
                   Text(
                     "Comments",
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 22),
+                    style: TextStyle(color: Constants.backgroundWhite, fontSize: 22),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -130,7 +130,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                     Text(
                                       '${comments[index][1]}', //Uname
                                       style: TextStyle(
-                                        color: Theme.of(context).textTheme.bodyText1.color,
+                                        color: Constants.backgroundWhite,
                                         fontSize: 14 + Constants.textChange,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -140,7 +140,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                       child: Text(
                                         '${comments[index][3]}', // comment
                                         style: TextStyle(
-                                          color: Theme.of(context).textTheme.bodyText1.color,
+                                          color: Constants.backgroundWhite,
                                           fontSize: 12 + Constants.textChange,
                                           fontWeight: FontWeight.w300,
                                         ),
@@ -153,7 +153,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                   child: Text(
                                     getTimeFromSeconds(comments[index][4]), //time posted
                                     style: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.3),
+                                      color: Constants.backgroundWhite.withOpacity(.3),
                                       fontSize: 14 + Constants.textChange,
                                     ),
                                   ),
@@ -173,7 +173,7 @@ class _CommentsPageState extends State<CommentsPage> {
               child: Container(
                 //height: heightOfCommentBox,
                 width: MediaQuery.of(context).size.width,
-                color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
+                color: Constants.purpleColor.withOpacity(.1),
                 child: Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Row(
@@ -202,7 +202,7 @@ class _CommentsPageState extends State<CommentsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 8 / 10,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).scaffoldBackgroundColor,
+                          color: Constants.backgroundBlack,
                           borderRadius: new BorderRadius.all(Radius.circular(25)),
                         ),
                         child: Padding(
@@ -223,19 +223,19 @@ class _CommentsPageState extends State<CommentsPage> {
                                   minLines: 1, // number of lines your textfield start with
                                   maxLines: null,
                                   textAlignVertical: TextAlignVertical.center,
-                                  cursorColor: Theme.of(context).textTheme.bodyText1.color,
+                                  cursorColor: Constants.backgroundWhite,
                                   cursorWidth: 1.5,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
                                     hintText: "Add a Comment...",
                                     hintStyle: TextStyle(
-                                      color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
+                                      color: Constants.backgroundWhite.withOpacity(.6),
                                       fontSize: 13 + Constants.textChange,
                                     ),
                                   ),
                                   style: TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+                                    color: Constants.backgroundWhite.withOpacity(.9),
                                     fontSize: 13 + Constants.textChange,
                                   ),
                                 ),

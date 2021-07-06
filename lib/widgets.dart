@@ -8,8 +8,8 @@ ChewieController klipChewieController(VideoPlayerController vp) {
   Color textColor;
   void initColors() {
     Builder(builder: (BuildContext context) {
-      purpleColor = Theme.of(context).textSelectionTheme.cursorColor;
-      textColor = Theme.of(context).textTheme.bodyText1.color;
+      purpleColor = Constants.purpleColor;
+      textColor = Constants.backgroundWhite;
     });
   }
 
@@ -40,8 +40,8 @@ Widget klipLogo(double height, double width) {
   Color textColor = Constants.backgroundWhite;
   void initColors() {
     Builder(builder: (BuildContext context) {
-      purpleColor = Theme.of(context).textSelectionTheme.cursorColor;
-      textColor = Theme.of(context).textTheme.bodyText1.color;
+      purpleColor = Constants.purpleColor;
+      textColor = Constants.backgroundWhite;
     });
   }
 
@@ -129,7 +129,7 @@ void showError(BuildContext context, String text) {
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
     behavior: SnackBarBehavior.floating,
     backgroundColor:
-        Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+        Constants.backgroundWhite.withOpacity(.9),
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -150,7 +150,7 @@ void showSnackbar(BuildContext context, String text) {
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
     behavior: SnackBarBehavior.floating,
     backgroundColor:
-        Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+        Constants.backgroundWhite.withOpacity(.9),
     content: Text(text),
     duration: const Duration(seconds: 2),
   ));
@@ -163,8 +163,8 @@ Widget klipTextField(double height, double width, TextEditingController contr,
   Color textColor;
   void initColors() {
     Builder(builder: (BuildContext context) {
-      purpleColor = Theme.of(context).textSelectionTheme.cursorColor;
-      textColor = Theme.of(context).textTheme.bodyText1.color;
+      purpleColor = Constants.purpleColor;
+      textColor = Constants.backgroundWhite;
     });
   }
 

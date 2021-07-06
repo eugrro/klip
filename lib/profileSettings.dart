@@ -33,11 +33,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   bool editingBio = false;
   File contentImage;
   final imgCropKey = GlobalKey<ImgCropState>();
-  bool darkTheme = true;
+  /*bool darkTheme = true;
   String currentThemeID = "dark";
   void toggleTheme(BuildContext context, List<dynamic> newThemes) {
-    /*When using to change themes, only pass in a list of ThemeData objects
-  and use first object (perhaps modify settingsCard in order to achieve this)*/
+  When using to change themes, only pass in a list of ThemeData objects
+  and use first object (perhaps modify settingsCard in order to achieve this)
     setState(() {
       if (darkTheme) {
         this.darkTheme = false;
@@ -58,7 +58,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     //set theme here
     print(currentThemeID);
     ThemeProvider.controllerOf(context).setTheme(currentThemeID);
-  }
+  }*/
 
   @override
   void initState() {
@@ -71,7 +71,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+      backgroundColor: Constants.backgroundBlack,
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -88,7 +88,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       currentUser.uName,
                       style: TextStyle(
                         fontSize: 24 + Constants.textChange,
-                        color: Theme.of(context).textTheme.bodyText1.color,
+                        color: Constants.backgroundWhite,
                       ),
                     ),
                   ),
@@ -104,7 +104,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           ),
                           child: Icon(
                             Icons.arrow_back,
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                           ),
                         ),
                       )),
@@ -177,7 +177,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     }
                   },
                   focusNode: biofcs,
-                  cursorColor: Theme.of(context).textSelectionTheme.cursorColor,
+                  cursorColor: Constants.purpleColor,
                   decoration: new InputDecoration(
                     border: InputBorder.none,
                     focusedBorder: InputBorder.none,
@@ -193,7 +193,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   controller: bioContr,
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText1.color,
+                    color: Constants.backgroundWhite,
                     fontSize: 16 + Constants.textChange,
                   ),
                 ),
@@ -216,7 +216,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     width: MediaQuery.of(context).size.width * .28,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context).textSelectionTheme.cursorColor,
+                        color: Constants.purpleColor,
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(6),
@@ -235,8 +235,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               textAlign: TextAlign.center,
                               style: TextStyle(
                                 fontSize: 11,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                               ),
                             ),
                     ),
@@ -267,7 +266,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       //boxShadow: kElevationToShadow[3],
                       color: Colors.transparent,
                       border: Border.all(
-                        color: Theme.of(context).textSelectionTheme.cursorColor,
+                        color: Constants.purpleColor,
                         width: 1.5,
                       ),
                     ),
@@ -284,8 +283,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               "Edit Bio",
                               style: TextStyle(
                                 fontSize: 13,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                               ),
                             ),
                     ),
@@ -308,7 +306,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     width: MediaQuery.of(context).size.width * .28,
                     decoration: BoxDecoration(
                       border: Border.all(
-                        color: Theme.of(context).textSelectionTheme.cursorColor,
+                        color: Constants.purpleColor,
                         width: 1.5,
                       ),
                       borderRadius: BorderRadius.circular(6),
@@ -319,8 +317,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               "Another Option",
                               style: TextStyle(
                                 fontSize: 12,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                               ),
                             )
                           : currentUser.bioLink != null &&
@@ -358,7 +355,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               child: Container(
                 height: 1.5,
                 width: MediaQuery.of(context).size.width,
-                color: Theme.of(context).textTheme.bodyText2.color,
+                color: Constants.hintColor,
               ),
             ),
             Center(
@@ -373,7 +370,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       child: Text(
                         "Your Information",
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1.color,
+                          color: Constants.backgroundWhite,
                           fontSize: 17 + Constants.textChange,
                         ),
                       ),
@@ -381,7 +378,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   /*Container(
                     height: 2,
-                    color: Theme.of(context).textSelectionTheme.cursorColor,
+                    color: Constants.purpleColor,
                     margin: EdgeInsets.symmetric(
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
@@ -414,16 +411,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       child: Text(
                         "Preferences",
                         style: TextStyle(
-                          color: Theme.of(context).textTheme.bodyText1.color,
+                          color: Constants.backgroundWhite,
                           fontSize: 17 + Constants.textChange,
                         ),
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", capitalize(currentThemeID),
+                  settingsCard(context, "Theme", capitalize("Dark"),
                       "Update your theme preference", false, true,
-                      customfunction: toggleTheme,
-                      customFunctionParams: [Themes.darkTheme]),
+                      customfunction: notYetImplemented),
+                  // customfunction: toggleTheme,
+                  // customFunctionParams: [Themes.darkTheme]),
 
                   settingsCard(
                       context,
@@ -489,7 +487,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         return AlertDialog(
           elevation: 34,
           scrollable: true,
-          backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+          backgroundColor: Constants.backgroundBlack,
           title: Center(child: Text('Add a Link')),
           content: Container(
             width: MediaQuery.of(context).size.width * .8,
@@ -547,7 +545,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Text(
                           "Cancel",
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                             fontSize: 14 + Constants.textChange,
                             decoration: TextDecoration.none,
                           ),
@@ -557,7 +555,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     Container(
                       height: 20,
                       width: 1,
-                      color: Theme.of(context).textTheme.bodyText1.color,
+                      color: Constants.backgroundWhite,
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -575,7 +573,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               ? "Update"
                               : "Add",
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                             fontSize: 14 + Constants.textChange,
                             decoration: TextDecoration.none,
                           ),
@@ -628,14 +626,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: kElevationToShadow[3],
-                        color: Theme.of(context).textSelectionTheme.cursorColor,
+                        color: Constants.purpleColor,
                       ),
                       child: Center(
                         child: Text(
                           "No",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                           ),
                         ),
                       ),
@@ -666,14 +664,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         boxShadow: kElevationToShadow[3],
-                        color: Theme.of(context).textSelectionTheme.cursorColor,
+                        color: Constants.purpleColor,
                       ),
                       child: Center(
                         child: Text(
                           "Yes",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                           ),
                         ),
                       ),
@@ -701,7 +699,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             height: MediaQuery.of(context).size.height * .6,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Theme.of(context).scaffoldBackgroundColor,
+              color: Constants.backgroundBlack,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -713,7 +711,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     child: Text(
                       "Report A Bug",
                       style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyText1.color,
+                        color: Constants.backgroundWhite,
                         fontSize: 18 + Constants.textChange,
                         decoration: TextDecoration.none,
                       ),
@@ -790,8 +788,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             Container(
                               height: 20,
                               width: 1,
-                              color:
-                                  Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                             ),
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
@@ -853,7 +850,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             Container(
               //height: 200,
               decoration: BoxDecoration(
-                color: Theme.of(context).scaffoldBackgroundColor,
+                color: Constants.backgroundBlack,
                 borderRadius: BorderRadius.only(
                   topRight: Radius.circular(10),
                   topLeft: Radius.circular(10),
@@ -981,7 +978,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       suppText,
                       style: TextStyle(
                         fontSize: 13,
-                        color: Theme.of(context).textTheme.bodyText1.color,
+                        color: Constants.backgroundWhite,
                       ),
                     ),
                   ),
@@ -1163,15 +1160,14 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: txt1Color ??
-                        Theme.of(context).textTheme.bodyText1.color,
+                    color: txt1Color ?? Constants.backgroundWhite,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),
                 Text(
                   txt2,
                   style: TextStyle(
-                    color: Theme.of(context).textTheme.bodyText2.color,
+                    color: Constants.hintColor,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),
@@ -1259,14 +1255,14 @@ deleteUserWidget(BuildContext ctx, List<dynamic> params) {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: kElevationToShadow[3],
-                      color: Theme.of(context).textSelectionTheme.cursorColor,
+                      color: Constants.purpleColor,
                     ),
                     child: Center(
                       child: Text(
                         "No",
                         style: TextStyle(
                           fontSize: 13,
-                          color: Theme.of(context).textTheme.bodyText1.color,
+                          color: Constants.backgroundWhite,
                         ),
                       ),
                     ),
@@ -1296,14 +1292,14 @@ deleteUserWidget(BuildContext ctx, List<dynamic> params) {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       boxShadow: kElevationToShadow[3],
-                      color: Theme.of(context).textSelectionTheme.cursorColor,
+                      color: Constants.purpleColor,
                     ),
                     child: Center(
                       child: Text(
                         "Yes",
                         style: TextStyle(
                           fontSize: 13,
-                          color: Theme.of(context).textTheme.bodyText1.color,
+                          color: Constants.backgroundWhite,
                         ),
                       ),
                     ),

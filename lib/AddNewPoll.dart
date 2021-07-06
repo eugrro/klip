@@ -35,7 +35,7 @@ class _AddNewPollState extends State<AddNewPoll> {
         }
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Constants.backgroundBlack,
         appBar: AppBar(
           title: Text("Add New Poll"),
         ),
@@ -57,11 +57,11 @@ class _AddNewPollState extends State<AddNewPoll> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           hintText: "An Interesting title",
                           hintStyle: TextStyle(fontSize: 16)),
@@ -74,7 +74,7 @@ class _AddNewPollState extends State<AddNewPoll> {
                 Container(
                     child: Text(
                   "Poll Options",
-                  style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 18 + Constants.textChange),
+                  style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
                 )),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
@@ -105,13 +105,13 @@ class _AddNewPollState extends State<AddNewPoll> {
                           height: 35,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(7)),
-                            color: Theme.of(context).textSelectionTheme.cursorColor,
+                            color: Constants.purpleColor,
                           ),
                           child: Center(
                             child: Text(
                               "Remove Poll Option",
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                                 fontSize: 14 + Constants.textChange,
                               ),
                             ),
@@ -133,13 +133,13 @@ class _AddNewPollState extends State<AddNewPoll> {
                           height: 35,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(Radius.circular(7)),
-                            color: Theme.of(context).textSelectionTheme.cursorColor,
+                            color: Constants.purpleColor,
                           ),
                           child: Center(
                             child: Text(
                               "Add Poll Option",
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                                 fontSize: 14 + Constants.textChange,
                               ),
                             ),
@@ -170,13 +170,13 @@ class _AddNewPollState extends State<AddNewPoll> {
                         height: 50,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(7)),
-                          color: Theme.of(context).textSelectionTheme.cursorColor,
+                          color: Constants.purpleColor,
                         ),
                         child: Center(
                           child: Text(
                             "Submit",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                               fontSize: 20 + Constants.textChange,
                             ),
                           ),
@@ -205,7 +205,7 @@ class _AddNewPollState extends State<AddNewPoll> {
         children: [
           Icon(
             Icons.circle,
-            color: Theme.of(context).textSelectionTheme.cursorColor,
+            color: Constants.purpleColor,
             size: 20,
           ),
           Container(
@@ -229,11 +229,11 @@ class _AddNewPollState extends State<AddNewPoll> {
                   decoration: InputDecoration(
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                        borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                       ),
                       enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                        borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                        borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                       ),
                       hintText: "A poll option",
                       hintStyle: TextStyle(fontSize: 14)),

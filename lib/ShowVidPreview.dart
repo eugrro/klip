@@ -111,7 +111,7 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
               showError(context, "Video editor needs to be fixed");
             },
             icon: Icon(Icons.edit_outlined),
-            color: Theme.of(context).textSelectionTheme.cursorColor,
+            color: Constants.purpleColor,
           ),
           IconButton(
             onPressed: () async {
@@ -134,7 +134,7 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
               }
             },
             icon: Icon(Icons.check),
-            color: Theme.of(context).textSelectionTheme.cursorColor,
+            color: Constants.purpleColor,
           ),
         ],
         centerTitle: true,
@@ -195,10 +195,10 @@ class _ShowVidPreviewState extends State<ShowVidPreview> {
                     child: Center(
                       child: CircleAvatar(
                         radius: 30,
-                        backgroundColor: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
+                        backgroundColor: Constants.backgroundWhite.withOpacity(.6),
                         child: Icon(
                           Icons.play_arrow_rounded,
-                          color: Theme.of(context).textSelectionTheme.cursorColor,
+                          color: Constants.purpleColor,
                           size: 60,
                         ),
                       ),

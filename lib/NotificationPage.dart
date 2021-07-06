@@ -98,7 +98,7 @@ class _NotificationPageState extends State<NotificationPage> {
                     Container(
                       padding: EdgeInsets.only(left: 20, right: 15, top: 7, bottom: 7),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).textTheme.bodyText2.color.withOpacity(.4),
+                        color: Constants.hintColor.withOpacity(.4),
                         borderRadius: BorderRadius.circular(25),
                       ),
                       child: ExpandingTextField(
@@ -110,19 +110,19 @@ class _NotificationPageState extends State<NotificationPage> {
                           minLines: 1, // number of lines your textfield start with
                           maxLines: null,
                           textAlignVertical: TextAlignVertical.center,
-                          cursorColor: Theme.of(context).textTheme.bodyText1.color,
+                          cursorColor: Constants.backgroundWhite,
                           cursorWidth: 1.5,
                           decoration: InputDecoration(
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Send a Message",
                             hintStyle: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.7),
+                              color: Constants.backgroundWhite.withOpacity(.7),
                               fontSize: 13 + Constants.textChange,
                             ),
                           ),
                           style: TextStyle(
-                            color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+                            color: Constants.backgroundWhite.withOpacity(.9),
                             fontSize: 13 + Constants.textChange,
                           ),
                         ),
@@ -146,7 +146,7 @@ class _NotificationPageState extends State<NotificationPage> {
                       },
                       child: CircleAvatar(
                         radius: 20,
-                        backgroundColor: Theme.of(context).textTheme.bodyText2.color,
+                        backgroundColor: Constants.hintColor,
                         child: Icon(
                           Icons.send_rounded,
                         ),

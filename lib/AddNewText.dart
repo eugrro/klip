@@ -31,7 +31,7 @@ class _AddNewTextState extends State<AddNewText> {
         }
       },
       child: Scaffold(
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
+        backgroundColor: Constants.backgroundBlack,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -41,10 +41,10 @@ class _AddNewTextState extends State<AddNewText> {
                   decoration: BoxDecoration(
                     // border:
                     //borderRadius: BorderRadius.circular(8.0),
-                    color: Theme.of(context).scaffoldBackgroundColor,
+                    color: Constants.backgroundBlack,
                     boxShadow: [
                       BoxShadow(
-                        //color: Theme.of(context).scaffoldBackgroundColor,
+                        //color: Constants.backgroundBlack,
                         blurRadius: 1.0,
                         spreadRadius: 0.0,
                         offset: Offset(2.0, 2.0), // shadow direction: bottom right
@@ -66,7 +66,7 @@ class _AddNewTextState extends State<AddNewText> {
                             children: [
                               Icon(
                                 Icons.arrow_back_ios,
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.backgroundWhite,
                                 size: 20,
                               ),
                               Container(
@@ -74,7 +74,7 @@ class _AddNewTextState extends State<AddNewText> {
                               ),
                               Text(
                                 "Add New Text",
-                                style: TextStyle(color: Theme.of(context).textTheme.bodyText1.color, fontSize: 18 + Constants.textChange),
+                                style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
                               ),
                             ],
                           ),
@@ -83,7 +83,7 @@ class _AddNewTextState extends State<AddNewText> {
                           alignment: Alignment.centerRight,
                           child: Icon(
                             Icons.check,
-                            color: Theme.of(context).textTheme.bodyText1.color,
+                            color: Constants.backgroundWhite,
                             size: 25,
                           ),
                         ),
@@ -104,11 +104,11 @@ class _AddNewTextState extends State<AddNewText> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           hintText: "An Interesting title",
                           hintStyle: TextStyle(fontSize: 16)),
@@ -129,11 +129,11 @@ class _AddNewTextState extends State<AddNewText> {
                       decoration: InputDecoration(
                           focusedBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Theme.of(context).textSelectionTheme.cursorColor, width: 2),
+                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
                           ),
                           hintText: "Your text post",
                           hintStyle: TextStyle(fontSize: 14)),
@@ -161,13 +161,13 @@ class _AddNewTextState extends State<AddNewText> {
                         height: 30,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.all(Radius.circular(7)),
-                          color: Theme.of(context).textSelectionTheme.cursorColor,
+                          color: Constants.purpleColor,
                         ),
                         child: Center(
                           child: Text(
                             "Submit",
                             style: TextStyle(
-                              color: Theme.of(context).textTheme.bodyText1.color,
+                              color: Constants.backgroundWhite,
                               fontSize: 14 + Constants.textChange,
                             ),
                           ),

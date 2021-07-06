@@ -50,7 +50,7 @@ class _ShowImgPreviewState extends State<ShowImgPreview> {
               showError(context, "Video editor needs to be fixed");
             },
             icon: Icon(Icons.edit_outlined),
-            color: Theme.of(context).textSelectionTheme.cursorColor,
+            color: Constants.purpleColor,
           ),
           IconButton(
             onPressed: () async {
@@ -66,7 +66,7 @@ class _ShowImgPreviewState extends State<ShowImgPreview> {
               });
             },
             icon: Icon(Icons.check),
-            color: Theme.of(context).textSelectionTheme.cursorColor,
+            color: Constants.purpleColor,
           ),
         ],
         centerTitle: true,

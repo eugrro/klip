@@ -203,11 +203,10 @@ Future<String> deleteUser() async {
   try {
     //if in MongoDB, delete there with delete request
     var queryParams = {"uid": "${currentUser.uid}"};
-    var uri = Uri.http("10.0.2.2:3000", "/user/deleteAccount", queryParams);
-      //send to Constants.nodeURL endpoint when functional
+    var uri = Constants.nodeURL + "user/deleteAccount";
     print("UID upon deletion...: $queryParams");
-    var res = await http.delete(uri);
-    print("Deletion Successful: ${res.body}");
+    var res = await dio.delete(uri, queryParameters: queryParams);
+    print("Deletion Successful: ${res.data}");
   } catch (err) {
     print("Account deletion in MongoDB failed: $err");
     return "AccountDeletionFailed";

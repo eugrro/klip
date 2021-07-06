@@ -16,15 +16,10 @@ Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 //All themes
 List<AppTheme> allThemes = [
   //Dark Theme
-  AppTheme(
-      id: "dark",
-      data: darkTheme,
-      description: "The Default Dark Theme"),
+  AppTheme(id: "dark", data: darkTheme, description: "The Default Dark Theme"),
   //LightTheme
   AppTheme(
-      id: "light",
-      data: lightTheme,
-      description: "The Default Dark Inverted"),
+      id: "light", data: lightTheme, description: "The Default Dark Inverted"),
 ];
 
 const double bottomNavBarHeight = 55;
@@ -33,8 +28,8 @@ const String StripePKey =
     "pk_test_51IOnY5Hau82X1Y1fc6l4P6QUfpK6euFX8ULZ3PLpCAG0rObkmlwt7g5k20eFCJzmdFUtZl18wF8kFVZYrqsMuYKa002zcUpSaa";
 //testing
 
-String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
-//String nodeURL = "http://10.0.2.2:3000/";   //Local Server for emulator
+// String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
+String nodeURL = "http://10.0.2.2:3000/"; //Local Server for emulator
 // String nodeURL = "http://192.168.50.13:3000/"; //Local Server for physical device (your ip)
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;

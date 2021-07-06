@@ -25,7 +25,7 @@ class TopSection extends StatelessWidget {
     //TextEditingController searchController = new TextEditingController();
     return Container(
       decoration: BoxDecoration(
-        color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.3),
+        color: Constants.purpleColor.withOpacity(.3),
         boxShadow: kElevationToShadow[2],
       ),
       width: MediaQuery.of(context).size.width,
@@ -42,7 +42,7 @@ class TopSection extends StatelessWidget {
             klipLogo(45, 55),
             Icon(
               Icons.search,
-              color: Theme.of(context).textTheme.bodyText1.color,
+              color: Constants.backgroundWhite,
               size: 25,
             ),
           ],
