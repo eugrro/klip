@@ -144,7 +144,6 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
       return fileName;
     }
   } catch (err) {
@@ -154,14 +153,14 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
 }
 
 // ignore: missing_return
-Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
+Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
   try {
-    if (fileData != null) {
+    if (thumbnailData != null) {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'pid': pid,
         "file": MultipartFile.fromBytes(
-          fileData,
+          thumbnailData,
           filename: pid,
           //TODO figure out the actual type of the files
           contentType: MediaType('image', 'jpg'),
@@ -182,9 +181,10 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title) async {
+Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
+      if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
       String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
@@ -207,11 +207,11 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
+      await uploadThumbnail(thumbnailData, fileName);
       return fileName;
     }
   } catch (err) {
-    print("Ran Into Error! UpdateOne => " + err.toString());
+    print("Ran Into Error! uploadKlip => " + err.toString());
     return "";
   }
 }

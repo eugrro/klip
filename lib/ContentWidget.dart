@@ -278,7 +278,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  obj["title"] != null
+                  obj["title"] != null && obj["title"] != "" && obj["title"] != ''
                       ? Text(
                           obj["title"] ?? "",
                           style: TextStyle(
@@ -341,10 +341,16 @@ class _ContentWidgetState extends State<ContentWidget> {
       },
       child: Padding(
         padding: EdgeInsets.only(top: 8, bottom: 8),
-        child: Image.network(
-          link,
-          height: 400,
-          fit: BoxFit.fitHeight,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: 50.0,
+            minWidth: 50.0,
+            maxHeight: 400,
+          ),
+          child: Image.network(
+            link,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );
