@@ -1,9 +1,12 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:dio/dio.dart';
+import 'package:theme_provider/theme_provider.dart';
 import 'package:klip/login/StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
+import "package:http/http.dart" as http;
 
 void main() {
   runApp(MyApp());
@@ -12,7 +15,8 @@ void main() {
 //LOOK INTO THIS https://pub.dev/packages/animated_text_kit
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  String defaultTheme = "dark";
+
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -23,23 +27,23 @@ class MyApp extends StatelessWidget {
         //statusBarBrightness: Brightness.dark,
       ),
     );
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      builder: (context, child) {
-        return ScrollConfiguration(
-          behavior: MyBehavior(),
-          child: child,
-        );
-      },
-      home: StartPage(),
-      theme: ThemeData(
-        textSelectionTheme: TextSelectionThemeData(
-          selectionHandleColor: Constants.purpleColor,
-          selectionColor: Constants.purpleColor.withOpacity(.5),
-          cursorColor: Constants.purpleColor,
+    return ThemeProvider(
+      themes: Constants.allThemes,
+      child: ThemeConsumer(
+        child: Builder(
+          builder: (themeContext) => MaterialApp(
+            debugShowCheckedModeBanner: false,
+            builder: (context, child) {
+              ThemeProvider.controllerOf(context).setTheme(defaultTheme);
+              return ScrollConfiguration(
+                behavior: MyBehavior(),
+                child: child,
+              );
+            },
+            theme: ThemeProvider.themeOf(themeContext).data,
+            home: StartPage(),
+          ),
         ),
-        brightness: Brightness.dark,
-        scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
     );
   }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:theme_provider/theme_provider.dart';
 
 import 'Requests.dart';
 import './Constants.dart' as Constants;
@@ -14,8 +15,10 @@ String numKredits = "0";
 String xTag = "";
 String bio = "Sample bio text for the current user";
 String bioLink = "";
+String themePreference = "";
 String avatarLink = getAWSLink(uid);
-Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
+Future<Widget> userProfileImg =
+    getProfileImage(uid + "_avatar.jpg", avatarLink);
 List<dynamic> currentUserFollowing = [];
 List<dynamic> currentUserFollowers = [];
 List<dynamic> currentUserSubscribing = [];
@@ -41,7 +44,9 @@ void displayCurrentUser() {
 
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
 Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
-  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
+  if (Constants.checkedProfileImage ||
+      await doesObjectExistInS3(avatarURI, "klip-user-avatars") ==
+          "ObjectFound") {
     //doing this may cause issues if the profile image gets changed needs further testing
     Constants.checkedProfileImage = true;
     print("Sending request to: " + avatarLink);
@@ -68,15 +73,22 @@ void storeUserToSharedPreferences() async {
   prefs.setString("xTag", xTag);
   prefs.setString("bio", bio);
   prefs.setString("avatarLink", avatarLink);
-  prefs.setStringList("currentUserFollowing", currentUserFollowing.cast<String>());
-  prefs.setStringList("currentUserFollowers", currentUserFollowers.cast<String>());
-  prefs.setStringList("currentUserSubscribing", currentUserSubscribing.cast<String>());
-  prefs.setStringList("currentUserSubscribers", currentUserSubscribers.cast<String>());
+  prefs.setString("themePreference", themePreference);
+  print("TP: $themePreference");
+  prefs.setStringList(
+      "currentUserFollowing", currentUserFollowing.cast<String>());
+  prefs.setStringList(
+      "currentUserFollowers", currentUserFollowers.cast<String>());
+  prefs.setStringList(
+      "currentUserSubscribing", currentUserSubscribing.cast<String>());
+  prefs.setStringList(
+      "currentUserSubscribers", currentUserSubscribers.cast<String>());
 }
 
 Future<String> setFieldInSharedPreferences(String key, dynamic value) async {
   final prefs = await SharedPreferences.getInstance();
-  print("Setting " + key + " to " + value.toString() + " in shared preferences");
+  print(
+      "Setting " + key + " to " + value.toString() + " in shared preferences");
   if (value is int) {
     prefs.setInt(key, value);
     return "SetSuccessful";
@@ -108,22 +120,29 @@ Future<void> pullUserFromSharedPreferences() async {
   bio = await pullFieldFromSharedPreferences("bio", prefs);
   bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
+  themePreference =
+      await pullFieldFromSharedPreferences("themePreference", prefs);
   try {
     dynamic temp;
-    temp = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs));
+    temp =
+        (await pullFieldFromSharedPreferences("currentUserFollowing", prefs));
     currentUserFollowing = temp.runtimeType == String ? [] : temp.toList();
-    temp = (await pullFieldFromSharedPreferences("currentUserFollowers", prefs));
+    temp =
+        (await pullFieldFromSharedPreferences("currentUserFollowers", prefs));
     currentUserFollowers = temp.runtimeType == String ? [] : temp.toList();
-    temp = (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs));
+    temp =
+        (await pullFieldFromSharedPreferences("currentUserSubscribing", prefs));
     currentUserSubscribing = temp.runtimeType == String ? [] : temp.toList();
-    temp = (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs));
+    temp =
+        (await pullFieldFromSharedPreferences("currentUserSubscribers", prefs));
     currentUserSubscribers = temp.runtimeType == String ? [] : temp.toList();
   } catch (err) {
     print("Ran Into Error! pullUserFromSharedPreferences => " + err.toString());
   }
 }
 
-dynamic pullFieldFromSharedPreferences(String field, SharedPreferences prefs) async {
+dynamic pullFieldFromSharedPreferences(
+    String field, SharedPreferences prefs) async {
   if (prefs.containsKey(field)) {
     return prefs.get(field);
   } else {
@@ -135,4 +154,32 @@ void clearSharedPreferences() async {
   print("Clearing Shared Preferences");
   final prefs = await SharedPreferences.getInstance();
   prefs.clear();
+}
+
+Map<String, dynamic> getCurrentUser() {
+  Map<String, dynamic> ret = {
+    "uid": uid,
+    "uName": uName,
+    "fName": fName,
+    "lName": lName,
+    "email": email,
+    "numViews": numViews,
+    "numKredits": numKredits,
+    "xTag": xTag,
+    "bio": bio,
+    "bioLink": bioLink,
+    "themePreference": themePreference,
+    "avatarLink": avatarLink,
+    "userProfileImg": uid + "_avatar.jpg",
+    "currentUserFollowing": currentUserFollowing,
+    "currentUserFollowers": currentUserFollowers,
+    "currentUserSubscribing": currentUserSubscribing,
+    "currentUserSubscribers": currentUserSubscribers,
+  };
+  return ret;
+}
+
+Future<void> saveOnePreferenceToMongo(String param, String paramVal) async {
+  Map<String, dynamic> newPreferences = {"uid": uid, param: paramVal};
+  await savePreferences(uid, newPreferences);
 }
