@@ -168,7 +168,6 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
                 return status < 500;
               }));
 
-      print(response);
       return fileName;
     }
   } catch (err) {
@@ -178,16 +177,16 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
 }
 
 // ignore: missing_return
-Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
-  String token = await getToken();
-  String headers = "Bearer ${token}";
+Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
   try {
-    if (fileData != null) {
+    if (thumbnailData != null) {
+      String token = await getToken();
+      String headers = "Bearer ${token}";
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'pid': pid,
         "file": MultipartFile.fromBytes(
-          fileData,
+          thumbnailData,
           filename: pid,
           //TODO figure out the actual type of the files
           contentType: MediaType('image', 'jpg'),
@@ -214,11 +213,12 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title) async {
-  String token = await getToken();
-  String headers = "Bearer ${token}";
+Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
+      String token = await getToken();
+      String headers = "Bearer ${token}";
+      if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
       String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
@@ -247,11 +247,11 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
                 return status < 500;
               }));
 
-      print(response);
+      await uploadThumbnail(thumbnailData, fileName);
       return fileName;
     }
   } catch (err) {
-    print("Ran Into Error! UpdateOne => " + err.toString());
+    print("Ran Into Error! uploadKlip => " + err.toString());
     return "";
   }
 }

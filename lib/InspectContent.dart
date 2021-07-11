@@ -41,6 +41,20 @@ class _InspectContentState extends State<InspectContent> {
             initialScale: PhotoViewComputedScale.contained,
             basePosition: Alignment.center,
           ),
+          GestureDetector(
+            behavior: HitTestBehavior.translucent,
+            onTap: () {
+              Navigator.of(context).pop();
+            },
+            child: Padding(
+              padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top + 15, left: 15),
+              child: Icon(
+                Icons.arrow_back,
+                size: 25,
+                color: Constants.backgroundWhite,
+              ),
+            ),
+          ),
         ],
       ),
     );
