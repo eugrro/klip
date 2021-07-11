@@ -147,7 +147,6 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
       return fileName;
     }
   } catch (err) {
@@ -157,14 +156,14 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
 }
 
 // ignore: missing_return
-Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
+Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
   try {
-    if (fileData != null) {
+    if (thumbnailData != null) {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'pid': pid,
         "file": MultipartFile.fromBytes(
-          fileData,
+          thumbnailData,
           filename: pid,
           //TODO figure out the actual type of the files
           contentType: MediaType('image', 'jpg'),
@@ -185,9 +184,10 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title) async {
+Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
+      if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
       String fileName = uid +
           "_" +
@@ -212,11 +212,11 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
+      await uploadThumbnail(thumbnailData, fileName);
       return fileName;
     }
   } catch (err) {
-    print("Ran Into Error! UpdateOne => " + err.toString());
+    print("Ran Into Error! uploadKlip => " + err.toString());
     return "";
   }
 }
@@ -413,11 +413,7 @@ Future<dynamic> addNotification(
     String uid, String newText, bool sentVal) async {
   Response response;
   try {
-    Map<String, dynamic> params = {
-      "uid": uid,
-      "newText": newText,
-      "sentVal": sentVal
-    };
+    Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
     String uri = Constants.nodeURL + "notif/addNotification";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
@@ -473,10 +469,8 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.data.runtimeType.toString() == "List<dynamic>")
-        return response.data;
-      if (response.data.runtimeType == String && response.data.length > 10)
-        return jsonDecode(response.data);
+      if (response.data.runtimeType.toString() == "List<dynamic>") return response.data;
+      if (response.data.runtimeType == String && response.data.length > 10) return jsonDecode(response.data);
       print("Returned unknown value: " + response.data.toString());
       print("\n" + response.data.runtimeType.toString());
     } else {

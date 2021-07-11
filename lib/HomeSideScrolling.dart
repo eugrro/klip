@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:klip/ContentWidget.dart';
 import 'package:klip/UserPage.dart';
+import './Constants.dart' as Constants;
 import 'package:klip/commentsPage.dart';
 import 'package:klip/widgets.dart';
 
@@ -45,6 +46,14 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
 
   @override
   Widget build(BuildContext context) {
+    if (content == null || content == {} || content["pid"] == null || content["pid"] == '' || content["pid"] == "") {
+      return Center(
+        child: Text(
+          "Error loading Content",
+          style: TextStyle(color: Constants.backgroundWhite),
+        ),
+      );
+    }
     ctx = context;
     return WillPopScope(
       onWillPop: _onWillPop,

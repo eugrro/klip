@@ -2,6 +2,8 @@
 *.mode2v3
 *.moved-aside
 *.pbxuser
+*.ipa
+*.zip
 *.perspectivev3
 **/*sync/
 .sconsign.dblite

@@ -28,7 +28,7 @@ Widget LoginTextField(
     {isObscured = false,
     isAutoFocus = false,
     FocusNode focusNode,
-    Widget suffixIconButton = null}) {
+    Widget suffixIconButton = null, double fontSize = 20}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {},
@@ -83,12 +83,8 @@ Widget LoginTextField(
                   //suffixIcon: postText(),
                 ),
                 style: TextStyle(
-                  color: Theme.of(context)
-                      .textTheme
-                      .bodyText1
-                      .color
-                      .withOpacity(.9),
-                  fontSize: 20 + Constants.textChange,
+                  color: Constants.backgroundWhite.withOpacity(.9),
+                  fontSize: fontSize + Constants.textChange,
                 ),
               ),
             ),

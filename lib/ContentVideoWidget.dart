@@ -34,8 +34,16 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
     super.dispose();
   }
 
-  Future<ChewieController> setUpVideoController(String uri) async {
-    videoPlayerController = VideoPlayerController.network(uri);
+  Future<ChewieController> setUpVideoController(dynamic obj) async {
+    String uri = obj["link"];
+    if (uri == "file") {
+      ///This class can be used to display videos all over the app
+      ///Here it checks if the video passed in is a file. If it is then it will play a local videp
+      ///otherwise it will get the uri from the object(usually grabbed from mongoDB) and play from network
+      videoPlayerController = VideoPlayerController.file(obj["file"]);
+    } else {
+      videoPlayerController = VideoPlayerController.network(uri);
+    }
     print("Video URL: " + uri);
     await videoPlayerController.initialize();
     chewieController = klipChewieController(videoPlayerController);
@@ -56,11 +64,11 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
         if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
           postViewed(obj['pid']);
         }
-        if (visiblePercentage != 100) {
+        if (visiblePercentage != 100 && chewieController != null) {
           isVideoPlaying.value = false;
           chewieController.pause();
         }
-        if (visiblePercentage == 100) {
+        if (visiblePercentage == 100 && chewieController != null) {
           isVideoPlaying.value = true;
           chewieController.play();
         }
@@ -94,7 +102,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
         child: Stack(
           children: [
             FutureBuilder<ChewieController>(
-              future: setUpVideoController(obj["link"]),
+              future: setUpVideoController(obj),
               builder: (BuildContext context, AsyncSnapshot<ChewieController> snapshot) {
                 if (snapshot.hasData) {
                   snapshot.data.pause();
