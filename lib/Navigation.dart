@@ -516,7 +516,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                       height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Constants.purpleColor),
+                        border: Border.all(color: Constants.purpleColor, width: 2),
                       ),
                       child: Center(
                           child: Text(currentUser.xTag != null && currentUser.xTag != "" && currentUser.xTag != '' && currentUser.xTag.length > 2
