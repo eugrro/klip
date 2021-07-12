@@ -1,5 +1,7 @@
 import 'dart:io';
 import "./currentUser.dart";
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import "Themes.dart" as Themes;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -24,7 +26,8 @@ class ProfileSettings extends StatefulWidget {
   _ProfileSettingsState createState() => _ProfileSettingsState();
 }
 
-class _ProfileSettingsState extends State<ProfileSettings> {
+class _ProfileSettingsState extends State<ProfileSettings>
+    with SingleTickerProviderStateMixin {
   TextEditingController newInfoContr;
   TextEditingController bioContr;
   TextEditingController bioLinkContr;
@@ -59,13 +62,27 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     print(currentThemeID);
     ThemeProvider.controllerOf(context).setTheme(currentThemeID);
   }*/
-
+  AnimationController _animationController;
+  Animation _animation;
   @override
   void initState() {
     newInfoContr = TextEditingController();
     bioContr = TextEditingController(text: currentUser.bio);
     bioLinkContr = TextEditingController();
+    _animationController =
+        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
+    //TODO: Change end value to keyboard height
+    _animation = Tween(begin: 0.0, end: 250.0).animate(_animationController)
+      ..addListener(() {
+        setState(() {});
+      });
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _animationController.dispose();
+    super.dispose();
   }
 
   @override
@@ -383,27 +400,65 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(context, "First Name", currentUser.fName,
-                      "Change your first name", false, true,
+                  settingsCard(
+                      context,
+                      "First Name",
+                      currentUser.fName,
+                      "Change your first name",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       mongoParamName: "fName"),
-                  settingsCard(context, "Last Name", currentUser.lName,
-                      "Change your last name", false, true,
+                  settingsCard(
+                      context,
+                      "Last Name",
+                      currentUser.lName,
+                      "Change your last name",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       mongoParamName: "lName"),
-                  settingsCard(context, "Xbox Gamertag", currentUser.xTag,
-                      "Request to update your password", false, true,
+                  settingsCard(
+                      context,
+                      "Xbox Gamertag",
+                      currentUser.xTag,
+                      "Request to update your password",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       mongoParamName: "xTag",
                       customfunction: notYetImplemented),
-                  settingsCard(context, "Email", currentUser.email,
-                      "Change your email", false, true,
+                  settingsCard(
+                      context,
+                      "Email",
+                      currentUser.email,
+                      "Change your email",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       mongoParamName: "email",
                       customfunction: notYetImplemented),
-                  settingsCard(context, "Username", currentUser.uName,
-                      "Change your username", false, true,
+                  settingsCard(
+                      context,
+                      "Username",
+                      currentUser.uName,
+                      "Change your username",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       mongoParamName: "uName"),
-                  settingsCard(context, "Password", "* * * * * * * *",
-                      "Request to update your password", false, false,
-                      mongoParamName: "pass",
-                      customfunction: notYetImplemented),
+                  settingsCard(
+                    context, "Password", "* * * * * * * *",
+                    "Request to update your password", false, false,
+                    _animationController, _animation,
+                    mongoParamName: "pass",
+                    //input box which sends request upon completion
+                  ),
 
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -417,8 +472,15 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(context, "Theme", capitalize("Dark"),
-                      "Update your theme preference", false, true,
+                  settingsCard(
+                      context,
+                      "Theme",
+                      capitalize("Dark"),
+                      "Update your theme preference",
+                      false,
+                      true,
+                      _animationController,
+                      _animation,
                       customfunction: notYetImplemented),
                   // customfunction: toggleTheme,
                   // customFunctionParams: [Themes.darkTheme]),
@@ -430,9 +492,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       "Change how you will be displayed on the app",
                       false,
                       true,
+                      _animationController,
+                      _animation,
                       customfunction: notYetImplemented),
-                  settingsCard(context, "Comment Color", "Purple",
-                      "Change your prefered comment color", false, false,
+                  settingsCard(
+                      context,
+                      "Comment Color",
+                      "Purple",
+                      "Change your prefered comment color",
+                      false,
+                      false,
+                      _animationController,
+                      _animation,
                       customfunction: notYetImplemented),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -446,12 +517,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-                  settingsCard(
-                      context, "Report A Bug", "", "Report a bug", false, true,
+                  settingsCard(context, "Report A Bug", "", "Report a bug",
+                      false, true, _animationController, _animation,
                       txt1Color: Colors.blue[700],
                       customfunction: reportABug,
                       customFunctionParams: [newInfoFocus]),
                   settingsCard(context, "Sign out", "", "Sign out", false, true,
+                      _animationController, _animation,
                       customfunction: signOutUserWidget),
                   settingsCard(
                     context,
@@ -460,6 +532,8 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     "Delete your account",
                     false,
                     false,
+                    _animationController,
+                    _animation,
                     txt1Color: Colors.redAccent,
                     customfunction: deleteUserWidget,
                   ),
@@ -835,9 +909,16 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
-  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText,
-      String hint, FocusNode fcs,
-      {String mongoParamName = ""}) {
+  inputNewInfo(
+    BuildContext ctx,
+    TextEditingController contr,
+    String suppText,
+    String hint,
+    FocusNode fcs,
+    AnimationController animationController,
+    Animation animation, {
+    String mongoParamName = "",
+  }) {
     fcs.requestFocus();
     showModalBottomSheet<void>(
       backgroundColor: Colors.transparent,
@@ -941,6 +1022,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   } else if (mongoParamName == "") {
                                     print(
                                         "App preferance change no need to update mongo");
+                                  } else if (mongoParamName == "pass") {
+                                    changePassword(contr.text);
+                                    //TODO: Possibly manage response to change in user password
                                   } else {
                                     showError(context,
                                         "Update password feature not yet implemented");
@@ -985,6 +1069,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 ],
               ),
             ),
+            SizedBox(height: animation.value),
           ],
         );
       },
@@ -1113,12 +1198,26 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-  Widget settingsCard(BuildContext context, String txt1, String txt2,
-      String description, bool showTopLine, bool showBottomLine,
+  Widget settingsCard(
+      BuildContext context,
+      String txt1,
+      String txt2,
+      String description,
+      bool showTopLine,
+      bool showBottomLine,
+      AnimationController animationController,
+      Animation animation,
       {String mongoParamName = "",
       Function customfunction,
       Color txt1Color,
       List<dynamic> customFunctionParams}) {
+    newInfoFocus.addListener(() {
+      if (newInfoFocus.hasFocus) {
+        animationController.forward();
+      } else {
+        animationController.reverse();
+      }
+    });
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -1129,6 +1228,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           );
           newInfoContr.text = txt2;
           inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus,
+              animationController, animation,
               mongoParamName: mongoParamName);
         } else {
           customfunction(context, customFunctionParams);
@@ -1312,4 +1412,27 @@ deleteUserWidget(BuildContext ctx, List<dynamic> params) {
       );
     },
   );
+}
+
+Future<void> changePassword(String newPassword) async {
+  //TODO: Show error if password fails to update
+  //TODO: May want to use double authentication by sending email to user first
+  try {
+    await Firebase.initializeApp();
+    await FirebaseAuth.instance.currentUser
+        .updatePassword(newPassword)
+        .catchError((e) {
+      if (e.code == 'weak-password') {
+        print('The password provided is too weak.');
+        throw ErrorDescription("The password provided is too weak.");
+      } else {
+        print("OTHER ERROR: " + e.toString());
+        throw ErrorDescription(e.code);
+      }
+    });
+    //issue alert confirming password change
+    print("Password updated successfully.");
+  } catch (err) {
+    print("Failed to change password: $err");
+  }
 }

@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
-import "package:theme_provider/theme_provider.dart";
+// import "package:theme_provider/theme_provider.dart";
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
@@ -21,7 +21,7 @@ class _StartPageState extends State<StartPage> {
   AsyncMemoizer _memoizer;
   void setUpPreferences() async {
     await pullUserFromSharedPreferences();
-    ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
+    // ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
   }
 
   @override
