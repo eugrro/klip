@@ -9,7 +9,7 @@ import "./themes.dart";
 Color purpleColor = Color(0xff6E5Ac9);
 Color backgroundBlack = Color(0xff282828);
 Color backgroundWhite = Color(0xfff8f8f8);
-Color hintColor = Color(0xffc0c0c0);
+Color hintColor = Color(0xffa0a0a0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
 
@@ -31,5 +31,7 @@ const String StripePKey =
 String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
 // String nodeURL = "http://10.0.2.2:3000/"; //Local Server for emulator
 // String nodeURL = "http://192.168.50.13:3000/"; //Local Server for physical device (your ip)
+//String nodeURL = "http://10.0.2.2:3000/";   //Local Server for emulator
+//String nodeURL = "http://192.168.86.28:3000/"; //Local Server for physical device (your ip)
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;
