@@ -128,8 +128,7 @@ void showError(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
     behavior: SnackBarBehavior.floating,
-    backgroundColor:
-        Constants.backgroundWhite.withOpacity(.9),
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
     content: Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
@@ -145,12 +144,27 @@ void showError(BuildContext context, String text) {
   ));
 }
 
+void showCompletion(BuildContext context, String text) {
+  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    behavior: SnackBarBehavior.floating,
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    content: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+      children: [
+        Text(text),
+        Icon(Icons.check_sharp, color: Colors.green, size: 28)
+      ],
+    ),
+    duration: const Duration(seconds: 2),
+  ));
+}
+
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
     margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
     behavior: SnackBarBehavior.floating,
-    backgroundColor:
-        Constants.backgroundWhite.withOpacity(.9),
+    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
     content: Text(text),
     duration: const Duration(seconds: 2),
   ));

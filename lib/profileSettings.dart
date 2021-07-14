@@ -36,6 +36,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
   bool editingBio = false;
   File contentImage;
   final imgCropKey = GlobalKey<ImgCropState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   /*bool darkTheme = true;
   String currentThemeID = "dark";
   void toggleTheme(BuildContext context, List<dynamic> newThemes) {
@@ -62,32 +63,24 @@ class _ProfileSettingsState extends State<ProfileSettings>
     print(currentThemeID);
     ThemeProvider.controllerOf(context).setTheme(currentThemeID);
   }*/
-  AnimationController _animationController;
-  Animation _animation;
+
   @override
   void initState() {
     newInfoContr = TextEditingController();
     bioContr = TextEditingController(text: currentUser.bio);
     bioLinkContr = TextEditingController();
-    _animationController =
-        AnimationController(vsync: this, duration: Duration(milliseconds: 200));
-    //TODO: Change end value to keyboard height
-    _animation = Tween(begin: 0.0, end: 250.0).animate(_animationController)
-      ..addListener(() {
-        setState(() {});
-      });
     super.initState();
   }
 
   @override
   void dispose() {
-    _animationController.dispose();
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       backgroundColor: Constants.backgroundBlack,
       body: SingleChildScrollView(
         child: Column(
@@ -400,62 +393,26 @@ class _ProfileSettingsState extends State<ProfileSettings>
                         horizontal: MediaQuery.of(context).size.width / 4),
                   ),*/
 
-                  settingsCard(
-                      context,
-                      "First Name",
-                      currentUser.fName,
-                      "Change your first name",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "First Name", currentUser.fName,
+                      "Change your first name", false, true,
                       mongoParamName: "fName"),
-                  settingsCard(
-                      context,
-                      "Last Name",
-                      currentUser.lName,
-                      "Change your last name",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Last Name", currentUser.lName,
+                      "Change your last name", false, true,
                       mongoParamName: "lName"),
-                  settingsCard(
-                      context,
-                      "Xbox Gamertag",
-                      currentUser.xTag,
-                      "Request to update your password",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Xbox Gamertag", currentUser.xTag,
+                      "Request to update your password", false, true,
                       mongoParamName: "xTag",
                       customfunction: notYetImplemented),
-                  settingsCard(
-                      context,
-                      "Email",
-                      currentUser.email,
-                      "Change your email",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Email", currentUser.email,
+                      "Change your email", false, true,
                       mongoParamName: "email",
                       customfunction: notYetImplemented),
-                  settingsCard(
-                      context,
-                      "Username",
-                      currentUser.uName,
-                      "Change your username",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Username", currentUser.uName,
+                      "Change your username", false, true,
                       mongoParamName: "uName"),
                   settingsCard(
                     context, "Password", "* * * * * * * *",
                     "Request to update your password", false, false,
-                    _animationController, _animation,
                     mongoParamName: "pass",
                     //input box which sends request upon completion
                   ),
@@ -472,15 +429,8 @@ class _ProfileSettingsState extends State<ProfileSettings>
                       ),
                     ),
                   ),
-                  settingsCard(
-                      context,
-                      "Theme",
-                      capitalize("Dark"),
-                      "Update your theme preference",
-                      false,
-                      true,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Theme", capitalize("Dark"),
+                      "Update your theme preference", false, true,
                       customfunction: notYetImplemented),
                   // customfunction: toggleTheme,
                   // customFunctionParams: [Themes.darkTheme]),
@@ -492,18 +442,9 @@ class _ProfileSettingsState extends State<ProfileSettings>
                       "Change how you will be displayed on the app",
                       false,
                       true,
-                      _animationController,
-                      _animation,
                       customfunction: notYetImplemented),
-                  settingsCard(
-                      context,
-                      "Comment Color",
-                      "Purple",
-                      "Change your prefered comment color",
-                      false,
-                      false,
-                      _animationController,
-                      _animation,
+                  settingsCard(context, "Comment Color", "Purple",
+                      "Change your prefered comment color", false, false,
                       customfunction: notYetImplemented),
                   Padding(
                     padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -517,13 +458,12 @@ class _ProfileSettingsState extends State<ProfileSettings>
                       ),
                     ),
                   ),
-                  settingsCard(context, "Report A Bug", "", "Report a bug",
-                      false, true, _animationController, _animation,
+                  settingsCard(
+                      context, "Report A Bug", "", "Report a bug", false, true,
                       txt1Color: Colors.blue[700],
                       customfunction: reportABug,
                       customFunctionParams: [newInfoFocus]),
                   settingsCard(context, "Sign out", "", "Sign out", false, true,
-                      _animationController, _animation,
                       customfunction: signOutUserWidget),
                   settingsCard(
                     context,
@@ -532,8 +472,6 @@ class _ProfileSettingsState extends State<ProfileSettings>
                     "Delete your account",
                     false,
                     false,
-                    _animationController,
-                    _animation,
                     txt1Color: Colors.redAccent,
                     customfunction: deleteUserWidget,
                   ),
@@ -914,9 +852,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
     TextEditingController contr,
     String suppText,
     String hint,
-    FocusNode fcs,
-    AnimationController animationController,
-    Animation animation, {
+    FocusNode fcs, {
     String mongoParamName = "",
   }) {
     fcs.requestFocus();
@@ -1024,7 +960,22 @@ class _ProfileSettingsState extends State<ProfileSettings>
                                     print(
                                         "App preferance change no need to update mongo");
                                   } else if (mongoParamName == "pass") {
-                                    changePassword(contr.text);
+                                    print("Altering password...");
+                                    changePassword(contr.text).then((error) {
+                                      if (error.length == 0) {
+                                        print("Password update successfully.");
+                                        showCompletion(
+                                            _scaffoldKey.currentContext,
+                                            "Password updated successfully.");
+                                      } else {
+                                        print(
+                                            "Failed to change password: $error");
+                                        showError(
+                                            _scaffoldKey.currentContext, error);
+                                      }
+                                      ;
+                                    });
+
                                     //TODO: Possibly manage response to change in user password
                                   } else {
                                     showError(context,
@@ -1070,7 +1021,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
                 ],
               ),
             ),
-            SizedBox(height: animation.value),
+            SizedBox(height: MediaQuery.of(context).viewInsets.bottom),
           ],
         );
       },
@@ -1199,26 +1150,12 @@ class _ProfileSettingsState extends State<ProfileSettings>
     });
   }
 
-  Widget settingsCard(
-      BuildContext context,
-      String txt1,
-      String txt2,
-      String description,
-      bool showTopLine,
-      bool showBottomLine,
-      AnimationController animationController,
-      Animation animation,
+  Widget settingsCard(BuildContext context, String txt1, String txt2,
+      String description, bool showTopLine, bool showBottomLine,
       {String mongoParamName = "",
       Function customfunction,
       Color txt1Color,
       List<dynamic> customFunctionParams}) {
-    newInfoFocus.addListener(() {
-      if (newInfoFocus.hasFocus) {
-        animationController.forward();
-      } else {
-        animationController.reverse();
-      }
-    });
     return GestureDetector(
       behavior: HitTestBehavior.translucent,
       onTap: () {
@@ -1229,7 +1166,6 @@ class _ProfileSettingsState extends State<ProfileSettings>
           );
           newInfoContr.text = txt2;
           inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus,
-              animationController, animation,
               mongoParamName: mongoParamName);
         } else {
           customfunction(context, customFunctionParams);
@@ -1415,9 +1351,8 @@ deleteUserWidget(BuildContext ctx, List<dynamic> params) {
   );
 }
 
-Future<void> changePassword(String newPassword) async {
+Future<String> changePassword(String newPassword) async {
   //TODO: Show error if password fails to update
-  //TODO: May want to use double authentication by sending email to user first
   try {
     await Firebase.initializeApp();
     await FirebaseAuth.instance.currentUser
@@ -1433,7 +1368,8 @@ Future<void> changePassword(String newPassword) async {
     });
     //issue alert confirming password change
     print("Password updated successfully.");
+    return "";
   } catch (err) {
-    print("Failed to change password: $err");
+    return err.toString()[0].toUpperCase() + err.toString().substring(1);
   }
 }

@@ -442,13 +442,6 @@ packages:
       name: photo_view
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.6"
-  photo_view:
-    dependency: "direct main"
-    description:
-      name: photo_view
-      url: "https://pub.dartlang.org"
-    source: hosted
     version: "0.11.1"
   platform:
     dependency: transitive
@@ -604,6 +597,13 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.3.0"
+  theme_provider:
+    dependency: "direct main"
+    description:
+      name: theme_provider
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.5.0"
   toast:
     dependency: "direct main"
     description:
