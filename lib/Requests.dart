@@ -184,10 +184,12 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
+Future<String> uploadKlip(
+    String filePath, String uid, String title, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
-      if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
+      if (filePath.substring(0, 8) == "file:///")
+        filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
       String fileName = uid +
           "_" +
@@ -413,7 +415,11 @@ Future<dynamic> addNotification(
     String uid, String newText, bool sentVal) async {
   Response response;
   try {
-    Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
+    Map<String, dynamic> params = {
+      "uid": uid,
+      "newText": newText,
+      "sentVal": sentVal
+    };
     String uri = Constants.nodeURL + "notif/addNotification";
     print("Sending Request To: " + uri);
     response = await dio.post(uri, queryParameters: params);
@@ -469,8 +475,10 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
       print("Returned 200");
-      if (response.data.runtimeType.toString() == "List<dynamic>") return response.data;
-      if (response.data.runtimeType == String && response.data.length > 10) return jsonDecode(response.data);
+      if (response.data.runtimeType.toString() == "List<dynamic>")
+        return response.data;
+      if (response.data.runtimeType == String && response.data.length > 10)
+        return jsonDecode(response.data);
       print("Returned unknown value: " + response.data.toString());
       print("\n" + response.data.runtimeType.toString());
     } else {
@@ -553,6 +561,9 @@ Future<String> likeContent(String pid, String uid) async {
         return "LikeSuccessful";
       else if (response.data["status"] == "LikeUnsuccessful")
         return "LikeUnsuccessful";
+      else if (response.data["status"] == "AlreadyLiked") {
+        return "AlreadyLiked";
+      }
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -669,11 +680,10 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
 
 Future<void> savePreferences(
     String uid, Map<String, dynamic> newPreferences) async {
-  
   try {
     var uri =
         Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
-        //send to Constants.nodeURL endpoint when functional
+    //send to Constants.nodeURL endpoint when functional
     var response = await http.post(uri);
     if (response.statusCode == 400) {
       print("No new preferences were saved");

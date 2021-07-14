@@ -22,6 +22,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
   @override
   void initState() {
     passwordController = TextEditingController();
+    emailController = TextEditingController();
     super.initState();
   }
 
@@ -55,7 +56,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         Constants.purpleColor.withOpacity(.1),
                         Colors.transparent
                       ],
-                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(
+                        Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Image.asset(
@@ -71,7 +73,8 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Center(
-                    child: klipLogo(115, MediaQuery.of(context).size.width * .5),
+                    child:
+                        klipLogo(115, MediaQuery.of(context).size.width * .5),
                   ),
                   Container(
                     height: 20,
@@ -108,18 +111,25 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          print("Resetting password");
-                          resetPassword(emailController.text);
+                          print(
+                              "Resetting password for email ${emailController.text}...");
+                          resetPassword(emailController.text).then((value) {
+                            print("Password reset email sent.");
+                          });
                         },
                         child: Container(
                           width: MediaQuery.of(context).size.width * .8,
                           height: heightOfContainer - 10,
                           decoration: BoxDecoration(
-                            borderRadius: BorderRadius.all(Radius.circular(100)),
+                            borderRadius:
+                                BorderRadius.all(Radius.circular(100)),
                             gradient: LinearGradient(
                               begin: Alignment.centerLeft,
                               end: Alignment.centerRight,
-                              colors: [Constants.purpleColor, Color(0xffab57a8)],
+                              colors: [
+                                Constants.purpleColor,
+                                Color(0xffab57a8)
+                              ],
                             ),
                           ),
                           child: Center(

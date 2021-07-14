@@ -37,9 +37,17 @@ class _ContentWidgetState extends State<ContentWidget> {
   void initState() {
     super.initState();
     type = obj["type"];
+
+    //Check if current user has already liked post
+    List<dynamic> currentLikes = obj["likes"];
+    if (currentLikes != null) {
+      likedPost = currentLikes.contains(currentUser.uid);
+    }
+    ;
     setUpContent(obj);
   }
 
+  void init() {}
   @override
   void dispose() {
     super.dispose();
@@ -106,7 +114,8 @@ class _ContentWidgetState extends State<ContentWidget> {
 
         GestureDetector(
           onTap: () {
-            Navigator.of(context).push(MaterialPageRoute(builder: (context) => InspectContent(content ?? Container())));
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => InspectContent(content ?? Container())));
           },
           child: content ?? Container(),
         ),
@@ -132,13 +141,21 @@ class _ContentWidgetState extends State<ContentWidget> {
                         unlikeContent(
                           obj["pid"],
                           currentUser.uid,
-                        );
+                        ).then((value) {
+                          if (value == "UnlikeSuccessful") {
+                            //TODO: Unlike only if unlike successful (otherwise show error)
+                          }
+                        });
                         obj["numLikes"] -= 1;
                       } else {
                         likeContent(
                           obj["pid"],
                           currentUser.uid,
-                        );
+                        ).then((value) {
+                          if (value == "LikeSuccessful") {
+                            //TODO: Like only if like successful (otherwise show error)
+                          }
+                        });
                         obj["numLikes"] += 1;
                       }
                       setState(() {
@@ -150,7 +167,9 @@ class _ContentWidgetState extends State<ContentWidget> {
                       children: [
                         Icon(
                           Icons.favorite_border_rounded,
-                          color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                          color: likedPost
+                              ? Constants.purpleColor
+                              : Constants.hintColor,
                           size: 24,
                         ),
                         Container(
@@ -159,7 +178,9 @@ class _ContentWidgetState extends State<ContentWidget> {
                         Text(
                           obj["numLikes"].toString() ?? "error",
                           style: TextStyle(
-                            color: likedPost ? Constants.purpleColor : Constants.hintColor,
+                            color: likedPost
+                                ? Constants.purpleColor
+                                : Constants.hintColor,
                             fontSize: 14 + Constants.textChange,
                           ),
                         ),
@@ -254,9 +275,11 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(
+                        obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
                     // a previously-obtained Future<String> or null
-                    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       double sizeofImage = 40;
                       if (snapshot.hasData) {
                         return Container(
@@ -278,7 +301,9 @@ class _ContentWidgetState extends State<ContentWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  obj["title"] != null && obj["title"] != "" && obj["title"] != ''
+                  obj["title"] != null &&
+                          obj["title"] != "" &&
+                          obj["title"] != ''
                       ? Text(
                           obj["title"] ?? "",
                           style: TextStyle(
@@ -335,9 +360,11 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(
+                        obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
                     // a previously-obtained Future<String> or null
-                    builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                    builder:
+                        (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       double sizeofImage = 40;
                       if (snapshot.hasData) {
                         return Container(
@@ -454,7 +481,9 @@ class _ContentWidgetState extends State<ContentWidget> {
           ),
           child: Text(
             body,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
+            style: TextStyle(
+                color: Constants.backgroundWhite,
+                fontSize: 16 + Constants.textChange),
           ),
         ),
       ),
@@ -483,7 +512,8 @@ class _ContentWidgetState extends State<ContentWidget> {
             itemBuilder: (context, index) {
               return ValueListenableBuilder(
                 valueListenable: isShowingResultForPoll,
-                builder: (BuildContext context, bool showResults, Widget child) {
+                builder:
+                    (BuildContext context, bool showResults, Widget child) {
                   if (!showResults) {
                     //USER IS STILL SELECTING A RESULT
                     return Padding(
@@ -502,9 +532,12 @@ class _ContentWidgetState extends State<ContentWidget> {
                             children: [
                               ValueListenableBuilder(
                                   valueListenable: pollValueSelected,
-                                  builder: (BuildContext context, int pollVal, Widget child) {
+                                  builder: (BuildContext context, int pollVal,
+                                      Widget child) {
                                     return Icon(
-                                      pollVal == index ? Icons.radio_button_on : Icons.radio_button_off,
+                                      pollVal == index
+                                          ? Icons.radio_button_on
+                                          : Icons.radio_button_off,
                                       size: 15,
                                       color: Constants.purpleColor,
                                     );
@@ -544,7 +577,11 @@ class _ContentWidgetState extends State<ContentWidget> {
                               alignment: Alignment.centerLeft,
                               child: Container(
                                 height: heightOfPollItem,
-                                width: MediaQuery.of(context).size.width / 8 * 7 * ratio + 30,
+                                width: MediaQuery.of(context).size.width /
+                                        8 *
+                                        7 *
+                                        ratio +
+                                    30,
                                 color: Colors.grey.withOpacity(.5),
                                 //im not sure whether to go index/largest or index/total. I chose the former
                               ),
@@ -599,10 +636,12 @@ class _ContentWidgetState extends State<ContentWidget> {
                   child: InkWell(
                     onTap: () {
                       if (pollValueSelected.value != -1) {
-                        voteOnPoll(currentUser.uid, pid, pollValueSelected.value);
+                        voteOnPoll(
+                            currentUser.uid, pid, pollValueSelected.value);
                         obj["optionsCount"][pollValueSelected.value]++;
                         largestVote = getLargestVoteCount(obj["optionsCount"]);
-                        isShowingResultForPoll.value = !isShowingResultForPoll.value;
+                        isShowingResultForPoll.value =
+                            !isShowingResultForPoll.value;
                       }
                     },
                     child: Container(
@@ -675,10 +714,12 @@ class _ContentWidgetState extends State<ContentWidget> {
                   child: InkWell(
                     onTap: () {
                       Navigator.of(context).pop();
-                      showSnackbar(context, "Post has been reported successfully");
+                      showSnackbar(
+                          context, "Post has been reported successfully");
                     },
                     child: Padding(
-                      padding: EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+                      padding:
+                          EdgeInsets.symmetric(vertical: 16, horizontal: 12),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
@@ -703,7 +744,8 @@ class SizeProviderWidget extends StatefulWidget {
   final Widget child;
   final Function(Size) onChildSize;
 
-  const SizeProviderWidget({Key key, this.onChildSize, this.child}) : super(key: key);
+  const SizeProviderWidget({Key key, this.onChildSize, this.child})
+      : super(key: key);
   @override
   _SizeProviderWidgetState createState() => _SizeProviderWidgetState();
 }
