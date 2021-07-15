@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_native_admob/native_admob_options.dart';
+//import 'package:flutter_native_admob/native_admob_options.dart';
 import 'package:klip/HomeSideScrolling.dart';
 import 'package:klip/Requests.dart';
 import './Constants.dart' as Constants;
 import 'package:async/async.dart';
 import 'package:preload_page_view/preload_page_view.dart';
-import 'package:flutter_native_admob/flutter_native_admob.dart';
-import 'package:flutter_native_admob/native_admob_controller.dart';
+//import 'package:flutter_native_admob/flutter_native_admob.dart';
+//import 'package:flutter_native_admob/native_admob_controller.dart';
 
 import 'Navigation.dart';
 
@@ -25,7 +25,7 @@ class _HomeTabState extends State<HomeTab> {
   Function(int) callback;
   _HomeTabState(this.homePageSideScrollPosition, this.callback);
 
-  final adController = NativeAdmobController();
+  //final adController = NativeAdmobController();
 
   @override
   void initState() {
@@ -81,9 +81,9 @@ class _HomeTabState extends State<HomeTab> {
           scrollDirection: Axis.vertical,
           itemBuilder: (context, position) {
             if (position < jsonInput.length) {
-              if (position % 2 == 1) {
-                return HomeSideScrolling(homePageSideScrollPosition, callback, jsonInput[position]);
-              } else {
+              //if (position % 2 == 1) {
+              return HomeSideScrolling(homePageSideScrollPosition, callback, jsonInput[position]);
+              /*} else {
                 return NativeAdmob(
                   adUnitID: "ca-app-pub-3940256099942544/2247696110",
                   loading: Center(child: CircularProgressIndicator()),
@@ -95,7 +95,7 @@ class _HomeTabState extends State<HomeTab> {
                     // Others ...
                   ),
                 );
-              }
+              }*/
             } else {
               return Center(
                 child: Text(

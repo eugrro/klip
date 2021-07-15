@@ -54,6 +54,7 @@ dependencies:
   image_gallery_saver: ^1.6.9
   google_mobile_ads: ^0.13.0
   flutter_native_admob: ^2.1.0+3
+  keyboard_visibility: any
   
   simple_image_crop:
     git:

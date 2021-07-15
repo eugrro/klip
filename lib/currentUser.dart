@@ -39,6 +39,29 @@ void displayCurrentUser() {
   }
 }
 
+String getParamValue(String val) {
+  if (val == uid)
+    return uid;
+  else if (val == uName)
+    return uName;
+  else if (val == fName)
+    return fName;
+  else if (val == lName)
+    return lName;
+  else if (val == email)
+    return email;
+  else if (val == numViews)
+    return numViews;
+  else if (val == numKredits)
+    return numKredits;
+  else if (val == xTag)
+    return xTag;
+  else if (val == bio)
+    return bio;
+  else
+    return "";
+}
+
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
 Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
   if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
