@@ -636,134 +636,141 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               borderRadius: BorderRadius.circular(10),
               color: Constants.backgroundBlack,
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Stack(
-                  children: [
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        Navigator.of(context).pop();
-                      },
-                      child: Padding(
-                        padding: EdgeInsets.only(left: 20, top: 15),
-                        child: Text(
-                          "x",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 14 + Constants.textChange,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                    Center(
-                      child: Padding(
-                        padding: EdgeInsets.only(top: 20, bottom: 5),
-                        child: Text(
-                          "Report A Bug",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 18 + Constants.textChange,
-                            decoration: TextDecoration.none,
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                  child: Material(
-                    child: TextField(
-                      maxLines: 6,
-                      controller: bugController,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: .5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
-                        ),
-                        hintText: 'Report the bug here',
-                        fillColor: Colors.grey[850],
-                        focusColor: Colors.red,
-                        filled: true,
-                        isCollapsed: true,
-                      ),
-                      //expands: true,
-                      keyboardType: TextInputType.multiline,
-                      //maxLines: null,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                        padding: EdgeInsets.only(top: 10, bottom: 15, left: 10, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4 - 15,
-                                height: 30,
-                                child: Center(
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 14 + Constants.textChange,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 20,
-                              width: 1,
+            child: GestureDetector(
+              behavior: HitTestBehavior.translucent,
+              onTap: () {
+                FocusScope.of(context).requestFocus(new FocusNode());
+              },
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.max,
+                children: [
+                  Stack(
+                    children: [
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.only(left: 20, top: 15),
+                          child: Text(
+                            "x",
+                            style: TextStyle(
                               color: Constants.backgroundWhite,
+                              fontSize: 14 + Constants.textChange,
+                              decoration: TextDecoration.none,
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                if (bugController.text.length > 20) {
-                                  reportBug(currentUser.uid, bugController.text);
+                          ),
+                        ),
+                      ),
+                      Center(
+                        child: Padding(
+                          padding: EdgeInsets.only(top: 20, bottom: 5),
+                          child: Text(
+                            "Report A Bug",
+                            style: TextStyle(
+                              color: Constants.backgroundWhite,
+                              fontSize: 18 + Constants.textChange,
+                              decoration: TextDecoration.none,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
+                    child: Material(
+                      child: TextField(
+                        maxLines: 6,
+                        controller: bugController,
+                        decoration: InputDecoration(
+                          contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
+                          enabledBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Colors.grey, width: .5),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                          ),
+                          hintText: 'Report the bug here',
+                          fillColor: Colors.grey[850],
+                          focusColor: Colors.red,
+                          filled: true,
+                          isCollapsed: true,
+                        ),
+                        //expands: true,
+                        keyboardType: TextInputType.multiline,
+                        //maxLines: null,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Padding(
+                          padding: EdgeInsets.only(top: 10, bottom: 15, left: 10, right: 10),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
                                   Navigator.of(context).pop();
-                                  showSnackbar(context, "Thank you for reporting and improving\nthe app experience");
-                                } else {
-                                  showError(context, "Bug Report must have at least 20 characters");
-                                }
-                              },
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .4 - 15,
-                                height: 30,
-                                child: Center(
-                                  child: Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 14 + Constants.textChange,
-                                      decoration: TextDecoration.none,
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * .4 - 15,
+                                  height: 30,
+                                  child: Center(
+                                    child: Text(
+                                      "Cancel",
+                                      style: TextStyle(
+                                        color: Constants.backgroundWhite,
+                                        fontSize: 14 + Constants.textChange,
+                                        decoration: TextDecoration.none,
+                                      ),
                                     ),
                                   ),
                                 ),
                               ),
-                            ),
-                          ],
-                        )),
-                  ),
-                )
-              ],
+                              Container(
+                                height: 20,
+                                width: 1,
+                                color: Constants.backgroundWhite,
+                              ),
+                              GestureDetector(
+                                behavior: HitTestBehavior.translucent,
+                                onTap: () {
+                                  if (bugController.text.length > 20) {
+                                    reportBug(currentUser.uid, bugController.text);
+                                    Navigator.of(context).pop();
+                                    showSnackbar(context, "Thank you for reporting and improving\nthe app experience");
+                                  } else {
+                                    Navigator.of(context).pop();
+                                    showError(context, "Bug Report must have at least 20 characters");
+                                  }
+                                },
+                                child: Container(
+                                  width: MediaQuery.of(context).size.width * .4 - 15,
+                                  height: 30,
+                                  child: Center(
+                                    child: Text(
+                                      "Submit",
+                                      style: TextStyle(
+                                        color: Constants.backgroundWhite,
+                                        fontSize: 14 + Constants.textChange,
+                                        decoration: TextDecoration.none,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          )),
+                    ),
+                  )
+                ],
+              ),
             ),
           ),
         );

@@ -57,6 +57,11 @@ class _UserPageState extends State<UserPage> {
       isFollowing = false;
     }
     if (currentUser.uid == uid) {
+      if (currentUser.uName == "FieldNotFound") {
+        //For some reason user data has not been loaded properly
+        //will try loading again
+        await setUpCurrentUserFromMongo(uid);
+      }
       Image avatarImage = await currentUser.userProfileImg;
       setState(() {
         avatar = avatarImage;

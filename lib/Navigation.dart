@@ -8,6 +8,7 @@ import 'package:klip/AddNewPoll.dart';
 import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/SelectXboxContent.dart';
+import 'package:klip/ShopPage.dart';
 import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import 'package:path_provider/path_provider.dart';
@@ -60,6 +61,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               children: [
                 HomePage(),
                 NotificationPage(),
+                ShopPage(),
                 UserPage(currentUser.uid, null, false),
               ],
             ),
@@ -129,10 +131,12 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                showSnackbar(context, "In development");
                                 setState(() {
-                                  //currentlySelectedPage = 3;
+                                  homePagePosition = 2;
+                                  currentlySelectedPage = 3;
                                 });
+                                homePageController.jumpToPage(homePagePosition);
+                                showError(context, "In Development");
                               },
                               child: Icon(
                                 Icons.shopping_cart_outlined,
@@ -143,7 +147,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 setState(() {
-                                  homePagePosition = 2;
+                                  homePagePosition = 3;
                                   currentlySelectedPage = 4;
                                 });
                                 homePageController.jumpToPage(homePagePosition);

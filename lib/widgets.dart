@@ -109,30 +109,71 @@ String getTimeFromSeconds(String input) {
 
 void showError(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(text),
-        Text(
-          "X",
-          style: TextStyle(color: Colors.red, fontSize: 28, fontWeight: FontWeight.bold),
-        ),
-      ],
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Colors.red,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
     ),
-    duration: const Duration(seconds: 2),
+    duration: const Duration(milliseconds: 1500),
   ));
 }
 
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Text(text),
-    duration: const Duration(seconds: 2),
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Constants.purpleColor,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+    duration: const Duration(milliseconds: 2000),
   ));
 }
 
