@@ -8,7 +8,7 @@ import 'package:klip/AddNewPoll.dart';
 import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/SelectXboxContent.dart';
-import 'package:klip/profileSettings.dart';
+import 'package:klip/ShopPage.dart';
 import 'package:klip/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import './Constants.dart' as Constants;
@@ -19,6 +19,8 @@ import 'NotificationPage.dart';
 import 'ShowContentPreview.dart';
 import 'UserPage.dart';
 import 'package:image_picker/image_picker.dart';
+
+import 'profileSettings.dart';
 
 int homePagePosition;
 
@@ -60,7 +62,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
               children: [
                 HomePage(),
                 NotificationPage(),
-                UserPage(currentUser.uid, null, false),
+                ShopPage(),
+                UserPage(currentUser.uid, null, false, false),
               ],
             ),
             ValueListenableBuilder(
@@ -129,10 +132,12 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             GestureDetector(
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
-                                showSnackbar(context, "In development");
                                 setState(() {
-                                  //currentlySelectedPage = 3;
+                                  homePagePosition = 2;
+                                  currentlySelectedPage = 3;
                                 });
+                                homePageController.jumpToPage(homePagePosition);
+                                showError(context, "In Development");
                               },
                               child: Icon(
                                 Icons.shopping_cart_outlined,
@@ -143,7 +148,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               behavior: HitTestBehavior.translucent,
                               onTap: () {
                                 setState(() {
-                                  homePagePosition = 2;
+                                  homePagePosition = 3;
                                   currentlySelectedPage = 4;
                                 });
                                 homePageController.jumpToPage(homePagePosition);
@@ -420,7 +425,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
             ),
             child: ListView(
               shrinkWrap: true,
-              children: <Widget>[
+              children: [
                 Padding(
                   padding: const EdgeInsets.only(top: 10, bottom: 15, right: 10),
                   child: Stack(
@@ -516,7 +521,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                       height: 55,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(5)),
-                        border: Border.all(color: Constants.purpleColor),
+                        border: Border.all(color: Constants.purpleColor, width: 2),
                       ),
                       child: Center(
                           child: Text(currentUser.xTag != null && currentUser.xTag != "" && currentUser.xTag != '' && currentUser.xTag.length > 2

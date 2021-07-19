@@ -103,7 +103,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                 right: 10,
                               ),
                               child: FutureBuilder<Widget>(
-                                future: getProfileImage(comments[index][2], getAWSLink(comments[index][0])),
+                                future: getProfileImage(comments[index][2], getAWSLink(comments[index][0]), false),
                                 // a previously-obtained Future<String> or null
                                 builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                                   double imageRadius = 16;
@@ -181,7 +181,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       FutureBuilder<Widget>(
-                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid)),
+                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid), false),
                         // a previously-obtained Future<String> or null
                         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                           double imageRadius = 16;

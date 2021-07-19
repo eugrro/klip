@@ -18,14 +18,12 @@ List<AppTheme> allThemes = [
   //Dark Theme
   AppTheme(id: "dark", data: darkTheme, description: "The Default Dark Theme"),
   //LightTheme
-  AppTheme(
-      id: "light", data: lightTheme, description: "The Default Dark Inverted"),
+  AppTheme(id: "light", data: lightTheme, description: "The Default Dark Inverted"),
 ];
 
 const double bottomNavBarHeight = 55;
 double statusBarHeight = 0;
-const String StripePKey =
-    "pk_test_51IOnY5Hau82X1Y1fc6l4P6QUfpK6euFX8ULZ3PLpCAG0rObkmlwt7g5k20eFCJzmdFUtZl18wF8kFVZYrqsMuYKa002zcUpSaa";
+const String StripePKey = "pk_test_51IOnY5Hau82X1Y1fc6l4P6QUfpK6euFX8ULZ3PLpCAG0rObkmlwt7g5k20eFCJzmdFUtZl18wF8kFVZYrqsMuYKa002zcUpSaa";
 //testing
 
 String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
