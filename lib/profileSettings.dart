@@ -291,7 +291,11 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       if (editingBio) {
                         showError(context, "Not yet implemented");
                       } else if (currentUser.bioLink != null && currentUser.bioLink != "") {
-                        bioLinkContr.text = currentUser.bioLink;
+                        bioLinkContr.text = currentUser.bioLink.substring(0, 7) == "http://"
+                            ? currentUser.bioLink.substring(7)
+                            : currentUser.bioLink.substring(0, 8) == "https://"
+                                ? currentUser.bioLink.substring(8)
+                                : currentUser.bioLink;
                         editBioLink(context);
                       } else {
                         editBioLink(context);
@@ -457,7 +461,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       focusedBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
                       ),
-                      hintText: 'http://',
+                      hintText: 'Ex: youtube.com',
                       hintStyle: TextStyle(
                         fontSize: 14,
                       ),
@@ -501,6 +505,10 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
+                        //fix and update formatting of link
+                        if (bioLinkContr.text.substring(0, 7) != "http://" && bioLinkContr.text.substring(0, 8) != "https://") {
+                          bioLinkContr.text = "http://" + bioLinkContr.text;
+                        }
                         updateOne(uid, "bioLink", bioLinkContr.text);
                         currentUser.setFieldInSharedPreferences("bioLink", bioLinkContr.text);
                         Navigator.of(context).pop();

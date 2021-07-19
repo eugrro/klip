@@ -9,7 +9,7 @@ import 'package:klip/AddNewText.dart';
 import 'package:klip/HomePage.dart';
 import 'package:klip/SelectXboxContent.dart';
 import 'package:klip/ShopPage.dart';
-import 'package:klip/profileSettings.dart';
+import 'package:klip/ProfileSettings.dart';
 import 'package:klip/widgets.dart';
 import 'package:path_provider/path_provider.dart';
 import './Constants.dart' as Constants;

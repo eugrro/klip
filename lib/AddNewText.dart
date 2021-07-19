@@ -17,6 +17,7 @@ class _AddNewTextState extends State<AddNewText> {
 
   String title = "";
   int titleMaxLength = 80;
+  bool isPostingText = false;
 
   @override
   void initState() {
@@ -60,10 +61,22 @@ class _AddNewTextState extends State<AddNewText> {
                         "Add New Text",
                         style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
                       ),
-                      Icon(
-                        Icons.check,
-                        color: Constants.backgroundWhite,
-                        size: 25,
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          addTextContent(currentUser.uid, titleController.text, bodyController.text).then((value) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          });
+                        },
+                        child: isPostingText
+                            ? CircularProgressIndicator()
+                            : Icon(
+                                Icons.check,
+                                color: Constants.backgroundWhite,
+                                size: 25,
+                              ),
                       ),
                     ],
                   ),

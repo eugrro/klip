@@ -1,7 +1,7 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
-import 'package:klip/profileSettings.dart';
+import 'package:klip/ProfileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import './PaymentFunctions.dart';
@@ -86,9 +86,6 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _launchbioLink(BuildContext ctx, String url) async {
-    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
-      url = "https://" + url;
-    }
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -292,7 +289,11 @@ class _UserPageState extends State<UserPage> {
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: 15),
                                       child: Text(
-                                        bioLink,
+                                        bioLink.substring(0, 7) == "http://"
+                                            ? bioLink.substring(7)
+                                            : bioLink.substring(0, 8) == "https://"
+                                                ? bioLink.substring(8)
+                                                : bioLink,
                                         style: TextStyle(
                                           fontSize: 13 + Constants.textChange,
                                           decoration: TextDecoration.underline,
