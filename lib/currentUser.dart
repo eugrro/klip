@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Requests.dart';
@@ -15,7 +16,7 @@ String xTag = "";
 String bio = "Sample bio text for the current user";
 String bioLink = "";
 String avatarLink = getAWSLink(uid);
-Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
+Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink, false);
 List<dynamic> currentUserFollowing = [];
 List<dynamic> currentUserFollowers = [];
 List<dynamic> currentUserSubscribing = [];
@@ -63,12 +64,28 @@ String getParamValue(String val) {
 }
 
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
-Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
-  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
+Future<Widget> getProfileImage(String avatarURI, String avatarLink, isFading) async {
+  if (avatarLink == null || avatarLink == "") {
+    return Image.asset("lib/assets/images/tempAvatar.png");
+  } else if (await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
     //doing this may cause issues if the profile image gets changed needs further testing
-    Constants.checkedProfileImage = true;
     print("Sending request to: " + avatarLink);
-    return Image.network(avatarLink);
+    if (isFading) {
+      return new FadeInImage.memoryNetwork(
+        image: avatarLink,
+        placeholder: (await rootBundle.load("lib/assets/images/tempAvatar.png")).buffer.asUint8List(),
+        imageErrorBuilder: (ctx, o, s) {
+          return Image.asset("lib/assets/images/tempAvatar.png");
+        },
+      );
+    } else {
+      return Image.network(
+        avatarLink,
+        errorBuilder: (ctx, o, s) {
+          return Image.asset("lib/assets/images/tempAvatar.png");
+        },
+      );
+    }
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
   }

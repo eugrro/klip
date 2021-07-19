@@ -17,17 +17,19 @@ class UserPage extends StatefulWidget {
   final String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  UserPage(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  UserPage(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   @override
-  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage);
+  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage, addBackArrow);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  _UserPageState(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  _UserPageState(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   bool isFollowing;
   String numKredits;
@@ -73,7 +75,7 @@ class _UserPageState extends State<UserPage> {
       });
     } else {
       var user = await getUser(uid);
-      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
+      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid), false);
       setState(() {
         avatar = avatarImage;
         numKredits = user["numKredits"];
@@ -110,6 +112,18 @@ class _UserPageState extends State<UserPage> {
             children: [
               Stack(
                 children: [
+                  addBackArrow
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          behavior: HitTestBehavior.translucent,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.arrow_back, color: Constants.backgroundWhite, size: 30),
+                          ),
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.only(top: 40),
                     child: Row(

@@ -62,7 +62,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                 HomePage(),
                 NotificationPage(),
                 ShopPage(),
-                UserPage(currentUser.uid, null, false),
+                UserPage(currentUser.uid, null, false, false),
               ],
             ),
             ValueListenableBuilder(

@@ -381,7 +381,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     settingsCard(context, "Xbox Gamertag", currentUser.xTag, false, true, ctrl: xTagController),
                     settingsCard(context, "Email", currentUser.email, false, true, ctrl: emailController),
                     settingsCard(context, "Username", currentUser.uName, false, true, ctrl: uNameController),
-                    settingsCard(context, "Password", "* * * * * * * *", false, false, ctrl: psswdController),
+                    settingsCard(context, "Password", "* * * * * * * *", false, false),
 
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),

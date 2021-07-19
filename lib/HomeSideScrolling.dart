@@ -69,7 +69,7 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
         children: <Widget>[
           CommentsPage(content["pid"], content["comm"], callback2),
           ContentWidget(content, callback2),
-          UserPage(content["uid"], callback2, true),
+          UserPage(content["uid"], callback2, true, false),
         ],
       ),
     );

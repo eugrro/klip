@@ -254,7 +254,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"]), false),
                     // a previously-obtained Future<String> or null
                     builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       double sizeofImage = 40;

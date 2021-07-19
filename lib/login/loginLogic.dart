@@ -306,7 +306,7 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink, false);
     try {
       for (uid in user["following"]) {
         currentUser.currentUserFollowing.add(uid);
@@ -336,7 +336,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
   currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink, false);
 }
 
 bool validinput(BuildContext ctx, String uName, String pass, String passConfirm) {
