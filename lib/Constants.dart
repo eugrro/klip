@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import './utils.dart';
+import 'package:theme_provider/theme_provider.dart';
+import "./themes.dart";
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
@@ -18,6 +21,5 @@ const String StripePKey = "pk_test_51IOnY5Hau82X1Y1fc6l4P6QUfpK6euFX8ULZ3PLpCAG0
 String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
 //String nodeURL = "http://10.0.2.2:3000/";   //Local Server for emulator
 //String nodeURL = "http://192.168.86.28:3000/"; //Local Server for physical device (your ip)
-
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;

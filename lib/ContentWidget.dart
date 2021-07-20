@@ -240,6 +240,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             ],
           ),
         ),
+
         GestureDetector(
           onTap: () {
             callback(2);
@@ -254,7 +255,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"]), false),
                     // a previously-obtained Future<String> or null
                     builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       double sizeofImage = 40;
@@ -341,10 +342,16 @@ class _ContentWidgetState extends State<ContentWidget> {
       },
       child: Padding(
         padding: EdgeInsets.only(top: 8, bottom: 8),
-        child: Image.network(
-          link,
-          height: 400,
-          fit: BoxFit.fitHeight,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(
+            minHeight: 50.0,
+            minWidth: 50.0,
+            maxHeight: 400,
+          ),
+          child: Image.network(
+            link,
+            fit: BoxFit.contain,
+          ),
         ),
       ),
     );

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'Requests.dart';
@@ -14,8 +15,9 @@ String numKredits = "0";
 String xTag = "";
 String bio = "Sample bio text for the current user";
 String bioLink = "";
+String themePreference = "";
 String avatarLink = getAWSLink(uid);
-Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink);
+Future<Widget> userProfileImg = getProfileImage(uid + "_avatar.jpg", avatarLink, false);
 List<dynamic> currentUserFollowing = [];
 List<dynamic> currentUserFollowers = [];
 List<dynamic> currentUserSubscribing = [];
@@ -39,13 +41,52 @@ void displayCurrentUser() {
   }
 }
 
+String getParamValue(String val) {
+  if (val == uid)
+    return uid;
+  else if (val == uName)
+    return uName;
+  else if (val == fName)
+    return fName;
+  else if (val == lName)
+    return lName;
+  else if (val == email)
+    return email;
+  else if (val == numViews)
+    return numViews;
+  else if (val == numKredits)
+    return numKredits;
+  else if (val == xTag)
+    return xTag;
+  else if (val == bio)
+    return bio;
+  else
+    return "";
+}
+
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
-Future<Widget> getProfileImage(String avatarURI, String avatarLink) async {
-  if (Constants.checkedProfileImage || await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
+Future<Widget> getProfileImage(String avatarURI, String avatarLink, bool isFading) async {
+  if (avatarLink == null || avatarLink == "") {
+    return Image.asset("lib/assets/images/tempAvatar.png");
+  } else if (await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
     //doing this may cause issues if the profile image gets changed needs further testing
-    Constants.checkedProfileImage = true;
     print("Sending request to: " + avatarLink);
-    return Image.network(avatarLink);
+    if (isFading) {
+      return new FadeInImage.memoryNetwork(
+        image: avatarLink,
+        placeholder: (await rootBundle.load("lib/assets/images/tempAvatar.png")).buffer.asUint8List(),
+        imageErrorBuilder: (ctx, o, s) {
+          return Image.asset("lib/assets/images/tempAvatar.png");
+        },
+      );
+    } else {
+      return Image.network(
+        avatarLink,
+        errorBuilder: (ctx, o, s) {
+          return Image.asset("lib/assets/images/tempAvatar.png");
+        },
+      );
+    }
   } else {
     return Image.asset("lib/assets/images/tempAvatar.png");
   }
@@ -68,6 +109,8 @@ void storeUserToSharedPreferences() async {
   prefs.setString("xTag", xTag);
   prefs.setString("bio", bio);
   prefs.setString("avatarLink", avatarLink);
+  prefs.setString("themePreference", themePreference);
+  print("TP: $themePreference");
   prefs.setStringList("currentUserFollowing", currentUserFollowing.cast<String>());
   prefs.setStringList("currentUserFollowers", currentUserFollowers.cast<String>());
   prefs.setStringList("currentUserSubscribing", currentUserSubscribing.cast<String>());
@@ -108,6 +151,7 @@ Future<void> pullUserFromSharedPreferences() async {
   bio = await pullFieldFromSharedPreferences("bio", prefs);
   bioLink = await pullFieldFromSharedPreferences("bioLink", prefs);
   avatarLink = await pullFieldFromSharedPreferences("avatarLink", prefs);
+  themePreference = await pullFieldFromSharedPreferences("themePreference", prefs);
   try {
     dynamic temp;
     temp = (await pullFieldFromSharedPreferences("currentUserFollowing", prefs));
@@ -135,4 +179,32 @@ void clearSharedPreferences() async {
   print("Clearing Shared Preferences");
   final prefs = await SharedPreferences.getInstance();
   prefs.clear();
+}
+
+Map<String, dynamic> getCurrentUser() {
+  Map<String, dynamic> ret = {
+    "uid": uid,
+    "uName": uName,
+    "fName": fName,
+    "lName": lName,
+    "email": email,
+    "numViews": numViews,
+    "numKredits": numKredits,
+    "xTag": xTag,
+    "bio": bio,
+    "bioLink": bioLink,
+    "themePreference": themePreference,
+    "avatarLink": avatarLink,
+    "userProfileImg": uid + "_avatar.jpg",
+    "currentUserFollowing": currentUserFollowing,
+    "currentUserFollowers": currentUserFollowers,
+    "currentUserSubscribing": currentUserSubscribing,
+    "currentUserSubscribers": currentUserSubscribers,
+  };
+  return ret;
+}
+
+Future<void> saveOnePreferenceToMongo(String param, String paramVal) async {
+  Map<String, dynamic> newPreferences = {"uid": uid, param: paramVal};
+  await savePreferences(uid, newPreferences);
 }

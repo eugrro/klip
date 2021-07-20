@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:klip/ContentWidget.dart';
 import 'package:klip/UserPage.dart';
-import 'package:klip/commentsPage.dart';
+import './Constants.dart' as Constants;
+import 'package:klip/CommentsPage.dart';
 import 'package:klip/widgets.dart';
 
 // ignore: must_be_immutable
@@ -45,6 +46,14 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
 
   @override
   Widget build(BuildContext context) {
+    if (content == null || content == {} || content["pid"] == null || content["pid"] == '' || content["pid"] == "") {
+      return Center(
+        child: Text(
+          "Error loading Content",
+          style: TextStyle(color: Constants.backgroundWhite),
+        ),
+      );
+    }
     ctx = context;
     return WillPopScope(
       onWillPop: _onWillPop,
@@ -60,7 +69,7 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
         children: <Widget>[
           CommentsPage(content["pid"], content["comm"], callback2),
           ContentWidget(content, callback2),
-          UserPage(content["uid"], callback2, true),
+          UserPage(content["uid"], callback2, true, false),
         ],
       ),
     );

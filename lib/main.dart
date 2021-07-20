@@ -6,7 +6,10 @@ import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new MyApp());
+  });
 }
 
 //LOOK INTO THIS https://pub.dev/packages/animated_text_kit
@@ -52,8 +55,7 @@ Map<String, Widget Function(BuildContext)> klipRoutes = {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }

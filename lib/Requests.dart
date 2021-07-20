@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import "package:http/http.dart" as http;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -123,7 +124,9 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
-      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid +
+          "_" +
+          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -144,7 +147,6 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
       return fileName;
     }
   } catch (err) {
@@ -154,14 +156,14 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
 }
 
 // ignore: missing_return
-Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
+Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
   try {
-    if (fileData != null) {
+    if (thumbnailData != null) {
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'pid': pid,
         "file": MultipartFile.fromBytes(
-          fileData,
+          thumbnailData,
           filename: pid,
           //TODO figure out the actual type of the files
           contentType: MediaType('image', 'jpg'),
@@ -182,11 +184,14 @@ Future<String> uploadThumbnail(Uint8List fileData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title) async {
+Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
+      if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
-      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid +
+          "_" +
+          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -207,11 +212,11 @@ Future<String> uploadKlip(String filePath, String uid, String title) async {
       print("Sending post request to: " + uri);
       response = await dio.post(uri, data: formData);
 
-      print(response);
+      await uploadThumbnail(thumbnailData, fileName);
       return fileName;
     }
   } catch (err) {
-    print("Ran Into Error! UpdateOne => " + err.toString());
+    print("Ran Into Error! uploadKlip => " + err.toString());
     return "";
   }
 }
@@ -294,10 +299,40 @@ Future<List<dynamic>> listContentMongo() async {
   }
 }
 
+// ignore: missing_return
+Future<dynamic> search(String uid, String val) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "val": val,
+    };
+
+    String uri = Constants.nodeURL + "misc/search";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return null;
+    }
+  } catch (err) {
+    print("Ran Into Error! search => " + err.toString());
+    if (response != null) {
+      print(response.data);
+    }
+    return null;
+  }
+}
+
 Future<dynamic> addTextContent(String uid, String title, String body) async {
   Response response;
 
-  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+  String fileName = uid +
+      "_" +
+      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
     Map<String, String> params = {
@@ -324,10 +359,13 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
   return "";
 }
 
-Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) async {
+Future<dynamic> addPollContent(
+    String uid, String title, List<dynamic> options) async {
   Response response;
 
-  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+  String fileName = uid +
+      "_" +
+      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
     Map<String, dynamic> params = {
@@ -399,7 +437,8 @@ Future<dynamic> getNotifications(String uid) async {
   return "";
 }
 
-Future<dynamic> addNotification(String uid, String newText, bool sentVal) async {
+Future<dynamic> addNotification(
+    String uid, String newText, bool sentVal) async {
   Response response;
   try {
     Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
@@ -486,7 +525,8 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
       print("Returned 200");
       if (response.data["status"] == "FollowSuccessful")
         return "FollowSuccessful";
-      else if ((response.data["status"] == "FollowUnsuccessful")) return "FollowUnsuccessful";
+      else if ((response.data["status"] == "FollowUnsuccessful"))
+        return "FollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -513,7 +553,8 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
       print("Returned 200");
       if (response.data["status"] == "UnfollowSuccessful")
         return "UnfollowSuccessful";
-      else if ((response.data["status"] == "UnfollowUnsuccessful")) return "UnfollowUnsuccessful";
+      else if ((response.data["status"] == "UnfollowUnsuccessful"))
+        return "UnfollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -538,7 +579,8 @@ Future<String> likeContent(String pid, String uid) async {
       print("Returned 200");
       if (response.data["status"] == "LikeSuccessful")
         return "LikeSuccessful";
-      else if (response.data["status"] == "LikeUnsuccessful") return "LikeUnsuccessful";
+      else if (response.data["status"] == "LikeUnsuccessful")
+        return "LikeUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -563,7 +605,8 @@ Future<String> unlikeContent(String pid, String uid) async {
       print("Returned 200");
       if (response.data["status"] == "UnlikeSuccessful")
         return "UnlikeSuccessful";
-      else if (response.data["status"] == "UnlikeUnsuccessful") return "UnlikeUnsuccessful";
+      else if (response.data["status"] == "UnlikeUnsuccessful")
+        return "UnlikeUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -640,7 +683,8 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
       print("Returned 200");
       if (response.data["status"] == "DeleteSuccessful")
         return "DeleteSuccessful";
-      else if (response.data["status"] == "DeleteUnsuccessful") return "DeleteUnsuccessful";
+      else if (response.data["status"] == "DeleteUnsuccessful")
+        return "DeleteUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -649,4 +693,21 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
     print("Ran Into Error! deleteContent => " + err.toString());
   }
   return "";
+}
+
+Future<void> savePreferences(
+    String uid, Map<String, dynamic> newPreferences) async {
+  
+  try {
+    var uri =
+        Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
+        //send to Constants.nodeURL endpoint when functional
+    var response = await http.post(uri);
+    if (response.statusCode == 400) {
+      print("No new preferences were saved");
+      return;
+    }
+  } catch (err) {
+    print("Error saving preferences: $err");
+  }
 }

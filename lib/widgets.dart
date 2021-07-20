@@ -32,10 +32,7 @@ Widget klipLogo(double height, double width) {
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: [.3, .8],
-        colors: [
-          Constants.backgroundWhite,
-          Constants.purpleColor,
-        ],
+        colors: [Constants.backgroundWhite, Constants.purpleColor],
       ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
     },
     blendMode: BlendMode.srcIn,
@@ -109,35 +106,86 @@ String getTimeFromSeconds(String input) {
 
 void showError(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(text),
-        Text(
-          "X",
-          style: TextStyle(color: Colors.red, fontSize: 28, fontWeight: FontWeight.bold),
-        ),
-      ],
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Colors.red,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
     ),
-    duration: const Duration(seconds: 2),
+    duration: const Duration(milliseconds: 1500),
   ));
 }
 
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Text(text),
-    duration: const Duration(seconds: 2),
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Constants.purpleColor,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+    duration: const Duration(milliseconds: 2000),
   ));
 }
 
 //check this widget
 Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {
+  Color purpleColor;
+  Color textColor;
+  void initColors() {
+    Builder(builder: (BuildContext context) {
+      purpleColor = Constants.purpleColor;
+      textColor = Constants.backgroundWhite;
+    });
+  }
+
+  initColors();
   if (thickness == null) thickness = 2.0;
   FocusNode fcs = FocusNode();
   return Stack(
@@ -161,7 +209,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
       Align(
         alignment: Alignment.center,
         child: TextFormField(
-          cursorColor: Constants.backgroundWhite,
+          cursorColor: textColor,
           decoration: new InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -178,7 +226,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
           controller: contr,
           focusNode: fcs,
           style: TextStyle(
-            color: Constants.backgroundWhite,
+            color: textColor,
             fontSize: 16 + Constants.textChange,
           ),
         ),
@@ -198,7 +246,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
                     labelText,
                     style: TextStyle(
                       fontSize: labelTextFontSize == null ? 14 + Constants.textChange : labelTextFontSize + Constants.textChange,
-                      color: Constants.backgroundWhite,
+                      color: textColor,
                     ),
                   ),
                 ),
@@ -220,8 +268,8 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
             width: height / 2,
             decoration: BoxDecoration(
               border: Border(
-                bottom: BorderSide(width: thickness, color: Constants.purpleColor),
-                right: BorderSide(width: thickness, color: Constants.purpleColor),
+                bottom: BorderSide(width: thickness, color: purpleColor),
+                right: BorderSide(width: thickness, color: purpleColor),
               ),
             ),
           ),
@@ -234,8 +282,8 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
           width: height / 2,
           decoration: BoxDecoration(
             border: Border(
-              top: BorderSide(width: thickness, color: Constants.purpleColor),
-              left: BorderSide(width: thickness, color: Constants.purpleColor),
+              top: BorderSide(width: thickness, color: purpleColor),
+              left: BorderSide(width: thickness, color: purpleColor),
             ),
           ),
         ),
@@ -252,7 +300,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
           height: thickness,
           width: width / 2,
           decoration: BoxDecoration(
-            color: Constants.purpleColor,
+            color: purpleColor,
             borderRadius: BorderRadius.circular(thickness),
           ),
         ),
@@ -269,7 +317,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
           height: thickness,
           width: width / 2,
           decoration: BoxDecoration(
-            color: Constants.purpleColor,
+            color: purpleColor,
             borderRadius: BorderRadius.circular(thickness),
           ),
         ),

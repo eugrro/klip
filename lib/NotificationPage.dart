@@ -15,6 +15,7 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
+
   Color receiveColor = Colors.black.withOpacity(.5);
   Color sendColor = Constants.purpleColor;
   //true is sent

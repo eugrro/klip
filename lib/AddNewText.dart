@@ -14,6 +14,11 @@ class AddNewText extends StatefulWidget {
 class _AddNewTextState extends State<AddNewText> {
   TextEditingController titleController;
   TextEditingController bodyController;
+
+  String title = "";
+  int titleMaxLength = 80;
+  bool isPostingText = false;
+
   @override
   void initState() {
     super.initState();
@@ -37,145 +42,106 @@ class _AddNewTextState extends State<AddNewText> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
-                Container(
-                  decoration: BoxDecoration(
-                    // border:
-                    //borderRadius: BorderRadius.circular(8.0),
-                    color: Constants.backgroundBlack,
-                    boxShadow: [
-                      BoxShadow(
-                        //color: Constants.backgroundBlack,
-                        blurRadius: 1.0,
-                        spreadRadius: 0.0,
-                        offset: Offset(2.0, 2.0), // shadow direction: bottom right
-                      )
+                Padding(
+                  padding: EdgeInsets.only(
+                    top: 15,
+                    left: MediaQuery.of(context).size.width / 30,
+                    right: MediaQuery.of(context).size.width / 30,
+                    bottom: 15,
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Icon(
+                        Icons.arrow_back,
+                        color: Constants.backgroundWhite,
+                        size: 25,
+                      ),
+                      Text(
+                        "Add New Text",
+                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
+                      ),
+                      GestureDetector(
+                        behavior: HitTestBehavior.translucent,
+                        onTap: () {
+                          addTextContent(currentUser.uid, titleController.text, bodyController.text).then((value) {
+                            Navigator.of(context).pop();
+                            Navigator.of(context).pop();
+                            setState(() {});
+                          });
+                        },
+                        child: isPostingText
+                            ? CircularProgressIndicator()
+                            : Icon(
+                                Icons.check,
+                                color: Constants.backgroundWhite,
+                                size: 25,
+                              ),
+                      ),
                     ],
                   ),
-                  child: Padding(
-                    padding: EdgeInsets.only(
-                      top: 15,
-                      left: MediaQuery.of(context).size.width / 30,
-                      right: MediaQuery.of(context).size.width / 30,
-                      bottom: 15,
-                    ),
-                    child: Stack(
-                      children: [
-                        Align(
-                          alignment: Alignment.centerLeft,
-                          child: Row(
-                            children: [
-                              Icon(
-                                Icons.arrow_back_ios,
-                                color: Constants.backgroundWhite,
-                                size: 20,
-                              ),
-                              Container(
-                                width: 20,
-                              ),
-                              Text(
-                                "Add New Text",
-                                style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
-                              ),
-                            ],
-                          ),
-                        ),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Icon(
-                            Icons.check,
-                            color: Constants.backgroundWhite,
-                            size: 25,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 ),
-                SizedBox(height: 30),
+                SizedBox(height: 15),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
+                  width: MediaQuery.of(context).size.width * .95,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 150),
                     child: TextFormField(
-                      maxLength: 150,
+                      scrollPhysics: NeverScrollableScrollPhysics(),
+                      onChanged: (String value) {
+                        if (value.length > titleMaxLength) {
+                          value = value.substring(0, titleMaxLength);
+                          titleController.text = value;
+                          //move cursor to end
+                          titleController.selection = TextSelection.fromPosition(TextPosition(offset: titleController.text.length));
+                        }
+                        setState(() {
+                          title = value;
+                        });
+                      },
                       maxLengthEnforcement: MaxLengthEnforcement.enforced,
                       controller: titleController,
                       maxLines: null,
-                      decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
-                          ),
-                          hintText: "An Interesting title",
-                          hintStyle: TextStyle(fontSize: 16)),
+                      decoration: InputDecoration(border: InputBorder.none, hintText: "An Interesting Title", hintStyle: TextStyle(fontSize: 17)),
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 20,
+                Container(
+                  width: double.infinity,
+                  color: Constants.hintColor,
+                  height: 1,
+                ),
+                Padding(
+                  padding: EdgeInsets.only(
+                    right: 8,
+                  ),
+                  child: Align(
+                    alignment: Alignment.centerRight,
+                    child: Text(
+                      title.length.toString() + "/" + titleMaxLength.toString(),
+                      style: TextStyle(
+                        color: title.length >= 55
+                            ? Colors.red
+                            : title.length >= 40
+                                ? Colors.yellow
+                                : Constants.hintColor,
+                        fontSize: 12,
+                      ),
+                    ),
+                  ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.95,
+                  width: MediaQuery.of(context).size.width * .95,
                   child: ConstrainedBox(
                     constraints: BoxConstraints(maxHeight: 300),
                     child: TextFormField(
                       controller: bodyController,
                       minLines: 5,
                       maxLines: null,
-                      decoration: InputDecoration(
-                          focusedBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
-                          ),
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.all(Radius.circular(5.0)),
-                            borderSide: BorderSide(color: Constants.purpleColor, width: 2),
-                          ),
-                          hintText: "Your text post",
-                          hintStyle: TextStyle(fontSize: 14)),
+                      decoration: InputDecoration(border: InputBorder.none, hintText: "Your Text Body", hintStyle: TextStyle(fontSize: 14)),
                     ),
                   ),
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 50),
-                  child: Center(
-                    child: GestureDetector(
-                      onTap: () {
-                        addTextContent(
-                          currentUser.uid,
-                          titleController.text,
-                          bodyController.text,
-                        ).then((value) {
-                          while (Navigator.of(context).canPop()) {
-                            Navigator.of(context).pop();
-                          }
-                          Navigator.of(context).push(MaterialPageRoute(builder: (context) => Navigation()));
-                        });
-                      },
-                      child: Container(
-                        width: 150,
-                        height: 30,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.all(Radius.circular(7)),
-                          color: Constants.purpleColor,
-                        ),
-                        child: Center(
-                          child: Text(
-                            "Submit",
-                            style: TextStyle(
-                              color: Constants.backgroundWhite,
-                              fontSize: 14 + Constants.textChange,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
               ],
             ),
           ),

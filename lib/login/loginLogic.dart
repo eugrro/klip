@@ -1,5 +1,5 @@
 import 'dart:convert';
-
+import "package:http/http.dart" as http;
 import 'package:dio/dio.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -19,7 +19,7 @@ Dio dio = new Dio();
 // ignore: non_constant_identifier_names
 Widget LoginTextField(BuildContext context, double heightOfContainer, double borderThickness, double imgThickness, String hintText,
     TextEditingController contrl, Widget prefixIcon,
-    {isObscured = false, isAutoFocus = false, FocusNode focusNode, double fontSize = 20}) {
+    {isObscured = false, isAutoFocus = false, FocusNode focusNode, Widget suffixIconButton = null, double fontSize = 20}) {
   return GestureDetector(
     behavior: HitTestBehavior.translucent,
     onTap: () {},
@@ -30,7 +30,7 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
         borderRadius: BorderRadius.all(Radius.circular(100)),
         border: Border.all(
           width: borderThickness,
-          color: Constants.purpleColor.withOpacity(.8),
+          color: Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.8),
         ),
       ),
       child: Stack(
@@ -40,7 +40,7 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
             alignment: Alignment.center,
             width: MediaQuery.of(context).size.width * 9 / 10,
             decoration: BoxDecoration(
-              color: Constants.backgroundBlack,
+              color: Theme.of(context).scaffoldBackgroundColor,
               borderRadius: new BorderRadius.all(Radius.circular(100)),
             ),
             child: Padding(
@@ -48,14 +48,14 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
                 left: 10 + imgThickness,
                 right: 20, //+ imgThickness,
               ),
-              child: TextField(
+              child: TextFormField(
                 autofocus: isAutoFocus,
                 focusNode: focusNode != null ? focusNode : new FocusNode(),
                 controller: contrl,
                 keyboardType: TextInputType.multiline,
                 obscureText: isObscured,
                 //textAlign: TextAlign.center,
-                cursorColor: Constants.backgroundWhite,
+                cursorColor: Theme.of(context).textTheme.bodyText1.color,
                 cursorWidth: 1.5,
                 decoration: InputDecoration(
                   isDense: true,
@@ -63,7 +63,7 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
                   border: InputBorder.none,
                   hintText: hintText,
                   hintStyle: TextStyle(
-                    color: Constants.backgroundWhite.withOpacity(.6),
+                    color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.6),
                     fontSize: 20 + Constants.textChange,
                   ),
                   //suffixIcon: postText(),
@@ -84,6 +84,17 @@ Widget LoginTextField(BuildContext context, double heightOfContainer, double bor
               width: imgThickness,
               height: imgThickness,
               child: Center(child: prefixIcon),
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.only(
+              left: MediaQuery.of(context).size.width * .8 - 60,
+              top: heightOfContainer * .5 - imgThickness / 2 - borderThickness,
+            ),
+            child: Container(
+              width: imgThickness,
+              height: imgThickness,
+              child: Center(child: suffixIconButton),
             ),
           ),
         ],
@@ -159,6 +170,29 @@ Future<String> signOutUser() async {
     }
   });
   return "SignOutSuccessful";
+}
+
+Future<String> deleteUser() async {
+  await Firebase.initializeApp();
+  await FirebaseAuth.instance.currentUser.delete().catchError((err) {
+    if (err) {
+      print("Ran Into Error! deleteUser => " + err.toString());
+      return "ERROR";
+    }
+  });
+  try {
+    //if in MongoDB, delete there with delete request
+    var queryParams = {"uid": "${currentUser.uid}"};
+    var uri = Constants.nodeURL + "user/deleteAccount";
+    print("UID upon deletion...: $queryParams");
+    var res = await dio.delete(uri, queryParameters: queryParams);
+    print("Deletion Successful: ${res.data}");
+  } catch (err) {
+    print("Account deletion in MongoDB failed: $err");
+    return "AccountDeletionFailed";
+  }
+  await signOutUser();
+  return "AccountDeletionSuccessful";
 }
 
 Future<String> signUp(String user, String pass) async {
@@ -242,6 +276,7 @@ Future<String> postUser(String uid, String fName, String lName, String uName, St
       "avatar": "",
       "numViews": numViews.toString(),
       "numKredits": numKredits.toString(),
+      "themePreference": "dark",
       "following": [],
       "followers": [],
       "subscribing": [],
@@ -293,7 +328,7 @@ Future<Map<String, dynamic>> getUser(String uid) async {
 Future<void> setUpCurrentUserFromMongo(String uid) async {
   print("Setting up user from mongo");
   var user = await getUser(uid);
-  print(user);
+  print("USER SUCCESS: $user");
   currentUser.uid = uid;
   if (user != null) {
     currentUser.bio = user["bio"];
@@ -306,7 +341,7 @@ Future<void> setUpCurrentUserFromMongo(String uid) async {
     currentUser.numViews = user["numViews"];
     currentUser.numKredits = user["numKredits"];
     currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+    currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink, false);
     try {
       for (uid in user["following"]) {
         currentUser.currentUserFollowing.add(uid);
@@ -336,7 +371,7 @@ void setUpCurrentUserFromNewData(String uid, String bio, String uName, String em
   currentUser.numViews = numViews;
   currentUser.numKredits = numKredits;
   currentUser.avatarLink = "https://klip-user-avatars.s3.amazonaws.com/" + uid + "_avatar.jpg";
-  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink);
+  currentUser.userProfileImg = getProfileImage(uid + "_avatar.jpg", currentUser.avatarLink, false);
 }
 
 bool validinput(BuildContext ctx, String uName, String pass, String passConfirm) {
@@ -410,4 +445,15 @@ Future<bool> doesUsernameExist(String username) async {
     print("Ran Into Error! doesUserExist => " + err.toString());
   }
   return null;
+}
+
+String rstrip(String s) {
+  /*For stripping whitespace on username and email to avoid bad email
+  format and incorrect username*/
+  int iter = s.length - 1;
+  while (s[iter] == ' ' || s[iter] == '\r' || s[iter] == '\n') {
+    iter--;
+    print(iter);
+  }
+  return s.substring(0, iter + 1);
 }
