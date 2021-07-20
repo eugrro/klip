@@ -40,8 +40,8 @@ android {
         applicationId "com.klipApp"
         minSdkVersion 21
         targetSdkVersion 29
-        versionCode 1 
-        versionName flutterVersionName
+        versionCode 5
+        versionName "1.0.0"
         multiDexEnabled true
     }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klip/ContentWidget.dart';
 import 'package:klip/UserPage.dart';
 import './Constants.dart' as Constants;
-import 'package:klip/commentsPage.dart';
+import 'package:klip/CommentsPage.dart';
 import 'package:klip/widgets.dart';
 
 // ignore: must_be_immutable

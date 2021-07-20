@@ -4,16 +4,6 @@ import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
 
 ChewieController klipChewieController(VideoPlayerController vp) {
-  Color purpleColor;
-  Color textColor;
-  void initColors() {
-    Builder(builder: (BuildContext context) {
-      purpleColor = Constants.purpleColor;
-      textColor = Constants.backgroundWhite;
-    });
-  }
-
-  initColors();
   return ChewieController(
     videoPlayerController: vp,
     looping: false,
@@ -27,8 +17,8 @@ ChewieController klipChewieController(VideoPlayerController vp) {
       color: Colors.green,
     ),
     materialProgressColors: ChewieProgressColors(
-      playedColor: purpleColor,
-      handleColor: purpleColor,
+      playedColor: Constants.purpleColor,
+      handleColor: Constants.purpleColor,
       backgroundColor: Colors.grey[100],
       bufferedColor: Colors.grey,
     ),
@@ -36,23 +26,13 @@ ChewieController klipChewieController(VideoPlayerController vp) {
 }
 
 Widget klipLogo(double height, double width) {
-  Color purpleColor = Constants.purpleColor;
-  Color textColor = Constants.backgroundWhite;
-  void initColors() {
-    Builder(builder: (BuildContext context) {
-      purpleColor = Constants.purpleColor;
-      textColor = Constants.backgroundWhite;
-    });
-  }
-
-  initColors();
   return ShaderMask(
     shaderCallback: (rect) {
       return LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: [.3, .8],
-        colors: [textColor, purpleColor],
+        colors: [Constants.backgroundWhite, Constants.purpleColor],
       ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
     },
     blendMode: BlendMode.srcIn,

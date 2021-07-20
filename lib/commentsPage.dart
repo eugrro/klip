@@ -103,9 +103,12 @@ class _CommentsPageState extends State<CommentsPage> {
                                 right: 10,
                               ),
                               child: FutureBuilder<Widget>(
-                                future: getProfileImage(comments[index][2], getAWSLink(comments[index][0]), false),
+                                future: getProfileImage(comments[index][0] + "_avatar.jpg", comments[index][2], false),
                                 // a previously-obtained Future<String> or null
                                 builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                                  print("LOADING COMMENT");
+                                  print(comments[index]);
+                                  print(getAWSLink(comments[index][0].toString()));
                                   double imageRadius = 16;
                                   if (snapshot.hasData) {
                                     return CircleAvatar(
