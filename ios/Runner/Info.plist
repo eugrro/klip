@@ -19,19 +19,17 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>$(FLUTTER_BUILD_NUMBER)</string>
-	<key>GADApplicationIdentifier</key>
-	<string>ca-app-pub-1598651725354445~1162994856</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We would like access to your photo library</string>
 	<key>NSCameraUsageDescription</key>
 	<string>We would like access to your camera</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>We would like your permission to improve your experience in our app</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
 	<string>We would like your permission to improve your experience in our app</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>We would like access to your photo library</string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
