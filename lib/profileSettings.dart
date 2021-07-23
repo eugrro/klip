@@ -179,31 +179,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             ),
                           ),
                         ),
-<<<<<<< HEAD
-                      )),
-                ],
-              ),
-            ),
-            Stack(
-              children: [
-                Opacity(
-                  opacity: .4,
-                  child: Container(
-                    width: 150,
-                    child: ClipOval(
-                      child: FutureBuilder<Widget>(
-                        future: currentUser
-                            .userProfileImg, // a previously-obtained Future<String> or null
-                        builder: (BuildContext context,
-                            AsyncSnapshot<Widget> snapshot) {
-                          if (snapshot.hasData) {
-                            return snapshot.data;
-                          } else {
-                            return Constants.tempAvatar;
-                          }
-                        },
-=======
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                       ),
                     ),
                   ),
@@ -341,56 +316,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       ),
                     ),
                   ),
-<<<<<<< HEAD
-                ),
-                GestureDetector(
-                  onTap: () {
-                    if (editingBio) {
-                      showError(context, "Not yet implemented");
-                    } else if (currentUser.bioLink != null &&
-                        currentUser.bioLink != "") {
-                      bioLinkContr.text = currentUser.bioLink;
-                      editBioLink(context);
-                    } else {
-                      editBioLink(context);
-                    }
-                  },
-                  child: Container(
-                    height: 35,
-                    width: MediaQuery.of(context).size.width * .28,
-                    decoration: BoxDecoration(
-                      border: Border.all(
-                        color: Constants.purpleColor,
-                        width: 1.5,
-                      ),
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    child: Center(
-                      child: editingBio
-                          ? Text(
-                              "Another Option",
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Constants.backgroundWhite,
-                              ),
-                            )
-                          : currentUser.bioLink != null &&
-                                  currentUser.bioLink != ""
-                              ? Text(
-                                  "Edit Link",
-                                  style: TextStyle(
-                                    fontSize: 13,
-                                    color: Constants.backgroundWhite,
-                                  ),
-                                )
-                              : Text(
-                                  "Add A Link",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                    fontSize: 12,
-                                    color: Constants.backgroundWhite,
-                                  ),
-=======
                   GestureDetector(
                     onTap: () {
                       if (editingBio) {
@@ -423,7 +348,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 style: TextStyle(
                                   fontSize: 12,
                                   color: Constants.backgroundWhite,
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                                 ),
                               )
                             : currentUser.bioLink != null && currentUser.bioLink != ""
@@ -482,35 +406,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           horizontal: MediaQuery.of(context).size.width / 4),
                     ),*/
 
-<<<<<<< HEAD
-                  settingsCard(context, "First Name", currentUser.fName,
-                      "Change your first name", false, true,
-                      mongoParamName: "fName"),
-                  settingsCard(context, "Last Name", currentUser.lName,
-                      "Change your last name", false, true,
-                      mongoParamName: "lName"),
-                  settingsCard(context, "Xbox Gamertag", currentUser.xTag,
-                      "Request to update your password", false, true,
-                      mongoParamName: "xTag"),
-                  settingsCard(context, "Email", currentUser.email,
-                      "Change your email", false, true,
-                      mongoParamName: "email",
-                      customfunction: notYetImplemented),
-                  settingsCard(context, "Username", currentUser.uName,
-                      "Change your username", false, true,
-                      mongoParamName: "uName"),
-                  settingsCard(context, "Password", "* * * * * * * *",
-                      "Request to update your password", false, false,
-                      mongoParamName: "pass",
-                      customfunction: notYetImplemented),
-=======
                     settingsCard(context, "First Name", currentUser.fName, false, true, ctrl: fNameController),
                     settingsCard(context, "Last Name", currentUser.lName, false, true, ctrl: lNameController),
                     settingsCard(context, "Xbox Gamertag", currentUser.xTag, false, true, ctrl: xTagController),
                     settingsCard(context, "Email", currentUser.email, false, true, ctrl: emailController),
                     settingsCard(context, "Username", currentUser.uName, false, true, ctrl: uNameController),
                     settingsCard(context, "Password", "* * * * * * * *", false, false),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
 
                     Padding(
                       padding: EdgeInsets.only(top: 10, bottom: 10),
@@ -524,50 +425,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         ),
                       ),
                     ),
-<<<<<<< HEAD
-                  ),
-                  settingsCard(context, "Theme", "Dark",
-                      "Update your theme preference", false, true,
-                      customfunction: notYetImplemented),
-                  settingsCard(
-                      context,
-                      "Show Username",
-                      "Show First + Last Name",
-                      "Change how you will be displayed on the app",
-                      false,
-                      true,
-                      customfunction: notYetImplemented),
-                  settingsCard(context, "Comment Color", "Purple",
-                      "Change your prefered comment color", false, false,
-                      customfunction: notYetImplemented),
-                  Padding(
-                    padding: EdgeInsets.only(top: 10, bottom: 10),
-                    child: Center(
-                      child: Text(
-                        "Danger Zone",
-                        style: TextStyle(
-                          color: Colors.red.withOpacity(.8),
-                          fontSize: 17 + Constants.textChange,
-                        ),
-                      ),
-                    ),
-                  ),
-                  settingsCard(
-                      context, "Report A Bug", "", "Report a bug", false, true,
-                      txt1Color: Colors.blue[700],
-                      customfunction: reportABug,
-                      customFunctionParams: [newInfoFocus]),
-                  settingsCard(context, "Sign out", "", "Sign out", false, true,
-                      customfunction: signOutUserWidget),
-                  settingsCard(context, "Delete Your Account", "",
-                      "Delete your account", false, false,
-                      txt1Color: Colors.redAccent),
-                  //TODO implement delete account and sign out
-                  Container(
-                    height: 20,
-                  )
-                ],
-=======
                     settingsCard(context, "Theme", "Dark", false, true),
                     settingsCard(context, "Show Username", "username", false, true),
                     settingsCard(context, "Comment Color", "Purple", false, false),
@@ -593,7 +450,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     )
                   ],
                 ),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
               ),
             ],
           ),
@@ -628,19 +484,12 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     maxLines: 1,
                     controller: bioLinkContr,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 8),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: .5),
                       ),
                       focusedBorder: OutlineInputBorder(
-<<<<<<< HEAD
-                        borderSide: BorderSide(
-                            color: Constants.backgroundWhite.withOpacity(.8),
-                            width: 1.5),
-=======
-                        borderSide: BorderSide(color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.8), width: 1.5),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
+                        borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
                       ),
                       hintText: 'Ex: youtube.com',
                       hintStyle: TextStyle(
@@ -691,17 +540,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           bioLinkContr.text = "http://" + bioLinkContr.text;
                         }
                         updateOne(uid, "bioLink", bioLinkContr.text);
-                        currentUser.setFieldInSharedPreferences(
-                            "bioLink", bioLinkContr.text);
+                        currentUser.setFieldInSharedPreferences("bioLink", bioLinkContr.text);
                         Navigator.of(context).pop();
                         currentUser.bioLink = bioLinkContr.text;
                       },
                       child: Center(
                         child: Text(
-                          currentUser.bioLink != "" &&
-                                  currentUser.bioLink != null
-                              ? "Update"
-                              : "Add",
+                          currentUser.bioLink != "" && currentUser.bioLink != null ? "Update" : "Add",
                           style: TextStyle(
                             color: Constants.backgroundWhite,
                             fontSize: 14 + Constants.textChange,
@@ -784,8 +629,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         );
                       } else {
                         Navigator.of(context).pop();
-                        showError(context,
-                            "Sign out was unsuccessful please report this bug");
+                        showError(context, "Sign out was unsuccessful please report this bug");
                       }
                     },
                     child: Container(
@@ -831,42 +675,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               borderRadius: BorderRadius.circular(10),
               color: Constants.backgroundBlack,
             ),
-<<<<<<< HEAD
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Center(
-                  child: Padding(
-                    padding: EdgeInsets.only(top: 20, bottom: 5),
-                    child: Text(
-                      "Report A Bug",
-                      style: TextStyle(
-                        color: Constants.backgroundWhite,
-                        fontSize: 18 + Constants.textChange,
-                        decoration: TextDecoration.none,
-                      ),
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(left: 10, right: 10, top: 10, bottom: 10),
-                  child: Material(
-                    child: TextField(
-                      maxLines: 12,
-                      controller: bugController,
-                      decoration: InputDecoration(
-                        contentPadding: const EdgeInsets.symmetric(
-                            vertical: 15.0, horizontal: 8),
-                        enabledBorder: OutlineInputBorder(
-                          borderSide: BorderSide(color: Colors.grey, width: .5),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderSide: BorderSide(
-                              color: Constants.backgroundWhite.withOpacity(.8),
-                              width: 1.5),
-=======
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,
               onTap: () {
@@ -893,155 +701,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               decoration: TextDecoration.none,
                             ),
                           ),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                         ),
                       ),
-<<<<<<< HEAD
-                      //expands: true,
-                      keyboardType: TextInputType.multiline,
-                      //maxLines: null,
-                    ),
-                  ),
-                ),
-                Expanded(
-                  child: Align(
-                    alignment: Alignment.bottomCenter,
-                    child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 10, bottom: 15, left: 10, right: 10),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceAround,
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                Navigator.of(context).pop();
-                              },
-                              child: Container(
-                                width:
-                                    MediaQuery.of(context).size.width * .4 - 15,
-                                height: 30,
-                                child: Center(
-                                  child: Text(
-                                    "Cancel",
-                                    style: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 14 + Constants.textChange,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            Container(
-                              height: 20,
-                              width: 1,
-=======
                       Center(
                         child: Padding(
                           padding: EdgeInsets.only(top: 20, bottom: 5),
                           child: Text(
                             "Report A Bug",
                             style: TextStyle(
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                               color: Constants.backgroundWhite,
                               fontSize: 18 + Constants.textChange,
                               decoration: TextDecoration.none,
                             ),
-<<<<<<< HEAD
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                if (bugController.text.length > 20) {
-                                  reportBug(
-                                      currentUser.uid, bugController.text);
-                                  Navigator.of(context).pop();
-                                  showSnackbar(context,
-                                      "Thank you for reporting and improving\nthe app experience");
-                                } else {
-                                  showError(context,
-                                      "Bug Report must have at least 20 characters");
-                                }
-                              },
-                              child: Container(
-                                width:
-                                    MediaQuery.of(context).size.width * .4 - 15,
-                                height: 30,
-                                child: Center(
-                                  child: Text(
-                                    "Submit",
-                                    style: TextStyle(
-                                      color: Constants.backgroundWhite,
-                                      fontSize: 14 + Constants.textChange,
-                                      decoration: TextDecoration.none,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        )),
-                  ),
-                )
-              ],
-            ),
-          ),
-        );
-      },
-    );
-  }
-
-  inputNewInfo(BuildContext ctx, TextEditingController contr, String suppText,
-      String hint, FocusNode fcs,
-      {String mongoParamName = ""}) {
-    fcs.requestFocus();
-    showModalBottomSheet<void>(
-      backgroundColor: Colors.transparent,
-      isScrollControlled: true,
-      context: ctx,
-      builder: (BuildContext context) {
-        return Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              //height: 200,
-              decoration: BoxDecoration(
-                color: Constants.backgroundBlack,
-                borderRadius: BorderRadius.only(
-                  topRight: Radius.circular(10),
-                  topLeft: Radius.circular(10),
-                ),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(left: 15, right: 15),
-                    child: Center(
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Padding(
-                            padding:
-                                EdgeInsets.only(top: 20, right: 15, bottom: 15),
-                            child: Container(
-                              width:
-                                  MediaQuery.of(context).size.width / 100 * 55,
-                              child: LoginTextField(
-                                context,
-                                45,
-                                3,
-                                10,
-                                hint,
-                                contr,
-                                Container(),
-                                focusNode: fcs,
-                                isAutoFocus: true,
-                                fontSize: 16,
-                              ),
-                            ),
-=======
                           ),
                         ),
                       ),
@@ -1057,7 +728,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
                           enabledBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Colors.grey, width: .5),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                           ),
                           focusedBorder: OutlineInputBorder(
                             borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
@@ -1088,21 +758,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   Navigator.of(context).pop();
                                 },
                                 child: Container(
-<<<<<<< HEAD
-                                  height: 40,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    color:
-                                        Constants.purpleColor.withOpacity(.5),
-                                    boxShadow: kElevationToShadow[12],
-                                  ),
-                                  child: Icon(
-                                    Icons.cancel_outlined,
-                                    size: 30,
-                                    color: Colors.red,
-=======
                                   width: MediaQuery.of(context).size.width * .4 - 15,
                                   height: 30,
                                   child: Center(
@@ -1114,7 +769,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                         decoration: TextDecoration.none,
                                       ),
                                     ),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                                   ),
                                 ),
                               ),
@@ -1126,36 +780,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               GestureDetector(
                                 behavior: HitTestBehavior.translucent,
                                 onTap: () {
-<<<<<<< HEAD
-                                  if (mongoParamName != "pass" &&
-                                      mongoParamName != "") {
-                                    updateOne(currentUser.uid, mongoParamName,
-                                        contr.text);
-
-                                    setFieldInSharedPreferences(
-                                        mongoParamName, contr.text);
-                                    if (mongoParamName == "fName")
-                                      currentUser.fName = contr.text;
-                                    if (mongoParamName == "lName")
-                                      currentUser.lName = contr.text;
-                                    if (mongoParamName == "bio")
-                                      currentUser.bio = contr.text;
-                                    if (mongoParamName == "email")
-                                      currentUser.email = contr.text;
-                                    if (mongoParamName == "uName")
-                                      currentUser.uName = contr.text;
-                                    if (mongoParamName == "xTag")
-                                      currentUser.xTag = contr.text;
-
-                                    //TODO any other settings feature needs to be added to mongo if necessary
-                                    setState(() {});
-                                  } else if (mongoParamName == "") {
-                                    print(
-                                        "App preferance change no need to update mongo");
-                                  } else {
-                                    showError(context,
-                                        "Update password feature not yet implemented");
-=======
                                   if (bugController.text.length > 20) {
                                     reportBug(currentUser.uid, bugController.text);
                                     Navigator.of(context).pop();
@@ -1163,25 +787,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                   } else {
                                     Navigator.of(context).pop();
                                     showError(context, "Bug Report must have at least 20 characters");
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                                   }
                                 },
                                 child: Container(
-<<<<<<< HEAD
-                                  height: 40,
-                                  width: 55,
-                                  decoration: BoxDecoration(
-                                    borderRadius:
-                                        BorderRadius.all(Radius.circular(8)),
-                                    color:
-                                        Constants.purpleColor.withOpacity(.5),
-                                    boxShadow: kElevationToShadow[12],
-                                  ),
-                                  child: Icon(
-                                    Icons.check,
-                                    size: 30,
-                                    color: Colors.green,
-=======
                                   width: MediaQuery.of(context).size.width * .4 - 15,
                                   height: 30,
                                   child: Center(
@@ -1193,7 +801,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                         decoration: TextDecoration.none,
                                       ),
                                     ),
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
                                   ),
                                 ),
                               ),
@@ -1226,22 +833,18 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              CropProfilePic(contentImage, imgCropKey),
+                          builder: (context) => CropProfilePic(contentImage, imgCropKey),
                         ),
                       ).then(
                         (value) async {
                           if (value) {
                             final crop = imgCropKey.currentState;
-                            File newFile = await crop.cropCompleted(
-                                contentImage,
-                                preferredSize: 600);
+                            File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
                               //little bit of a hacky way but this needs to return a future
-                              currentUser.userProfileImg =
-                                  Future.delayed(Duration(seconds: 0), () {
+                              currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
                                 return newImg;
                               });
                             });
@@ -1262,9 +865,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     getImageGallery().then((value) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CropProfilePic(contentImage, imgCropKey)),
+                        MaterialPageRoute(builder: (context) => CropProfilePic(contentImage, imgCropKey)),
                       );
                     });
                   },
@@ -1313,27 +914,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     });
   }
 
-<<<<<<< HEAD
-  Widget settingsCard(BuildContext context, String txt1, String txt2,
-      String description, bool showTopLine, bool showBottomLine,
-      {String mongoParamName = "",
-      Function customfunction,
-      Color txt1Color,
-      List<dynamic> customFunctionParams}) {
-    return GestureDetector(
-      behavior: HitTestBehavior.translucent,
-      onTap: () {
-        if (customfunction == null) {
-          newInfoContr.selection = TextSelection(
-            baseOffset: 0,
-            extentOffset: newInfoContr.text.length,
-          );
-          newInfoContr.text = txt2;
-          inputNewInfo(context, newInfoContr, description, txt1, newInfoFocus,
-              mongoParamName: mongoParamName);
-        } else {
-          customfunction(context, customFunctionParams);
-=======
   Size getTextSize(String text, TextStyle style) {
     final TextPainter textPainter = TextPainter(text: TextSpan(text: text, style: style), maxLines: 1, textDirection: TextDirection.ltr)
       ..layout(minWidth: 0, maxWidth: double.infinity);
@@ -1383,7 +963,6 @@ class _ProfileSettingsState extends State<ProfileSettings> {
       onTap: () {
         if (customFunction != null) {
           customFunction(context, customFunctionParams);
->>>>>>> 44be8907699418c21f87aa16ac43d85b21b8b573
         }
       },
       child: Column(
