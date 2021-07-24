@@ -4,16 +4,6 @@ import 'package:video_player/video_player.dart';
 import './Constants.dart' as Constants;
 
 ChewieController klipChewieController(VideoPlayerController vp) {
-  Color purpleColor;
-  Color textColor;
-  void initColors() {
-    Builder(builder: (BuildContext context) {
-      purpleColor = Constants.purpleColor;
-      textColor = Constants.backgroundWhite;
-    });
-  }
-
-  initColors();
   return ChewieController(
     videoPlayerController: vp,
     looping: false,
@@ -27,8 +17,8 @@ ChewieController klipChewieController(VideoPlayerController vp) {
       color: Colors.green,
     ),
     materialProgressColors: ChewieProgressColors(
-      playedColor: purpleColor,
-      handleColor: purpleColor,
+      playedColor: Constants.purpleColor,
+      handleColor: Constants.purpleColor,
       backgroundColor: Colors.grey[100],
       bufferedColor: Colors.grey,
     ),
@@ -36,23 +26,13 @@ ChewieController klipChewieController(VideoPlayerController vp) {
 }
 
 Widget klipLogo(double height, double width) {
-  Color purpleColor = Constants.purpleColor;
-  Color textColor = Constants.backgroundWhite;
-  void initColors() {
-    Builder(builder: (BuildContext context) {
-      purpleColor = Constants.purpleColor;
-      textColor = Constants.backgroundWhite;
-    });
-  }
-
-  initColors();
   return ShaderMask(
     shaderCallback: (rect) {
       return LinearGradient(
         begin: Alignment.topLeft,
         end: Alignment.bottomRight,
         stops: [.3, .8],
-        colors: [textColor, purpleColor],
+        colors: [Constants.backgroundWhite, Constants.purpleColor],
       ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
     },
     blendMode: BlendMode.srcIn,
@@ -126,21 +106,36 @@ String getTimeFromSeconds(String input) {
 
 void showError(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      children: [
-        Text(text),
-        Text(
-          "X",
-          style: TextStyle(
-              color: Colors.red, fontSize: 28, fontWeight: FontWeight.bold),
-        ),
-      ],
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Colors.red,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
     ),
-    duration: const Duration(seconds: 2),
+    duration: const Duration(milliseconds: 1500),
   ));
 }
 
@@ -162,17 +157,41 @@ void showCompletion(BuildContext context, String text) {
 
 void showSnackbar(BuildContext context, String text) {
   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    margin: EdgeInsets.only(bottom: 10, left: 15, right: 15),
+    margin: EdgeInsets.only(
+        bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
+    padding: EdgeInsets.zero,
     backgroundColor: Constants.backgroundWhite.withOpacity(.9),
-    content: Text(text),
-    duration: const Duration(seconds: 2),
+    content: Container(
+      height: 50,
+      child: Row(
+        children: [
+          Container(
+            height: 50,
+            width: 5,
+            color: Constants.purpleColor,
+          ),
+          Container(
+            width: 15,
+          ),
+          Expanded(
+            child: Text(
+              text,
+              style: TextStyle(
+                color: Constants.backgroundBlack,
+                fontSize: 14 + Constants.textChange,
+              ),
+            ),
+          )
+        ],
+      ),
+    ),
+    duration: const Duration(milliseconds: 2000),
   ));
 }
 
 //check this widget
-Widget klipTextField(double height, double width, TextEditingController contr,
-    {String labelText, double thickness, double labelTextFontSize}) {
+Widget klipTextField(double height, double width, TextEditingController contr, {String labelText, double thickness, double labelTextFontSize}) {
   Color purpleColor;
   Color textColor;
   void initColors() {
@@ -242,9 +261,7 @@ Widget klipTextField(double height, double width, TextEditingController contr,
                   child: Text(
                     labelText,
                     style: TextStyle(
-                      fontSize: labelTextFontSize == null
-                          ? 14 + Constants.textChange
-                          : labelTextFontSize + Constants.textChange,
+                      fontSize: labelTextFontSize == null ? 14 + Constants.textChange : labelTextFontSize + Constants.textChange,
                       color: textColor,
                     ),
                   ),
@@ -261,8 +278,7 @@ Widget klipTextField(double height, double width, TextEditingController contr,
           bottom: 0,
         ),
         child: ClipRRect(
-          borderRadius:
-              BorderRadius.only(bottomRight: Radius.circular(thickness)),
+          borderRadius: BorderRadius.only(bottomRight: Radius.circular(thickness)),
           child: Container(
             height: height / 2,
             width: height / 2,
@@ -378,8 +394,7 @@ class ExpandingTextField extends StatelessWidget {
   }) : super(key: key);
 
   final TextField child;
-  final double
-      maxHeightPx; // height after which textfield won't expand to fit text but will be scrollable
+  final double maxHeightPx; // height after which textfield won't expand to fit text but will be scrollable
   final double width;
   @override
   Widget build(BuildContext context) {

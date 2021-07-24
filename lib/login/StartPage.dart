@@ -21,7 +21,7 @@ class _StartPageState extends State<StartPage> {
   AsyncMemoizer _memoizer;
   void setUpPreferences() async {
     await pullUserFromSharedPreferences();
-    // ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
+    //ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
   }
 
   @override
@@ -73,12 +73,7 @@ class _StartPageState extends State<StartPage> {
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
                     stops: [0.1, 0.4, 0.5, 0.9],
-                    colors: [
-                      Constants.purpleColor,
-                      Constants.purpleColor.withOpacity(.6),
-                      Constants.purpleColor.withOpacity(.1),
-                      Colors.transparent
-                    ],
+                    colors: [Constants.purpleColor, Constants.purpleColor.withOpacity(.6), Constants.purpleColor.withOpacity(.1), Colors.transparent],
                   ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                 },
                 blendMode: BlendMode.srcIn,
@@ -104,8 +99,7 @@ class _StartPageState extends State<StartPage> {
                         Constants.backgroundWhite,
                         Constants.purpleColor,
                       ],
-                    ).createShader(
-                        Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Center(
@@ -142,9 +136,7 @@ class _StartPageState extends State<StartPage> {
                     child: Center(
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 24 + Constants.textChange),
+                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),
@@ -173,9 +165,7 @@ class _StartPageState extends State<StartPage> {
                     child: Center(
                       child: Text(
                         "Sign In",
-                        style: TextStyle(
-                            color: Constants.purpleColor,
-                            fontSize: 24 + Constants.textChange),
+                        style: TextStyle(color: Constants.purpleColor, fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),

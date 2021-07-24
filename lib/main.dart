@@ -1,22 +1,21 @@
 import 'dart:convert';
 import 'dart:ui';
-import 'package:dio/dio.dart';
-import 'package:theme_provider/theme_provider.dart';
 import 'package:klip/login/StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
-import "package:http/http.dart" as http;
 
 void main() {
-  runApp(MyApp());
+  WidgetsFlutterBinding.ensureInitialized();
+  SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
+    runApp(new MyApp());
+  });
 }
 
 //LOOK INTO THIS https://pub.dev/packages/animated_text_kit
 
 class MyApp extends StatelessWidget {
-  String defaultTheme = "dark";
-
+  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
@@ -27,23 +26,23 @@ class MyApp extends StatelessWidget {
         //statusBarBrightness: Brightness.dark,
       ),
     );
-    return ThemeProvider(
-      themes: Constants.allThemes,
-      child: ThemeConsumer(
-        child: Builder(
-          builder: (themeContext) => MaterialApp(
-            debugShowCheckedModeBanner: false,
-            builder: (context, child) {
-              ThemeProvider.controllerOf(context).setTheme(defaultTheme);
-              return ScrollConfiguration(
-                behavior: MyBehavior(),
-                child: child,
-              );
-            },
-            theme: ThemeProvider.themeOf(themeContext).data,
-            home: StartPage(),
-          ),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      builder: (context, child) {
+        return ScrollConfiguration(
+          behavior: MyBehavior(),
+          child: child,
+        );
+      },
+      home: StartPage(),
+      theme: ThemeData(
+        textSelectionTheme: TextSelectionThemeData(
+          selectionHandleColor: Constants.purpleColor,
+          selectionColor: Constants.purpleColor.withOpacity(.5),
+          cursorColor: Constants.purpleColor,
         ),
+        brightness: Brightness.dark,
+        scaffoldBackgroundColor: Constants.backgroundBlack,
       ),
     );
   }
@@ -56,8 +55,7 @@ Map<String, Widget Function(BuildContext)> klipRoutes = {
 
 class MyBehavior extends ScrollBehavior {
   @override
-  Widget buildViewportChrome(
-      BuildContext context, Widget child, AxisDirection axisDirection) {
+  Widget buildViewportChrome(BuildContext context, Widget child, AxisDirection axisDirection) {
     return child;
   }
 }

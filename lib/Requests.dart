@@ -301,6 +301,34 @@ Future<List<dynamic>> listContentMongo() async {
   }
 }
 
+// ignore: missing_return
+Future<dynamic> search(String uid, String val) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "val": val,
+    };
+
+    String uri = Constants.nodeURL + "misc/search";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return null;
+    }
+  } catch (err) {
+    print("Ran Into Error! search => " + err.toString());
+    if (response != null) {
+      print(response.data);
+    }
+    return null;
+  }
+}
+
 Future<dynamic> addTextContent(String uid, String title, String body) async {
   Response response;
 

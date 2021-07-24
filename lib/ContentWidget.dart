@@ -261,6 +261,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             ],
           ),
         ),
+
         GestureDetector(
           onTap: () {
             callback(2);
@@ -275,93 +276,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(
-                        obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
-                    // a previously-obtained Future<String> or null
-                    builder:
-                        (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                      double sizeofImage = 40;
-                      if (snapshot.hasData) {
-                        return Container(
-                          height: sizeofImage,
-                          width: sizeofImage,
-                          child: snapshot.data,
-                        );
-                      } else {
-                        return Container(
-                          height: sizeofImage,
-                          width: sizeofImage,
-                          child: Constants.tempAvatar,
-                        );
-                      }
-                    },
-                  ),
-                ),
-              ),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  obj["title"] != null &&
-                          obj["title"] != "" &&
-                          obj["title"] != ''
-                      ? Text(
-                          obj["title"] ?? "",
-                          style: TextStyle(
-                            color: Constants.backgroundWhite,
-                            fontSize: 17 + Constants.textChange,
-                          ),
-                        )
-                      : Container(),
-                  Row(
-                    children: [
-                      Text(
-                        obj["uName"] ?? "usernameError",
-                        style: TextStyle(
-                          color: Constants.hintColor,
-                          fontSize: 14 + Constants.textChange,
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                          left: 8,
-                          right: 8,
-                          top: 2,
-                        ),
-                        child: Icon(
-                          Icons.circle,
-                          color: Constants.hintColor,
-                          size: 5,
-                        ),
-                      ),
-                      Text(
-                        getTimeFromSeconds(obj["pid"].split("_")[1]),
-                        style: TextStyle(
-                          color: Constants.hintColor,
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        GestureDetector(
-          onTap: () {
-            callback(2);
-          },
-          behavior: HitTestBehavior.translucent,
-          child: Row(
-            children: [
-              Padding(
-                padding: EdgeInsets.only(
-                  left: 20,
-                  right: 10,
-                ),
-                child: ClipOval(
-                  child: FutureBuilder<Widget>(
-                    future: getProfileImage(
-                        obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"]), false),
                     // a previously-obtained Future<String> or null
                     builder:
                         (BuildContext context, AsyncSnapshot<Widget> snapshot) {

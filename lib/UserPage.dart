@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
-import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import './PaymentFunctions.dart';
@@ -12,22 +11,25 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
+import 'profileSettings.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  UserPage(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  UserPage(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   @override
-  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage);
+  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage, addBackArrow);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  _UserPageState(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  _UserPageState(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   bool isFollowing;
   String numKredits;
@@ -57,6 +59,11 @@ class _UserPageState extends State<UserPage> {
       isFollowing = false;
     }
     if (currentUser.uid == uid) {
+      if (currentUser.uName == "FieldNotFound") {
+        //For some reason user data has not been loaded properly
+        //will try loading again
+        await setUpCurrentUserFromMongo(uid);
+      }
       Image avatarImage = await currentUser.userProfileImg;
       setState(() {
         avatar = avatarImage;
@@ -68,7 +75,7 @@ class _UserPageState extends State<UserPage> {
       });
     } else {
       var user = await getUser(uid);
-      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
+      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid), false);
       setState(() {
         avatar = avatarImage;
         numKredits = user["numKredits"];
@@ -81,9 +88,6 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _launchbioLink(BuildContext ctx, String url) async {
-    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
-      url = "https://" + url;
-    }
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -108,6 +112,18 @@ class _UserPageState extends State<UserPage> {
             children: [
               Stack(
                 children: [
+                  addBackArrow
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          behavior: HitTestBehavior.translucent,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.arrow_back, color: Constants.backgroundWhite, size: 30),
+                          ),
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.only(top: 40),
                     child: Row(
@@ -287,7 +303,11 @@ class _UserPageState extends State<UserPage> {
                                     child: Padding(
                                       padding: EdgeInsets.only(bottom: 15),
                                       child: Text(
-                                        bioLink,
+                                        bioLink.substring(0, 7) == "http://"
+                                            ? bioLink.substring(7)
+                                            : bioLink.substring(0, 8) == "https://"
+                                                ? bioLink.substring(8)
+                                                : bioLink,
                                         style: TextStyle(
                                           fontSize: 13 + Constants.textChange,
                                           decoration: TextDecoration.underline,
