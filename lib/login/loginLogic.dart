@@ -175,10 +175,8 @@ Future<String> signOutUser() async {
 Future<String> deleteUser() async {
   await Firebase.initializeApp();
   await FirebaseAuth.instance.currentUser.delete().catchError((err) {
-    if (err) {
       print("Ran Into Error! deleteUser => " + err.toString());
-      return "ERROR";
-    }
+      return "AccountDeletionFailed";
   });
   try {
     //if in MongoDB, delete there with delete request
