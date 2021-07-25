@@ -378,7 +378,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                     settingsCard(context, "First Name", currentUser.fName, false, true, ctrl: fNameController),
                     settingsCard(context, "Last Name", currentUser.lName, false, true, ctrl: lNameController),
-                    settingsCard(context, "Xbox Gamertag", currentUser.xTag, false, true, ctrl: xTagController),
+                    settingsCard(context, "Xbox Gamertag", currentUser.xTag, true, true, ctrl: xTagController),
                     settingsCard(context, "Email", currentUser.email, false, true, ctrl: emailController),
                     settingsCard(context, "Username", currentUser.uName, false, true, ctrl: uNameController),
                     settingsCard(context, "Password", "* * * * * * * *", false, false),
@@ -889,9 +889,17 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     return textPainter.size;
   }
 
+  void stripWhiteSpaces() {
+    fNameController.text = fNameController.text.trim();
+    lNameController.text = lNameController.text.trim();
+    xTagController.text = xTagController.text.trim();
+    emailController.text = emailController.text.trim();
+    uNameController.text = uNameController.text.trim();
+  }
+
   void updateData() {
     print("RAN FUNCTION");
-
+    stripWhiteSpaces();
     if (currentUser.fName != fNameController.text) {
       currentUser.fName = fNameController.text;
       updateOne(uid, "fName", fNameController.text);
@@ -915,14 +923,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     }
   }
 
+  FocusNode settingsFocus = FocusNode();
   Widget settingsCard(BuildContext context, String txt1, String txt2, bool showTopLine, bool showBottomLine,
       {Color txt1Color, TextEditingController ctrl, Function customFunction, dynamic customFunctionParams}) {
     if (ctrl != null) {
       ctrl.text = txt2;
+      if (txt2.trim() == "") ctrl.text = "      ";
       ctrl.addListener(() {
-        if (ctrl.text.length != ctrl.text.trim().length) {
-          ctrl.text = ctrl.text.trim();
-        }
         ctrl.selection = TextSelection.collapsed(offset: ctrl.text.length);
       });
     }
@@ -968,7 +975,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           fontSize: 14 + Constants.textChange,
                         ),
                       )
-                    : txt2 != ""
+                    : ctrl.text != ""
                         ? Container(
                             width: 200,
                             child: TextField(
@@ -985,7 +992,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               }
                             },*/
                               onChanged: (val) {
-                                print("Controller Value: " + ctrl.text);
+                                //print("Controller Value: " + ctrl.text);
                                 ctrl.selection = TextSelection.fromPosition(TextPosition(offset: ctrl.text.length));
                               },
                               onEditingComplete: () {
