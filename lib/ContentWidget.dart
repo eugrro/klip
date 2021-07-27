@@ -301,7 +301,7 @@ class _ContentWidgetState extends State<ContentWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  obj["title"] != null
+                  obj["title"] != null && obj["title"].trim() != ""
                       ? Text(
                           obj["title"] ?? "",
                           style: TextStyle(

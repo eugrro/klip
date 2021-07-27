@@ -287,11 +287,12 @@ class _UserPageState extends State<UserPage> {
                                 ? Padding(
                                     padding: EdgeInsets.only(top: 5, bottom: 5),
                                     child: Text(
-                                      bio,
+                                      bio.length > 100 ? bio.substring(0, Constants.maxBioLength) : bio,
                                       style: TextStyle(
                                         fontSize: 13 + Constants.textChange,
                                         color: Constants.backgroundWhite.withOpacity(.6),
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   )
                                 : Container(),

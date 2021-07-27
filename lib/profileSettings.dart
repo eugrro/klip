@@ -514,8 +514,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
                     maxLines: 1,
                     controller: bioLinkContr,
                     decoration: InputDecoration(
-                      contentPadding: const EdgeInsets.symmetric(
-                          vertical: 15.0, horizontal: 8),
+                      contentPadding: const EdgeInsets.symmetric(vertical: 15.0, horizontal: 8),
                       enabledBorder: OutlineInputBorder(
                         borderSide: BorderSide(color: Colors.grey, width: .5),
                       ),
@@ -573,17 +572,13 @@ class _ProfileSettingsState extends State<ProfileSettings>
                       behavior: HitTestBehavior.translucent,
                       onTap: () {
                         updateOne(uid, "bioLink", bioLinkContr.text);
-                        currentUser.setFieldInSharedPreferences(
-                            "bioLink", bioLinkContr.text);
+                        currentUser.setFieldInSharedPreferences("bioLink", bioLinkContr.text);
                         Navigator.of(context).pop();
                         currentUser.bioLink = bioLinkContr.text;
                       },
                       child: Center(
                         child: Text(
-                          currentUser.bioLink != "" &&
-                                  currentUser.bioLink != null
-                              ? "Update"
-                              : "Add",
+                          currentUser.bioLink != "" && currentUser.bioLink != null ? "Update" : "Add",
                           style: TextStyle(
                             color: Constants.backgroundWhite,
                             fontSize: 14 + Constants.textChange,
@@ -666,8 +661,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
                         );
                       } else {
                         Navigator.of(context).pop();
-                        showError(context,
-                            "Sign out was unsuccessful please report this bug");
+                        showError(context, "Sign out was unsuccessful please report this bug");
                       }
                     },
                     child: Container(
@@ -1063,22 +1057,18 @@ class _ProfileSettingsState extends State<ProfileSettings>
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              CropProfilePic(contentImage, imgCropKey),
+                          builder: (context) => CropProfilePic(contentImage, imgCropKey),
                         ),
                       ).then(
                         (value) async {
                           if (value) {
                             final crop = imgCropKey.currentState;
-                            File newFile = await crop.cropCompleted(
-                                contentImage,
-                                preferredSize: 600);
+                            File newFile = await crop.cropCompleted(contentImage, preferredSize: 600);
                             Image newImg = Image.file(newFile);
                             updateAvatar(newFile.path, currentUser.uid);
                             setState(() {
                               //little bit of a hacky way but this needs to return a future
-                              currentUser.userProfileImg =
-                                  Future.delayed(Duration(seconds: 0), () {
+                              currentUser.userProfileImg = Future.delayed(Duration(seconds: 0), () {
                                 return newImg;
                               });
                             });
@@ -1099,9 +1089,7 @@ class _ProfileSettingsState extends State<ProfileSettings>
                     getImageGallery().then((value) {
                       Navigator.push(
                         context,
-                        MaterialPageRoute(
-                            builder: (context) =>
-                                CropProfilePic(contentImage, imgCropKey)),
+                        MaterialPageRoute(builder: (context) => CropProfilePic(contentImage, imgCropKey)),
                       );
                     });
                   },

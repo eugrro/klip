@@ -24,3 +24,5 @@ String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
 //String nodeURL = "http://192.168.86.28:3000/"; //Local Server for physical device (your ip)
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;
+
+int maxBioLength = 100;
