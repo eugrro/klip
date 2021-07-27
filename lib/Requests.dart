@@ -710,8 +710,7 @@ Future<void> savePreferences(
     String uid, Map<String, dynamic> newPreferences) async {
   try {
     var uri =
-        Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
-    //send to Constants.nodeURL endpoint when functional
+        Uri.http(Constants.nodeURL, "user/savePreferences", newPreferences);
     var response = await http.post(uri);
     if (response.statusCode == 400) {
       print("No new preferences were saved");
@@ -720,4 +719,21 @@ Future<void> savePreferences(
   } catch (err) {
     print("Error saving preferences: $err");
   }
+}
+
+Future<void> gaugeInteractionWithPost(
+    var content, bool liked, bool commentsViewed, bool commented) {
+  //Gauging the interaction is subjective and very naive for now (will need model to adjust weights eventually)
+  double score = .25; //base score for viewing
+  if (liked) {
+    score += .25;
+  }
+  if (commentsViewed) {
+    score += .25;
+  }
+  if (commented) {
+    score += .25;
+  }
+  //post score to backend, where importance of score and tags will be generated/analyzed
+  print("Content for gauging: $content");
 }

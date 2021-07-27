@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import "localStorage.dart" as localStorage;
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
 import 'Requests.dart';
@@ -15,7 +16,8 @@ class CommentsPage extends StatefulWidget {
   CommentsPage(this.pid, this.comments, this.callback);
 
   @override
-  _CommentsPageState createState() => _CommentsPageState(pid, comments, callback);
+  _CommentsPageState createState() =>
+      _CommentsPageState(pid, comments, callback);
 }
 
 class _CommentsPageState extends State<CommentsPage> {
@@ -58,7 +60,8 @@ class _CommentsPageState extends State<CommentsPage> {
         body: Column(
           children: [
             Padding(
-              padding: EdgeInsets.only(top: 15, right: 20, left: 30), //more on the left since
+              padding: EdgeInsets.only(
+                  top: 15, right: 20, left: 30), //more on the left since
               //row is space between for title centering
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -66,7 +69,8 @@ class _CommentsPageState extends State<CommentsPage> {
                   Container(),
                   Text(
                     "Comments",
-                    style: TextStyle(color: Constants.backgroundWhite, fontSize: 22),
+                    style: TextStyle(
+                        color: Constants.backgroundWhite, fontSize: 22),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -103,22 +107,30 @@ class _CommentsPageState extends State<CommentsPage> {
                                 right: 10,
                               ),
                               child: FutureBuilder<Widget>(
-                                future: getProfileImage(comments[index][0] + "_avatar.jpg", comments[index][2], false),
+                                future: getProfileImage(
+                                    comments[index][0] + "_avatar.jpg",
+                                    comments[index][2],
+                                    false),
                                 // a previously-obtained Future<String> or null
-                                builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                                builder: (BuildContext context,
+                                    AsyncSnapshot<Widget> snapshot) {
                                   print("LOADING COMMENT");
                                   print(comments[index]);
-                                  print(getAWSLink(comments[index][0].toString()));
+                                  print(getAWSLink(
+                                      comments[index][0].toString()));
                                   double imageRadius = 16;
                                   if (snapshot.hasData) {
                                     return CircleAvatar(
                                       radius: imageRadius,
-                                      child: ClipOval(child: snapshot.data ?? Container()),
+                                      child: ClipOval(
+                                          child: snapshot.data ?? Container()),
                                     );
                                   } else {
                                     return CircleAvatar(
                                       radius: imageRadius,
-                                      child: ClipOval(child: Constants.tempAvatar ?? Container()),
+                                      child: ClipOval(
+                                          child: Constants.tempAvatar ??
+                                              Container()),
                                     );
                                   }
                                 },
@@ -154,9 +166,11 @@ class _CommentsPageState extends State<CommentsPage> {
                                 Padding(
                                   padding: EdgeInsets.only(left: 0),
                                   child: Text(
-                                    getTimeFromSeconds(comments[index][4]), //time posted
+                                    getTimeFromSeconds(
+                                        comments[index][4]), //time posted
                                     style: TextStyle(
-                                      color: Constants.backgroundWhite.withOpacity(.3),
+                                      color: Constants.backgroundWhite
+                                          .withOpacity(.3),
                                       fontSize: 14 + Constants.textChange,
                                     ),
                                   ),
@@ -184,19 +198,23 @@ class _CommentsPageState extends State<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       FutureBuilder<Widget>(
-                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid), false),
+                        future: getProfileImage(currentUser.uid + "_avatar.jpg",
+                            getAWSLink(currentUser.uid), false),
                         // a previously-obtained Future<String> or null
-                        builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                        builder: (BuildContext context,
+                            AsyncSnapshot<Widget> snapshot) {
                           double imageRadius = 16;
                           if (snapshot.hasData) {
                             return CircleAvatar(
                               radius: imageRadius,
-                              child: ClipOval(child: snapshot.data ?? Container()),
+                              child:
+                                  ClipOval(child: snapshot.data ?? Container()),
                             );
                           } else {
                             return CircleAvatar(
                               radius: imageRadius,
-                              child: ClipOval(child: Constants.tempAvatar ?? Container()),
+                              child: ClipOval(
+                                  child: Constants.tempAvatar ?? Container()),
                             );
                           }
                         },
@@ -206,7 +224,8 @@ class _CommentsPageState extends State<CommentsPage> {
                         width: MediaQuery.of(context).size.width * 8 / 10,
                         decoration: BoxDecoration(
                           color: Constants.backgroundBlack,
-                          borderRadius: new BorderRadius.all(Radius.circular(25)),
+                          borderRadius:
+                              new BorderRadius.all(Radius.circular(25)),
                         ),
                         child: Padding(
                           padding: EdgeInsets.only(
@@ -218,12 +237,16 @@ class _CommentsPageState extends State<CommentsPage> {
                           child: Row(
                             children: [
                               ExpandingTextField(
-                                maxHeightPx: 150, // px value after which textbox won't expand
-                                width: MediaQuery.of(context).size.width * 6.5 / 10, // width of your textfield
+                                maxHeightPx:
+                                    150, // px value after which textbox won't expand
+                                width: MediaQuery.of(context).size.width *
+                                    6.5 /
+                                    10, // width of your textfield
                                 child: TextField(
                                   controller: commentController,
                                   keyboardType: TextInputType.multiline,
-                                  minLines: 1, // number of lines your textfield start with
+                                  minLines:
+                                      1, // number of lines your textfield start with
                                   maxLines: null,
                                   textAlignVertical: TextAlignVertical.center,
                                   cursorColor: Constants.backgroundWhite,
@@ -233,12 +256,14 @@ class _CommentsPageState extends State<CommentsPage> {
                                     border: InputBorder.none,
                                     hintText: "Add a Comment...",
                                     hintStyle: TextStyle(
-                                      color: Constants.backgroundWhite.withOpacity(.6),
+                                      color: Constants.backgroundWhite
+                                          .withOpacity(.6),
                                       fontSize: 13 + Constants.textChange,
                                     ),
                                   ),
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite.withOpacity(.9),
+                                    color: Constants.backgroundWhite
+                                        .withOpacity(.9),
                                     fontSize: 13 + Constants.textChange,
                                   ),
                                 ),
@@ -263,12 +288,19 @@ class _CommentsPageState extends State<CommentsPage> {
   //Is the post comment widget at the bottom of the screen
   Widget postText() {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         if (commentController.text.isNotEmpty) {
-          String currTime = (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
+          String currTime =
+              (DateTime.now().millisecondsSinceEpoch / 1000).round().toString();
 
           setState(() {
-            comments.add([currentUser.uid, currentUser.uName, currentUser.avatarLink, commentController.text, currTime]);
+            comments.add([
+              currentUser.uid,
+              currentUser.uName,
+              currentUser.avatarLink,
+              commentController.text,
+              currTime
+            ]);
             FocusScope.of(context).requestFocus(new FocusNode());
           });
 
@@ -277,6 +309,12 @@ class _CommentsPageState extends State<CommentsPage> {
         } else {
           print("No Text Gathered");
         }
+        //set commented to true in post being viewed
+        var lastPostViewed =
+            await localStorage.readFromLocalStorage("postBeingViewed");
+        lastPostViewed[pid]["commented"] = true;
+        await localStorage.writeToLocalStorage(
+            "postBeingViewed", lastPostViewed);
       },
       child: Icon(Icons.send),
     );

@@ -5,6 +5,7 @@ import 'package:klip/currentUser.dart';
 import 'package:klip/widgets.dart';
 import 'Constants.dart' as Constants;
 import 'ContentVideoWidget.dart';
+import "localStorage.dart" as localStorage;
 
 import 'package:klip/currentUser.dart' as currentUser;
 import 'package:visibility_detector/visibility_detector.dart';
@@ -30,6 +31,8 @@ class _ContentWidgetState extends State<ContentWidget> {
   Widget content;
   double spaceBetweenBottomContent = 3;
   bool likedPost = false;
+  bool commentsViewed = false;
+  bool commented = false;
 
   int largestVote;
 
@@ -40,10 +43,23 @@ class _ContentWidgetState extends State<ContentWidget> {
 
     //Check if current user has already liked post
     List<dynamic> currentLikes = obj["likes"];
+    List<dynamic> comments = obj["comm"];
     if (currentLikes != null) {
       likedPost = currentLikes.contains(currentUser.uid);
     }
     ;
+    if (comments != null) {
+      for (var comment in comments) {
+        try {
+          if (comment.contains(currentUser.uid)) {
+            commentsViewed = true;
+            commented = true;
+          }
+        } catch (err) {
+          print("Comment is not a list: $err");
+        }
+      }
+    }
     setUpContent(obj);
   }
 
@@ -136,7 +152,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 children: [
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () {
+                    onTap: () async {
                       if (likedPost) {
                         unlikeContent(
                           obj["pid"],
@@ -161,6 +177,16 @@ class _ContentWidgetState extends State<ContentWidget> {
                       setState(() {
                         likedPost = !likedPost;
                       });
+                      //alter user interaction in local storage
+                      try {
+                        var lastPostViewed = await localStorage
+                            .readFromLocalStorage("postBeingViewed");
+                        lastPostViewed[obj["pid"]]["liked"] = likedPost;
+                        await localStorage.writeToLocalStorage(
+                            "postBeingViewed", lastPostViewed);
+                      } catch (err) {
+                        print("Error modifying post stats: $err");
+                      }
                     },
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +218,22 @@ class _ContentWidgetState extends State<ContentWidget> {
                   ),
                   GestureDetector(
                     behavior: HitTestBehavior.translucent,
-                    onTap: () {
+                    onTap: () async {
+                      print("Comments being viewed...");
+                      setState(() {
+                        this.commentsViewed = true;
+                        //can adjust to see how many times viewed eventually
+                      });
+                      try {
+                        var lastPostViewed = await localStorage
+                            .readFromLocalStorage("postBeingViewed");
+                        lastPostViewed[obj["pid"]]["comments_viewed"] =
+                            commentsViewed;
+                        await localStorage.writeToLocalStorage(
+                            "postBeingViewed", lastPostViewed);
+                      } catch (err) {
+                        print("Error modifying post stats: $err");
+                      }
                       callback(0).then((value) {
                         print("RETURNED TO USER PAGE");
                         setState(() {});
@@ -276,7 +317,8 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"]), false),
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg",
+                        getAWSLink(obj["uid"]), false),
                     // a previously-obtained Future<String> or null
                     builder:
                         (BuildContext context, AsyncSnapshot<Widget> snapshot) {
@@ -356,9 +398,42 @@ class _ContentWidgetState extends State<ContentWidget> {
   Widget imgWidget(String link) {
     return VisibilityDetector(
       key: Key(obj['pid']),
-      onVisibilityChanged: (visibilityInfo) {
+      onVisibilityChanged: (visibilityInfo) async {
         var visiblePercentage = visibilityInfo.visibleFraction * 100;
         if (visiblePercentage == 100 && obj["uid"] != currentUser.uid) {
+          try {
+            //field in local storage should also have data on user's interaction
+            Map<String, dynamic> lastPostViewed =
+                await localStorage.readFromLocalStorage("postBeingViewed");
+            var LPVpid = lastPostViewed.keys.toList()[0];
+            print("Posts being viewed: $lastPostViewed ${obj["pid"]} $LPVpid");
+            if (LPVpid != obj["pid"]) {
+              print("User has moved on to another post.");
+              // gaugeInteractionWithPost(obj, this.likedPost, commentsViewed, commented)
+              await localStorage.writeToLocalStorage("postBeingViewed", {
+                obj["pid"]: {
+                  "liked": likedPost,
+                  "commented": commented,
+                  "comments_viewed": commentsViewed,
+                }
+              });
+            }
+            //modify for events respectively
+          } catch (err) {
+            //field not present, first post viewed in app (since download)
+            print("Post being viewed field not present.");
+            try {
+              await localStorage.writeToLocalStorage("postBeingViewed", {
+                obj["pid"]: {
+                  "liked": likedPost,
+                  "commented": commented,
+                  "comments_viewed": commentsViewed,
+                }
+              });
+            } catch (err) {
+              print("Error reading from and writing to local storage: $err");
+            }
+          }
           postViewed(obj['pid']);
         }
       },

@@ -20,6 +20,8 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
   String searchText;
   dynamic searchResults = [];
 
+
+
   callback(newPagePosition) {
     setState(() {
       homePageSideScrollPosition = newPagePosition;
