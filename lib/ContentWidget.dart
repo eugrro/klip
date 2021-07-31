@@ -406,10 +406,11 @@ class _ContentWidgetState extends State<ContentWidget> {
             Map<String, dynamic> lastPostViewed =
                 await localStorage.readFromLocalStorage("postBeingViewed");
             var LPVpid = lastPostViewed.keys.toList()[0];
-            print("Posts being viewed: $lastPostViewed ${obj["pid"]} $LPVpid");
             if (LPVpid != obj["pid"]) {
               print("User has moved on to another post.");
-              // gaugeInteractionWithPost(obj, this.likedPost, commentsViewed, commented)
+              //gauge post after user leaves it, not on arrival
+              gaugeInteractionWithPost(
+                  LPVpid, this.likedPost, commentsViewed, commented);
               await localStorage.writeToLocalStorage("postBeingViewed", {
                 obj["pid"]: {
                   "liked": likedPost,
@@ -421,7 +422,6 @@ class _ContentWidgetState extends State<ContentWidget> {
             //modify for events respectively
           } catch (err) {
             //field not present, first post viewed in app (since download)
-            print("Post being viewed field not present.");
             try {
               await localStorage.writeToLocalStorage("postBeingViewed", {
                 obj["pid"]: {

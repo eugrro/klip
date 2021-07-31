@@ -282,12 +282,43 @@ Future<String> getImageFromGallery() async {
 Future<List<dynamic>> listContentMongo() async {
   Response response;
   try {
-    String uri = Constants.nodeURL + "content/listContentMongo";
-    print("Sending Request To: " + uri);
-    response = await dio.get(uri);
+    //get recommended content, if none or not a lot, get all content
+    //test with localhost
+    const endpoint_test = "http://192.168.50.13:3000/";
+    response = await dio.get(endpoint_test + "rec/user/content",
+        queryParameters: {"uid": currentUser.uid});
+    List<dynamic> pids = response.data;
+    print("Recommended content Ids: $pids");
+    String uri = endpoint_test + "content/listContentByIds";
+    List<dynamic> ret = [];
+    response = await dio.post(uri,
+        data: {"pids": pids},
+        options: Options(headers: {"Content-Type": "application/json"}));
+    ret = response.data;
+    Map<String, dynamic> retUtil = {};
+    //sort by relevance (technically backwards because of way content is displayed)
+    for (int i = 0; i < ret.length; i++) {
+      String pid = ret[i]["pid"];
+      retUtil[pid] = ret[i];
+    }
+    ret = [];
+    for (var i = 0; i < pids.length; i++) {
+      String pid = pids[pids.length - 1 - i];
+      ret.add(retUtil[pid]);
+    }
+      print("Content: ${ret.map((e) => e["pid"])}");
+    if (ret.length < 20) {
+      //if not enough content from recommendations, just add difference all content
+      response = await dio.post(endpoint_test + "content/listContentQuantity",
+          queryParameters: {"quantity": 20 - ret.length}, data: {"exceptions": pids},
+          options: Options(headers: {
+            "Content-Type" : "application/json"
+          }));
+      ret.insertAll(0, response.data);
+    }
     if (response.statusCode == 200) {
       print("Returned 200");
-      return response.data;
+      return ret;
     } else {
       print("Returned error " + response.statusCode.toString());
       return null;
@@ -722,7 +753,7 @@ Future<void> savePreferences(
 }
 
 Future<void> gaugeInteractionWithPost(
-    var content, bool liked, bool commentsViewed, bool commented) {
+    String pid, bool liked, bool commentsViewed, bool commented) async {
   //Gauging the interaction is subjective and very naive for now (will need model to adjust weights eventually)
   double score = .25; //base score for viewing
   if (liked) {
@@ -735,5 +766,18 @@ Future<void> gaugeInteractionWithPost(
     score += .25;
   }
   //post score to backend, where importance of score and tags will be generated/analyzed
-  print("Content for gauging: $content");
+  print("Content has score $score for post $pid");
+  try {
+    const endpoint_test = "http://192.168.50.13:3000/";
+    var response = await dio.post(endpoint_test + "rec/gauge",
+        queryParameters: {"pid": pid, "score": score, "uid": currentUser.uid});
+    Map<String, dynamic> data = response.data;
+    if (data.containsKey("error")) {
+      throw ErrorDescription(data["error"]["msg"]);
+    } else {
+      print("Response: $data");
+    }
+  } catch (err) {
+    print("Error gauging post: $err");
+  }
 }
