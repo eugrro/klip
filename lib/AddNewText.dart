@@ -52,10 +52,17 @@ class _AddNewTextState extends State<AddNewText> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Icon(
-                        Icons.arrow_back,
-                        color: Constants.backgroundWhite,
-                        size: 25,
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                          Navigator.of(context).pop();
+                          setState(() {});
+                        },
+                        child: Icon(
+                          Icons.arrow_back,
+                          color: Constants.backgroundWhite,
+                          size: 25,
+                        ),
                       ),
                       Text(
                         "Add New Text",
@@ -64,11 +71,7 @@ class _AddNewTextState extends State<AddNewText> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          addTextContent(currentUser.uid, titleController.text, bodyController.text).then((value) {
-                            Navigator.of(context).pop();
-                            Navigator.of(context).pop();
-                            setState(() {});
-                          });
+                          addTextContent(currentUser.uid, titleController.text, bodyController.text).then((value) {});
                         },
                         child: isPostingText
                             ? CircularProgressIndicator()

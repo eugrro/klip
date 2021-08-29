@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
@@ -12,6 +13,7 @@ import 'package:klip/currentUser.dart' as currentUser;
 import 'package:flutter_keyboard_visibility/flutter_keyboard_visibility.dart';
 
 import 'CropProfilePic.dart';
+import 'MyTheme.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
 
@@ -37,6 +39,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
   bool editingBio = false;
   File contentImage;
   final imgCropKey = GlobalKey<ImgCropState>();
+
   @override
   void initState() {
     bioContr = TextEditingController(text: currentUser.bio);
@@ -70,7 +73,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         print("Tapped");
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: SingleChildScrollView(
           child: Column(
             children: [
@@ -87,7 +90,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         currentUser.uName,
                         style: TextStyle(
                           fontSize: 24 + Constants.textChange,
-                          color: Constants.backgroundWhite,
+                          color: Constants.theme.foreground,
                         ),
                       ),
                     ),
@@ -103,7 +106,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             ),
                             child: Icon(
                               Icons.arrow_back,
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                             ),
                           ),
                         )),
@@ -144,7 +147,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             "Click to change\nprofile picture",
                             textAlign: TextAlign.center,
                             style: TextStyle(
-                              color: Constants.backgroundWhite.withOpacity(.7),
+                              color: Constants.theme.foreground.withOpacity(.7),
                               fontSize: 13 + Constants.textChange,
                             ),
                           ),
@@ -187,7 +190,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           ),
                           controller: bioContr,
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),
@@ -232,7 +235,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 textAlign: TextAlign.center,
                                 style: TextStyle(
                                   fontSize: 11,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                 ),
                               ),
                       ),
@@ -280,7 +283,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 "Edit Bio",
                                 style: TextStyle(
                                   fontSize: 13,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                 ),
                               ),
                       ),
@@ -317,7 +320,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                 "Another Option",
                                 style: TextStyle(
                                   fontSize: 12,
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                 ),
                               )
                             : currentUser.bioLink != null && currentUser.bioLink != ""
@@ -325,7 +328,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     "Edit Link",
                                     style: TextStyle(
                                       fontSize: 13,
-                                      color: Constants.backgroundWhite,
+                                      color: Constants.theme.foreground,
                                     ),
                                   )
                                 : Text(
@@ -333,7 +336,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     textAlign: TextAlign.center,
                                     style: TextStyle(
                                       fontSize: 12,
-                                      color: Constants.backgroundWhite,
+                                      color: Constants.theme.foreground,
                                     ),
                                   ),
                       ),
@@ -348,7 +351,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 child: Container(
                   height: 1.5,
                   width: MediaQuery.of(context).size.width,
-                  color: Constants.hintColor,
+                  color: Constants.theme.hintColor,
                 ),
               ),
               Center(
@@ -363,7 +366,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Text(
                           "Your Information",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 17 + Constants.textChange,
                           ),
                         ),
@@ -378,7 +381,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
                     settingsCard(context, "First Name", currentUser.fName, false, true, ctrl: fNameController),
                     settingsCard(context, "Last Name", currentUser.lName, false, true, ctrl: lNameController),
-                    settingsCard(context, "Xbox Gamertag", currentUser.xTag, true, true, ctrl: xTagController),
+                    settingsCard(context, "Xbox Gamertag", currentUser.xTag, false, true, ctrl: xTagController),
                     settingsCard(context, "Email", currentUser.email, false, true, ctrl: emailController),
                     settingsCard(context, "Username", currentUser.uName, false, true, ctrl: uNameController),
                     settingsCard(context, "Password", "* * * * * * * *", false, false),
@@ -389,13 +392,13 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Text(
                           "Preferences",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 17 + Constants.textChange,
                           ),
                         ),
                       ),
                     ),
-                    settingsCard(context, "Theme", "Dark", false, true),
+                    settingsCard(context, "Constants.theme", "", false, true, customWidget: themeSlider()),
                     settingsCard(context, "Show Username", "username", false, true),
                     settingsCard(context, "Comment Color", "Purple", false, false),
                     Padding(
@@ -428,6 +431,36 @@ class _ProfileSettingsState extends State<ProfileSettings> {
     );
   }
 
+  Widget themeSlider() {
+    return AnimatedToggleSwitch<String>.rolling(
+      current: Constants.theme.currentTheme,
+      height: 30,
+      iconRadius: 8,
+      innerColor: Constants.theme.background.withOpacity(.9),
+      borderColor: Constants.theme.foreground.withOpacity(.3),
+      borderWidth: 1,
+      indicatorColor: Constants.purpleColor,
+      selectedIconRadius: 12,
+      indicatorSize: Size(40.0, double.infinity),
+      values: ["Light", "System", "Dark"],
+      onChanged: (i) => setState(() {
+        if (i == "Light" && Constants.theme.currentTheme != "Light") Constants.theme.changeToLightMode();
+        if (i == "Dark" && Constants.theme.currentTheme != "Dark") Constants.theme.changeToDarkMode();
+        if (i == "System" && Constants.theme.currentTheme != "System") Constants.theme.changeToSystemMode();
+      }),
+      iconBuilder: (String i, Size size, bool active) {
+        IconData data = Icons.light_mode;
+        if (i == "Dark") data = Icons.dark_mode;
+        if (i == "System") data = Icons.settings;
+        return Icon(
+          data,
+          color: Constants.theme.foreground,
+          size: size.shortestSide,
+        );
+      },
+    );
+  }
+
   notYetImplemented(BuildContext ctx, List<dynamic> params) {
     showError(ctx, "Feature is in development\nShould be out by beta :)");
   }
@@ -439,7 +472,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
         return AlertDialog(
           elevation: 34,
           scrollable: true,
-          backgroundColor: Constants.backgroundBlack,
+          backgroundColor: Constants.theme.background,
           title: Center(child: Text('Add a Link')),
           content: Container(
             width: MediaQuery.of(context).size.width * .8,
@@ -459,7 +492,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         borderSide: BorderSide(color: Colors.grey, width: .5),
                       ),
                       focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                        borderSide: BorderSide(color: Constants.theme.foreground.withOpacity(.8), width: 1.5),
                       ),
                       hintText: 'Ex: youtube.com',
                       hintStyle: TextStyle(
@@ -490,7 +523,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Text(
                           "Cancel",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 14 + Constants.textChange,
                             decoration: TextDecoration.none,
                           ),
@@ -500,7 +533,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                     Container(
                       height: 20,
                       width: 1,
-                      color: Constants.backgroundWhite,
+                      color: Constants.theme.foreground,
                     ),
                     GestureDetector(
                       behavior: HitTestBehavior.translucent,
@@ -518,7 +551,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         child: Text(
                           currentUser.bioLink != "" && currentUser.bioLink != null ? "Update" : "Add",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 14 + Constants.textChange,
                             decoration: TextDecoration.none,
                           ),
@@ -549,7 +582,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
               Text(
                 "Are you sure you want to sign out?",
                 style: TextStyle(
-                  color: Constants.backgroundWhite,
+                  color: Constants.theme.foreground,
                   fontSize: 18 + Constants.textChange,
                   decoration: TextDecoration.none,
                 ),
@@ -577,7 +610,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           "No",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                           ),
                         ),
                       ),
@@ -614,7 +647,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           "Yes",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                           ),
                         ),
                       ),
@@ -665,7 +698,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           child: Text(
                             "x",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 14 + Constants.textChange,
                               decoration: TextDecoration.none,
                             ),
@@ -678,7 +711,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                           child: Text(
                             "Report A Bug",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 18 + Constants.textChange,
                               decoration: TextDecoration.none,
                             ),
@@ -699,7 +732,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                             borderSide: BorderSide(color: Colors.grey, width: .5),
                           ),
                           focusedBorder: OutlineInputBorder(
-                            borderSide: BorderSide(color: Constants.backgroundWhite.withOpacity(.8), width: 1.5),
+                            borderSide: BorderSide(color: Constants.theme.foreground.withOpacity(.8), width: 1.5),
                           ),
                           hintText: 'Report the bug here',
                           fillColor: Colors.grey[850],
@@ -733,7 +766,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     child: Text(
                                       "Cancel",
                                       style: TextStyle(
-                                        color: Constants.backgroundWhite,
+                                        color: Constants.theme.foreground,
                                         fontSize: 14 + Constants.textChange,
                                         decoration: TextDecoration.none,
                                       ),
@@ -744,7 +777,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                               Container(
                                 height: 20,
                                 width: 1,
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                               ),
                               GestureDetector(
                                 behavior: HitTestBehavior.translucent,
@@ -765,7 +798,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                                     child: Text(
                                       "Submit",
                                       style: TextStyle(
-                                        color: Constants.backgroundWhite,
+                                        color: Constants.theme.foreground,
                                         fontSize: 14 + Constants.textChange,
                                         decoration: TextDecoration.none,
                                       ),
@@ -925,7 +958,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
 
   FocusNode settingsFocus = FocusNode();
   Widget settingsCard(BuildContext context, String txt1, String txt2, bool showTopLine, bool showBottomLine,
-      {Color txt1Color, TextEditingController ctrl, Function customFunction, dynamic customFunctionParams}) {
+      {Color txt1Color, TextEditingController ctrl, Function customFunction, dynamic customFunctionParams, Widget customWidget}) {
     if (ctrl != null) {
       ctrl.text = txt2;
       if (txt2.trim() == "") ctrl.text = "      ";
@@ -946,7 +979,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           showTopLine
               ? Container(
                   height: 1,
-                  color: Constants.hintColor.withOpacity(.3),
+                  color: Constants.theme.hintColor.withOpacity(.3),
                   margin: EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
@@ -963,23 +996,25 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                 Text(
                   txt1,
                   style: TextStyle(
-                    color: txt1Color ?? Constants.backgroundWhite,
+                    color: txt1Color ?? Constants.theme.foreground,
                     fontSize: 14 + Constants.textChange,
                   ),
                 ),
                 ctrl == null
-                    ? Text(
-                        txt2,
-                        style: TextStyle(
-                          color: txt1Color ?? Constants.backgroundWhite,
-                          fontSize: 14 + Constants.textChange,
-                        ),
-                      )
+                    ? customWidget == null
+                        ? Text(
+                            txt2,
+                            style: TextStyle(
+                              color: txt1Color ?? Constants.theme.foreground,
+                              fontSize: 14 + Constants.textChange,
+                            ),
+                          )
+                        : customWidget
                     : ctrl.text != ""
                         ? Container(
                             width: 200,
                             child: TextField(
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 14 + Constants.textChange),
+                              style: TextStyle(color: Constants.theme.foreground, fontSize: 14 + Constants.textChange),
                               controller: ctrl,
                               autocorrect: false,
                               scrollPadding: EdgeInsets.zero,
@@ -1013,7 +1048,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
           showBottomLine
               ? Container(
                   height: 1,
-                  color: Constants.hintColor.withOpacity(.3),
+                  color: Constants.theme.hintColor.withOpacity(.3),
                   margin: EdgeInsets.symmetric(
                     horizontal: 10,
                   ),

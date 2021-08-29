@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:klip/MyTheme.dart';
 import 'package:klip/login/StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
+import 'Constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  theme.changeToDarkMode();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(new MyApp());
   });

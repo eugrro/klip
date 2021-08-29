@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
+import 'MyTheme.dart';
+
 ///Constants file throughout the app
 ///widgets will be in global_widgets
-
+var theme = MyTheme();
 Color purpleColor = Color(0xff6E5Ac9);
 Color backgroundBlack = Color(0xff282828);
 Color backgroundWhite = Color(0xfff8f8f8);

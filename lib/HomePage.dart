@@ -134,42 +134,86 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           )
                         : Container(),
                     !isSearching
-                        ? GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isSearching = true;
-                                if (isSearching) searchFocus.requestFocus();
-                                searchController.text = "";
-                                showBottomNavBar.value = false;
-                              });
-                            },
-                            behavior: HitTestBehavior.translucent,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .8,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.black26,
-                                  //border: Border.all(color: Colors.black12),
-                                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 16),
-                                      child: Icon(
-                                        Icons.search_outlined,
-                                        color: Constants.hintColor,
-                                      ),
+                        ? Stack(
+                            children: [
+                              Container(
+                                height: 45,
+                                width: MediaQuery.of(context).size.width * .15,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      "B",
+                                      style: TextStyle(color: Constants.backgroundWhite, fontSize: 34),
                                     ),
-                                    Text(
-                                      "Search (beep boop)",
-                                      style: TextStyle(color: Constants.hintColor),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isSearching = true;
+                                    if (isSearching) searchFocus.requestFocus();
+                                    searchController.text = "";
+                                    showBottomNavBar.value = false;
+                                  });
+                                },
+                                behavior: HitTestBehavior.translucent,
+                                child: Center(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * .65,
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      color: Colors.black26,
+                                      //border: Border.all(color: Colors.black12),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Row(
+                                      children: [
+                                        Padding(
+                                          padding: EdgeInsets.only(left: 8, right: 16),
+                                          child: Icon(
+                                            Icons.search_outlined,
+                                            color: Constants.hintColor,
+                                          ),
+                                        ),
+                                        Text(
+                                          "Search (beep boop)",
+                                          style: TextStyle(color: Constants.hintColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  height: 45,
+                                  width: MediaQuery.of(context).size.width * .2,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        currentUser.numKredits,
+                                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 20),
+                                      ),
+                                      Container(
+                                        width: 3,
+                                      ),
+                                      Image.asset(
+                                        "lib/assets/iconsUI/coins.png",
+                                        width: 25,
+                                        height: 25,
+                                        fit: BoxFit.fill,
+                                        color: Constants.backgroundWhite,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         : Container(),
                   ],

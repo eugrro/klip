@@ -180,7 +180,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
     double largeIcon = 35;
 
     return showModalBottomSheet(
-      backgroundColor: Colors.transparent,
+      backgroundColor: Constants.backgroundBlack,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
@@ -188,170 +188,176 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
         ),
       ),
       isDismissible: false,
+      isScrollControlled: true,
       context: context,
       builder: (BuildContext bc) {
         return Container(
-          //height: MediaQuery.of(context).size.height / 3,
+          height: MediaQuery.of(context).size.height * .25,
           child: Padding(
             padding: EdgeInsets.only(left: 10, right: 10),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.end,
+            child: Stack(
               children: [
-                Row(
-                  children: [
-                    //0000000000000000000000000000000000000000000000000000000000
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {},
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 5 - 4,
-                        height: contentTypeHeight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.graphic_eq_rounded,
-                              color: Constants.purpleColor,
-                              size: largeIcon,
-                            ),
-                            Container(
-                              child: Text(
-                                "Audio",
-                                style: TextStyle(
-                                  fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
-                                ),
+                Align(
+                  alignment: Alignment(-1, 0),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {},
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5 - 4,
+                      height: contentTypeHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.graphic_eq_rounded,
+                            color: Constants.purpleColor,
+                            size: largeIcon,
+                          ),
+                          Container(
+                            child: Text(
+                              "Audio",
+                              style: TextStyle(
+                                fontSize: largeText,
+                                color: Constants.backgroundWhite.withOpacity(.9),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    //1111111111111111111111111111111111111111111111111111111111
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        selectUploadLocation(context, "img").then((value) {
-                          setState(() {});
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 5 - 4,
-                        height: contentTypeHeight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.wallpaper,
-                              color: Constants.purpleColor,
-                              size: largeIcon,
-                            ),
-                            Container(
-                              child: Text(
-                                "Image",
-                                style: TextStyle(
-                                  fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
-                                ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(-.5, -.5),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      selectUploadLocation(context, "img").then((value) {
+                        setState(() {});
+                      });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5 - 4,
+                      height: contentTypeHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.crop_original,
+                            color: Constants.purpleColor,
+                            size: largeIcon,
+                          ),
+                          Container(
+                            child: Text(
+                              "Image",
+                              style: TextStyle(
+                                fontSize: largeText,
+                                color: Constants.backgroundWhite.withOpacity(.9),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    //2222222222222222222222222222222222222222222222222222222222
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        selectUploadLocation(context, "vid").then((value) {
-                          setState(() {});
-                        });
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 5 - 4,
-                        height: contentTypeHeight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.videogame_asset,
-                              color: Constants.purpleColor,
-                              size: largeIcon,
-                            ),
-                            Container(
-                              child: Text(
-                                "Klip",
-                                style: TextStyle(
-                                  fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
-                                ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(0, -.8),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      selectUploadLocation(context, "vid").then((value) {
+                        setState(() {});
+                      });
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5 - 4,
+                      height: contentTypeHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.videogame_asset,
+                            color: Constants.purpleColor,
+                            size: largeIcon,
+                          ),
+                          Container(
+                            child: Text(
+                              "Klip",
+                              style: TextStyle(
+                                fontSize: largeText,
+                                color: Constants.backgroundWhite.withOpacity(.9),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    //3333333333333333333333333333333333333333333333333333333333
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        Navigator.push(context, SlideInRoute(page: AddNewText(), direction: 0));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 5 - 4,
-                        height: contentTypeHeight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.short_text,
-                              color: Constants.purpleColor,
-                              size: largeIcon,
-                            ),
-                            Container(
-                              child: Text(
-                                "Text",
-                                style: TextStyle(
-                                  fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
-                                ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(.5, -.5),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.push(context, SlideInRoute(page: AddNewText(), direction: 0));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5 - 4,
+                      height: contentTypeHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.subject,
+                            color: Constants.purpleColor,
+                            size: largeIcon,
+                          ),
+                          Container(
+                            child: Text(
+                              "Text",
+                              style: TextStyle(
+                                fontSize: largeText,
+                                color: Constants.backgroundWhite.withOpacity(.9),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    //4444444444444444444444444444444444444444444444444444444444
-                    GestureDetector(
-                      behavior: HitTestBehavior.translucent,
-                      onTap: () {
-                        Navigator.push(context, SlideInRoute(page: AddNewPoll(), direction: 0));
-                      },
-                      child: Container(
-                        width: MediaQuery.of(context).size.width / 5 - 4,
-                        height: contentTypeHeight,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.poll,
-                              color: Constants.purpleColor,
-                              size: largeIcon,
-                            ),
-                            Container(
-                              child: Text(
-                                "Poll",
-                                style: TextStyle(
-                                  fontSize: largeText,
-                                  color: Constants.backgroundWhite.withOpacity(.9),
-                                ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment(1, 0),
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.translucent,
+                    onTap: () {
+                      Navigator.push(context, SlideInRoute(page: AddNewPoll(), direction: 0));
+                    },
+                    child: Container(
+                      width: MediaQuery.of(context).size.width / 5 - 4,
+                      height: contentTypeHeight,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.poll,
+                            color: Constants.purpleColor,
+                            size: largeIcon,
+                          ),
+                          Container(
+                            child: Text(
+                              "Poll",
+                              style: TextStyle(
+                                fontSize: largeText,
+                                color: Constants.backgroundWhite.withOpacity(.9),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
+                  ),
                 ),
                 Align(
                   alignment: Alignment.bottomCenter,
@@ -373,26 +379,14 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                       child: Center(
                         child: Container(
                           height: 35,
-                          width: MediaQuery.of(context).size.width / 4,
+                          width: MediaQuery.of(context).size.width / 6,
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(20),
                             ),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.3),
-                                spreadRadius: 2,
-                                blurRadius: 3,
-                                offset: Offset(0, 3.1), // changes position of shadow
-                              ),
-                            ],
                             color: Constants.purpleColor.withOpacity(.9),
                           ),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                              left: 25,
-                              right: 25,
-                            ),
+                          child: Center(
                             child: Icon(
                               Icons.close,
                               color: Constants.backgroundWhite,
