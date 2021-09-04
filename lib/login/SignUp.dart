@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:klip/Navigation.dart';
+import 'package:klip/assets/fonts/p_v_icons_icons.dart';
 import 'package:klip/login/SignIn.dart';
 import 'package:klip/login/UsernameCreation.dart';
 import 'package:klip/widgets.dart';
@@ -24,6 +25,8 @@ class _SignUpState extends State<SignUp> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
+  IconData pvToggle = PVIcons.eye_slash; //Password Visibility Toggle
+  bool canSeePassword = true;
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -57,9 +60,9 @@ class _SignUpState extends State<SignUp> {
                       end: Alignment.topRight,
                       stops: [0.1, 0.4, 0.5, 0.9],
                       colors: [
-                        Constants.purpleColor,
-                        Constants.purpleColor.withOpacity(.6),
-                        Constants.purpleColor.withOpacity(.1),
+                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -132,7 +135,22 @@ class _SignUpState extends State<SignUp> {
                               Icons.lock_outline_rounded,
                               color: Constants.theme.foreground.withOpacity(.9),
                             ),
-                            isObscured: true,
+                            isObscured: canSeePassword,
+                            suffixIconButton: TextButton.icon(
+                                style: ButtonStyle(
+                                  foregroundColor: MaterialStateProperty.all<Color>(Constants.theme.foreground.withOpacity(0.9)),
+                                ),
+                                onPressed: () {
+                                  setState(() {
+                                    this.canSeePassword = !canSeePassword;
+                                    this.pvToggle = (pvToggle == PVIcons.eye) ? PVIcons.eye_slash : PVIcons.eye;
+                                  });
+                                },
+                                icon: Icon(
+                                  pvToggle,
+                                  size: 18.0,
+                                ),
+                                label: Text("")),
                           ),
                           Container(
                             height: 35,
@@ -140,6 +158,8 @@ class _SignUpState extends State<SignUp> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              //Extra white space check on email
+                              userNameController.text = rstrip(userNameController.text);
                               if (validinput(context, userNameController.text, passwordController.text, passwordConfirmController.text)) {
                                 if (await doesUserExist(userNameController.text)) {
                                   showSnackbar(context,
@@ -168,7 +188,7 @@ class _SignUpState extends State<SignUp> {
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Constants.purpleColor, Color(0xffab57a8)],
+                                  colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                                 ),
                               ),
                               child: Center(
@@ -193,7 +213,7 @@ class _SignUpState extends State<SignUp> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -208,7 +228,7 @@ class _SignUpState extends State<SignUp> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                         ],
                       ),
@@ -316,7 +336,7 @@ class _SignUpState extends State<SignUp> {
                               Text(
                                 "Sign In",
                                 style: TextStyle(
-                                  color: Constants.purpleColor,
+                                  color: Theme.of(context).textSelectionTheme.cursorColor,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

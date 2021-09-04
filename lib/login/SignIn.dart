@@ -7,6 +7,7 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
+import 'package:klip/assets/fonts/p_v_icons_icons.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _SignInState extends State<SignIn> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
+  IconData pvToggle = PVIcons.eye_slash; //Password Visibility Toggle
+  bool canSeePassword = true;
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -55,9 +58,9 @@ class _SignInState extends State<SignIn> {
                       end: Alignment.topRight,
                       stops: [0.1, 0.4, 0.5, 0.9],
                       colors: [
-                        Constants.purpleColor,
-                        Constants.purpleColor.withOpacity(.6),
-                        Constants.purpleColor.withOpacity(.1),
+                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -143,6 +146,8 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              //Strip whitespace on right side of username
+                              userNameController.text = rstrip(userNameController.text);
                               FocusScopeNode currentFocus = FocusScope.of(context);
 
                               if (!currentFocus.hasPrimaryFocus) {
@@ -176,7 +181,7 @@ class _SignInState extends State<SignIn> {
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Constants.purpleColor, Color(0xffab57a8)],
+                                  colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                                 ),
                               ),
                               child: Center(
@@ -201,7 +206,7 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -216,7 +221,7 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                         ],
                       ),
@@ -293,7 +298,7 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                  color: Constants.purpleColor,
+                                  color: Theme.of(context).textSelectionTheme.cursorColor,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

@@ -1,6 +1,8 @@
 import 'dart:io';
-
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
+
+import "./currentUser.dart";
+import "Themes.dart" as Themes;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';
@@ -16,6 +18,7 @@ import 'CropProfilePic.dart';
 import 'MyTheme.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
+import 'utils.dart';
 
 class ProfileSettings extends StatefulWidget {
   ProfileSettings();
@@ -623,9 +626,9 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ),
                   GestureDetector(
                     onTap: () async {
-                      clearSharedPreferences();
                       String ret = await signOutUser();
                       if (ret == "SignOutSuccessful") {
+                        clearSharedPreferences();
                         print(ret);
                         while (Navigator.canPop(context)) {
                           Navigator.of(context).pop();
@@ -860,7 +863,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                         },
                       );
 
-                      // show you croppedFile ……
+                      // show you croppedFile â€¦â€¦
                       //showImage(context, croppedFile);
                     });
                   },
@@ -1089,4 +1092,99 @@ class SlideDownRoute extends PageRouteBuilder {
             child: child,
           ),
         );
+}
+
+deleteUserWidget(BuildContext ctx, List<dynamic> params) {
+  return showModalBottomSheet<void>(
+    backgroundColor: Colors.black,
+    isScrollControlled: true,
+    context: ctx,
+    builder: (BuildContext context) {
+      return Container(
+        height: 150,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              "Are you sure you delete your account?",
+              style: TextStyle(
+                color: Constants.theme.foreground,
+                //TO DO: Adjust color scheme of this widget
+                fontSize: 18 + Constants.textChange,
+                decoration: TextDecoration.none,
+              ),
+            ),
+            Container(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Constants.purpleColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "No",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Constants.theme.foreground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                GestureDetector(
+                  onTap: () async {
+                    clearSharedPreferences();
+                    String ret = await deleteUser();
+                    if (ret == "AccountDeletionSuccessful") {
+                      print("SUCCESS: $ret");
+                      while (Navigator.canPop(context)) {
+                        Navigator.of(context).pop();
+                      }
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => StartPage()),
+                      );
+                    } else {
+                      Navigator.of(context).pop();
+                      showError(context, "Account deletion was unsuccessful.");
+                    }
+                  },
+                  child: Container(
+                    height: 40,
+                    width: MediaQuery.of(context).size.width * .3,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: kElevationToShadow[3],
+                      color: Constants.purpleColor,
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Yes",
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: Constants.theme.foreground,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      );
+    },
+  );
 }

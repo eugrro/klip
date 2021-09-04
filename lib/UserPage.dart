@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
-import 'package:klip/ProfileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import './PaymentFunctions.dart';
@@ -12,6 +11,7 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
+import 'profileSettings.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
@@ -304,6 +304,7 @@ class _UserPageState extends State<UserPage> {
                                         letterSpacing: .75,
                                         color: Constants.purpleColor,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
                                   ),
                                 )
