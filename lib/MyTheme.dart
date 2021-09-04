@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 
+import 'Navigation.dart';
+
 class MyTheme extends ChangeNotifier {
   //Color darkColor = Color(0xff282828);
   //Color lightColor = Color(0xfff8f8f8);
@@ -25,6 +27,7 @@ class MyTheme extends ChangeNotifier {
     _hintColor = greyColor;
     if (changeTheme) currentTheme = "Light";
     setStatusBarLight();
+    updateBottomNavBarColor();
     notifyListeners();
   }
 
@@ -34,12 +37,14 @@ class MyTheme extends ChangeNotifier {
     _hintColor = greyColor;
     if (changeTheme) currentTheme = "Dark";
     setStatusBarDark();
+    updateBottomNavBarColor();
     notifyListeners();
   }
 
   void changeToSystemMode() {
     var brightness = SchedulerBinding.instance.window.platformBrightness;
     currentTheme = "System";
+    updateBottomNavBarColor();
     if (brightness == Brightness.light)
       changeToLightMode(changeTheme: false);
     else
@@ -55,6 +60,12 @@ class MyTheme extends ChangeNotifier {
         statusBarBrightness: Brightness.light,
       ),
     );
+  }
+
+  void updateBottomNavBarColor() {
+    //think this has to do something with the value listenable builder
+    showBottomNavBar.value = !showBottomNavBar.value;
+    showBottomNavBar.value = !showBottomNavBar.value;
   }
 
   void setStatusBarLight() {

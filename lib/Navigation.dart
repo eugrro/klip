@@ -50,8 +50,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     Constants.statusBarHeight = MediaQuery.of(context).padding.top;
-    double iconSizeSmall = 20;
-    double iconSizeLarge = 24;
+    double iconSizeSmall = 24;
+    double iconSizeLarge = 28;
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
@@ -82,95 +82,104 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           top: BorderSide(width: 1.0, color: Constants.theme.hintColor),
                         ),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                          left: 30,
-                          right: 30,
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  homePagePosition = 0;
-                                  currentlySelectedPage = 0;
-                                });
-                                homePageController.jumpToPage(homePagePosition);
-                              },
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              setState(() {
+                                homePagePosition = 0;
+                                currentlySelectedPage = 0;
+                              });
+                              homePageController.jumpToPage(homePagePosition);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Icon(
                                 Icons.home_outlined,
                                 size: currentlySelectedPage == 0 ? iconSizeLarge : iconSizeSmall,
                                 color: currentlySelectedPage == 0 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  homePagePosition = 1;
-                                  currentlySelectedPage = 1;
-                                });
-                                homePageController.jumpToPage(homePagePosition);
-                              },
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              setState(() {
+                                homePagePosition = 1;
+                                currentlySelectedPage = 1;
+                              });
+                              homePageController.jumpToPage(homePagePosition);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Icon(
                                 Icons.announcement_outlined,
                                 size: currentlySelectedPage == 1 ? iconSizeLarge : iconSizeSmall,
                                 color: currentlySelectedPage == 1 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                _showTypePicker(context).then((value) {
-                                  setState(() {});
-                                });
-                                setState(() {
-                                  addingNewContent = !addingNewContent;
-                                  showNavigationIcons = !showNavigationIcons;
-                                  //currentlySelectedPage = 2;
-                                });
-                              },
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              _showTypePicker(context).then((value) {
+                                setState(() {});
+                              });
+                              setState(() {
+                                addingNewContent = !addingNewContent;
+                                showNavigationIcons = !showNavigationIcons;
+                                //currentlySelectedPage = 2;
+                              });
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Icon(
                                 Icons.add_box_outlined,
                                 size: currentlySelectedPage == 2 ? iconSizeLarge : iconSizeSmall,
                                 color: currentlySelectedPage == 2 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  homePagePosition = 2;
-                                  currentlySelectedPage = 3;
-                                });
-                                homePageController.jumpToPage(homePagePosition);
-                                showError(context, "In Development");
-                              },
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              setState(() {
+                                homePagePosition = 2;
+                                currentlySelectedPage = 3;
+                              });
+                              homePageController.jumpToPage(homePagePosition);
+                              showError(context, "In Development");
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Icon(
                                 Icons.shopping_cart_outlined,
                                 size: currentlySelectedPage == 3 ? iconSizeLarge : iconSizeSmall,
                                 color: currentlySelectedPage == 3 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
-                            GestureDetector(
-                              behavior: HitTestBehavior.translucent,
-                              onTap: () {
-                                setState(() {
-                                  homePagePosition = 3;
-                                  currentlySelectedPage = 4;
-                                });
-                                homePageController.jumpToPage(homePagePosition);
-                              },
+                          ),
+                          GestureDetector(
+                            behavior: HitTestBehavior.translucent,
+                            onTap: () {
+                              setState(() {
+                                homePagePosition = 3;
+                                currentlySelectedPage = 4;
+                              });
+                              homePageController.jumpToPage(homePagePosition);
+                            },
+                            child: Container(
+                              width: MediaQuery.of(context).size.width / 5,
                               child: Icon(
                                 Icons.person_outline_outlined,
                                 size: currentlySelectedPage == 4 ? iconSizeLarge : iconSizeSmall,
                                 color: currentlySelectedPage == 4 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
                   );
