@@ -96,7 +96,7 @@ class _StartPageState extends State<StartPage> {
                       end: Alignment.bottomRight,
                       stops: [.3, .8],
                       colors: [
-                        Constants.backgroundWhite,
+                        Constants.theme.foreground,
                         Constants.purpleColor,
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -136,7 +136,7 @@ class _StartPageState extends State<StartPage> {
                     child: Center(
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 24 + Constants.textChange),
+                        style: TextStyle(color: Constants.theme.foreground, fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),

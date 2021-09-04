@@ -156,7 +156,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 20)),
-                  Text("Welcome!", style: TextStyle(color: Constants.backgroundWhite, fontSize: 48 + Constants.textChange)),
+                  Text("Welcome!", style: TextStyle(color: Constants.theme.foreground, fontSize: 48 + Constants.textChange)),
                   Text("Let's get you a username",
                       overflow: TextOverflow.visible, style: TextStyle(color: Constants.hintColor, fontSize: 20 + Constants.textChange)),
                   Padding(padding: EdgeInsets.only(top: MediaQuery.of(context).size.height / 5)),
@@ -181,7 +181,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                 alignment: Alignment.center,
                                 width: MediaQuery.of(context).size.width * 9 / 10,
                                 decoration: BoxDecoration(
-                                  color: Constants.backgroundBlack,
+                                  color: Constants.theme.background,
                                   borderRadius: new BorderRadius.all(Radius.circular(100)),
                                 ),
                                 child: Padding(
@@ -202,7 +202,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                   child: Center(
                                     child: SvgPicture.asset(
                                       "lib/assets/iconsUI/personOutline.svg",
-                                      color: Constants.backgroundWhite.withOpacity(.9),
+                                      color: Constants.theme.foreground.withOpacity(.9),
                                     ),
                                   ),
                                 ),
@@ -234,7 +234,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                 keyboardType: TextInputType.multiline,
                                 obscureText: false,
                                 //textAlign: TextAlign.center,
-                                cursorColor: Constants.backgroundWhite,
+                                cursorColor: Constants.theme.foreground,
                                 cursorWidth: 1.5,
                                 validator: validateUsername,
                                 autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -248,13 +248,13 @@ class _UsernameCreationState extends State<UsernameCreation> {
                                   helperText: ' ',
 
                                   hintStyle: TextStyle(
-                                    color: Constants.backgroundWhite.withOpacity(.6),
+                                    color: Constants.theme.foreground.withOpacity(.6),
                                     fontSize: 20 + Constants.textChange,
                                   ),
                                   //suffixIcon: postText(),
                                 ),
 
-                                style: TextStyle(color: Constants.backgroundWhite.withOpacity(.9), fontSize: 20 + Constants.textChange, height: 1),
+                                style: TextStyle(color: Constants.theme.foreground.withOpacity(.9), fontSize: 20 + Constants.textChange, height: 1),
                               ),
                             )),
                       ])),
@@ -288,7 +288,7 @@ class _UsernameCreationState extends State<UsernameCreation> {
                             child: Text(
                               "Next",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 24 + Constants.textChange,
                               ),
                             ),

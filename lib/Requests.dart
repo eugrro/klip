@@ -120,7 +120,7 @@ Future<String> testConnection() async {
 }
 
 // ignore: missing_return
-Future<String> uploadImage(String filePath, String uid, String title) async {
+Future<String> uploadImage(String filePath, String uid, dynamic tags, String title) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
@@ -134,6 +134,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
         "title": title,
+        "tags": tags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -184,7 +185,7 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
+Future<String> uploadKlip(String filePath, String uid, String title, dynamic tags, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
       if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
@@ -199,6 +200,7 @@ Future<String> uploadKlip(String filePath, String uid, String title, Uint8List t
         "title": title,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
+        "tags": tags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,

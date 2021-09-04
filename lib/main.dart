@@ -1,12 +1,15 @@
 import 'dart:convert';
 import 'dart:ui';
+import 'package:klip/MyTheme.dart';
 import 'package:klip/login/StartPage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
+import 'Constants.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  theme.changeToDarkMode();
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]).then((_) {
     runApp(new MyApp());
   });
@@ -19,13 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Constants.purpleColor.withOpacity(0),
-        //statusBarIconBrightness: Brightness.light,
-        //statusBarBrightness: Brightness.dark,
-      ),
-    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
@@ -42,7 +38,7 @@ class MyApp extends StatelessWidget {
           cursorColor: Constants.purpleColor,
         ),
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Constants.backgroundBlack,
+        scaffoldBackgroundColor: Constants.theme.background,
       ),
     );
   }

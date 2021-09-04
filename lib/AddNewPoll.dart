@@ -35,7 +35,7 @@ class _AddNewPollState extends State<AddNewPoll> {
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         appBar: AppBar(
           title: Text("Add New Poll"),
         ),
@@ -74,7 +74,7 @@ class _AddNewPollState extends State<AddNewPoll> {
                 Container(
                     child: Text(
                   "Poll Options",
-                  style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
+                  style: TextStyle(color: Constants.theme.foreground, fontSize: 18 + Constants.textChange),
                 )),
                 ListView.builder(
                   physics: NeverScrollableScrollPhysics(),
@@ -111,7 +111,7 @@ class _AddNewPollState extends State<AddNewPoll> {
                             child: Text(
                               "Remove Poll Option",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 14 + Constants.textChange,
                               ),
                             ),
@@ -139,7 +139,7 @@ class _AddNewPollState extends State<AddNewPoll> {
                             child: Text(
                               "Add Poll Option",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 14 + Constants.textChange,
                               ),
                             ),
@@ -176,7 +176,7 @@ class _AddNewPollState extends State<AddNewPoll> {
                           child: Text(
                             "Submit",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 20 + Constants.textChange,
                             ),
                           ),

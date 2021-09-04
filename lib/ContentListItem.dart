@@ -140,7 +140,7 @@ class _ContentListItemState extends State<ContentListItem> {
                           obj["title"] ?? "",
                           style: TextStyle(
                             fontSize: 13,
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                           ),
                           maxLines: 3,
                         ),
@@ -150,14 +150,14 @@ class _ContentListItemState extends State<ContentListItem> {
                       (obj["numViews"].toString() ?? "0") + " views",
                       style: TextStyle(
                         fontSize: 13,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                       ),
                     ),
                     Text(
                       (obj["comm"].length.toString() ?? "0") + " comments",
                       style: TextStyle(
                         fontSize: 13,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                       ),
                     ),
                   ],
@@ -180,7 +180,7 @@ class _ContentListItemState extends State<ContentListItem> {
             height: MediaQuery.of(context).size.height * .3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Constants.backgroundBlack,
+              color: Constants.theme.background,
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -192,7 +192,7 @@ class _ContentListItemState extends State<ContentListItem> {
                     child: Text(
                       "Content Options",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         fontSize: 18 + Constants.textChange,
                         decoration: TextDecoration.none,
                       ),

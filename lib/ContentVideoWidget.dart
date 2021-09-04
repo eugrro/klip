@@ -133,7 +133,7 @@ class _ContentVideoWidgetState extends State<ContentVideoWidget> {
                     child: Center(
                       child: CircleAvatar(
                         radius: 30,
-                        backgroundColor: Constants.backgroundWhite.withOpacity(.6),
+                        backgroundColor: Constants.theme.foreground.withOpacity(.6),
                         child: Icon(
                           Icons.play_arrow_rounded,
                           color: Constants.purpleColor,

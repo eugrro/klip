@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: Column(
           children: [
             Container(
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     padding: EdgeInsets.only(right: 10, left: 8),
                                     child: Icon(
                                       Icons.arrow_back,
-                                      color: Constants.backgroundWhite,
+                                      color: Constants.theme.foreground,
                                       size: 21,
                                     ),
                                   ),
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                           child: Icon(
                                             Icons.close,
                                             size: 21,
-                                            color: Constants.backgroundWhite,
+                                            color: Constants.theme.foreground,
                                           ),
                                         ),
                                       )
@@ -134,42 +134,79 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                           )
                         : Container(),
                     !isSearching
-                        ? GestureDetector(
-                            onTap: () {
-                              setState(() {
-                                isSearching = true;
-                                if (isSearching) searchFocus.requestFocus();
-                                searchController.text = "";
-                                showBottomNavBar.value = false;
-                              });
-                            },
-                            behavior: HitTestBehavior.translucent,
-                            child: Center(
-                              child: Container(
-                                width: MediaQuery.of(context).size.width * .8,
-                                height: 50,
-                                decoration: BoxDecoration(
-                                  color: Colors.black26,
-                                  //border: Border.all(color: Colors.black12),
-                                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                                ),
-                                child: Row(
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(left: 8, right: 16),
-                                      child: Icon(
-                                        Icons.search_outlined,
-                                        color: Constants.hintColor,
-                                      ),
+                        ? Stack(
+                            children: [
+                              Container(
+                                height: 45,
+                                width: MediaQuery.of(context).size.width * .15,
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Padding(
+                                    padding: EdgeInsets.only(left: 15),
+                                    child: Text(
+                                      "B",
+                                      style: TextStyle(color: Constants.theme.foreground, fontSize: 34),
                                     ),
-                                    Text(
-                                      "Search (beep boop)",
-                                      style: TextStyle(color: Constants.hintColor),
-                                    )
-                                  ],
+                                  ),
                                 ),
                               ),
-                            ),
+                              GestureDetector(
+                                onTap: () {
+                                  setState(() {
+                                    isSearching = true;
+                                    if (isSearching) searchFocus.requestFocus();
+                                    searchController.text = "";
+                                    showBottomNavBar.value = false;
+                                  });
+                                },
+                                behavior: HitTestBehavior.translucent,
+                                child: Center(
+                                  child: Container(
+                                    width: MediaQuery.of(context).size.width * .65,
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      color: Constants.theme.currentTheme == "Dark" ? Colors.black26 : Colors.transparent,
+                                      border: Constants.theme.currentTheme == "Dark"
+                                          ? Border.all(width: 0, color: Colors.transparent)
+                                          : Border.all(color: Constants.theme.foreground, width: .8),
+                                      borderRadius: BorderRadius.all(Radius.circular(6)),
+                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      "Search (beep boop)",
+                                      style:
+                                          TextStyle(color: Constants.theme.currentTheme == "Dark" ? Constants.hintColor : Constants.theme.foreground),
+                                    )),
+                                  ),
+                                ),
+                              ),
+                              Align(
+                                alignment: Alignment.centerRight,
+                                child: Container(
+                                  height: 45,
+                                  width: MediaQuery.of(context).size.width * .2,
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Text(
+                                        currentUser.numKredits,
+                                        style: TextStyle(color: Constants.theme.foreground, fontSize: 20),
+                                      ),
+                                      Container(
+                                        width: 3,
+                                      ),
+                                      Image.asset(
+                                        "lib/assets/iconsUI/coins.png",
+                                        width: 25,
+                                        height: 25,
+                                        fit: BoxFit.fill,
+                                        color: Constants.theme.foreground,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           )
                         : Container(),
                   ],
@@ -233,7 +270,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                           style: TextStyle(
                                             fontSize: 20 + Constants.textChange,
                                             fontWeight: FontWeight.w600,
-                                            color: Constants.backgroundWhite,
+                                            color: Constants.theme.foreground,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -319,7 +356,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
                           fontSize: 16.0 + Constants.textChange,
-                          color: Constants.backgroundWhite.withOpacity(.8),
+                          color: Constants.theme.foreground.withOpacity(.8),
                         ),
                         children: <TextSpan>[
                           TextSpan(text: res["uName"].toString().substring(0, boldIndex)),

@@ -63,8 +63,7 @@ class _SignInState extends State<SignIn> {
                         Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
-                    ).createShader(
-                        Rect.fromLTRB(0, 0, rect.width, rect.height));
+                    ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
                   },
                   blendMode: BlendMode.srcIn,
                   child: Image.asset(
@@ -85,8 +84,7 @@ class _SignInState extends State<SignIn> {
                         height: 25,
                       ),
                       Center(
-                        child: klipLogo(
-                            140, MediaQuery.of(context).size.width * .6),
+                        child: klipLogo(140, MediaQuery.of(context).size.width * .6),
                       ),
                       Container(
                         height: 40,
@@ -102,64 +100,40 @@ class _SignInState extends State<SignIn> {
                             userNameController,
                             SvgPicture.asset(
                               "lib/assets/iconsUI/personOutline.svg",
-                              color: Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                           ),
                           Container(
                             height: 20,
                           ),
                           LoginTextField(
-                              context,
-                              heightOfContainer,
-                              borderThickness,
-                              imgThickness,
-                              "Password",
-                              passwordController,
-                              Icon(
-                                Icons.lock_outline_rounded,
-                                color:
-                                    Theme.of(context).textTheme.bodyText1.color.withOpacity(.9),
-                              ),
-                              isObscured: canSeePassword,
-                              suffixIconButton: TextButton.icon(
-                                style: ButtonStyle(
-                                  foregroundColor:
-                                      MaterialStateProperty.all<Color>(Constants
-                                          .backgroundWhite
-                                          .withOpacity(0.9)),
-                                ),
-                                onPressed: () {
-                                  setState(() {
-                                    this.canSeePassword = !canSeePassword;
-                                    this.pvToggle = (pvToggle == PVIcons.eye)
-                                        ? PVIcons.eye_slash
-                                        : PVIcons.eye;
-                                  });
-                                },
-                                icon: Icon(
-                                  pvToggle,
-                                  size: 18.0,
-                                ),
-                                label: Text(""),
-                              )),
+                            context,
+                            heightOfContainer,
+                            borderThickness,
+                            imgThickness,
+                            "Password",
+                            passwordController,
+                            Icon(
+                              Icons.lock_outline_rounded,
+                              color: Constants.theme.foreground.withOpacity(.9),
+                            ),
+                            isObscured: true,
+                          ),
                           Padding(
-                            padding: EdgeInsets.only(
-                                right: MediaQuery.of(context).size.width * .15,
-                                top: 10),
+                            padding: EdgeInsets.only(right: MediaQuery.of(context).size.width * .15, top: 10),
                             child: Align(
                               alignment: Alignment.centerRight,
                               child: GestureDetector(
                                 onTap: () {
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => ForgotPassword()),
+                                    MaterialPageRoute(builder: (context) => ForgotPassword()),
                                   );
                                 },
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    color: Constants.theme.foreground,
                                     fontSize: 15 + Constants.textChange,
                                   ),
                                 ),
@@ -173,28 +147,16 @@ class _SignInState extends State<SignIn> {
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
                               //Strip whitespace on right side of username
-                              userNameController.text =
-                                  rstrip(userNameController.text);
-                              FocusScopeNode currentFocus =
-                                  FocusScope.of(context);
+                              userNameController.text = rstrip(userNameController.text);
+                              FocusScopeNode currentFocus = FocusScope.of(context);
 
                               if (!currentFocus.hasPrimaryFocus) {
                                 currentFocus.unfocus();
                               }
-                              if (validinput(
-                                  context,
-                                  userNameController.text,
-                                  passwordController.text,
-                                  passwordController.text)) {
-                                String ret = await signIn(
-                                    context,
-                                    userNameController.text,
-                                    passwordController.text);
-                                print("Signing in user with uid: " +
-                                    ret.toString());
-                                if (ret != "" ||
-                                    ret != "ERROR" ||
-                                    ret != null) {
+                              if (validinput(context, userNameController.text, passwordController.text, passwordController.text)) {
+                                String ret = await signIn(context, userNameController.text, passwordController.text);
+                                print("Signing in user with uid: " + ret.toString());
+                                if (ret != "" || ret != "ERROR" || ret != null) {
                                   //correct username and password and uid provided
 
                                   setUpCurrentUserFromMongo(ret).then((val) {
@@ -206,8 +168,7 @@ class _SignInState extends State<SignIn> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Navigation()),
+                                    MaterialPageRoute(builder: (context) => Navigation()),
                                   );
                                 }
                               }
@@ -216,22 +177,18 @@ class _SignInState extends State<SignIn> {
                               width: MediaQuery.of(context).size.width * .8,
                               height: heightOfContainer - 10,
                               decoration: BoxDecoration(
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(100)),
+                                borderRadius: BorderRadius.all(Radius.circular(100)),
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [
-                                    Theme.of(context).textSelectionTheme.cursorColor,
-                                    Color(0xffab57a8)
-                                  ],
+                                  colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                                 ),
                               ),
                               child: Center(
                                 child: Text(
                                   "Sign In",
                                   style: TextStyle(
-                                    color: Theme.of(context).textTheme.bodyText1.color,
+                                    color: Constants.theme.foreground,
                                     fontSize: 24 + Constants.textChange,
                                   ),
                                 ),
@@ -252,12 +209,11 @@ class _SignInState extends State<SignIn> {
                             color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               "or",
                               style: TextStyle(
-                                color: Theme.of(context).textTheme.bodyText1.color,
+                                color: Constants.theme.foreground,
                                 fontSize: 16 + Constants.textChange,
                               ),
                             ),
@@ -285,12 +241,9 @@ class _SignInState extends State<SignIn> {
                               onTap: () async {
                                 var userData = await signInWithGoogle();
                                 if (userData != "") {
-                                  print("Signing in " +
-                                      userData[1] +
-                                      " with google");
+                                  print("Signing in " + userData[1] + " with google");
 
-                                  setUpCurrentUserFromMongo(userData[0])
-                                      .then((val) {
+                                  setUpCurrentUserFromMongo(userData[0]).then((val) {
                                     storeUserToSharedPreferences();
                                   });
                                   while (Navigator.canPop(context)) {
@@ -298,12 +251,10 @@ class _SignInState extends State<SignIn> {
                                   }
                                   Navigator.pushReplacement(
                                     context,
-                                    MaterialPageRoute(
-                                        builder: (context) => Navigation()),
+                                    MaterialPageRoute(builder: (context) => Navigation()),
                                   );
                                 } else {
-                                  showError(
-                                      context, "Unable to sign in with Google");
+                                  showError(context, "Unable to sign in with Google");
                                 }
                               },
                               child: Image.asset(
@@ -340,7 +291,7 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Don't have an account? ",
                                 style: TextStyle(
-                                  color: Theme.of(context).textTheme.bodyText1.color,
+                                  color: Constants.theme.foreground,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

@@ -110,19 +110,19 @@ class _NotificationPageState extends State<NotificationPage> {
                           minLines: 1, // number of lines your textfield start with
                           maxLines: null,
                           textAlignVertical: TextAlignVertical.center,
-                          cursorColor: Constants.backgroundWhite,
+                          cursorColor: Constants.theme.foreground,
                           cursorWidth: 1.5,
                           decoration: InputDecoration(
                             isDense: true,
                             border: InputBorder.none,
                             hintText: "Send a Message",
                             hintStyle: TextStyle(
-                              color: Constants.backgroundWhite.withOpacity(.7),
+                              color: Constants.theme.foreground.withOpacity(.7),
                               fontSize: 13 + Constants.textChange,
                             ),
                           ),
                           style: TextStyle(
-                            color: Constants.backgroundWhite.withOpacity(.9),
+                            color: Constants.theme.foreground.withOpacity(.9),
                             fontSize: 13 + Constants.textChange,
                           ),
                         ),

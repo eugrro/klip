@@ -53,6 +53,7 @@ dependencies:
   image_gallery_saver: ^1.6.9
   keyboard_visibility: any
   cached_network_image: ^3.1.0
+  animated_toggle_switch: ^0.2.0
   
   #gotta redo this somehow
   simple_image_crop:

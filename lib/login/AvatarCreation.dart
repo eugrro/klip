@@ -124,7 +124,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           child: Text(
                             "Select your own",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 24 + Constants.textChange,
                             ),
                           ),
@@ -145,7 +145,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           child: Text(
                             "or",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 16 + Constants.textChange,
                             ),
                           ),
@@ -246,7 +246,7 @@ class _AvatarCreationState extends State<AvatarCreation> {
                           child: Text(
                             "Next",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 24 + Constants.textChange,
                             ),
                           ),
