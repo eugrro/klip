@@ -165,25 +165,18 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     width: MediaQuery.of(context).size.width * .65,
                                     height: 45,
                                     decoration: BoxDecoration(
-                                      color: Colors.black26,
-                                      //border: Border.all(color: Colors.black12),
+                                      color: Constants.theme.currentTheme == "Dark" ? Colors.black26 : Colors.transparent,
+                                      border: Constants.theme.currentTheme == "Dark"
+                                          ? Border.all(width: 0, color: Colors.transparent)
+                                          : Border.all(color: Constants.theme.foreground, width: .8),
                                       borderRadius: BorderRadius.all(Radius.circular(6)),
                                     ),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: EdgeInsets.only(left: 8, right: 16),
-                                          child: Icon(
-                                            Icons.search_outlined,
-                                            color: Constants.hintColor,
-                                          ),
-                                        ),
-                                        Text(
-                                          "Search (beep boop)",
-                                          style: TextStyle(color: Constants.hintColor),
-                                        )
-                                      ],
-                                    ),
+                                    child: Center(
+                                        child: Text(
+                                      "Search (beep boop)",
+                                      style:
+                                          TextStyle(color: Constants.theme.currentTheme == "Dark" ? Constants.hintColor : Constants.theme.foreground),
+                                    )),
                                   ),
                                 ),
                               ),

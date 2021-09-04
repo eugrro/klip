@@ -44,6 +44,7 @@ Future<void> createPaymentMethodNative() async {
     ),
   ).catchError((error) {
     print("RAN INTO ERROR: " + error);
+    return null;
   });
   PaymentMethod paymentMethod = PaymentMethod();
   paymentMethod = await StripePayment.createPaymentMethod(

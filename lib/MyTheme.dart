@@ -6,10 +6,10 @@ import 'package:flutter/services.dart';
 import 'Navigation.dart';
 
 class MyTheme extends ChangeNotifier {
-  //Color darkColor = Color(0xff282828);
-  //Color lightColor = Color(0xfff8f8f8);
-  Color darkColor = Colors.black;
-  Color lightColor = Colors.white;
+  Color darkColor = Color(0xff282828);
+  Color lightColor = Color(0xfff8f8f8);
+  //Color darkColor = Colors.black;
+  //Color lightColor = Colors.white;
   Color greyColor = Color(0xffa0a0a0);
   Color purpleColor = Color(0xff6E5Ac9);
 
@@ -54,7 +54,7 @@ class MyTheme extends ChangeNotifier {
   void setStatusBarDark() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.green,
+        statusBarColor: _background,
         systemNavigationBarColor: darkColor,
         statusBarIconBrightness: Brightness.light,
         statusBarBrightness: Brightness.light,
@@ -71,10 +71,10 @@ class MyTheme extends ChangeNotifier {
   void setStatusBarLight() {
     SystemChrome.setSystemUIOverlayStyle(
       SystemUiOverlayStyle(
-        statusBarColor: Colors.green,
+        statusBarColor: _background,
         systemNavigationBarColor: lightColor,
-        statusBarIconBrightness: Brightness.light,
-        statusBarBrightness: Brightness.light,
+        statusBarIconBrightness: Brightness.dark,
+        statusBarBrightness: Brightness.dark,
       ),
     );
   }
