@@ -99,7 +99,7 @@ class _SignUpState extends State<SignUp> {
                             userNameController,
                             SvgPicture.asset(
                               "lib/assets/iconsUI/personOutline.svg",
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                           ),
                           Container(
@@ -114,7 +114,7 @@ class _SignUpState extends State<SignUp> {
                             passwordController,
                             Icon(
                               Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                             isObscured: true,
                           ),
@@ -130,7 +130,7 @@ class _SignUpState extends State<SignUp> {
                             passwordConfirmController,
                             Icon(
                               Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                             isObscured: true,
                           ),
@@ -175,7 +175,7 @@ class _SignUpState extends State<SignUp> {
                                 child: Text(
                                   "Sign Up",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 24 + Constants.textChange,
                                   ),
                                 ),
@@ -200,7 +200,7 @@ class _SignUpState extends State<SignUp> {
                             child: Text(
                               "or",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 16 + Constants.textChange,
                               ),
                             ),
@@ -309,7 +309,7 @@ class _SignUpState extends State<SignUp> {
                               Text(
                                 "Already have an account? ",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

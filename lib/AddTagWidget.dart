@@ -38,7 +38,7 @@ class _AddTagWidgetState extends State<AddTagWidget> {
             children: [
               Padding(
                 padding: EdgeInsets.only(left: 6, right: 8),
-                child: Icon(Icons.search, color: Constants.backgroundWhite),
+                child: Icon(Icons.search, color: Constants.theme.foreground),
               ),
               Expanded(
                 child: Padding(
@@ -67,7 +67,7 @@ class _AddTagWidgetState extends State<AddTagWidget> {
                 },
                 child: Padding(
                   padding: EdgeInsets.only(left: 4, right: 6),
-                  child: Icon(Icons.check, color: Constants.backgroundWhite),
+                  child: Icon(Icons.check, color: Constants.theme.foreground),
                 ),
               ),
             ],

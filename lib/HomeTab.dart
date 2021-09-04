@@ -101,7 +101,7 @@ class _HomeTabState extends State<HomeTab> {
                 child: Text(
                   "No More Content",
                   style: TextStyle(
-                    color: Constants.backgroundWhite,
+                    color: Constants.theme.foreground,
                     fontSize: 20 + Constants.textChange,
                   ),
                 ),

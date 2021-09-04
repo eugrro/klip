@@ -56,7 +56,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: Column(
           children: [
             Container(
@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     padding: EdgeInsets.only(right: 10, left: 8),
                                     child: Icon(
                                       Icons.arrow_back,
-                                      color: Constants.backgroundWhite,
+                                      color: Constants.theme.foreground,
                                       size: 21,
                                     ),
                                   ),
@@ -124,7 +124,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                           child: Icon(
                                             Icons.close,
                                             size: 21,
-                                            color: Constants.backgroundWhite,
+                                            color: Constants.theme.foreground,
                                           ),
                                         ),
                                       )
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     padding: EdgeInsets.only(left: 15),
                                     child: Text(
                                       "B",
-                                      style: TextStyle(color: Constants.backgroundWhite, fontSize: 34),
+                                      style: TextStyle(color: Constants.theme.foreground, fontSize: 34),
                                     ),
                                   ),
                                 ),
@@ -197,7 +197,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                     children: [
                                       Text(
                                         currentUser.numKredits,
-                                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 20),
+                                        style: TextStyle(color: Constants.theme.foreground, fontSize: 20),
                                       ),
                                       Container(
                                         width: 3,
@@ -207,7 +207,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                         width: 25,
                                         height: 25,
                                         fit: BoxFit.fill,
-                                        color: Constants.backgroundWhite,
+                                        color: Constants.theme.foreground,
                                       ),
                                     ],
                                   ),
@@ -277,7 +277,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                           style: TextStyle(
                                             fontSize: 20 + Constants.textChange,
                                             fontWeight: FontWeight.w600,
-                                            color: Constants.backgroundWhite,
+                                            color: Constants.theme.foreground,
                                           ),
                                           textAlign: TextAlign.center,
                                         ),
@@ -363,7 +363,7 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                         // Child text spans will inherit styles from parent
                         style: TextStyle(
                           fontSize: 16.0 + Constants.textChange,
-                          color: Constants.backgroundWhite.withOpacity(.8),
+                          color: Constants.theme.foreground.withOpacity(.8),
                         ),
                         children: <TextSpan>[
                           TextSpan(text: res["uName"].toString().substring(0, boldIndex)),

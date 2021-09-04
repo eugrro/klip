@@ -33,7 +33,7 @@ Widget klipLogo(double height, double width) {
         end: Alignment.bottomRight,
         stops: [.3, .8],
         colors: [
-          Constants.backgroundWhite,
+          Constants.theme.foreground,
           Constants.purpleColor,
         ],
       ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -113,7 +113,7 @@ void showError(BuildContext context, String text) {
         bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
     padding: EdgeInsets.zero,
-    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    backgroundColor: Constants.theme.foreground.withOpacity(.9),
     content: Container(
       height: 50,
       child: Row(
@@ -130,7 +130,7 @@ void showError(BuildContext context, String text) {
             child: Text(
               text,
               style: TextStyle(
-                color: Constants.backgroundBlack,
+                color: Constants.theme.background,
                 fontSize: 14 + Constants.textChange,
               ),
             ),
@@ -148,7 +148,7 @@ void showSnackbar(BuildContext context, String text) {
         bottom: Constants.bottomNavBarHeight + 10, left: MediaQuery.of(context).size.width / 8, right: MediaQuery.of(context).size.width / 8),
     behavior: SnackBarBehavior.floating,
     padding: EdgeInsets.zero,
-    backgroundColor: Constants.backgroundWhite.withOpacity(.9),
+    backgroundColor: Constants.theme.foreground.withOpacity(.9),
     content: Container(
       height: 50,
       child: Row(
@@ -165,7 +165,7 @@ void showSnackbar(BuildContext context, String text) {
             child: Text(
               text,
               style: TextStyle(
-                color: Constants.backgroundBlack,
+                color: Constants.theme.background,
                 fontSize: 14 + Constants.textChange,
               ),
             ),
@@ -202,7 +202,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
       Align(
         alignment: Alignment.center,
         child: TextFormField(
-          cursorColor: Constants.backgroundWhite,
+          cursorColor: Constants.theme.foreground,
           decoration: new InputDecoration(
             border: InputBorder.none,
             focusedBorder: InputBorder.none,
@@ -219,7 +219,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
           controller: contr,
           focusNode: fcs,
           style: TextStyle(
-            color: Constants.backgroundWhite,
+            color: Constants.theme.foreground,
             fontSize: 16 + Constants.textChange,
           ),
         ),
@@ -239,7 +239,7 @@ Widget klipTextField(double height, double width, TextEditingController contr, {
                     labelText,
                     style: TextStyle(
                       fontSize: labelTextFontSize == null ? 14 + Constants.textChange : labelTextFontSize + Constants.textChange,
-                      color: Constants.backgroundWhite,
+                      color: Constants.theme.foreground,
                     ),
                   ),
                 ),

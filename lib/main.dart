@@ -22,13 +22,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     //SystemChrome.setEnabledSystemUIOverlays(SystemUiOverlay.values);
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarColor: Constants.purpleColor.withOpacity(0),
-        //statusBarIconBrightness: Brightness.light,
-        //statusBarBrightness: Brightness.dark,
-      ),
-    );
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       builder: (context, child) {
@@ -45,7 +38,7 @@ class MyApp extends StatelessWidget {
           cursorColor: Constants.purpleColor,
         ),
         brightness: Brightness.dark,
-        scaffoldBackgroundColor: Constants.backgroundBlack,
+        scaffoldBackgroundColor: Constants.theme.background,
       ),
     );
   }

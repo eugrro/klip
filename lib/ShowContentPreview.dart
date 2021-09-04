@@ -74,14 +74,14 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                       },
                       child: Icon(
                         Icons.arrow_back,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         size: 20,
                       ),
                     ),
                     Text(
                       "Preview",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         fontSize: 18 + Constants.textChange,
                       ),
                     ),
@@ -127,7 +127,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                           ? CircularProgressIndicator.adaptive()
                           : Icon(
                               Icons.check,
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               size: 20,
                             ),
                     ),

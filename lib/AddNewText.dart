@@ -36,7 +36,7 @@ class _AddNewTextState extends State<AddNewText> {
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: SafeArea(
           child: SingleChildScrollView(
             child: Column(
@@ -60,13 +60,13 @@ class _AddNewTextState extends State<AddNewText> {
                         },
                         child: Icon(
                           Icons.arrow_back,
-                          color: Constants.backgroundWhite,
+                          color: Constants.theme.foreground,
                           size: 25,
                         ),
                       ),
                       Text(
                         "Add New Text",
-                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 18 + Constants.textChange),
+                        style: TextStyle(color: Constants.theme.foreground, fontSize: 18 + Constants.textChange),
                       ),
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
@@ -77,7 +77,7 @@ class _AddNewTextState extends State<AddNewText> {
                             ? CircularProgressIndicator()
                             : Icon(
                                 Icons.check,
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 size: 25,
                               ),
                       ),

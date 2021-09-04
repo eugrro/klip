@@ -50,6 +50,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
   @override
   Widget build(BuildContext context) {
     Constants.statusBarHeight = MediaQuery.of(context).padding.top;
+    double iconSizeSmall = 20;
+    double iconSizeLarge = 24;
     return Material(
       type: MaterialType.transparency,
       child: Scaffold(
@@ -74,7 +76,12 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                     child: Container(
                       height: Constants.bottomNavBarHeight,
                       width: MediaQuery.of(context).size.width,
-                      color: Constants.purpleColor.withOpacity(.2),
+                      decoration: BoxDecoration(
+                        color: Constants.theme.background,
+                        border: Border(
+                          top: BorderSide(width: 1.0, color: Constants.theme.hintColor),
+                        ),
+                      ),
                       child: Padding(
                         padding: EdgeInsets.only(
                           left: 30,
@@ -94,7 +101,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.home_outlined,
-                                color: currentlySelectedPage == 0 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                size: currentlySelectedPage == 0 ? iconSizeLarge : iconSizeSmall,
+                                color: currentlySelectedPage == 0 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
                             GestureDetector(
@@ -108,7 +116,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.announcement_outlined,
-                                color: currentlySelectedPage == 1 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                size: currentlySelectedPage == 1 ? iconSizeLarge : iconSizeSmall,
+                                color: currentlySelectedPage == 1 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
                             GestureDetector(
@@ -125,7 +134,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.add_box_outlined,
-                                color: currentlySelectedPage == 2 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                size: currentlySelectedPage == 2 ? iconSizeLarge : iconSizeSmall,
+                                color: currentlySelectedPage == 2 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
                             GestureDetector(
@@ -140,7 +150,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.shopping_cart_outlined,
-                                color: currentlySelectedPage == 3 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                size: currentlySelectedPage == 3 ? iconSizeLarge : iconSizeSmall,
+                                color: currentlySelectedPage == 3 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
                             GestureDetector(
@@ -154,7 +165,8 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               },
                               child: Icon(
                                 Icons.person_outline_outlined,
-                                color: currentlySelectedPage == 4 ? Colors.white : Constants.backgroundWhite.withOpacity(.5),
+                                size: currentlySelectedPage == 4 ? iconSizeLarge : iconSizeSmall,
+                                color: currentlySelectedPage == 4 ? Constants.theme.foreground : Constants.theme.foreground.withOpacity(.7),
                               ),
                             ),
                           ],
@@ -180,7 +192,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
     double largeIcon = 35;
 
     return showModalBottomSheet(
-      backgroundColor: Constants.backgroundBlack,
+      backgroundColor: Constants.theme.background,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(15),
@@ -218,7 +230,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               "Audio",
                               style: TextStyle(
                                 fontSize: largeText,
-                                color: Constants.backgroundWhite.withOpacity(.9),
+                                color: Constants.theme.foreground.withOpacity(.9),
                               ),
                             ),
                           ),
@@ -252,7 +264,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               "Image",
                               style: TextStyle(
                                 fontSize: largeText,
-                                color: Constants.backgroundWhite.withOpacity(.9),
+                                color: Constants.theme.foreground.withOpacity(.9),
                               ),
                             ),
                           ),
@@ -286,7 +298,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               "Klip",
                               style: TextStyle(
                                 fontSize: largeText,
-                                color: Constants.backgroundWhite.withOpacity(.9),
+                                color: Constants.theme.foreground.withOpacity(.9),
                               ),
                             ),
                           ),
@@ -318,7 +330,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               "Text",
                               style: TextStyle(
                                 fontSize: largeText,
-                                color: Constants.backgroundWhite.withOpacity(.9),
+                                color: Constants.theme.foreground.withOpacity(.9),
                               ),
                             ),
                           ),
@@ -350,7 +362,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                               "Poll",
                               style: TextStyle(
                                 fontSize: largeText,
-                                color: Constants.backgroundWhite.withOpacity(.9),
+                                color: Constants.theme.foreground.withOpacity(.9),
                               ),
                             ),
                           ),
@@ -389,7 +401,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                           child: Center(
                             child: Icon(
                               Icons.close,
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                             ),
                           ),
                         ),
@@ -414,7 +426,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
             width: MediaQuery.of(ctx).size.width * .8,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Constants.backgroundBlack,
+              color: Constants.theme.background,
             ),
             child: ListView(
               shrinkWrap: true,
@@ -428,7 +440,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                         child: Center(
                           child: Text(
                             "Select a Location",
-                            style: TextStyle(color: Constants.backgroundWhite, fontSize: 18),
+                            style: TextStyle(color: Constants.theme.foreground, fontSize: 18),
                           ),
                         ),
                       ),
@@ -444,7 +456,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
                             height: 30,
                             child: Text(
                               "x",
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 23),
+                              style: TextStyle(color: Constants.theme.foreground, fontSize: 23),
                             ),
                           ),
                         ),

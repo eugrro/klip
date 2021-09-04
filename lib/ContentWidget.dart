@@ -310,7 +310,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                       ? Text(
                           obj["title"] ?? "",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 17 + Constants.textChange,
                           ),
                         )
@@ -401,7 +401,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           ),
           child: Text(
             body,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
+            style: TextStyle(color: Constants.theme.foreground, fontSize: 16 + Constants.textChange),
           ),
         ),
       ),
@@ -464,7 +464,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   options[index],
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 16 + Constants.textChange,
                                   ),
                                 ),
@@ -505,7 +505,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   currentVote.toString(),
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                   ),
                                 ),
                               ),
@@ -519,7 +519,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   options[index],
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 16 + Constants.textChange,
                                   ),
                                 ),
@@ -563,7 +563,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         child: Text(
                           "Vote",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 18 + Constants.textChange,
                           ),
                         ),
@@ -612,7 +612,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             width: MediaQuery.of(ctx).size.width * .7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Constants.backgroundBlack,
+              color: Constants.theme.background,
             ),
             child: ListView(
               shrinkWrap: true,

@@ -113,49 +113,54 @@ class _ProfileSettingsState extends State<ProfileSettings> {
                   ],
                 ),
               ),
-              Stack(
-                children: [
-                  Opacity(
-                    opacity: .4,
-                    child: Container(
-                      width: 150,
-                      child: ClipOval(
-                        child: FutureBuilder<Widget>(
-                          future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
-                          builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
-                            if (snapshot.hasData) {
-                              return snapshot.data;
-                            } else {
-                              return Constants.tempAvatar;
-                            }
-                          },
+              GestureDetector(
+                onTap: () {
+                  _showPicker(context);
+                },
+                child: Stack(
+                  children: [
+                    CircleAvatar(
+                      radius: 75,
+                      backgroundColor: Constants.theme.foreground,
+                      child: Center(
+                        child: CircleAvatar(
+                          radius: 73,
+                          backgroundColor: Constants.theme.background,
                         ),
                       ),
                     ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      _showPicker(context);
-                    },
-                    child: CircleAvatar(
-                      radius: 75,
-                      backgroundColor: Colors.transparent,
-                      child: Center(
-                        child: Padding(
-                          padding: EdgeInsets.only(top: 60),
-                          child: Text(
-                            "Click to change\nprofile picture",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Constants.theme.foreground.withOpacity(.7),
-                              fontSize: 13 + Constants.textChange,
-                            ),
+                    Opacity(
+                      opacity: .7,
+                      child: Container(
+                        width: 150,
+                        child: ClipOval(
+                          child: FutureBuilder<Widget>(
+                            future: currentUser.userProfileImg, // a previously-obtained Future<String> or null
+                            builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                              if (snapshot.hasData) {
+                                return snapshot.data;
+                              } else {
+                                return Constants.tempAvatar;
+                              }
+                            },
                           ),
                         ),
                       ),
                     ),
-                  ),
-                ],
+                    CircleAvatar(
+                      radius: 20,
+                      backgroundColor: Constants.theme.foreground,
+                      child: CircleAvatar(
+                        radius: 19,
+                        backgroundColor: Constants.theme.background,
+                        child: Icon(
+                          Icons.edit,
+                          color: Constants.theme.foreground,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
               editingBio
                   ? Padding(
@@ -675,7 +680,7 @@ class _ProfileSettingsState extends State<ProfileSettings> {
             height: MediaQuery.of(context).size.height * .35,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10),
-              color: Constants.backgroundBlack,
+              color: Constants.theme.background,
             ),
             child: GestureDetector(
               behavior: HitTestBehavior.translucent,

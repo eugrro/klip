@@ -50,7 +50,7 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
       return Center(
         child: Text(
           "Error loading Content",
-          style: TextStyle(color: Constants.backgroundWhite),
+          style: TextStyle(color: Constants.theme.foreground),
         ),
       );
     }

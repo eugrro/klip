@@ -97,7 +97,7 @@ class _SignInState extends State<SignIn> {
                             userNameController,
                             SvgPicture.asset(
                               "lib/assets/iconsUI/personOutline.svg",
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                           ),
                           Container(
@@ -112,7 +112,7 @@ class _SignInState extends State<SignIn> {
                             passwordController,
                             Icon(
                               Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                             isObscured: true,
                           ),
@@ -130,7 +130,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 15 + Constants.textChange,
                                   ),
                                 ),
@@ -183,7 +183,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Sign In",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 24 + Constants.textChange,
                                   ),
                                 ),
@@ -208,7 +208,7 @@ class _SignInState extends State<SignIn> {
                             child: Text(
                               "or",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 16 + Constants.textChange,
                               ),
                             ),
@@ -286,7 +286,7 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Don't have an account? ",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),
