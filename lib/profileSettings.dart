@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 
 import "./currentUser.dart";
-import "Themes.dart" as Themes;
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:klip/UserPage.dart';

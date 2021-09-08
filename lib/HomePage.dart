@@ -143,9 +143,12 @@ class _HomePageState extends State<HomePage> with SingleTickerProviderStateMixin
                                   alignment: Alignment.centerLeft,
                                   child: Padding(
                                     padding: EdgeInsets.only(left: 15),
-                                    child: Text(
-                                      "B",
-                                      style: TextStyle(color: Constants.theme.foreground, fontSize: 34),
+                                    child: Image.asset(
+                                      "lib/assets/iconsUI/backpackIcon.png",
+                                      //width: 100,
+                                      //height: 100,
+                                      //fit: BoxFit.fill,
+                                      color: Constants.theme.foreground,
                                     ),
                                   ),
                                 ),

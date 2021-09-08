@@ -197,7 +197,6 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
 
   Future<void> _showTypePicker(context) {
     double contentTypeHeight = 90;
-
     double largeText = 16 + Constants.textChange;
     double largeIcon = 35;
 
@@ -209,7 +208,7 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
           topRight: Radius.circular(15),
         ),
       ),
-      isDismissible: false,
+      //isDismissible: false,
       isScrollControlled: true,
       context: context,
       builder: (BuildContext bc) {
@@ -219,6 +218,17 @@ class _NavigationState extends State<Navigation> with SingleTickerProviderStateM
             padding: EdgeInsets.only(left: 10, right: 10),
             child: Stack(
               children: [
+                Align(
+                  alignment: Alignment(0, -.9),
+                  child: Container(
+                    width: 75,
+                    height: 3,
+                    decoration: BoxDecoration(
+                      color: Constants.hintColor,
+                      borderRadius: BorderRadius.all(Radius.circular(20)),
+                    ),
+                  ),
+                ),
                 Align(
                   alignment: Alignment(-1, 0),
                   child: GestureDetector(
