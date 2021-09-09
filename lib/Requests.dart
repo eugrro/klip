@@ -150,7 +150,7 @@ Future<String> uploadImage(String filePath, String uid, dynamic userTags, String
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
         "title": title,
-        "tags": userTags,
+        "userTags": userTags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -215,7 +215,7 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title, dynamic tags, Uint8List thumbnailData) async {
+Future<String> uploadKlip(String filePath, String uid, String title, dynamic userTags, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
       String token = await getToken();
@@ -230,7 +230,7 @@ Future<String> uploadKlip(String filePath, String uid, String title, dynamic tag
         "title": title,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
-        "tags": tags,
+        "userTags": userTags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -374,7 +374,7 @@ Future<dynamic> search(String uid, String val) async {
   }
 }
 
-Future<dynamic> addTextContent(String uid, String title, String body) async {
+Future<dynamic> addTextContent(String uid, String title, String body, dynamic userTags) async {
   Response response;
   String token = await getToken();
   String headers = "Bearer ${token}";
@@ -388,6 +388,7 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
       "uName": currentUser.uName,
       "title": title,
       "body": body,
+      "userTags": userTags,
     };
     String uri = Constants.nodeURL + "content/addTextContent";
     print("Sending Request To: " + uri);

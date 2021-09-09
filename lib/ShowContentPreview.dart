@@ -37,7 +37,6 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
     super.initState();
     tags.addListener(() {
       if (tags.value.length == 1) {
-        print("AAAAAAAAAA");
         scpScrollController.animateTo(
           scpScrollController.position.maxScrollExtent,
           duration: Duration(seconds: 1),

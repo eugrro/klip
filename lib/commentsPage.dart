@@ -118,7 +118,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                   } else {
                                     return CircleAvatar(
                                       radius: imageRadius,
-                                      child: ClipOval(child: Constants.tempAvatar ?? Container()),
+                                      child: ClipOval(child: Container()),
                                     );
                                   }
                                 },

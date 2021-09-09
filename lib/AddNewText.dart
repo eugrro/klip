@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
+import 'AddTagWidget.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 
@@ -19,11 +20,23 @@ class _AddNewTextState extends State<AddNewText> {
   int titleMaxLength = 80;
   bool isPostingText = false;
 
+  ValueNotifier<List<String>> tags = ValueNotifier([]);
+  ScrollController antScrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     titleController = TextEditingController();
     bodyController = TextEditingController();
+    tags.addListener(() {
+      if (tags.value.length == 1) {
+        antScrollController.animateTo(
+          antScrollController.position.maxScrollExtent,
+          duration: Duration(seconds: 1),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    });
   }
 
   @override
@@ -39,6 +52,7 @@ class _AddNewTextState extends State<AddNewText> {
         backgroundColor: Constants.theme.background,
         body: SafeArea(
           child: SingleChildScrollView(
+            controller: antScrollController,
             child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -71,7 +85,7 @@ class _AddNewTextState extends State<AddNewText> {
                       GestureDetector(
                         behavior: HitTestBehavior.translucent,
                         onTap: () {
-                          addTextContent(currentUser.uid, titleController.text, bodyController.text).then((value) {});
+                          addTextContent(currentUser.uid, titleController.text, bodyController.text, tags.value).then((value) {});
                         },
                         child: isPostingText
                             ? CircularProgressIndicator()
@@ -145,6 +159,16 @@ class _AddNewTextState extends State<AddNewText> {
                     ),
                   ),
                 ),
+                AddTagWidget(tags),
+                Container(
+                  height: 10,
+                ),
+                tags.value.length > 0
+                    ? Text(
+                        "Tap on a tag to remove it",
+                        style: TextStyle(color: Constants.hintColor, fontSize: 12 + Constants.textChange),
+                      )
+                    : Container(),
               ],
             ),
           ),
