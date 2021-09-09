@@ -129,7 +129,7 @@ Future<void> processPaymentAsDirectCharge(PaymentMethod paymentMethod) async {
 
 Future<http.Response> getStripeIntent(PaymentMethod paymentMethod) async {
   try {
-    String uri = Constants.nodeURL + "getStripeIntent";
+    String uri = Constants.nodeURL + "stripe/getStripeIntent";
     print("Sending post request to: " + uri);
     String reqString = '$uri?amount=$amount&currency=USD&paym=${paymentMethod.id}';
     Uri reqUri = Uri.http(reqString, "");

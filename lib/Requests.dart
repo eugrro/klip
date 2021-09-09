@@ -10,9 +10,17 @@ import 'package:http_parser/http_parser.dart';
 
 import './Constants.dart' as Constants;
 import 'package:klip/currentUser.dart' as currentUser;
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 Response response;
 Dio dio = new Dio();
+Future<String> getToken() async {
+  User firebaseUser = FirebaseAuth.instance.currentUser;
+  final tokenID = await firebaseUser.getIdToken();
+  final tokenString = tokenID.toString();
+  return tokenString;
+}
 
 Future<String> updateOne(String uid, String param, String paramVal) async {
   Response response;
@@ -56,7 +64,15 @@ Future<String> addComment(String pid, String comm, String time) async {
 
     String reqString = Constants.nodeURL + "content/addComment";
     print("Sending Request To: " + reqString);
-    response = await dio.post(reqString, queryParameters: params);
+    String token = await getToken();
+    String headers = "Bearer ${token}";
+    response = await dio.post(reqString,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
 
     if (response.statusCode == 200) {
       print("Returned 200");
@@ -121,6 +137,8 @@ Future<String> testConnection() async {
 
 // ignore: missing_return
 Future<String> uploadImage(String filePath, String uid, dynamic userTags, String title) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
@@ -144,7 +162,13 @@ Future<String> uploadImage(String filePath, String uid, dynamic userTags, String
 
       String uri = Constants.nodeURL + "content/uploadImage";
       print("Sending post request to: " + uri);
-      response = await dio.post(uri, data: formData);
+      response = await dio.post(uri,
+          data: formData,
+          options: Options(
+              headers: {"authorization": headers},
+              validateStatus: (status) {
+                return status < 500;
+              }));
 
       return fileName;
     }
@@ -158,6 +182,8 @@ Future<String> uploadImage(String filePath, String uid, dynamic userTags, String
 Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
   try {
     if (thumbnailData != null) {
+      String token = await getToken();
+      String headers = "Bearer ${token}";
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'pid': pid,
@@ -172,7 +198,13 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 
       String uri = Constants.nodeURL + "content/uploadThumbnail";
       print("Sending post request to: " + uri);
-      response = await dio.post(uri, data: formData);
+      response = await dio.post(uri,
+          data: formData,
+          options: Options(
+              headers: {"authorization": headers},
+              validateStatus: (status) {
+                return status < 500;
+              }));
 
       print(response);
       return "";
@@ -186,6 +218,8 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 Future<String> uploadKlip(String filePath, String uid, String title, dynamic userTags, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
+      String token = await getToken();
+      String headers = "Bearer ${token}";
       if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
       String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
@@ -208,7 +242,13 @@ Future<String> uploadKlip(String filePath, String uid, String title, dynamic use
 
       String uri = Constants.nodeURL + "content/uploadKlip";
       print("Sending post request to: " + uri);
-      response = await dio.post(uri, data: formData);
+      response = await dio.post(uri,
+          data: formData,
+          options: Options(
+              headers: {"authorization": headers},
+              validateStatus: (status) {
+                return status < 500;
+              }));
 
       await uploadThumbnail(thumbnailData, fileName);
       return fileName;
@@ -237,10 +277,19 @@ Future<String> updateAvatar(String filePath, String uid) async {
         ),
         'record': null
       });
+      String token = await getToken();
+      String headers = "Bearer ${token}";
 
       String uri = Constants.nodeURL + "user/uploadAvatar";
+
       print("Sending post request to: " + uri);
-      response = await dio.post(uri, data: formData);
+      response = await dio.post(uri,
+          data: formData,
+          options: Options(
+              headers: {"authorization": headers},
+              validateStatus: (status) {
+                return status < 500;
+              }));
 
       print(response);
       return "";
@@ -327,7 +376,8 @@ Future<dynamic> search(String uid, String val) async {
 
 Future<dynamic> addTextContent(String uid, String title, String body, dynamic userTags) async {
   Response response;
-
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
@@ -342,10 +392,20 @@ Future<dynamic> addTextContent(String uid, String title, String body, dynamic us
     };
     String uri = Constants.nodeURL + "content/addTextContent";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       return response.data;
+    } else if (response.statusCode == 403) {
+      print("Returned 403");
+      print("UnAuthorize to Post");
+      return "UnAuthorized";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -357,6 +417,8 @@ Future<dynamic> addTextContent(String uid, String title, String body, dynamic us
 }
 
 Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
 
   String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
@@ -372,7 +434,13 @@ Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) 
     };
     String uri = Constants.nodeURL + "content/addPollContent";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       return response.data;
@@ -387,6 +455,8 @@ Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) 
 }
 
 Future<dynamic> voteOnPoll(String uid, String pid, int valVoted) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
   //add confirmation that vote did not go through multiple times
   try {
@@ -397,7 +467,13 @@ Future<dynamic> voteOnPoll(String uid, String pid, int valVoted) async {
     };
     String uri = Constants.nodeURL + "content/voteOnPoll";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       return response.data;
@@ -485,7 +561,7 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
     Map<String, String> params = {
       "gamertag": gamertag,
     };
-    String uri = Constants.nodeURL + "getXboxClips";
+    String uri = Constants.nodeURL + "xbox/getXboxClips";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
     if (response.statusCode == 200) {
@@ -506,6 +582,8 @@ Future<List<dynamic>> getXboxClips(String gamertag) async {
 
 Future<String> userFollowsUser(String uid1, String uid2) async {
   Response response;
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   try {
     Map<String, String> params = {
       "uid1": uid1,
@@ -513,7 +591,13 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
     };
     String uri = Constants.nodeURL + "user/userFollowsUser";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.data["status"] == "FollowSuccessful")
@@ -530,6 +614,8 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
 }
 
 Future<String> userUnfollowsUser(String uid1, String uid2) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
   try {
     Map<String, String> params = {
@@ -539,7 +625,13 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
 
     String uri = Constants.nodeURL + "user/userUnfollowsUser";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
 
     if (response.statusCode == 200) {
       print("Returned 200");
@@ -557,6 +649,8 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
 }
 
 Future<String> likeContent(String pid, String uid) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
   try {
     Map<String, String> params = {
@@ -565,7 +659,13 @@ Future<String> likeContent(String pid, String uid) async {
     };
     String uri = Constants.nodeURL + "content/likeContent";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.data["status"] == "LikeSuccessful")
@@ -582,6 +682,8 @@ Future<String> likeContent(String pid, String uid) async {
 }
 
 Future<String> unlikeContent(String pid, String uid) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
   try {
     Map<String, String> params = {
@@ -590,7 +692,13 @@ Future<String> unlikeContent(String pid, String uid) async {
     };
     String uri = Constants.nodeURL + "content/unlikeContent";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.data["status"] == "UnlikeSuccessful")
@@ -656,6 +764,8 @@ Future<dynamic> getUserContent(String uid) async {
 }
 
 Future<dynamic> deleteContent(String pid, String thumb) async {
+  String token = await getToken();
+  String headers = "Bearer ${token}";
   Response response;
   try {
     Map<String, String> params = {
@@ -667,7 +777,13 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
 
     String uri = Constants.nodeURL + "content/deleteContent";
     print("Sending Request To: " + uri);
-    response = await dio.post(uri, queryParameters: params);
+    response = await dio.post(uri,
+        queryParameters: params,
+        options: Options(
+            headers: {"authorization": headers},
+            validateStatus: (status) {
+              return status < 500;
+            }));
     if (response.statusCode == 200) {
       print("Returned 200");
       if (response.data["status"] == "DeleteSuccessful")
