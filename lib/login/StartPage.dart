@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:ui';
-
+import "package:theme_provider/theme_provider.dart";
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/Navigation.dart';
@@ -19,8 +19,14 @@ class StartPage extends StatefulWidget {
 
 class _StartPageState extends State<StartPage> {
   AsyncMemoizer _memoizer;
+  void setUpPreferences() async {
+    await pullUserFromSharedPreferences();
+    //ThemeProvider.controllerOf(context).setTheme(currentUser.themePreference);
+  }
+
   @override
   void initState() {
+    setUpPreferences();
     super.initState();
     _memoizer = AsyncMemoizer();
   }
@@ -36,8 +42,6 @@ class _StartPageState extends State<StartPage> {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.data == "UserSignedIn") {
             //setUpCurrentUser(uid);
-
-            pullUserFromSharedPreferences();
             return Navigation();
           } else {
             print("DATA " + snapshot.data.toString());
@@ -92,7 +96,7 @@ class _StartPageState extends State<StartPage> {
                       end: Alignment.bottomRight,
                       stops: [.3, .8],
                       colors: [
-                        Constants.backgroundWhite,
+                        Constants.theme.foreground,
                         Constants.purpleColor,
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -132,7 +136,7 @@ class _StartPageState extends State<StartPage> {
                     child: Center(
                       child: Text(
                         "Sign Up",
-                        style: TextStyle(color: Constants.backgroundWhite, fontSize: 24 + Constants.textChange),
+                        style: TextStyle(color: Constants.theme.foreground, fontSize: 24 + Constants.textChange),
                       ),
                     ),
                   ),

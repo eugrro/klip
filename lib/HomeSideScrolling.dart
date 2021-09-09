@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:klip/ContentWidget.dart';
 import 'package:klip/UserPage.dart';
 import './Constants.dart' as Constants;
-import 'package:klip/commentsPage.dart';
+import 'package:klip/CommentsPage.dart';
 import 'package:klip/widgets.dart';
 
 // ignore: must_be_immutable
@@ -50,7 +50,7 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
       return Center(
         child: Text(
           "Error loading Content",
-          style: TextStyle(color: Constants.backgroundWhite),
+          style: TextStyle(color: Constants.theme.foreground),
         ),
       );
     }
@@ -69,7 +69,7 @@ class _HomeSideScrollingState extends State<HomeSideScrolling> {
         children: <Widget>[
           CommentsPage(content["pid"], content["comm"], callback2),
           ContentWidget(content, callback2),
-          UserPage(content["uid"], callback2, true),
+          UserPage(content["uid"], callback2, true, false),
         ],
       ),
     );

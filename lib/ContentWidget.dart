@@ -97,6 +97,8 @@ class _ContentWidgetState extends State<ContentWidget> {
     );
   }
 
+  List<String> tags = ["Harry", "Potter", "This is a pretty long tag", "Ronald Weasley is a Dilf", "Weightlifting"];
+  List<Color> tagColors = [Colors.green, Colors.purple.shade300, Colors.red.shade300, Colors.blue, Colors.blueGrey];
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -112,7 +114,33 @@ class _ContentWidgetState extends State<ContentWidget> {
         ),
 
         //===============================================================
-
+        tags.length > 0
+            ? Container(
+                height: 30,
+                child: ListView(
+                  padding: EdgeInsets.zero,
+                  scrollDirection: Axis.horizontal,
+                  children: List.generate(tags.length, (int index) {
+                    return Card(
+                      margin: EdgeInsets.only(left: 4, right: 4, top: 0, bottom: 0),
+                      color: tagColors[index],
+                      elevation: 6.0,
+                      child: Center(
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
+                          child: Container(
+                            child: Text(
+                              tags[index],
+                              style: TextStyle(color: Colors.white, fontSize: 12 + Constants.textChange),
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+              )
+            : Container(),
         Padding(
           padding: EdgeInsets.only(
             top: 10,
@@ -240,6 +268,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             ],
           ),
         ),
+
         GestureDetector(
           onTap: () {
             callback(2);
@@ -254,7 +283,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                 ),
                 child: ClipOval(
                   child: FutureBuilder<Widget>(
-                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"])),
+                    future: getProfileImage(obj["uid"] + "_avatar.jpg", getAWSLink(obj["uid"]), false),
                     // a previously-obtained Future<String> or null
                     builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                       double sizeofImage = 40;
@@ -278,11 +307,11 @@ class _ContentWidgetState extends State<ContentWidget> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  obj["title"] != null && obj["title"] != "" && obj["title"] != ''
+                  obj["title"] != null && obj["title"].trim() != ""
                       ? Text(
                           obj["title"] ?? "",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 17 + Constants.textChange,
                           ),
                         )
@@ -373,7 +402,7 @@ class _ContentWidgetState extends State<ContentWidget> {
           ),
           child: Text(
             body,
-            style: TextStyle(color: Constants.backgroundWhite, fontSize: 16 + Constants.textChange),
+            style: TextStyle(color: Constants.theme.foreground, fontSize: 16 + Constants.textChange),
           ),
         ),
       ),
@@ -436,7 +465,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   options[index],
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 16 + Constants.textChange,
                                   ),
                                 ),
@@ -477,7 +506,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   currentVote.toString(),
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                   ),
                                 ),
                               ),
@@ -491,7 +520,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                                 child: Text(
                                   options[index],
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 16 + Constants.textChange,
                                   ),
                                 ),
@@ -535,7 +564,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         child: Text(
                           "Vote",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 18 + Constants.textChange,
                           ),
                         ),
@@ -584,7 +613,7 @@ class _ContentWidgetState extends State<ContentWidget> {
             width: MediaQuery.of(ctx).size.width * .7,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(30),
-              color: Constants.backgroundBlack,
+              color: Constants.theme.background,
             ),
             child: ListView(
               shrinkWrap: true,

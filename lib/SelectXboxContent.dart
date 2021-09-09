@@ -125,14 +125,14 @@ class _SelectXboxContentState extends State<SelectXboxContent> with SingleTicker
                       },
                       child: Icon(
                         Icons.arrow_back,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         size: 20,
                       ),
                     ),
                     Text(
                       "Select Xbox Content",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         fontSize: 18 + Constants.textChange,
                       ),
                     ),
@@ -165,12 +165,12 @@ class _SelectXboxContentState extends State<SelectXboxContent> with SingleTicker
                           ? Text(
                               downloadingContentPercent.toString() + "%",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                               ),
                             )
                           : Icon(
                               Icons.check,
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               size: 20,
                             ),
                     ),

@@ -51,7 +51,7 @@ class _InspectContentState extends State<InspectContent> {
               child: Icon(
                 Icons.arrow_back,
                 size: 25,
-                color: Constants.backgroundWhite,
+                color: Constants.theme.foreground,
               ),
             ),
           ),

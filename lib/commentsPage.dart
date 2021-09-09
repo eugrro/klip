@@ -54,7 +54,7 @@ class _CommentsPageState extends State<CommentsPage> {
         }
       },
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: Column(
           children: [
             Padding(
@@ -66,7 +66,7 @@ class _CommentsPageState extends State<CommentsPage> {
                   Container(),
                   Text(
                     "Comments",
-                    style: TextStyle(color: Constants.backgroundWhite, fontSize: 22),
+                    style: TextStyle(color: Constants.theme.foreground, fontSize: 22),
                   ),
                   GestureDetector(
                     onTap: () {
@@ -103,9 +103,12 @@ class _CommentsPageState extends State<CommentsPage> {
                                 right: 10,
                               ),
                               child: FutureBuilder<Widget>(
-                                future: getProfileImage(comments[index][2], getAWSLink(comments[index][0])),
+                                future: getProfileImage(comments[index][0] + "_avatar.jpg", comments[index][2], false),
                                 // a previously-obtained Future<String> or null
                                 builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
+                                  print("LOADING COMMENT");
+                                  print(comments[index]);
+                                  print(getAWSLink(comments[index][0].toString()));
                                   double imageRadius = 16;
                                   if (snapshot.hasData) {
                                     return CircleAvatar(
@@ -130,7 +133,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                     Text(
                                       '${comments[index][1]}', //Uname
                                       style: TextStyle(
-                                        color: Constants.backgroundWhite,
+                                        color: Constants.theme.foreground,
                                         fontSize: 14 + Constants.textChange,
                                         fontWeight: FontWeight.bold,
                                       ),
@@ -140,7 +143,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                       child: Text(
                                         '${comments[index][3]}', // comment
                                         style: TextStyle(
-                                          color: Constants.backgroundWhite,
+                                          color: Constants.theme.foreground,
                                           fontSize: 12 + Constants.textChange,
                                           fontWeight: FontWeight.w300,
                                         ),
@@ -153,7 +156,7 @@ class _CommentsPageState extends State<CommentsPage> {
                                   child: Text(
                                     getTimeFromSeconds(comments[index][4]), //time posted
                                     style: TextStyle(
-                                      color: Constants.backgroundWhite.withOpacity(.3),
+                                      color: Constants.theme.foreground.withOpacity(.3),
                                       fontSize: 14 + Constants.textChange,
                                     ),
                                   ),
@@ -181,7 +184,7 @@ class _CommentsPageState extends State<CommentsPage> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       FutureBuilder<Widget>(
-                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid)),
+                        future: getProfileImage(currentUser.uid + "_avatar.jpg", getAWSLink(currentUser.uid), false),
                         // a previously-obtained Future<String> or null
                         builder: (BuildContext context, AsyncSnapshot<Widget> snapshot) {
                           double imageRadius = 16;
@@ -202,7 +205,7 @@ class _CommentsPageState extends State<CommentsPage> {
                       Container(
                         width: MediaQuery.of(context).size.width * 8 / 10,
                         decoration: BoxDecoration(
-                          color: Constants.backgroundBlack,
+                          color: Constants.theme.background,
                           borderRadius: new BorderRadius.all(Radius.circular(25)),
                         ),
                         child: Padding(
@@ -223,19 +226,19 @@ class _CommentsPageState extends State<CommentsPage> {
                                   minLines: 1, // number of lines your textfield start with
                                   maxLines: null,
                                   textAlignVertical: TextAlignVertical.center,
-                                  cursorColor: Constants.backgroundWhite,
+                                  cursorColor: Constants.theme.foreground,
                                   cursorWidth: 1.5,
                                   decoration: InputDecoration(
                                     isDense: true,
                                     border: InputBorder.none,
                                     hintText: "Add a Comment...",
                                     hintStyle: TextStyle(
-                                      color: Constants.backgroundWhite.withOpacity(.6),
+                                      color: Constants.theme.foreground.withOpacity(.6),
                                       fontSize: 13 + Constants.textChange,
                                     ),
                                   ),
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite.withOpacity(.9),
+                                    color: Constants.theme.foreground.withOpacity(.9),
                                     fontSize: 13 + Constants.textChange,
                                   ),
                                 ),

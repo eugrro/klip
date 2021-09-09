@@ -80,7 +80,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                     child: Text(
                       "Enter your Email to reset your password",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         fontSize: 16 + Constants.textChange,
                       ),
                     ),
@@ -99,7 +99,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         emailController,
                         Icon(
                           Icons.mail_outline,
-                          color: Constants.backgroundWhite.withOpacity(.9),
+                          color: Constants.theme.foreground.withOpacity(.9),
                         ),
                       ),
                       Container(
@@ -126,7 +126,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                             child: Text(
                               "Reset",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 24 + Constants.textChange,
                               ),
                             ),
@@ -151,7 +151,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         child: Text(
                           "or",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),
@@ -204,7 +204,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                         Text(
                           "Remembered your account? ",
                           style: TextStyle(
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             fontSize: 16 + Constants.textChange,
                           ),
                         ),

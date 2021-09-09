@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import './utils.dart';
+
+import 'MyTheme.dart';
 
 ///Constants file throughout the app
 ///widgets will be in global_widgets
-
+var theme = MyTheme();
 Color purpleColor = Color(0xff6E5Ac9);
-Color backgroundBlack = Color(0xff282828);
-Color backgroundWhite = Color(0xfff8f8f8);
+//Color backgroundBlack = Color(0xff282828);
+//Color backgroundBlack = Colors.black;
+//Color backgroundWhite = Color(0xfff8f8f8);
+//Color backgroundWhite = Colors.black;
 Color hintColor = Color(0xffa0a0a0);
 double textChange = 0;
 Widget tempAvatar = Image.asset("lib/assets/images/tempAvatar.png");
@@ -21,3 +26,5 @@ String nodeURL = "https://klipweb.com/"; //Hosted Server in the Cloud
 
 //DO NOT MODIFY THIS VARIABLE IN THE CODE
 bool checkedProfileImage = false;
+
+int maxBioLength = 100;

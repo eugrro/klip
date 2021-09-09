@@ -8,6 +8,7 @@ import 'package:klip/currentUser.dart' as currentUser;
 import './Constants.dart' as Constants;
 import 'package:klip/widgets.dart';
 import 'package:video_thumbnail/video_thumbnail.dart';
+import 'AddTagWidget.dart';
 import 'InspectContent.dart';
 
 // ignore: must_be_immutable
@@ -28,10 +29,22 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
   String title = "";
   int titleMaxLength = 60;
   bool isUploadingContent = false;
+  ValueNotifier<List<String>> tags = ValueNotifier([]);
 
+  ScrollController scpScrollController = ScrollController();
   @override
   void initState() {
     super.initState();
+    tags.addListener(() {
+      if (tags.value.length == 1) {
+        print("AAAAAAAAAA");
+        scpScrollController.animateTo(
+          scpScrollController.position.maxScrollExtent,
+          duration: Duration(seconds: 1),
+          curve: Curves.fastOutSlowIn,
+        );
+      }
+    });
   }
 
   @override
@@ -47,6 +60,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
       },
       child: Scaffold(
         body: SingleChildScrollView(
+          controller: scpScrollController,
           child: Column(
             children: [
               Padding(
@@ -60,14 +74,14 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                       },
                       child: Icon(
                         Icons.arrow_back,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         size: 20,
                       ),
                     ),
                     Text(
                       "Preview",
                       style: TextStyle(
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         fontSize: 18 + Constants.textChange,
                       ),
                     ),
@@ -77,7 +91,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                           isUploadingContent = true;
                         });
                         if (typeOfContent == "img") {
-                          uploadImage(content.path, currentUser.uid, titleController.text).then((value) {
+                          uploadImage(content.path, currentUser.uid, tags.value, titleController.text).then((value) {
                             if (value == null || value == "" || value == '') {
                               showError(context, "Unable to Upload Content");
                             } else {
@@ -93,7 +107,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                             maxWidth: 500, // specify the width of the thumbnail, let the height auto-scaled to keep the source aspect ratio
                             quality: 100,
                           );
-                          uploadKlip(content.path, currentUser.uid, titleController.text, videoThumbnail).then((value) {
+                          uploadKlip(content.path, currentUser.uid, titleController.text, tags.value, videoThumbnail).then((value) {
                             if (value == null || value == "" || value == '') {
                               showError(context, "Unable to Upload Content");
                             } else {
@@ -101,6 +115,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                               setState(() {});
                             }
                           });
+                          tags.value = [];
                         } else {
                           showError(context, "Unknown content upload: " + typeOfContent);
                           setState(() {
@@ -112,7 +127,7 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                           ? CircularProgressIndicator.adaptive()
                           : Icon(
                               Icons.check,
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               size: 20,
                             ),
                     ),
@@ -186,6 +201,16 @@ class _ShowContentPreviewState extends State<ShowContentPreview> {
                   ),
                 ),
               ),
+              AddTagWidget(tags),
+              Container(
+                height: 10,
+              ),
+              tags.value.length > 0
+                  ? Text(
+                      "Tap on a tag to remove it",
+                      style: TextStyle(color: Constants.hintColor, fontSize: 12 + Constants.textChange),
+                    )
+                  : Container(),
             ],
           ),
         ),

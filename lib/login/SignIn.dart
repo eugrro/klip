@@ -7,6 +7,7 @@ import 'package:klip/widgets.dart';
 import '../Constants.dart' as Constants;
 import 'package:klip/currentUser.dart';
 import 'loginLogic.dart';
+import 'package:klip/assets/fonts/p_v_icons_icons.dart';
 
 class SignIn extends StatefulWidget {
   @override
@@ -23,6 +24,8 @@ class _SignInState extends State<SignIn> {
   double heightOfContainer = 60;
   double borderThickness = 3;
   double imgThickness = 50;
+  IconData pvToggle = PVIcons.eye_slash; //Password Visibility Toggle
+  bool canSeePassword = true;
   @override
   void initState() {
     passwordController = TextEditingController();
@@ -55,9 +58,9 @@ class _SignInState extends State<SignIn> {
                       end: Alignment.topRight,
                       stops: [0.1, 0.4, 0.5, 0.9],
                       colors: [
-                        Constants.purpleColor,
-                        Constants.purpleColor.withOpacity(.6),
-                        Constants.purpleColor.withOpacity(.1),
+                        Theme.of(context).textSelectionTheme.cursorColor,
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.6),
+                        Theme.of(context).textSelectionTheme.cursorColor.withOpacity(.1),
                         Colors.transparent
                       ],
                     ).createShader(Rect.fromLTRB(0, 0, rect.width, rect.height));
@@ -97,7 +100,7 @@ class _SignInState extends State<SignIn> {
                             userNameController,
                             SvgPicture.asset(
                               "lib/assets/iconsUI/personOutline.svg",
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                           ),
                           Container(
@@ -112,7 +115,7 @@ class _SignInState extends State<SignIn> {
                             passwordController,
                             Icon(
                               Icons.lock_outline_rounded,
-                              color: Constants.backgroundWhite.withOpacity(.9),
+                              color: Constants.theme.foreground.withOpacity(.9),
                             ),
                             isObscured: true,
                           ),
@@ -130,7 +133,7 @@ class _SignInState extends State<SignIn> {
                                 child: Text(
                                   "Forgot Password?",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 15 + Constants.textChange,
                                   ),
                                 ),
@@ -143,6 +146,8 @@ class _SignInState extends State<SignIn> {
                           GestureDetector(
                             behavior: HitTestBehavior.translucent,
                             onTap: () async {
+                              //Strip whitespace on right side of username
+                              userNameController.text = rstrip(userNameController.text);
                               FocusScopeNode currentFocus = FocusScope.of(context);
 
                               if (!currentFocus.hasPrimaryFocus) {
@@ -176,14 +181,14 @@ class _SignInState extends State<SignIn> {
                                 gradient: LinearGradient(
                                   begin: Alignment.centerLeft,
                                   end: Alignment.centerRight,
-                                  colors: [Constants.purpleColor, Color(0xffab57a8)],
+                                  colors: [Theme.of(context).textSelectionTheme.cursorColor, Color(0xffab57a8)],
                                 ),
                               ),
                               child: Center(
                                 child: Text(
                                   "Sign In",
                                   style: TextStyle(
-                                    color: Constants.backgroundWhite,
+                                    color: Constants.theme.foreground,
                                     fontSize: 24 + Constants.textChange,
                                   ),
                                 ),
@@ -201,14 +206,14 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8.0),
                             child: Text(
                               "or",
                               style: TextStyle(
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                                 fontSize: 16 + Constants.textChange,
                               ),
                             ),
@@ -216,7 +221,7 @@ class _SignInState extends State<SignIn> {
                           Container(
                             height: .3,
                             width: MediaQuery.of(context).size.width * .3,
-                            color: Constants.purpleColor,
+                            color: Theme.of(context).textSelectionTheme.cursorColor,
                           ),
                         ],
                       ),
@@ -286,14 +291,14 @@ class _SignInState extends State<SignIn> {
                               Text(
                                 "Don't have an account? ",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),
                               Text(
                                 "Sign Up",
                                 style: TextStyle(
-                                  color: Constants.purpleColor,
+                                  color: Theme.of(context).textSelectionTheme.cursorColor,
                                   fontSize: 16 + Constants.textChange,
                                 ),
                               ),

@@ -1,7 +1,6 @@
 import 'package:async/async.dart';
 import 'package:flutter/material.dart';
 import 'package:klip/login/loginLogic.dart';
-import 'package:klip/profileSettings.dart';
 import 'package:klip/widgets.dart';
 import './Constants.dart' as Constants;
 import './PaymentFunctions.dart';
@@ -12,22 +11,25 @@ import 'package:url_launcher/url_launcher.dart';
 import 'Navigation.dart';
 import 'Requests.dart';
 import 'currentUser.dart';
+import 'profileSettings.dart';
 
 class UserPage extends StatefulWidget {
   final String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  UserPage(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  UserPage(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   @override
-  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage);
+  _UserPageState createState() => _UserPageState(uid, callback, isHomeUserPage, addBackArrow);
 }
 
 class _UserPageState extends State<UserPage> {
   String uid;
   Function(int) callback;
   bool isHomeUserPage;
-  _UserPageState(this.uid, this.callback, this.isHomeUserPage);
+  bool addBackArrow;
+  _UserPageState(this.uid, this.callback, this.isHomeUserPage, this.addBackArrow);
 
   bool isFollowing;
   String numKredits;
@@ -57,6 +59,11 @@ class _UserPageState extends State<UserPage> {
       isFollowing = false;
     }
     if (currentUser.uid == uid) {
+      if (currentUser.uName == "FieldNotFound") {
+        //For some reason user data has not been loaded properly
+        //will try loading again
+        await setUpCurrentUserFromMongo(uid);
+      }
       Image avatarImage = await currentUser.userProfileImg;
       setState(() {
         avatar = avatarImage;
@@ -68,7 +75,7 @@ class _UserPageState extends State<UserPage> {
       });
     } else {
       var user = await getUser(uid);
-      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid));
+      Image avatarImage = await currentUser.getProfileImage(uid + "_avatar.jpg", getAWSLink(uid), false);
       setState(() {
         avatar = avatarImage;
         numKredits = user["numKredits"];
@@ -81,9 +88,6 @@ class _UserPageState extends State<UserPage> {
   }
 
   void _launchbioLink(BuildContext ctx, String url) async {
-    if (url.split('//')[0] != "https:" || url.split('//')[0] != "http:") {
-      url = "https://" + url;
-    }
     if (await canLaunch(url)) {
       await launch(url);
     } else {
@@ -96,7 +100,7 @@ class _UserPageState extends State<UserPage> {
     return WillPopScope(
       onWillPop: _onWillPop,
       child: Scaffold(
-        backgroundColor: Constants.backgroundBlack,
+        backgroundColor: Constants.theme.background,
         body: Padding(
           padding: EdgeInsets.only(
             bottom: isHomeUserPage ? 0 : Constants.bottomNavBarHeight,
@@ -108,6 +112,18 @@ class _UserPageState extends State<UserPage> {
             children: [
               Stack(
                 children: [
+                  addBackArrow
+                      ? GestureDetector(
+                          onTap: () {
+                            Navigator.of(context).pop();
+                          },
+                          behavior: HitTestBehavior.translucent,
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Icon(Icons.arrow_back, color: Constants.theme.foreground, size: 30),
+                          ),
+                        )
+                      : Container(),
                   Padding(
                     padding: EdgeInsets.only(top: 40),
                     child: Row(
@@ -119,14 +135,14 @@ class _UserPageState extends State<UserPage> {
                               numViews.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                               ),
                             ),
                             Text(
                               "Views",
                               style: TextStyle(
                                 fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
+                                color: Constants.theme.foreground.withOpacity(.5),
                               ),
                             ),
                           ],
@@ -143,14 +159,14 @@ class _UserPageState extends State<UserPage> {
                               numKredits.toString() ?? "",
                               style: TextStyle(
                                 fontSize: 28 + Constants.textChange,
-                                color: Constants.backgroundWhite,
+                                color: Constants.theme.foreground,
                               ),
                             ),
                             Text(
                               "Kredits",
                               style: TextStyle(
                                 fontSize: 14 + Constants.textChange,
-                                color: Constants.backgroundWhite.withOpacity(.5),
+                                color: Constants.theme.foreground.withOpacity(.5),
                               ),
                             ),
                           ],
@@ -161,145 +177,139 @@ class _UserPageState extends State<UserPage> {
                   Center(
                     child: Padding(
                       padding: EdgeInsets.only(top: 100),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width * .95,
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [Constants.purpleColor.withOpacity(0), Constants.purpleColor.withOpacity(.2)],
-                          ),
-                          borderRadius: BorderRadius.all(Radius.circular(5)),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.only(top: 25, left: 15, right: 15),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                children: [
-                                  GestureDetector(
-                                    onTap: () {
-                                      if (currentUser.uid == uid) {
-                                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
-                                          setUserPageValues(currentUser.uid);
-                                          setState(() {});
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.only(top: 25, left: 25, right: 15),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    if (currentUser.uid == uid) {
+                                      Navigator.push(context, MaterialPageRoute(builder: (context) => ProfileSettings())).then((value) {
+                                        setUserPageValues(currentUser.uid);
+                                        setState(() {});
+                                      });
+                                    } else {
+                                      if (!isFollowing) {
+                                        print("Following");
+                                        currentUser.currentUserFollowing.add(uid);
+                                        setState(() {
+                                          isFollowing = true;
                                         });
+                                        setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
+                                        userFollowsUser(currentUser.uid, uid);
                                       } else {
-                                        if (!isFollowing) {
-                                          print("Following");
-                                          currentUser.currentUserFollowing.add(uid);
-                                          setState(() {
-                                            isFollowing = true;
-                                          });
-                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
-                                          userFollowsUser(currentUser.uid, uid);
-                                        } else {
-                                          print("Unfollowing");
-                                          currentUser.currentUserFollowing.remove(uid);
-                                          setState(() {
-                                            isFollowing = false;
-                                          });
-                                          setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
-                                          userUnfollowsUser(currentUser.uid, uid);
-                                        }
+                                        print("Unfollowing");
+                                        currentUser.currentUserFollowing.remove(uid);
+                                        setState(() {
+                                          isFollowing = false;
+                                        });
+                                        setFieldInSharedPreferences("currentUserFollowing", currentUser.currentUserFollowing);
+                                        userUnfollowsUser(currentUser.uid, uid);
                                       }
-                                    },
-                                    child: Container(
-                                      height: 35,
-                                      width: MediaQuery.of(context).size.width / 50 * 12,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        boxShadow: kElevationToShadow[4],
-                                        color: Constants.purpleColor.withOpacity(.6),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          uid == currentUser.uid
-                                              ? "Settings"
-                                              : isFollowing
-                                                  ? "Following"
-                                                  : "Follow",
-                                          style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
-                                            fontSize: 15 + Constants.textChange,
-                                          ),
+                                    }
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      //boxShadow: kElevationToShadow[4],
+                                      color: Constants.purpleColor.withOpacity(.6),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        uid == currentUser.uid
+                                            ? "Settings"
+                                            : isFollowing
+                                                ? "Following"
+                                                : "Follow",
+                                        style: TextStyle(
+                                          color: Constants.theme.foreground.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  GestureDetector(
-                                    onTap: () {
-                                      checkIfNativePayReady();
-                                    },
-                                    child: Container(
-                                      height: 35,
-                                      width: MediaQuery.of(context).size.width / 50 * 12,
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(3),
-                                        boxShadow: kElevationToShadow[4],
-                                        color: Constants.purpleColor.withOpacity(.6),
-                                      ),
-                                      child: Center(
-                                        child: Text(
-                                          "Subscribe",
-                                          style: TextStyle(
-                                            color: Constants.backgroundWhite.withOpacity(.9),
-                                            fontSize: 15 + Constants.textChange,
-                                          ),
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    checkIfNativePayReady();
+                                  },
+                                  child: Container(
+                                    height: 35,
+                                    width: MediaQuery.of(context).size.width / 50 * 12,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(3),
+                                      //boxShadow: kElevationToShadow[4],
+                                      color: Constants.purpleColor.withOpacity(.6),
+                                    ),
+                                    child: Center(
+                                      child: Text(
+                                        "Subscribe",
+                                        style: TextStyle(
+                                          color: Constants.theme.foreground.withOpacity(.9),
+                                          fontSize: 15 + Constants.textChange,
                                         ),
                                       ),
                                     ),
                                   ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 5),
-                              child: Align(
-                                alignment: Alignment.center,
-                                child: Text(
-                                  uName ?? "",
-                                  style: TextStyle(
-                                    fontSize: 23 + Constants.textChange,
-                                    color: Constants.backgroundWhite.withOpacity(.9),
-                                  ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(top: 5),
+                            child: Align(
+                              alignment: Alignment.center,
+                              child: Text(
+                                uName ?? "",
+                                style: TextStyle(
+                                  fontSize: 23 + Constants.textChange,
+                                  color: Constants.theme.foreground.withOpacity(.9),
                                 ),
                               ),
                             ),
-                            bio != null && bio != "" && bio != " "
-                                ? Padding(
-                                    padding: EdgeInsets.only(top: 5, bottom: 5),
+                          ),
+                          bio != null && bio != "" && bio != " "
+                              ? Padding(
+                                  padding: EdgeInsets.only(top: 5, bottom: 5),
+                                  child: Text(
+                                    bio,
+                                    style: TextStyle(
+                                      fontSize: 13 + Constants.textChange,
+                                      color: Constants.theme.foreground.withOpacity(.6),
+                                    ),
+                                  ),
+                                )
+                              : Container(),
+                          bioLink != null && bioLink != ""
+                              ? GestureDetector(
+                                  onTap: () {
+                                    _launchbioLink(context, bioLink);
+                                  },
+                                  child: Padding(
+                                    padding: EdgeInsets.only(bottom: 15),
                                     child: Text(
-                                      bio,
+                                      bioLink.substring(0, 7) == "http://"
+                                          ? bioLink.substring(7)
+                                          : bioLink.substring(0, 8) == "https://"
+                                              ? bioLink.substring(8)
+                                              : bioLink,
                                       style: TextStyle(
                                         fontSize: 13 + Constants.textChange,
-                                        color: Constants.backgroundWhite.withOpacity(.6),
+                                        decoration: TextDecoration.underline,
+                                        letterSpacing: .75,
+                                        color: Constants.purpleColor,
                                       ),
+                                      textAlign: TextAlign.center,
                                     ),
-                                  )
-                                : Container(),
-                            bioLink != null && bioLink != ""
-                                ? GestureDetector(
-                                    onTap: () {
-                                      _launchbioLink(context, bioLink);
-                                    },
-                                    child: Padding(
-                                      padding: EdgeInsets.only(bottom: 15),
-                                      child: Text(
-                                        bioLink,
-                                        style: TextStyle(
-                                          fontSize: 13 + Constants.textChange,
-                                          decoration: TextDecoration.underline,
-                                          letterSpacing: .75,
-                                          color: Constants.purpleColor,
-                                        ),
-                                      ),
-                                    ),
-                                  )
-                                : Container(),
-                          ],
-                        ),
+                                  ),
+                                )
+                              : Container(),
+                        ],
                       ),
                     ),
                   ),

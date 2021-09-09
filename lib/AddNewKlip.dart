@@ -124,7 +124,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
           child: Container(
             decoration: BoxDecoration(
               border: Border.all(
-                  color: tappedGallery[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                  color: tappedGallery[index] ? Constants.purpleColor : Constants.theme.foreground.withOpacity(.6),
                   width: tappedGallery[index] ? 3 : 1),
             ),
             child: FutureBuilder(
@@ -173,11 +173,11 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                               DateFormat('MMM d').format(
                                 assetList[index].modifiedDateTime,
                               ),
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                              style: TextStyle(color: Constants.theme.foreground, fontSize: 10),
                             ),
                             Text(
                               sizeOfFile(snapshot.data[0]),
-                              style: TextStyle(color: Constants.backgroundWhite, fontSize: 10),
+                              style: TextStyle(color: Constants.theme.foreground, fontSize: 10),
                             ),
                           ],
                         ),
@@ -246,7 +246,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
           AnimatedContainer(
             width: selectedXbox ? MediaQuery.of(context).size.width * .95 : MediaQuery.of(context).size.width * .9,
             decoration: BoxDecoration(
-              border: Border.all(color: Constants.backgroundWhite),
+              border: Border.all(color: Constants.theme.foreground),
               boxShadow: kElevationToShadow[4],
               borderRadius: BorderRadius.circular(12),
               color: Colors.black,
@@ -285,7 +285,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                               Text(
                                 "Xbox",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                   fontSize: 18 + Constants.textChange,
                                 ),
                               )
@@ -293,7 +293,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                           ),
                           Icon(
                             selectedXbox ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             size: 30,
                           ),
                         ],
@@ -328,7 +328,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                           child: Container(
                             decoration: BoxDecoration(
                               border: Border.all(
-                                  color: tappedXbox[index] ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                                  color: tappedXbox[index] ? Constants.purpleColor : Constants.theme.foreground.withOpacity(.6),
                                   width: tappedXbox[index] ? 3 : 1),
                             ),
                             child: Image.network(
@@ -352,7 +352,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
             duration: animationDuration,
             width: !selectedPs ? MediaQuery.of(context).size.width * .9 : MediaQuery.of(context).size.width * .95,
             decoration: BoxDecoration(
-              border: Border.all(color: Constants.backgroundWhite),
+              border: Border.all(color: Constants.theme.foreground),
               boxShadow: kElevationToShadow[4],
               borderRadius: BorderRadius.circular(12),
               color: Colors.black,
@@ -392,7 +392,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                               Text(
                                 "PlayStation",
                                 style: TextStyle(
-                                  color: Constants.backgroundWhite,
+                                  color: Constants.theme.foreground,
                                   fontSize: 18 + Constants.textChange,
                                 ),
                               )
@@ -400,7 +400,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                           ),
                           Icon(
                             selectedPs ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                            color: Constants.backgroundWhite,
+                            color: Constants.theme.foreground,
                             size: 30,
                           ),
                         ],
@@ -442,7 +442,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
               height: 80,
               width: MediaQuery.of(context).size.width * .9,
               decoration: BoxDecoration(
-                border: Border.all(color: Constants.backgroundWhite),
+                border: Border.all(color: Constants.theme.foreground),
                 boxShadow: kElevationToShadow[4],
                 borderRadius: BorderRadius.circular(12),
                 color: Colors.black,
@@ -468,7 +468,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                           Text(
                             "Switch",
                             style: TextStyle(
-                              color: Constants.backgroundWhite,
+                              color: Constants.theme.foreground,
                               fontSize: 18 + Constants.textChange,
                             ),
                           )
@@ -476,7 +476,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                       ),
                       Icon(
                         Icons.arrow_forward_rounded,
-                        color: Constants.backgroundWhite,
+                        color: Constants.theme.foreground,
                         size: 30,
                       ),
                     ],
@@ -558,7 +558,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                 child: Center(
                   child: Icon(
                     Icons.photo_size_select_actual_outlined,
-                    color: currentPage == 0 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 0 ? Constants.purpleColor : Constants.theme.foreground.withOpacity(.6),
                     size: 25,
                   ),
                 ),
@@ -575,7 +575,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                 child: Center(
                   child: Icon(
                     Icons.circle,
-                    color: currentPage == 1 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 1 ? Constants.purpleColor : Constants.theme.foreground.withOpacity(.6),
                     size: 25,
                   ),
                 ),
@@ -595,7 +595,7 @@ class _AddNewKlipState extends State<AddNewKlip> with TickerProviderStateMixin {
                     semanticsLabel: 'Console Icon',
                     width: 25,
                     height: 25,
-                    color: currentPage == 2 ? Constants.purpleColor : Constants.backgroundWhite.withOpacity(.6),
+                    color: currentPage == 2 ? Constants.purpleColor : Constants.theme.foreground.withOpacity(.6),
                   ),
                 ),
               ),

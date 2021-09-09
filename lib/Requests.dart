@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import "package:http/http.dart" as http;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:dio/dio.dart';
@@ -135,7 +136,7 @@ Future<String> testConnection() async {
 }
 
 // ignore: missing_return
-Future<String> uploadImage(String filePath, String uid, String title) async {
+Future<String> uploadImage(String filePath, String uid, dynamic userTags, String title) async {
   String token = await getToken();
   String headers = "Bearer ${token}";
   try {
@@ -149,6 +150,7 @@ Future<String> uploadImage(String filePath, String uid, String title) async {
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
         "title": title,
+        "tags": userTags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -213,7 +215,7 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title, Uint8List thumbnailData) async {
+Future<String> uploadKlip(String filePath, String uid, String title, dynamic tags, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
       String token = await getToken();
@@ -228,6 +230,7 @@ Future<String> uploadKlip(String filePath, String uid, String title, Uint8List t
         "title": title,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
+        "tags": tags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -336,6 +339,34 @@ Future<List<dynamic>> listContentMongo() async {
     }
   } catch (err) {
     print("Ran Into Error! listContentMongo => " + err.toString());
+    if (response != null) {
+      print(response.data);
+    }
+    return null;
+  }
+}
+
+// ignore: missing_return
+Future<dynamic> search(String uid, String val) async {
+  Response response;
+  try {
+    Map<String, String> params = {
+      "uid": uid,
+      "val": val,
+    };
+
+    String uri = Constants.nodeURL + "misc/search";
+    print("Sending Request To: " + uri);
+    response = await dio.get(uri, queryParameters: params);
+    if (response.statusCode == 200) {
+      print("Returned 200");
+      return response.data;
+    } else {
+      print("Returned error " + response.statusCode.toString());
+      return null;
+    }
+  } catch (err) {
+    print("Ran Into Error! search => " + err.toString());
     if (response != null) {
       print(response.data);
     }
@@ -765,4 +796,18 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
     print("Ran Into Error! deleteContent => " + err.toString());
   }
   return "";
+}
+
+Future<void> savePreferences(String uid, Map<String, dynamic> newPreferences) async {
+  try {
+    var uri = Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
+    //send to Constants.nodeURL endpoint when functional
+    var response = await http.post(uri);
+    if (response.statusCode == 400) {
+      print("No new preferences were saved");
+      return;
+    }
+  } catch (err) {
+    print("Error saving preferences: $err");
+  }
 }

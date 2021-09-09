@@ -62,7 +62,7 @@ class _CropProfilePicState extends State<CropProfilePic> {
                       child: Text(
                         "X",
                         style: TextStyle(
-                          color: Constants.backgroundWhite,
+                          color: Constants.theme.foreground,
                           fontSize: 30 + Constants.textChange,
                         ),
                       ),
