@@ -120,13 +120,11 @@ Future<String> testConnection() async {
 }
 
 // ignore: missing_return
-Future<String> uploadImage(String filePath, String uid, dynamic tags, String title) async {
+Future<String> uploadImage(String filePath, String uid, dynamic userTags, String title) async {
   try {
     if (filePath != "") {
       print("FILEPATH: " + filePath);
-      String fileName = uid +
-          "_" +
-          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -134,7 +132,7 @@ Future<String> uploadImage(String filePath, String uid, dynamic tags, String tit
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
         "title": title,
-        "tags": tags,
+        "userTags": userTags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -185,14 +183,12 @@ Future<String> uploadThumbnail(Uint8List thumbnailData, String pid) async {
 }
 
 // ignore: missing_return
-Future<String> uploadKlip(String filePath, String uid, String title, dynamic tags, Uint8List thumbnailData) async {
+Future<String> uploadKlip(String filePath, String uid, String title, dynamic userTags, Uint8List thumbnailData) async {
   try {
     if (filePath != "") {
       if (filePath.substring(0, 8) == "file:///") filePath = filePath.substring(7);
       print("FILEPATH: " + filePath);
-      String fileName = uid +
-          "_" +
-          ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+      String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
       FormData formData = new FormData.fromMap({
         'path': '/uploads',
         'uid': uid,
@@ -200,7 +196,7 @@ Future<String> uploadKlip(String filePath, String uid, String title, dynamic tag
         "title": title,
         "avatar": currentUser.avatarLink,
         "uName": currentUser.uName,
-        "tags": tags,
+        "userTags": userTags,
         "file": await MultipartFile.fromFile(
           filePath,
           filename: fileName,
@@ -329,12 +325,10 @@ Future<dynamic> search(String uid, String val) async {
   }
 }
 
-Future<dynamic> addTextContent(String uid, String title, String body) async {
+Future<dynamic> addTextContent(String uid, String title, String body, dynamic userTags) async {
   Response response;
 
-  String fileName = uid +
-      "_" +
-      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
     Map<String, String> params = {
@@ -344,6 +338,7 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
       "uName": currentUser.uName,
       "title": title,
       "body": body,
+      "userTags": userTags,
     };
     String uri = Constants.nodeURL + "content/addTextContent";
     print("Sending Request To: " + uri);
@@ -361,13 +356,10 @@ Future<dynamic> addTextContent(String uid, String title, String body) async {
   return "";
 }
 
-Future<dynamic> addPollContent(
-    String uid, String title, List<dynamic> options) async {
+Future<dynamic> addPollContent(String uid, String title, List<dynamic> options) async {
   Response response;
 
-  String fileName = uid +
-      "_" +
-      ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
+  String fileName = uid + "_" + ((DateTime.now().millisecondsSinceEpoch / 1000).round()).toString();
 
   try {
     Map<String, dynamic> params = {
@@ -439,8 +431,7 @@ Future<dynamic> getNotifications(String uid) async {
   return "";
 }
 
-Future<dynamic> addNotification(
-    String uid, String newText, bool sentVal) async {
+Future<dynamic> addNotification(String uid, String newText, bool sentVal) async {
   Response response;
   try {
     Map<String, dynamic> params = {"uid": uid, "newText": newText, "sentVal": sentVal};
@@ -468,7 +459,7 @@ Future<String> doesObjectExistInS3(String objectName, String bucketName) async {
       "bucketName": bucketName,
     };
 
-    String uri = Constants.nodeURL + "doesObjectExistInS3";
+    String uri = Constants.nodeURL + "misc/doesObjectExistInS3";
     print("Sending Request To: " + uri);
     response = await dio.get(uri, queryParameters: params);
 
@@ -527,8 +518,7 @@ Future<String> userFollowsUser(String uid1, String uid2) async {
       print("Returned 200");
       if (response.data["status"] == "FollowSuccessful")
         return "FollowSuccessful";
-      else if ((response.data["status"] == "FollowUnsuccessful"))
-        return "FollowUnsuccessful";
+      else if ((response.data["status"] == "FollowUnsuccessful")) return "FollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -555,8 +545,7 @@ Future<String> userUnfollowsUser(String uid1, String uid2) async {
       print("Returned 200");
       if (response.data["status"] == "UnfollowSuccessful")
         return "UnfollowSuccessful";
-      else if ((response.data["status"] == "UnfollowUnsuccessful"))
-        return "UnfollowUnsuccessful";
+      else if ((response.data["status"] == "UnfollowUnsuccessful")) return "UnfollowUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -581,8 +570,7 @@ Future<String> likeContent(String pid, String uid) async {
       print("Returned 200");
       if (response.data["status"] == "LikeSuccessful")
         return "LikeSuccessful";
-      else if (response.data["status"] == "LikeUnsuccessful")
-        return "LikeUnsuccessful";
+      else if (response.data["status"] == "LikeUnsuccessful") return "LikeUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -607,8 +595,7 @@ Future<String> unlikeContent(String pid, String uid) async {
       print("Returned 200");
       if (response.data["status"] == "UnlikeSuccessful")
         return "UnlikeSuccessful";
-      else if (response.data["status"] == "UnlikeUnsuccessful")
-        return "UnlikeUnsuccessful";
+      else if (response.data["status"] == "UnlikeUnsuccessful") return "UnlikeUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -685,8 +672,7 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
       print("Returned 200");
       if (response.data["status"] == "DeleteSuccessful")
         return "DeleteSuccessful";
-      else if (response.data["status"] == "DeleteUnsuccessful")
-        return "DeleteUnsuccessful";
+      else if (response.data["status"] == "DeleteUnsuccessful") return "DeleteUnsuccessful";
     } else {
       print("Returned error " + response.statusCode.toString());
       return "Error";
@@ -697,13 +683,10 @@ Future<dynamic> deleteContent(String pid, String thumb) async {
   return "";
 }
 
-Future<void> savePreferences(
-    String uid, Map<String, dynamic> newPreferences) async {
-  
+Future<void> savePreferences(String uid, Map<String, dynamic> newPreferences) async {
   try {
-    var uri =
-        Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
-        //send to Constants.nodeURL endpoint when functional
+    var uri = Uri.http("10.0.2.2:3000", "/user/savePreferences", newPreferences);
+    //send to Constants.nodeURL endpoint when functional
     var response = await http.post(uri);
     if (response.statusCode == 400) {
       print("No new preferences were saved");

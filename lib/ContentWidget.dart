@@ -97,7 +97,7 @@ class _ContentWidgetState extends State<ContentWidget> {
     );
   }
 
-  List<String> tags = ["Harry", "Potter", "This is a pretty long tag", "Ronald Weasley is a Dilf", "Weightlifting"];
+  //List<String> tags = ["Harry", "Potter", "This is a pretty long tag", "Ronald Weasley is a Dilf", "Weightlifting"];
   List<Color> tagColors = [Colors.green, Colors.purple.shade300, Colors.red.shade300, Colors.blue, Colors.blueGrey];
   @override
   Widget build(BuildContext context) {
@@ -114,23 +114,23 @@ class _ContentWidgetState extends State<ContentWidget> {
         ),
 
         //===============================================================
-        tags.length > 0
+        obj['userTags'] != null && obj['userTags'].length > 0
             ? Container(
                 height: 30,
                 child: ListView(
                   padding: EdgeInsets.zero,
                   scrollDirection: Axis.horizontal,
-                  children: List.generate(tags.length, (int index) {
+                  children: List.generate(obj['userTags'].length, (int index) {
                     return Card(
                       margin: EdgeInsets.only(left: 4, right: 4, top: 0, bottom: 0),
-                      color: tagColors[index],
+                      color: tagColors[index % 5],
                       elevation: 6.0,
                       child: Center(
                         child: Padding(
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 0),
                           child: Container(
                             child: Text(
-                              tags[index],
+                              obj['userTags'][index],
                               style: TextStyle(color: Colors.white, fontSize: 12 + Constants.textChange),
                             ),
                           ),
@@ -297,7 +297,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                         return Container(
                           height: sizeofImage,
                           width: sizeofImage,
-                          child: Constants.tempAvatar,
+                          //child: Constants.tempAvatar,
                         );
                       }
                     },
@@ -555,7 +555,7 @@ class _ContentWidgetState extends State<ContentWidget> {
                     },
                     child: Container(
                       width: 200,
-                      height: heightOfPollItem,
+                      height: 40,
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.all(Radius.circular(7)),
                         color: Constants.purpleColor,

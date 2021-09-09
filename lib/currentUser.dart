@@ -67,7 +67,8 @@ String getParamValue(String val) {
 //avatarURI is just the uid+_avatar.jpg avatarLink is the full AWS Link
 Future<Widget> getProfileImage(String avatarURI, String avatarLink, bool isFading) async {
   if (avatarLink == null || avatarLink == "") {
-    return Image.asset("lib/assets/images/tempAvatar.png");
+    return //Image.asset("lib/assets/images/tempAvatar.png");
+        Container();
   } else if (await doesObjectExistInS3(avatarURI, "klip-user-avatars") == "ObjectFound") {
     //doing this may cause issues if the profile image gets changed needs further testing
     print("Sending request to: " + avatarLink);
