@@ -26,7 +26,7 @@ dependencies:
   #firebase_auth updated 4/22/21
   google_sign_in: ^4.5.3
   auto_size_text: ^2.1.0
-  dio: ^4.0.0
+  dio: ">=4.0.0 <6.0.0"
   #dio updated 4/15/21
   mime: ^0.9.7
   #better_player: ^0.0.37
